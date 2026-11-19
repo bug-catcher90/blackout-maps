@@ -67,26 +67,16 @@ enum Geo {
 }
 
 enum Format {
-    static let meters: NumberFormatter = {
+    private static func number(_ digits: Int) -> NumberFormatter {
         let formatter = NumberFormatter()
-        formatter.locale = Locale(identifier: "pt_PT")
-        formatter.minimumFractionDigits = 2
-        formatter.maximumFractionDigits = 2
+        formatter.locale = L10n.locale()
+        formatter.minimumFractionDigits = digits
+        formatter.maximumFractionDigits = digits
         return formatter
-    }()
-    static let whole: NumberFormatter = {
-        let formatter = NumberFormatter()
-        formatter.locale = Locale(identifier: "pt_PT")
-        formatter.maximumFractionDigits = 0
-        return formatter
-    }()
-    static let km: NumberFormatter = {
-        let formatter = NumberFormatter()
-        formatter.locale = Locale(identifier: "pt_PT")
-        formatter.minimumFractionDigits = 1
-        formatter.maximumFractionDigits = 1
-        return formatter
-    }()
+    }
+    static var meters: NumberFormatter { number(2) }
+    static var whole: NumberFormatter { number(0) }
+    static var km: NumberFormatter { number(1) }
 
     static func step(_ value: Double) -> String {
         "\(meters.string(from: NSNumber(value: value)) ?? "0,70") m"
@@ -121,7 +111,7 @@ enum Format {
         let minutes = seconds.map { $0 / 60 } ?? tripMinutes(meters: meters, mode: mode)
         let date = Date().addingTimeInterval(minutes * 60)
         let formatter = DateFormatter()
-        formatter.locale = Locale(identifier: "pt_PT")
+        formatter.locale = L10n.locale()
         formatter.dateFormat = "HH:mm"
         return formatter.string(from: date)
     }
@@ -134,7 +124,7 @@ enum Format {
 
     static func maneuverDistance(_ meters: Double) -> String {
         let value = max(0, meters)
-        if value < 25 { return "Agora" }
+        if value < 25 { return L10n.text(L10n.code(), "now") }
         if value < 1000 {
             let step = value < 200 ? 10.0 : 50.0
             let rounded = (value / step).rounded() * step
@@ -146,29 +136,32 @@ enum Format {
 
     static func spoken(_ meters: Double) -> (now: Bool, text: String) {
         let value = max(0, meters)
-        if value < 25 { return (true, "Agora") }
+        if value < 25 { return (true, L10n.text(L10n.code(), "now")) }
         if value < 1000 {
             let step = value < 200 ? 10.0 : 50.0
             let rounded = (value / step).rounded() * step
-            return (false, "\(whole.string(from: NSNumber(value: rounded)) ?? "0") metros")
+            return (false, "\(whole.string(from: NSNumber(value: rounded)) ?? "0") \(L10n.text(L10n.code(), "meters-word"))")
         }
         return (false, maneuverDistance(value))
     }
 
-    static func sentence(turn: String, text: String, meters: Double, street: String) -> String {
+    static func sentence(turn: String, meters: Double, street: String) -> String {
+        let code = L10n.code()
         let distance = spoken(meters)
+        let maneuver = L10n.text(code, ["slight-left", "left", "sharp-left", "slight-right", "right", "sharp-right", "uturn"].contains(turn) ? turn : "straight")
         if !street.isEmpty && turn != "straight" {
-            return distance.now ? "Agora, virar para a \(street)" : "A \(distance.text), virar para a \(street)"
+            return distance.now ? L10n.text(code, "now-turn", [street]) : L10n.text(code, "in-turn", [distance.text, street])
         }
         if !street.isEmpty {
-            return distance.now ? "Agora, siga em frente pela \(street)" : "A \(distance.text), siga em frente pela \(street)"
+            return distance.now ? L10n.text(code, "now-straight-street", [street]) : L10n.text(code, "in-straight-street", [distance.text, street])
         }
-        if distance.now { return text }
-        return "A \(distance.text), \(text)"
+        if distance.now { return maneuver }
+        return L10n.text(code, "in-maneuver", [distance.text, maneuver])
     }
 
     static func coord(_ lat: Double, _ lon: Double) -> String {
-        let text = { (value: Double) in String(format: "%.5f", value).replacingOccurrences(of: ".", with: ",") }
+        let separator = L10n.locale().decimalSeparator ?? "."
+        let text = { (value: Double) in String(format: "%.5f", locale: L10n.locale(), value).replacingOccurrences(of: ".", with: separator) }
         return "\(text(lat)), \(text(lon))"
     }
 }

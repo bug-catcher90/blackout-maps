@@ -47,6 +47,14 @@ final class GlyphServer {
     }
 }
 
+final class OpeningMapView: MLNMapView {
+    var onLayout: (() -> Void)?
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        onLayout?()
+    }
+}
+
 final class MapController: NSObject, MLNMapViewDelegate {
     var onGesture: (() -> Void)?
     var onMove: (() -> Void)?
@@ -66,22 +74,34 @@ final class MapController: NSObject, MLNMapViewDelegate {
     private var destOn = false
     private var styleReady = false
     private var pendingStyle: URL?
-    private(set) var zoom: Double = 5.8
+    private(set) var zoom: Double = 0
+    private var opening: Coord?
+    private var framed = false
+    private var userMoved = false
     var dragEnabled = true
+    private let portugal = CLLocationCoordinate2D(latitude: 39.6, longitude: -8.05)
 
-    func makeView() -> MLNMapView {
+    func makeView(opening: Coord?) -> MLNMapView {
         if let mapView { return mapView }
+        self.opening = opening
         let blank = FileManager.default.temporaryDirectory.appendingPathComponent("mapa-blank.json")
         try? MapStyle.blank.write(to: blank, atomically: true, encoding: .utf8)
-        let map = MLNMapView(frame: .zero, styleURL: blank)
+        let map = OpeningMapView(frame: .zero, styleURL: blank)
+        map.onLayout = { [weak self] in self?.applyOpening() }
         map.delegate = self
         map.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         map.compassView.isHidden = true
         map.allowsTilting = false
         map.allowsRotating = false
-        map.minimumZoomLevel = 4
+        map.minimumZoomLevel = -2
         map.maximumZoomLevel = 18
-        map.setCenter(CLLocationCoordinate2D(latitude: 39.6, longitude: -8.05), zoomLevel: 5.8, animated: false)
+        if let opening {
+            map.setCenter(CLLocationCoordinate2D(latitude: opening.lat, longitude: opening.lon), zoomLevel: 16, animated: false)
+            zoom = 16
+            framed = true
+        } else {
+            map.setCenter(portugal, zoomLevel: 0, animated: false)
+        }
         let tap = UITapGestureRecognizer(target: self, action: #selector(tapped(_:)))
         tap.cancelsTouchesInView = false
         map.addGestureRecognizer(tap)
@@ -102,11 +122,31 @@ final class MapController: NSObject, MLNMapViewDelegate {
     func mapView(_ mapView: MLNMapView, didFinishLoading style: MLNStyle) {
         install(style)
         styleReady = true
+        if !userMoved { framed = false }
+        applyOpening()
+    }
+
+    func applyOpening() {
+        guard !userMoved, !framed, let mapView else { return }
+        if let opening {
+            framed = true
+            jump(to: opening, zoom: 16, bearing: 0)
+            return
+        }
+        guard mapView.bounds.width > 40, mapView.bounds.height > 40 else { return }
+        let span = min(mapView.bounds.width, mapView.bounds.height)
+        let world = log2(span / 512)
+        framed = true
+        mapView.setCenter(portugal, zoomLevel: world, direction: 0, animated: false, completionHandler: nil)
+        zoom = world
     }
 
     func mapView(_ mapView: MLNMapView, regionWillChangeWith reason: MLNCameraChangeReason, animated: Bool) {
         let gestures: MLNCameraChangeReason = [.gesturePan, .gesturePinch, .gestureRotate, .gestureZoomIn, .gestureZoomOut, .gestureOneFingerZoom, .gestureTilt]
-        if !reason.intersection(gestures).isEmpty { onGesture?() }
+        if !reason.intersection(gestures).isEmpty {
+            userMoved = true
+            onGesture?()
+        }
     }
 
     func mapView(_ mapView: MLNMapView, regionIsChangingWith reason: MLNCameraChangeReason) {
