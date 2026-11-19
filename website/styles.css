@@ -154,37 +154,26 @@ h2 {
   font-size: 1.15rem;
 }
 
-.cards {
+.split {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 0.75rem;
-  margin-top: 2.5rem;
+  grid-template-columns: minmax(0, 1fr) 240px;
+  gap: 3.5rem;
+  align-items: center;
 }
 
-.cards article {
-  min-height: 11rem;
-  padding: 1.25rem;
-  background: var(--card);
-  border: 1px solid var(--line);
-}
+#find .split { grid-template-columns: 240px minmax(0, 1fr); }
+#find .phone { justify-self: start; }
 
-.cards svg {
-  width: 1.6rem;
-  height: 1.6rem;
-  fill: none;
-  stroke: var(--amber);
-  stroke-width: 1.6;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-}
-
-.cards h3, .does h3, .support h3 {
+.does h3, .support h3 {
   margin: 1rem 0 0.35rem;
   font-size: 1.05rem;
   font-weight: 500;
 }
 
-.cards p, .does p, .support p { margin: 0; color: var(--muted); }
+.does p, .support p { margin: 0; color: var(--muted); }
+
+.does-split { align-items: start; margin-top: 2rem; }
+.does-split .does { margin-top: 0; }
 
 .note {
   margin: 1.5rem 0 0;
@@ -220,8 +209,34 @@ h2 {
 .links { display: flex; flex-direction: column; gap: 0.4rem; margin-top: 1.75rem; }
 .links a { color: var(--ink); }
 
-.support { margin-top: 3rem; max-width: 36rem; }
-.support h3 { margin-top: 0; }
+.support { margin-top: 3rem; max-width: 44rem; }
+.support h3 { margin-top: 0; font-size: 1.45rem; }
+
+.pay-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+  margin-top: 1.25rem;
+}
+
+.pay {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.7rem;
+  min-width: 0;
+  padding: 1rem;
+  border: 1px solid var(--line);
+  background: var(--card);
+  color: inherit;
+  text-decoration: none;
+}
+
+.pay strong { font-weight: 500; }
+.pay .slot { margin: 0; width: 100%; }
+
+.logo { display: block; }
+.logo.paypal, .logo.btc { width: 2.25rem; height: 2.25rem; }
 
 .slot {
   display: block;
@@ -259,10 +274,10 @@ h2 {
 .coming span:last-child { color: var(--amber); }
 
 @media (max-width: 900px) {
-  .hero { grid-template-columns: 1fr; gap: 3rem; padding-top: 2.5rem; }
+  .hero, .split, #find .split, .does-split, .pay-row { grid-template-columns: 1fr; }
+  .hero { gap: 3rem; padding-top: 2.5rem; }
   .phone { justify-self: start; width: 200px; }
-  .cards { grid-template-columns: 1fr 1fr; }
-  .does, .modes, .coming { grid-template-columns: 1fr; }
+  .does, .coming { grid-template-columns: 1fr; }
 }
 
 @media (max-width: 560px) {
