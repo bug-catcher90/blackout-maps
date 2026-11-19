@@ -1,19 +1,26 @@
 # Catalog
 
-The app builds the import list from the JSON files in this folder on GitHub. It does not keep a separate list of countries. A file that follows this format is a country or a state, and it appears in Settings with its flag and name.
+Add a country or a state the same way Portugal is added. The app has no separate list. It reads the JSON files in this folder on GitHub, then downloads the data files those JSON files point at.
 
-## One file per place
+## Where to put it
 
-`catalog/<id>.json`
+`<id>` is the country or state, lowercase, with hyphens. Portugal is `portugal`. A state uses its own id, such as `us-california`.
 
-`<id>` is the country or state, in lowercase, with hyphens. Portugal is `portugal`. A state uses its own id, such as `us-california`.
+- `catalog/<id>.json` sits in this folder, next to `portugal.json`. The app does not look inside subfolders for JSON.
+- `catalog/<id>/` holds the data files. Portugal’s files are in `catalog/portugal/`.
+
+Each file you commit stays under 100 MB. That is the gzip, not the unpacked size.
+
+## The JSON
+
+`catalog/portugal.json` is the reference. A new place uses the same fields. Set `autoload` to `false`. Only Portugal uses `true`, so only Portugal downloads on first launch. Every other place downloads after the user chooses it.
 
 ```json
 {
   "id": "portugal",
   "name": "Portugal",
   "flag": "🇵🇹",
-  "autoload": false,
+  "autoload": true,
   "files": [
     {
       "key": "places",
@@ -21,14 +28,61 @@ The app builds the import list from the JSON files in this folder on GitHub. It 
       "file": "places.bin",
       "gzip": true,
       "bytes": 2167140,
-      "label": "places"
+      "label": "lugares"
+    },
+    {
+      "key": "water",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/portugal/water.bin.gz",
+      "file": "water.bin",
+      "gzip": true,
+      "bytes": 909560,
+      "label": "água"
+    },
+    {
+      "key": "addresses",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/portugal/addresses.bin.gz",
+      "file": "addresses.bin",
+      "gzip": true,
+      "bytes": 48597530,
+      "label": "moradas"
+    },
+    {
+      "key": "geo",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/portugal/geo.json.gz",
+      "file": "geo.json",
+      "gzip": true,
+      "bytes": null,
+      "label": "geo"
     }
   ]
 }
 ```
 
-`name` is the label in the list. `flag` is the emoji shown beside it. Both are required. Set `autoload` to `false`. Portugal is the one file that uses `true`, so it downloads on first launch. Every other place downloads only after the user chooses it.
+`id` matches the folder name. `name` is the label in the list. `flag` is the emoji beside it. Both `name` and `flag` are required.
 
-The data files sit in `catalog/<id>/`. Each file stays under 100 MB. The keys the app opens are `places`, `water`, `addresses` and `geo`. `gzip` is `true` when the download is compressed and `file` is the name after unpacking. `bytes` is the unpacked size, or `null` when the size is not checked. `url` points at the raw file in this repository.
+`files` has one entry per data file, in this order: `places`, `water`, `addresses`, `geo`.
 
-The app reads `https://api.github.com/repos/bug-catcher90/blackout-maps/contents/catalog`, keeps each `*.json` file that has an id, a name and a flag, and ignores this README.
+- `key` is one of those four names. Those are the keys the app opens.
+- `url` is the raw file on `main`: `https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/<id>/<gzip-name>`.
+- `file` is the name after unpacking.
+- `gzip` is `true`.
+- `bytes` is the unpacked size. The download is rejected when it does not match. Use `null` only when the size is not checked. Portugal does that for `geo`.
+- `label` is `lugares`, `água`, `moradas`, or `geo`, as in Portugal. The app translates those four words.
+
+## The data files
+
+Put these four gzip files in `catalog/<id>/`. Same names, same formats as `catalog/portugal/`.
+
+`places.bin.gz` unpacks to `places.bin`. Format `POI1`, version 1, little-endian. One record per service: category, name, address, latitude, longitude. Categories are `0` health, `1` police, `2` fire, `3` fuel, `4` supermarkets, `5` restaurants. Portugal’s unpacked size is 2167140.
+
+`water.bin.gz` unpacks to `water.bin`. Format `WTR1`, version 1, little-endian. Each record is a named point or line. Types are `0` drinking fountain, `1` spring, `2` ford, `3` weir, `4` access. Portugal’s unpacked size is 909560.
+
+`addresses.bin.gz` unpacks to `addresses.bin`. Format `ADR1`, little-endian. Cities, street names, door numbers, postcodes, and a coordinate for each door. Portugal’s unpacked size is 48597530.
+
+`geo.json.gz` unpacks to `geo.json`. One JSON object with two arrays. `p` is places, each `[name, latitude, longitude, rank]`. `s` is streets, each `[name, latitude, longitude]`. Latitude and longitude are decimal degrees. Portugal leaves `bytes` null.
+
+## On GitHub
+
+Push `catalog/<id>.json` and `catalog/<id>/` to `main`. The app reads `https://api.github.com/repos/bug-catcher90/blackout-maps/contents/catalog`, keeps each `*.json` that has a name and a flag, and ignores this README and the data folders.
+
+When that JSON and its files are on GitHub, Settings shows the flag and the name. The user downloads the place from that list. Portugal is already downloaded on first launch.

@@ -6,4 +6,4 @@ There is no account, no payment and no data collection. The app does not use GPS
 
 The base map, roads and buildings come with the app. Places, water, addresses and geography download by country or state. Portugal downloads on first launch. Any other place is added from Settings.
 
-Contributions are welcome, especially updated maps of services. Put them in `catalog/`. The file format is described in `catalog/README.md`. A file that follows it shows up in the import list.
+Contributions are welcome, especially updated maps of services. A country or a state needs its JSON file and its data files in `catalog/`, as `catalog/README.md` describes. The flag and name appear in Settings once both are on GitHub.
