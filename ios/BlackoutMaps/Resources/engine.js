@@ -1211,6 +1211,27 @@
     }
     return maneuverAt(coordinates, meters2, "straight", "Siga em frente");
   }
+  function directionsList(coordinates) {
+    const steps = [];
+    let line = coordinates;
+    let guard = 0;
+    while (line && line.length > 1 && guard < 200) {
+      guard += 1;
+      const total = routeSamples(line).meters;
+      if (total < 12) break;
+      const step = maneuver(line);
+      steps.push({
+        turn: step.turn,
+        meters: Math.max(0, Math.min(step.meters, total)),
+        street: streetAt2(step.lat, step.lon)
+      });
+      if (step.meters >= total - 12) break;
+      const next = sliceRoute(line, step.lat, step.lon);
+      if (!next.coordinates || next.coordinates.length < 2 || next.meters > total - 12) break;
+      line = next.coordinates;
+    }
+    return steps;
+  }
   function edgeKey(a, b) {
     return a < b ? `${a}:${b}` : `${b}:${a}`;
   }
@@ -2494,7 +2515,7 @@
   ];
   function pinBudget(zoom) {
     if (zoom < PIN_ZOOM - 0.05) return { limit: 0, spacing: Infinity };
-    if (zoom >= 16) return { limit: 1e9, spacing: 0 };
+    if (zoom >= 14) return { limit: 1e9, spacing: 0 };
     const steps = zoom - PIN_ZOOM;
     return {
       limit: Math.max(2, Math.round(2 * Math.pow(1.55, steps))),
@@ -2814,6 +2835,10 @@
       if (!state.graph) return "null";
       const next = moveAlongRoad(state.graph, lat, lon, distance, heading, mode);
       return JSON.stringify(next);
+    },
+    itinerary() {
+      if (!state.route || !state.route.coordinates) return "[]";
+      return JSON.stringify(directionsList(state.route.coordinates));
     },
     navigation(lat, lon) {
       if (!state.route || !state.route.coordinates) return "null";

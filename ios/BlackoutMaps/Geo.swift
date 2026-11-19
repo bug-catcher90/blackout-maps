@@ -18,6 +18,13 @@ struct Place: Identifiable, Hashable, Codable {
     var coord: Coord { Coord(lat: lat, lon: lon) }
 }
 
+struct NavStep: Identifiable, Hashable {
+    var id: Int
+    var turn: String
+    var meters: Double
+    var street: String
+}
+
 struct RouteChoice: Identifiable, Hashable {
     var id: String { style }
     var style: String

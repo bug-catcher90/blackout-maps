@@ -141,6 +141,14 @@ final class Engine: @unchecked Sendable {
         }
     }
 
+    func itinerary() -> [[String: Any]] {
+        queue.sync {
+            guard let context else { return [] }
+            let text = (try? eval(context, "Posicao.itinerary()"))?.toString() ?? "[]"
+            return (try? JSONSerialization.jsonObject(with: Data(text.utf8))) as? [[String: Any]] ?? []
+        }
+    }
+
     func navigation(lat: Double, lon: Double) -> [String: Any]? {
         queue.sync {
             guard let context else { return nil }

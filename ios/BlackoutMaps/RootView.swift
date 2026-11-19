@@ -18,7 +18,7 @@ struct RootView: View {
             if model.correcting {
                 CenterDot()
             }
-            if model.tab == "explorar" || model.adding {
+            if (model.tab == "explorar" || model.adding) && !model.navigating {
                 TopChrome(model: model)
                     .padding(.top, 8)
                     .padding(.horizontal, 12)
@@ -55,6 +55,9 @@ struct RootView: View {
         .background(Paper.bg)
         .environment(\.layoutDirection, L10n.direction(model.language))
         .onAppear { model.launch() }
+        .sheet(isPresented: Binding(get: { model.showSteps }, set: { model.showSteps = $0 })) {
+            StepsSheet(model: model)
+        }
     }
 }
 
@@ -391,6 +394,88 @@ private struct NavBanner: View {
     }
 }
 
+private struct StepsSheet: View {
+    var model: AppModel
+    @Environment(\.dismiss) private var dismiss
+
+    var body: some View {
+        ScrollView {
+            VStack(spacing: 0) {
+                HStack {
+                    Text(model.t("steps"))
+                        .font(Paper.font(20, .semibold))
+                        .foregroundStyle(Paper.ink)
+                    Spacer()
+                    Button("×") { dismiss() }
+                        .font(Paper.font(22))
+                        .foregroundStyle(Paper.muted)
+                        .frame(width: 32, height: 32)
+                        .accessibilityLabel(model.t("close"))
+                }
+                .padding(.horizontal, 20)
+                .padding(.top, 20)
+                .padding(.bottom, 8)
+                ForEach(model.steps) { step in
+                    HStack(alignment: .top, spacing: 12) {
+                        Text(mark(step.turn))
+                            .font(Paper.font(22, .bold))
+                            .foregroundStyle(Paper.ink)
+                            .frame(width: 32, alignment: .leading)
+                        VStack(alignment: .leading, spacing: 2) {
+                            Text(model.t(turnKey(step.turn)))
+                                .font(Paper.font(16))
+                                .foregroundStyle(Paper.ink)
+                            if !step.street.isEmpty {
+                                Text(step.street)
+                                    .font(Paper.font(14))
+                                    .foregroundStyle(Paper.muted)
+                            }
+                        }
+                        Spacer(minLength: 8)
+                        if step.turn != "arrive" {
+                            Text(Format.kmOrM(step.meters))
+                                .font(Paper.font(15))
+                                .foregroundStyle(Paper.muted)
+                                .monospacedDigit()
+                        }
+                    }
+                    .padding(.horizontal, 20)
+                    .padding(.vertical, 10)
+                    .frame(minHeight: 52)
+                    Rectangle().fill(Paper.line).frame(height: 1).padding(.leading, 20)
+                }
+            }
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
+        .background(Paper.bg)
+        .environment(\.layoutDirection, L10n.direction(model.language))
+    }
+
+    private func turnKey(_ turn: String) -> String {
+        switch turn {
+        case "slight-left", "left", "sharp-left", "slight-right", "right", "sharp-right", "uturn", "roundabout", "arrive", "straight":
+            return turn
+        default:
+            return "straight"
+        }
+    }
+
+    private func mark(_ turn: String) -> String {
+        switch turn {
+        case "slight-left": "↖"
+        case "left": "←"
+        case "sharp-left": "↙"
+        case "slight-right": "↗"
+        case "right": "→"
+        case "sharp-right": "↘"
+        case "uturn": "↩"
+        case "roundabout": "↻"
+        case "arrive": "●"
+        default: "↑"
+        }
+    }
+}
+
 private struct RecenterButton: View {
     var model: AppModel
 
@@ -576,6 +661,15 @@ private struct NavCard: View {
                         .frame(width: 44, height: 44)
                 }
                 .accessibilityLabel(model.t("see-route"))
+                Button {
+                    model.openSteps()
+                } label: {
+                    Image(systemName: "map")
+                        .font(.system(size: 22))
+                        .foregroundStyle(Paper.ink)
+                        .frame(width: 44, height: 44)
+                }
+                .accessibilityLabel(model.t("steps"))
                 VStack(spacing: 0) {
                     Text(model.navTime)
                         .font(Paper.font(28, .semibold))

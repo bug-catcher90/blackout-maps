@@ -33,6 +33,8 @@ final class AppModel {
     var navTurn = "straight"
     var navTime = ""
     var navMeta = ""
+    var steps: [NavStep] = []
+    var showSteps = false
     var showRecenter = false
     var correcting = false
 
@@ -219,6 +221,7 @@ final class AppModel {
     func leaveNav() {
         if correcting { finishCorrect(save: false) }
         navigating = false
+        showSteps = false
         follow = false
         showRecenter = false
         engine.setNavigation(active: false, route: nil)
@@ -235,6 +238,21 @@ final class AppModel {
         follow = true
         showRecenter = false
         lockNav()
+    }
+
+    func openSteps() {
+        var built: [NavStep] = []
+        for (index, row) in engine.itinerary().enumerated() {
+            built.append(NavStep(
+                id: index,
+                turn: row["turn"] as? String ?? "straight",
+                meters: (row["meters"] as? NSNumber)?.doubleValue ?? 0,
+                street: row["street"] as? String ?? ""
+            ))
+        }
+        built.append(NavStep(id: built.count, turn: "arrive", meters: 0, street: destination?.name ?? ""))
+        steps = built
+        showSteps = true
     }
 
     func overview() {
