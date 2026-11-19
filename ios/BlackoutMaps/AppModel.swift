@@ -39,6 +39,7 @@ final class AppModel {
     var correcting = false
 
     var fixing = false
+    var positionFixed = false
     var fixName = ""
     var fixAddress = ""
     var fixCoords = ""
@@ -330,6 +331,8 @@ final class AppModel {
         estimator.reset(lat: here.lat, lon: here.lon, snap: true)
         map.jump(to: here, zoom: max(map.zoom, 16), bearing: 0)
         persistPose(Pose(lat: here.lat, lon: here.lon, heading: pose?.heading, uncertainty: 8, steps: 0, distance: 0, reason: "reset"))
+        positionFixed = true
+        UserDefaults.standard.set(true, forKey: "mapa-fixed")
     }
 
     func closeTrip() {
@@ -896,6 +899,7 @@ final class AppModel {
     }
 
     private func loadSaved() {
+        positionFixed = UserDefaults.standard.bool(forKey: "mapa-fixed")
         if let value = UserDefaults.standard.object(forKey: "mapa-step") as? Double { step = value }
         if UserDefaults.standard.object(forKey: "mapa-sensors") != nil {
             sensorsOn = UserDefaults.standard.bool(forKey: "mapa-sensors")

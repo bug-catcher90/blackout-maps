@@ -1637,6 +1637,8 @@
     let allowed = (access & bit) !== 0;
     if (!allowed && bit === WALK_BIT && graph.klass && graph.len[edge] <= 40 && (graph.klass[edge] & 7) >= 3 && (access & 6) !== 0) allowed = true;
     if (!allowed) return false;
+    // Class 6 is a footway, path, step or pedestrian street. A bicycle stays on roads and cycleways.
+    if (bit === 2 && graph.klass && (graph.klass[edge] & 7) === 6) return false;
     if (graph.allow && !graph.allow(edge)) return false;
     if (bit === WALK_BIT && edgeCutsBuilding(graph, edge)) return false;
     return true;
@@ -1844,6 +1846,11 @@
     return { found, seen };
   }
   function linkAllowed(graph, fromLat, fromLon, toLat, toLon) {
+    if (graph.costMode === "bicycle") {
+      if (metersBetween2(fromLat, fromLon, toLat, toLon) > 36) return false;
+      if (!graph.buildings?.cuts) return true;
+      return !graph.buildings.cuts(fromLat, fromLon, toLat, toLon);
+    }
     if (!graph.buildings || graph.costMode !== "walk") return true;
     const check = graph.buildings.links || graph.buildings.allows;
     return check(fromLat, fromLon, toLat, toLon);
@@ -1886,9 +1893,34 @@
     }
     return null;
   }
+  function bicycleSnap(graph, point2, skip) {
+    const skipped = new Set(skip || []);
+    for (const max of [40, 90, 160]) {
+      for (let attempt = 0; attempt < 16; attempt += 1) {
+        const hit = snapPoint(graph, point2.lat, point2.lon, 2, max, skipped);
+        if (!hit) break;
+        if (linkAllowed(graph, point2.lat, point2.lon, hit.lat, hit.lon)) return { kind: "edge", snap: hit };
+        const ends = [graph.from[hit.edge], graph.to[hit.edge]];
+        let best = null;
+        for (const node of ends) {
+          const lat = nodeLat(graph, node);
+          const lon = nodeLon(graph, node);
+          if (!linkAllowed(graph, point2.lat, point2.lon, lat, lon)) continue;
+          const candidate = snapOnNode(graph, hit.edge, node, point2);
+          if (!best || candidate.dist < best.dist) best = candidate;
+        }
+        if (best) return { kind: "edge", snap: best };
+        skipped.add(hit.edge);
+        const rev = graph.rev[hit.edge];
+        if (rev !== ROAD_NONE) skipped.add(rev);
+      }
+    }
+    return null;
+  }
   function approachNodes(graph, point2, bit, skip) {
     const mode = bit === WALK_BIT ? "walk" : bit === 2 ? "bicycle" : "car";
     if (bit === WALK_BIT && graph.buildings) return walkSnap(graph, point2, skip);
+    if (bit === 2) return bicycleSnap(graph, point2, skip);
     const direct2 = snapPoint(graph, point2.lat, point2.lon, bit, SNAP_M[mode], skip);
     if (direct2) return { kind: "edge", snap: direct2 };
     if (bit === WALK_BIT) {

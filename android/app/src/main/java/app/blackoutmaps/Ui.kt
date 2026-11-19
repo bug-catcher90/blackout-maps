@@ -1,6 +1,11 @@
 package app.blackoutmaps
 
 import androidx.activity.compose.BackHandler
+import androidx.compose.animation.core.RepeatMode
+import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.rememberInfiniteTransition
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -23,6 +28,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -39,6 +45,7 @@ import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
@@ -54,6 +61,7 @@ import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.StrokeJoin
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalFocusManager
@@ -147,8 +155,13 @@ fun BlackoutScreen(model: AppModel = viewModel()) {
             Column(Modifier.align(Alignment.BottomCenter).fillMaxWidth()) {
                 val compass = model.tab == Tab.Explore && !model.navigating && !model.fixing && !model.adding
                 if (compass) {
-                    Row(Modifier.fillMaxWidth().padding(end = 12.dp, bottom = 12.dp), horizontalArrangement = Arrangement.End) {
-                        CompassButton(model.t("position")) { model.startFix() }
+                    Row(
+                        Modifier.fillMaxWidth().padding(start = 12.dp, end = 12.dp, bottom = 12.dp),
+                        horizontalArrangement = Arrangement.End,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        if (!model.positionFixed) PositionPrompt(model.t("set-position"))
+                        CompassButton(model.t("position"), pulse = !model.positionFixed) { model.startFix() }
                     }
                 }
                 if (model.showRecenter) {
@@ -781,14 +794,70 @@ private fun RowScope.TabButton(title: String, selected: Boolean, icon: String, o
 }
 
 @Composable
-private fun CompassButton(label: String, onClick: () -> Unit) {
+private fun PositionPrompt(text: String) {
+    val rtl = LocalLayoutDirection.current == LayoutDirection.Rtl
+    val bubble = Color(0xFF1C1916)
+    Row(verticalAlignment = Alignment.CenterVertically) {
+        Text(
+            text,
+            color = Color.White,
+            fontSize = 16.sp,
+            fontWeight = FontWeight.SemiBold,
+            fontFamily = FontFamily.Default,
+            lineHeight = 20.sp,
+            modifier = Modifier
+                .widthIn(max = 220.dp)
+                .shadow(2.dp, RoundedCornerShape(14.dp))
+                .background(bubble, RoundedCornerShape(14.dp))
+                .border(1.dp, Color.White, RoundedCornerShape(14.dp))
+                .padding(horizontal = 14.dp, vertical = 11.dp)
+        )
+        Canvas(Modifier.size(width = 10.dp, height = 16.dp).offset(x = if (rtl) 1.dp else (-1).dp)) {
+            val path = Path().apply {
+                if (rtl) {
+                    moveTo(size.width, 0f)
+                    lineTo(0f, size.height / 2f)
+                    lineTo(size.width, size.height)
+                } else {
+                    moveTo(0f, 0f)
+                    lineTo(size.width, size.height / 2f)
+                    lineTo(0f, size.height)
+                }
+                close()
+            }
+            drawPath(path, bubble)
+        }
+        Spacer(Modifier.width(8.dp))
+    }
+}
+
+@Composable
+private fun CompassButton(label: String, pulse: Boolean, onClick: () -> Unit) {
     val ink = LocalInk.current
+    val transition = rememberInfiniteTransition(label = "compass")
+    val scale by transition.animateFloat(
+        initialValue = 1f,
+        targetValue = if (pulse) 1.14f else 1f,
+        animationSpec = infiniteRepeatable(tween(if (pulse) 700 else 1), RepeatMode.Reverse),
+        label = "compass-scale"
+    )
+    val alpha by transition.animateFloat(
+        initialValue = 1f,
+        targetValue = if (pulse) 0.4f else 1f,
+        animationSpec = infiniteRepeatable(tween(if (pulse) 700 else 1), RepeatMode.Reverse),
+        label = "compass-alpha"
+    )
     Box(
         Modifier
+            .graphicsLayer {
+                scaleX = scale
+                scaleY = scale
+                this.alpha = alpha
+            }
             .size(48.dp)
             .shadow(1.dp, CircleShape, clip = false)
             .background(ink.bg, CircleShape)
-            .border(1.dp, ink.line, CircleShape)
+            .border(if (pulse) 2.dp else 1.dp, if (pulse) pinColor else ink.line, CircleShape)
             .clip(CircleShape)
             .clickable(onClick = onClick)
             .semantics { contentDescription = label },

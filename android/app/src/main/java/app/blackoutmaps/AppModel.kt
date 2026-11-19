@@ -72,6 +72,7 @@ class AppModel(application: Application) : AndroidViewModel(application) {
     var navMeta by mutableStateOf("")
     var steps by mutableStateOf(emptyList<NavStep>())
     var fixing by mutableStateOf(false)
+    var positionFixed by mutableStateOf(false)
     var fixName by mutableStateOf("")
     var fixAddress by mutableStateOf("")
     var fixCoords by mutableStateOf("")
@@ -393,6 +394,8 @@ class AppModel(application: Application) : AndroidViewModel(application) {
         estimator.reset(lat, lon, snap = true)
         jumpTo(lat, lon, maxOf(zoom, 16.0))
         persist(Pose(lat, lon, pose?.heading, 8.0, 0, 0.0, "reset"))
+        positionFixed = true
+        prefs.edit().putBoolean("mapa-fixed", true).apply()
     }
 
     fun closeTrip() {
@@ -940,6 +943,7 @@ class AppModel(application: Application) : AndroidViewModel(application) {
     }
 
     private fun load() {
+        positionFixed = prefs.getBoolean("mapa-fixed", false)
         val savedCode = prefs.getString("blackout-language", "en") ?: "en"
         language = if (savedCode in Text.order) savedCode else "en"
         if (prefs.contains("mapa-step")) step = prefs.getFloat("mapa-step", 0.7f).toDouble().coerceIn(0.3, 1.5)
