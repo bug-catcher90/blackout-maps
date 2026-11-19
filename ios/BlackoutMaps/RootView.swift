@@ -615,12 +615,19 @@ private struct TripSheet: View {
         Button {
             model.setMode(id)
         } label: {
-            HStack(spacing: 6) {
-                Text(model.modeTimes[id] ?? "")
-                    .font(Paper.font(13))
-                    .monospacedDigit()
-                Text(title)
-                    .font(Paper.font(13))
+            HStack(spacing: 4) {
+                Image(systemName: modeSymbol(id))
+                    .font(.system(size: 16))
+                VStack(alignment: .leading, spacing: 0) {
+                    if let time = model.modeTimes[id], !time.isEmpty {
+                        Text(time)
+                            .font(Paper.font(12))
+                            .monospacedDigit()
+                    }
+                    Text(title)
+                        .font(Paper.font(12))
+                        .lineLimit(1)
+                }
             }
             .frame(maxWidth: .infinity, minHeight: 40)
             .foregroundStyle(model.mode == id ? Paper.accent : Paper.muted)
@@ -629,6 +636,14 @@ private struct TripSheet: View {
         }
         .buttonStyle(.plain)
         .accessibilityLabel(title)
+    }
+
+    private func modeSymbol(_ id: String) -> String {
+        switch id {
+        case "car": "car"
+        case "bicycle": "bicycle"
+        default: "figure.walk"
+        }
     }
 
     private func modeTitle(_ mode: String) -> String {
