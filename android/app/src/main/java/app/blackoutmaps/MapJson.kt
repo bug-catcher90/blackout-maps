@@ -87,6 +87,7 @@ object MapJson {
                 .put("name", name)
                 .put("address", address)
                 .put("kind", kind)
+                .put("icon", if (kind == "water") "water-drop" else "poi-$kind")
                 .put("color", color(kind))
                 .put("role", "point"))
     }
