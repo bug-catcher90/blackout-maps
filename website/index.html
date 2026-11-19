@@ -11,96 +11,141 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <main class="wrap">
-    <header class="mast">
-      <a class="mark" href="#top"><span class="lamp" aria-hidden="true"></span>Blackout Maps</a>
-      <p class="facts">Open source · Free · Offline</p>
-    </header>
+  <header class="bar">
+    <a class="brand" href="#top"><span class="lamp" aria-hidden="true"></span>Blackout Maps</a>
+    <nav>
+      <a href="https://github.com/bug-catcher90/blackout-maps">Code</a>
+      <a href="#download">Get the app</a>
+    </nav>
+  </header>
 
-    <h1 id="top">When the network goes down, this map stays.</h1>
-
-    <section>
-      <h2>Why it exists</h2>
-      <p class="lead">Maps that live on a server stop when the network does. Search, traffic and turn-by-turn from the cloud go with it. Blackout Maps is the navigation tool that remains on the phone for that moment.</p>
-      <p class="lead">That matters because the first things you need are physical: a hospital, a fire station, drinking water, a place that still has food. The phone should still show where they are, and still show a way to reach them.</p>
+  <main>
+    <section class="hero" id="top">
+      <div class="hero-copy">
+        <p class="kicker">Open source · Free · Offline</p>
+        <h1>When the network goes down, this map stays.</h1>
+        <p class="sub">Emergency services, water and supplies remain on the phone, with a route to reach them.</p>
+        <div class="ctas">
+          <a class="btn primary" href="https://github.com/bug-catcher90/blackout-maps">View the code</a>
+          <a class="btn" href="#download">Get the app</a>
+        </div>
+      </div>
+      <figure class="phone">
+        <img src="iphone-map.png" width="280" height="606" alt="Blackout Maps on an iPhone, showing the offline map, service icons and position.">
+      </figure>
     </section>
 
-    <section>
-      <h2>What you can do</h2>
-      <p class="lead">You can see where emergency services, water and supplies are, and you can follow a route to get there, without a connection.</p>
+    <section class="band" id="why">
+      <p class="label">Why it exists</p>
+      <h2>A map on a server fails with the network.</h2>
+      <p class="wide">Search and cloud directions go with it. Blackout Maps is the navigation tool that remains on the phone. The first things you need are physical: a hospital, a fire station, drinking water, food. The phone should still show where they are, and a way to reach them.</p>
     </section>
 
-    <section>
-      <h2>Features</h2>
-
-      <article class="feature">
-        <h3>Services</h3>
-        <p>The map shows water, health, police, fire, fuel, supermarkets and restaurants. Each category has its own icon. A wide view shows one or two places from each category that is actually in sight. Zooming in shows more. In a dense area, every place appears only when the zoom is already close.</p>
-      </article>
-
-      <article class="feature">
-        <h3>Routes</h3>
-        <p>You can follow a route on foot, by bicycle or by car. The roads come with the app, so the route does not need a network.</p>
-      </article>
-
-      <article class="feature">
-        <h3>Pins</h3>
-        <p>You can save a place, give it a name and remove it later.</p>
-      </article>
-
-      <article class="feature">
-        <h3>Directions</h3>
-        <p>During navigation, a map button opens the full list of directions from the start of the trip to the destination.</p>
-      </article>
-
-      <article class="feature">
-        <h3>Position</h3>
-        <p>The app does not use GPS. You set your position on the map, and the phone’s motion sensors keep an approximate position on the device. You can turn the sensors off and change the step length.</p>
-      </article>
-
-      <article class="feature">
-        <h3>Map packages</h3>
-        <p>Places, water, addresses and geography download by country or state. Portugal downloads on first launch. Any other place is added from Settings, where it appears with its flag and name.</p>
-      </article>
+    <section class="band" id="find">
+      <p class="label">What you find</p>
+      <h2>Help, water and supplies, already mapped.</h2>
+      <div class="cards">
+        <article>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5c2.8 3.4 5 6.2 5 9.1a5 5 0 0 1-10 0c0-2.9 2.2-5.7 5-9.1z"/></svg>
+          <h3>Water</h3>
+          <p>Drinking fountains, springs, fords, weirs and access points.</p>
+        </article>
+        <article>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v16M4 12h16"/></svg>
+          <h3>Health</h3>
+          <p>Medical care, from hospitals to the smaller places in the data.</p>
+        </article>
+        <article>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5 5 6.2v5.3c0 4.2 2.8 7.2 7 8.5 4.2-1.3 7-4.3 7-8.5V6.2L12 3.5z"/></svg>
+          <h3>Police</h3>
+          <p>Stations and posts.</p>
+        </article>
+        <article>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3s5 4.5 5 9a5 5 0 0 1-10 0c0-1.5.6-2.7 1.5-3.7C9.2 10 10 10.7 10 12a2 2 0 0 0 4 0c0-2.4-2-4.6-2-9z"/></svg>
+          <h3>Fire</h3>
+          <p>Fire stations.</p>
+        </article>
+        <article>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 20V7h8v13"/><path d="M6 20h8"/><path d="M14 10h2.2a2 2 0 0 1 2 2v3.2"/><path d="M9 10h2"/></svg>
+          <h3>Fuel</h3>
+          <p>Places to get fuel.</p>
+        </article>
+        <article>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 8h12l-1 12H7L6 8z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg>
+          <h3>Supermarkets</h3>
+          <p>Shops for food and supplies.</p>
+        </article>
+        <article>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 14h14M7 14c0 3 2 5 5 5s5-2 5-5"/><path d="M8 10V8M16 10V8"/></svg>
+          <h3>Restaurants</h3>
+          <p>Places to eat.</p>
+        </article>
+      </div>
+      <p class="note">A wide view shows one or two places from each category that is actually in sight. Zooming in shows more. In a dense area, every place appears only when the zoom is already close. An empty category stays empty.</p>
     </section>
 
-    <section>
-      <h2>Download</h2>
-      <p>The iOS and Android apps are still to come. Neither is in a store yet.</p>
-      <div class="coming">
-        <p><span>iOS</span><span>Coming</span></p>
-        <p><span>Android</span><span>Coming</span></p>
+    <section class="band" id="route">
+      <p class="label">How you get there</p>
+      <h2>A route that does not need a network.</h2>
+      <div class="modes">
+        <p>On foot</p>
+        <p>By bicycle</p>
+        <p>By car</p>
+      </div>
+      <p class="wide">The roads come with the app. You pick a mode and follow the route to the place you chose.</p>
+    </section>
+
+    <section class="band" id="does">
+      <p class="label">What the app does</p>
+      <h2>Pins, directions, and a position without GPS.</h2>
+      <div class="does">
+        <article>
+          <h3>Pins</h3>
+          <p>You can save a place, give it a name and remove it later.</p>
+        </article>
+        <article>
+          <h3>Directions</h3>
+          <p>During navigation, a map button opens the full list of directions from the start of the trip to the destination.</p>
+        </article>
+        <article>
+          <h3>Position</h3>
+          <p>The app does not use GPS. You set your position on the map, and the phone’s motion sensors keep an approximate position on the device. You can turn the sensors off and change the step length.</p>
+        </article>
+        <article>
+          <h3>Map packages</h3>
+          <p>Places, water, addresses and geography download by country or state. Portugal downloads on first launch. Any other place is added from Settings, where it appears with its flag and name.</p>
+        </article>
       </div>
     </section>
 
-    <section>
-      <h2>Privacy</h2>
-      <p>There is no login and no charge to use the app. It collects no data. It does not use GPS. Sensor readings stay on the phone.</p>
-    </section>
-
-    <section>
-      <h2>Contributing</h2>
-      <p>The project is open source, the app is free, and it works offline once the map is on the phone. The code is on GitHub. Updated maps of services are welcome. A country or a state is added through the catalog.</p>
-      <p class="links">
+    <section class="band" id="open">
+      <p class="label">Open source</p>
+      <h2>Free to use. Offline once the map is on the phone.</h2>
+      <p class="wide">There is no login and no charge. The app collects no data and does not use GPS. Sensor readings stay on the phone. The code is public, and updated maps of services are welcome.</p>
+      <div class="links">
         <a href="https://github.com/bug-catcher90/blackout-maps">github.com/bug-catcher90/blackout-maps</a>
         <a href="https://github.com/bug-catcher90/blackout-maps/blob/main/catalog/README.md">catalog/README.md</a>
-      </p>
-    </section>
+      </div>
 
-    <section>
-      <h2>Support</h2>
-      <p>PayPal is the direct way to support the work. A crypto wallet is the other way.</p>
       <div class="support">
-        <h3>PayPal</h3>
+        <h3>Support the work</h3>
+        <p>PayPal is the direct way. A crypto wallet is the other way.</p>
         <a class="slot" href="https://paypal.me/YOUR-PAYPAL-NAME">paypal.me/YOUR-PAYPAL-NAME</a>
         <p class="hint">Replace YOUR-PAYPAL-NAME with the real PayPal.me name.</p>
-        <h3>Wallet</h3>
         <code class="slot">YOUR-WALLET-ADDRESS</code>
         <p class="hint">Replace YOUR-WALLET-ADDRESS with the real wallet address.</p>
       </div>
     </section>
 
-    <footer>Blackout Maps</footer>
+    <section class="band download" id="download">
+      <p class="label">Download</p>
+      <h2>iOS and Android are still to come.</h2>
+      <p class="wide">Neither app is in a store yet.</p>
+      <div class="coming">
+        <p><span>iOS</span><span>Coming</span></p>
+        <p><span>Android</span><span>Coming</span></p>
+      </div>
+    </section>
   </main>
 </body>
 </html>
