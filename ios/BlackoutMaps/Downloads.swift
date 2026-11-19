@@ -24,6 +24,7 @@ struct RemotePack: Codable, Hashable {
 struct MapPackage: Identifiable, Codable, Hashable {
     var id: String
     var name: String
+    var flag: String
     var autoload: Bool?
     var files: [RemotePack]
 }
@@ -53,16 +54,67 @@ enum BaseFiles {
 }
 
 enum Catalog {
+    private struct Entry: Decodable {
+        var name: String
+        var type: String
+        var downloadURL: URL?
+        enum CodingKeys: String, CodingKey {
+            case name, type
+            case downloadURL = "download_url"
+        }
+    }
+
     static func load() -> [MapPackage] {
-        guard let root = Bundle.main.resourceURL,
-              let found = FileManager.default.enumerator(at: root, includingPropertiesForKeys: nil) else { return [] }
-        let decoder = JSONDecoder()
+        var byID: [String: MapPackage] = [:]
+        for package in read(bundle()) + read(saved()) {
+            byID[package.id] = package
+        }
+        return byID.values.sorted { $0.name.localizedCompare($1.name) == .orderedAscending }
+    }
+
+    static func remember(_ package: MapPackage) {
+        let url = manifests().appendingPathComponent("\(package.id).json")
+        try? FileManager.default.createDirectory(at: manifests(), withIntermediateDirectories: true)
+        try? JSONEncoder().encode(package).write(to: url)
+    }
+
+    static func remote() async throws -> [MapPackage] {
+        var request = URLRequest(url: URL(string: "https://api.github.com/repos/bug-catcher90/blackout-maps/contents/catalog")!)
+        request.setValue("application/vnd.github+json", forHTTPHeaderField: "Accept")
+        let (data, response) = try await URLSession.shared.data(for: request)
+        guard (response as? HTTPURLResponse)?.statusCode == 200 else { throw EngineError("catalog") }
+        let entries = try JSONDecoder().decode([Entry].self, from: data)
         var packages: [MapPackage] = []
-        for case let url as URL in found where url.pathExtension == "json" {
-            guard let data = try? Data(contentsOf: url), let package = try? decoder.decode(MapPackage.self, from: data) else { continue }
+        for entry in entries where entry.type == "file" && entry.name.hasSuffix(".json") {
+            guard let fileURL = entry.downloadURL else { continue }
+            let (body, fileResponse) = try await URLSession.shared.data(from: fileURL)
+            guard (fileResponse as? HTTPURLResponse)?.statusCode == 200 else { continue }
+            guard let package = try? JSONDecoder().decode(MapPackage.self, from: body), !package.flag.isEmpty, !package.name.isEmpty else { continue }
             packages.append(package)
         }
         return packages.sorted { $0.name.localizedCompare($1.name) == .orderedAscending }
+    }
+
+    private static func bundle() -> URL? { Bundle.main.resourceURL }
+    private static func saved() -> URL? { manifests() }
+
+    private static func manifests() -> URL {
+        FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+            .appendingPathComponent("blackout-maps", isDirectory: true)
+            .appendingPathComponent("manifests", isDirectory: true)
+    }
+
+    private static func read(_ root: URL?) -> [MapPackage] {
+        guard let root, let found = FileManager.default.enumerator(at: root, includingPropertiesForKeys: nil) else { return [] }
+        let decoder = JSONDecoder()
+        var packages: [MapPackage] = []
+        for case let url as URL in found where url.pathExtension == "json" {
+            guard let data = try? Data(contentsOf: url),
+                  let package = try? decoder.decode(MapPackage.self, from: data),
+                  !package.flag.isEmpty else { continue }
+            packages.append(package)
+        }
+        return packages
     }
 }
 
