@@ -1,31 +1,41 @@
 # Blackout Maps
 
-The base map, roads and buildings stay on the phone. Places, water, addresses and geography download by country or state.
+Blackout Maps is an offline map for when the network goes down. Water, medical care and supplies stay on the phone.
 
-![Blackout Maps on an iPhone](docs/iphone-map.png)
+The base map, roads and buildings come with the app. Places, water, addresses and geography download by country or state, and then stay on the device.
 
-## Services
+<img src="docs/iphone-map.png" alt="Blackout Maps on an iPhone" width="280">
 
-Health, police, fire, fuel, supermarkets, restaurants and water. Each category has its own icon. A wide view shows one or two places from each category in sight. Zoom in for more. A dense area shows every place only when the zoom is close.
+## Features
 
-## Routes
+### Services
 
-On foot, by car or by bicycle.
+The map shows water, health, police, fire, fuel, supermarkets and restaurants. Each category has its own icon. A wide view shows one or two places from each category that is actually in sight. Zooming in shows more of them. In a dense area, every place appears only when the zoom is already close.
 
-## Pins
+### Routes
 
-Save a place, name it, or remove it.
+You can follow a route on foot, by bicycle or by car.
 
-## Directions
+### Pins
 
-In navigation, the map button lists every direction from the start of the trip to the destination.
+You can save a place, give it a name and remove it later.
 
-## Position
+### Directions
 
-No GPS. You set the position. Motion sensors keep an approximate one on the phone. Sensors can be turned off, and the step length can be changed.
+During navigation, a map button opens the full list of directions from the start of the trip to the destination.
 
-## Catalog
+### Position
 
-Countries and states live in `catalog/`. Portugal downloads on first launch. Any other place is chosen in Settings and then shows its flag and name.
+The app does not use GPS. You set your position on the map, and the phone’s motion sensors keep an approximate position on the device. You can turn the sensors off and change the step length.
 
-Add one by following [catalog/README.md](catalog/README.md).
+### Map packages
+
+Countries and states live in the `catalog/` folder. Portugal downloads on first launch. Any other place is added from Settings, where it appears with its flag and name.
+
+### Privacy
+
+There is no login, no charge and no data collection. Sensor readings stay on the phone.
+
+## Contributing
+
+Updated maps of services are welcome. To add a country or a state, follow [catalog/README.md](catalog/README.md).
