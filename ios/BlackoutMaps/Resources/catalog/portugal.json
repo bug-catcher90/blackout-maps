@@ -1,0 +1,39 @@
+{
+  "id": "portugal",
+  "name": "Portugal",
+  "autoload": true,
+  "files": [
+    {
+      "key": "places",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/portugal/places.bin.gz",
+      "file": "places.bin",
+      "gzip": true,
+      "bytes": 2167140,
+      "label": "lugares"
+    },
+    {
+      "key": "water",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/portugal/water.bin.gz",
+      "file": "water.bin",
+      "gzip": true,
+      "bytes": 909560,
+      "label": "água"
+    },
+    {
+      "key": "addresses",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/portugal/addresses.bin.gz",
+      "file": "addresses.bin",
+      "gzip": true,
+      "bytes": 48597530,
+      "label": "moradas"
+    },
+    {
+      "key": "geo",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/portugal/geo.json.gz",
+      "file": "geo.json",
+      "gzip": true,
+      "bytes": null,
+      "label": "geo"
+    }
+  ]
+}

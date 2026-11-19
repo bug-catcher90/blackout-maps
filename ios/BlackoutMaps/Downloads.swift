@@ -24,12 +24,37 @@ struct RemotePack: Codable, Hashable {
 struct MapPackage: Identifiable, Codable, Hashable {
     var id: String
     var name: String
+    var autoload: Bool?
     var files: [RemotePack]
+}
+
+enum BaseFiles {
+    static func prepare() throws -> (map: URL, roads: URL, buildings: URL) {
+        guard let map = Bundle.main.url(forResource: "portugal", withExtension: "pmtiles"),
+              let roadsGz = Bundle.main.url(forResource: "roads.bin", withExtension: "gz"),
+              let buildingsGz = Bundle.main.url(forResource: "buildings.bin", withExtension: "gz") else {
+            throw EngineError("base")
+        }
+        let roads = Store.file("base", "roads.bin")
+        let buildings = Store.file("base", "buildings.bin")
+        try inflate(roadsGz, to: roads, bytes: 170_238_576)
+        try inflate(buildingsGz, to: buildings, bytes: 79_915_812)
+        return (map, roads, buildings)
+    }
+
+    private static func inflate(_ source: URL, to dest: URL, bytes: Int) throws {
+        let size = (try? FileManager.default.attributesOfItem(atPath: dest.path)[.size] as? NSNumber)?.intValue ?? 0
+        if size == bytes { return }
+        try? FileManager.default.removeItem(at: dest)
+        if PTGunzip(source, dest) != 0 { throw EngineError("gzip") }
+        let finalSize = (try? FileManager.default.attributesOfItem(atPath: dest.path)[.size] as? NSNumber)?.intValue ?? 0
+        if finalSize != bytes { throw EngineError("short") }
+    }
 }
 
 enum Catalog {
     static func load() -> [MapPackage] {
-        guard let root = Bundle.main.resourceURL?.appendingPathComponent("catalog", isDirectory: true),
+        guard let root = Bundle.main.resourceURL,
               let found = FileManager.default.enumerator(at: root, includingPropertiesForKeys: nil) else { return [] }
         let decoder = JSONDecoder()
         var packages: [MapPackage] = []

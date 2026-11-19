@@ -94,7 +94,6 @@ final class AppModel {
         loadSaved()
         packages = Catalog.load()
         activePackageId = UserDefaults.standard.string(forKey: "blackout-package")
-        if activePackageId == nil { tab = "definicoes" }
         wireMap()
         let engine = engine
         estimator.constraint = { lat, lon, distance, heading, mode in
@@ -441,33 +440,38 @@ final class AppModel {
             note("map", "Não foi possível guardar o mapa")
             return
         }
-        guard let id = activePackageId, let package = packages.first(where: { $0.id == id }) else { return }
-        await activate(package, download: false)
+        do {
+            let base = try BaseFiles.prepare()
+            await waitGlyphs()
+            map.load(archive: base.map, glyphs: glyphs.base)
+            try await openPack(RemotePack(key: "roads", url: base.roads, file: "roads.bin", gzip: false, bytes: nil, label: "estradas"), base.roads)
+            try await openPack(RemotePack(key: "buildings", url: base.buildings, file: "buildings.bin", gzip: false, bytes: nil, label: "edifícios"), base.buildings)
+        } catch {
+            note("map", "Não foi possível guardar o mapa")
+            return
+        }
+        let saved = activePackageId.flatMap { id in packages.first { $0.id == id } }
+        let package = saved ?? packages.first { $0.autoload == true }
+        guard let package else { return }
+        let ready = package.files.allSatisfy { FileManager.default.fileExists(atPath: Store.file(package.id, $0.file).path) }
+        downloading = !ready
+        await activate(package, download: !ready)
+        downloading = false
     }
 
     private func activate(_ package: MapPackage, download: Bool) async {
-        var openedMap = false
+        var failed = false
         for file in package.files {
             let local = Store.file(package.id, file.file)
             if !download {
-                guard FileManager.default.fileExists(atPath: local.path) else { continue }
-                if file.key == "map" {
-                    await waitGlyphs()
-                    map.load(archive: local, glyphs: glyphs.base)
-                    openedMap = true
-                } else {
-                    try? await openPack(file, local)
-                }
+                guard FileManager.default.fileExists(atPath: local.path) else { failed = true; continue }
+                do { try await openPack(file, local) } catch { failed = true }
                 continue
             }
-            await fetch(file, package: package.id) { [weak self] url in
-                guard file.key == "map", let self else { return }
-                await self.waitGlyphs()
-                self.map.load(archive: url, glyphs: self.glyphs.base)
-            }
-            if file.key == "map", FileManager.default.fileExists(atPath: local.path) { openedMap = true }
+            await fetch(file, package: package.id, then: nil)
+            if !FileManager.default.fileExists(atPath: local.path) { failed = true }
         }
-        if openedMap {
+        if !failed {
             activePackageId = package.id
             UserDefaults.standard.set(package.id, forKey: "blackout-package")
             packageNote = ""
@@ -488,14 +492,9 @@ final class AppModel {
             if let open { await open(url) }
             try await openPack(pack, url)
         } catch {
-            if pack.key == "map" {
-                let exists = FileManager.default.fileExists(atPath: Store.file(package, pack.file).path)
-                let text = exists ? "Mapa em falta" : "Não foi possível guardar o mapa"
-                note(pack.key, text)
-                packageNote = text
-            } else {
-                note(pack.key, "")
-            }
+            let text = "Não foi possível guardar \(pack.label)"
+            note(pack.key, text)
+            packageNote = text
         }
     }
 

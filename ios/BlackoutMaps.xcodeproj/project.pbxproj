@@ -23,7 +23,7 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		AA000000000000000000000F /* Exceptions for "MapaPortugal" folder in "MapaPortugal" target */ = {
+		AA000000000000000000000F /* Exceptions for "BlackoutMaps" folder in "Blackout Maps" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Resources/engine.js,
@@ -31,17 +31,17 @@
 				"Resources/glyphs/Noto Sans Regular/0-255.pbf",
 				"Resources/glyphs/Noto Sans Regular/256-511.pbf",
 			);
-			target = AA0000000000000000000007 /* MapaPortugal */;
+			target = AA0000000000000000000007 /* Blackout Maps */;
 		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		AA0000000000000000000001 /* MapaPortugal */ = {
+		AA0000000000000000000001 /* BlackoutMaps */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
-				AA000000000000000000000F /* Exceptions for "MapaPortugal" folder in "MapaPortugal" target */,
+				AA000000000000000000000F /* Exceptions for "BlackoutMaps" folder in "Blackout Maps" target */,
 			);
-			path = MapaPortugal;
+			path = BlackoutMaps;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -61,31 +61,11 @@
 		AA0000000000000000000004 = {
 			isa = PBXGroup;
 			children = (
-				AA0000000000000000000001 /* MapaPortugal */,
+				AA0000000000000000000001 /* BlackoutMaps */,
 				AA0000000000000000000028 /* engine */,
 				AA0000000000000000000029 /* glyphs */,
 				AA0000000000000000000005 /* Products */,
 			);
-			sourceTree = "<group>";
-		};
-		AA0000000000000000000028 /* engine */ = {
-			isa = PBXGroup;
-			children = (
-				AA0000000000000000000021 /* engine.js */,
-				AA0000000000000000000023 /* polyfill.js */,
-			);
-			name = engine;
-			path = MapaPortugal/Resources;
-			sourceTree = "<group>";
-		};
-		AA0000000000000000000029 /* glyphs */ = {
-			isa = PBXGroup;
-			children = (
-				AA0000000000000000000025 /* 0-255.pbf */,
-				AA0000000000000000000027 /* 256-511.pbf */,
-			);
-			name = glyphs;
-			path = "MapaPortugal/Resources/glyphs/Noto Sans Regular";
 			sourceTree = "<group>";
 		};
 		AA0000000000000000000005 /* Products */ = {
@@ -96,12 +76,32 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		AA0000000000000000000028 /* engine */ = {
+			isa = PBXGroup;
+			children = (
+				AA0000000000000000000021 /* engine.js */,
+				AA0000000000000000000023 /* polyfill.js */,
+			);
+			name = engine;
+			path = BlackoutMaps/Resources;
+			sourceTree = "<group>";
+		};
+		AA0000000000000000000029 /* glyphs */ = {
+			isa = PBXGroup;
+			children = (
+				AA0000000000000000000025 /* 0-255.pbf */,
+				AA0000000000000000000027 /* 256-511.pbf */,
+			);
+			name = glyphs;
+			path = "BlackoutMaps/Resources/glyphs/Noto Sans Regular";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		AA0000000000000000000007 /* MapaPortugal */ = {
+		AA0000000000000000000007 /* Blackout Maps */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = AA0000000000000000000008 /* Build configuration list for PBXNativeTarget "MapaPortugal" */;
+			buildConfigurationList = AA0000000000000000000008 /* Build configuration list for PBXNativeTarget "Blackout Maps" */;
 			buildPhases = (
 				AA0000000000000000000009 /* Sources */,
 				AA0000000000000000000002 /* Frameworks */,
@@ -112,7 +112,7 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				AA0000000000000000000001 /* MapaPortugal */,
+				AA0000000000000000000001 /* BlackoutMaps */,
 			);
 			name = "Blackout Maps";
 			packageProductDependencies = (
@@ -137,7 +137,7 @@
 					};
 				};
 			};
-			buildConfigurationList = AA000000000000000000000D /* Build configuration list for PBXProject "MapaPortugal" */;
+			buildConfigurationList = AA000000000000000000000D /* Build configuration list for PBXProject "BlackoutMaps" */;
 			developmentRegion = pt;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -155,7 +155,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				AA0000000000000000000007 /* MapaPortugal */,
+				AA0000000000000000000007 /* Blackout Maps */,
 			);
 		};
 /* End PBXProject section */
@@ -244,7 +244,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = app.blackoutmaps.ios;
 				PRODUCT_NAME = "Blackout Maps";
 				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_OBJC_BRIDGING_HEADER = MapaPortugal/Bridge/MapaPortugal-Bridging-Header.h;
+				SWIFT_OBJC_BRIDGING_HEADER = "BlackoutMaps/Bridge/BlackoutMaps-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -269,7 +269,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = app.blackoutmaps.ios;
 				PRODUCT_NAME = "Blackout Maps";
 				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_OBJC_BRIDGING_HEADER = MapaPortugal/Bridge/MapaPortugal-Bridging-Header.h;
+				SWIFT_OBJC_BRIDGING_HEADER = "BlackoutMaps/Bridge/BlackoutMaps-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -278,7 +278,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		AA0000000000000000000008 /* Build configuration list for PBXNativeTarget "MapaPortugal" */ = {
+		AA0000000000000000000008 /* Build configuration list for PBXNativeTarget "Blackout Maps" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				AA0000000000000000000012 /* Debug */,
@@ -287,7 +287,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		AA000000000000000000000D /* Build configuration list for PBXProject "MapaPortugal" */ = {
+		AA000000000000000000000D /* Build configuration list for PBXProject "BlackoutMaps" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				AA0000000000000000000010 /* Debug */,
