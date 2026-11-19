@@ -40,7 +40,7 @@ struct RootView: View {
                 if showCompass {
                     HStack {
                         Spacer().allowsHitTesting(false)
-                        CompassButton { model.startFix() }
+                        CompassButton(prompt: model.positionFixed ? nil : model.t("set-position")) { model.startFix() }
                     }
                     .padding(.trailing, 12)
                     .padding(.bottom, 12)
@@ -316,30 +316,75 @@ private struct CategoryMark: View {
 }
 
 private struct CompassButton: View {
+    var prompt: String?
     var action: () -> Void
+    @State private var pulse = false
+    @Environment(\.layoutDirection) private var direction
 
     var body: some View {
-        Button(action: action) {
-            ZStack {
-                Circle().stroke(Paper.ink, lineWidth: 1.6).frame(width: 22, height: 22)
-                CompassNeedle()
-                    .fill(Color(red: 0.76, green: 0.25, blue: 0.05))
-                    .frame(width: 8, height: 10)
-                    .offset(y: -3)
-                CompassNeedle()
-                    .fill(Paper.ink)
-                    .frame(width: 8, height: 10)
-                    .rotationEffect(.degrees(180))
-                    .offset(y: 3)
+        HStack(alignment: .center, spacing: 0) {
+            if let prompt {
+                Text(prompt)
+                    .font(Paper.font(16, .semibold))
+                    .foregroundStyle(Color.white)
+                    .multilineTextAlignment(.leading)
+                    .fixedSize(horizontal: false, vertical: true)
+                    .padding(.horizontal, 14)
+                    .padding(.vertical, 11)
+                    .frame(maxWidth: 220, alignment: .leading)
+                    .background(Color(red: 0.11, green: 0.098, blue: 0.086), in: RoundedRectangle(cornerRadius: 14, style: .continuous))
+                    .overlay(RoundedRectangle(cornerRadius: 14, style: .continuous).stroke(Color.white.opacity(0.9), lineWidth: 1))
+                CompassTail()
+                    .fill(Color(red: 0.11, green: 0.098, blue: 0.086))
+                    .frame(width: 10, height: 16)
+                    .rotationEffect(direction == .rightToLeft ? .degrees(180) : .zero)
+                    .padding(.trailing, 8)
             }
-            .frame(width: 44, height: 44)
-            .background(Paper.bg)
-            .clipShape(Circle())
-            .overlay(Circle().stroke(Paper.line))
-            .shadow(color: .black.opacity(0.16), radius: 1, y: 1)
+            Button(action: action) {
+                ZStack {
+                    Circle().stroke(Paper.ink, lineWidth: 1.6).frame(width: 22, height: 22)
+                    CompassNeedle()
+                        .fill(Color(red: 0.76, green: 0.25, blue: 0.05))
+                        .frame(width: 8, height: 10)
+                        .offset(y: -3)
+                    CompassNeedle()
+                        .fill(Paper.ink)
+                        .frame(width: 8, height: 10)
+                        .rotationEffect(.degrees(180))
+                        .offset(y: 3)
+                }
+                .frame(width: 44, height: 44)
+                .background(Paper.bg)
+                .clipShape(Circle())
+                .overlay(Circle().stroke(prompt == nil ? Paper.line : Color(red: 0.76, green: 0.25, blue: 0.05), lineWidth: prompt == nil ? 1 : 2))
+                .shadow(color: .black.opacity(0.16), radius: 1, y: 1)
+            }
+            .buttonStyle(.plain)
+            .scaleEffect(prompt != nil && pulse ? 1.14 : 1)
+            .opacity(prompt != nil && pulse ? 0.4 : 1)
+            .accessibilityLabel(L10n.text(L10n.code(), "position"))
         }
-        .buttonStyle(.plain)
-        .accessibilityLabel(L10n.text(L10n.code(), "position"))
+        .onAppear { startPulse() }
+        .onChange(of: prompt) { _, _ in startPulse() }
+    }
+
+    private func startPulse() {
+        pulse = false
+        guard prompt != nil else { return }
+        withAnimation(.easeInOut(duration: 0.7).repeatForever(autoreverses: true)) {
+            pulse = true
+        }
+    }
+}
+
+private struct CompassTail: Shape {
+    func path(in rect: CGRect) -> Path {
+        var path = Path()
+        path.move(to: CGPoint(x: rect.minX, y: rect.minY))
+        path.addLine(to: CGPoint(x: rect.maxX, y: rect.midY))
+        path.addLine(to: CGPoint(x: rect.minX, y: rect.maxY))
+        path.closeSubpath()
+        return path
     }
 }
 
