@@ -404,11 +404,58 @@ private fun ModeButton(model: AppModel, id: String, key: String, modifier: Modif
         horizontalArrangement = Arrangement.Center,
         verticalAlignment = Alignment.CenterVertically
     ) {
-        if (time.isNotEmpty()) {
-            Text(time, color = if (selected) ink.accent else ink.muted, fontSize = 13.sp, fontFamily = FontFamily.Default)
-            Spacer(Modifier.width(6.dp))
+        ModeGlyph(id, if (selected) ink.accent else ink.muted)
+        Spacer(Modifier.width(4.dp))
+        Column(horizontalAlignment = Alignment.Start) {
+            if (time.isNotEmpty()) {
+                Text(time, color = if (selected) ink.accent else ink.muted, fontSize = 12.sp, fontFamily = FontFamily.Default, maxLines = 1)
+            }
+            Text(model.t(key), color = if (selected) ink.accent else ink.muted, fontSize = 12.sp, fontFamily = FontFamily.Default, maxLines = 1, overflow = TextOverflow.Ellipsis)
         }
-        Text(model.t(key), color = if (selected) ink.accent else ink.muted, fontSize = 13.sp, fontFamily = FontFamily.Default, maxLines = 1, overflow = TextOverflow.Ellipsis)
+    }
+}
+
+@Composable
+private fun ModeGlyph(id: String, color: Color) {
+    Canvas(Modifier.size(18.dp)) {
+        val stroke = Stroke(1.7.dp.toPx(), cap = StrokeCap.Round, join = StrokeJoin.Round)
+        when (id) {
+            "car" -> {
+                val body = Path().apply {
+                    moveTo(size.width * 0.08f, size.height * 0.62f)
+                    lineTo(size.width * 0.22f, size.height * 0.62f)
+                    lineTo(size.width * 0.34f, size.height * 0.38f)
+                    lineTo(size.width * 0.62f, size.height * 0.38f)
+                    lineTo(size.width * 0.74f, size.height * 0.62f)
+                    lineTo(size.width * 0.92f, size.height * 0.62f)
+                }
+                drawPath(body, color, style = stroke)
+                drawLine(color, Offset(size.width * 0.08f, size.height * 0.62f), Offset(size.width * 0.08f, size.height * 0.74f), stroke.width, StrokeCap.Round)
+                drawLine(color, Offset(size.width * 0.92f, size.height * 0.62f), Offset(size.width * 0.92f, size.height * 0.74f), stroke.width, StrokeCap.Round)
+                drawCircle(color, radius = size.minDimension * 0.09f, center = Offset(size.width * 0.32f, size.height * 0.74f))
+                drawCircle(color, radius = size.minDimension * 0.09f, center = Offset(size.width * 0.70f, size.height * 0.74f))
+            }
+            "bicycle" -> {
+                val left = Offset(size.width * 0.28f, size.height * 0.70f)
+                val right = Offset(size.width * 0.74f, size.height * 0.70f)
+                val radius = size.minDimension * 0.18f
+                drawCircle(color, radius = radius, center = left, style = stroke)
+                drawCircle(color, radius = radius, center = right, style = stroke)
+                drawLine(color, Offset(size.width * 0.28f, size.height * 0.70f), Offset(size.width * 0.48f, size.height * 0.34f), stroke.width, StrokeCap.Round)
+                drawLine(color, Offset(size.width * 0.48f, size.height * 0.34f), Offset(size.width * 0.68f, size.height * 0.70f), stroke.width, StrokeCap.Round)
+                drawLine(color, Offset(size.width * 0.68f, size.height * 0.70f), Offset(size.width * 0.28f, size.height * 0.70f), stroke.width, StrokeCap.Round)
+                drawLine(color, Offset(size.width * 0.48f, size.height * 0.34f), Offset(size.width * 0.78f, size.height * 0.28f), stroke.width, StrokeCap.Round)
+                drawLine(color, Offset(size.width * 0.70f, size.height * 0.22f), Offset(size.width * 0.86f, size.height * 0.34f), stroke.width, StrokeCap.Round)
+            }
+            else -> {
+                drawCircle(color, radius = size.minDimension * 0.11f, center = Offset(size.width * 0.58f, size.height * 0.16f))
+                drawLine(color, Offset(size.width * 0.58f, size.height * 0.28f), Offset(size.width * 0.42f, size.height * 0.58f), stroke.width, StrokeCap.Round)
+                drawLine(color, Offset(size.width * 0.46f, size.height * 0.40f), Offset(size.width * 0.78f, size.height * 0.32f), stroke.width, StrokeCap.Round)
+                drawLine(color, Offset(size.width * 0.50f, size.height * 0.46f), Offset(size.width * 0.22f, size.height * 0.58f), stroke.width, StrokeCap.Round)
+                drawLine(color, Offset(size.width * 0.42f, size.height * 0.58f), Offset(size.width * 0.28f, size.height * 0.88f), stroke.width, StrokeCap.Round)
+                drawLine(color, Offset(size.width * 0.42f, size.height * 0.58f), Offset(size.width * 0.70f, size.height * 0.86f), stroke.width, StrokeCap.Round)
+            }
+        }
     }
 }
 
@@ -420,8 +467,8 @@ private fun modeTitle(model: AppModel) = when (model.mode) {
 
 private fun swatch(style: String) = when (style) {
     "walk", "walk-alt" -> Color(0xFF4A4A4A)
-    "bicycle", "bicycle-alt" -> Color(0xFFE84394)
-    "toll" -> Color(0xFFEBBA08)
+    "bicycle", "bicycle-alt" -> Color(0xFFE84294)
+    "toll" -> Color(0xFFEBB308)
     "local" -> Color(0xFFDB2626)
     else -> Color(0xFF1A73E8)
 }

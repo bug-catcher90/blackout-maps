@@ -208,13 +208,20 @@ class Engine(private val assets: AssetManager) {
     private fun read(name: String) = assets.open(name).bufferedReader().use { it.readText() }
 
     // The shared engine.js keeps /\p{M}/gu for iOS. This Android V8 build has no Unicode property escapes.
+    // Street search in that file returns one door, the nearest city. Android lists every city for the same name.
     private fun engineSource(source: String): String {
         val folded = source.replace("""/\p{M}/gu""", "/[" + "\\u0300" + "-" + "\\u036f" + "]/g")
+        require(folded.contains(oneCitySearch)) { "street search" }
+        val streets = folded.replace(oneCitySearch, everyCitySearch)
+            .replace(
+                "return hits.slice(0, limit).map(publicHit);",
+                "return hits.slice(0, Math.max(limit, 40)).map(publicHit);"
+            )
         return """
             if (typeof String.prototype.normalize !== "function") {
               String.prototype.normalize = function () { return String(this); };
             }
-        """.trimIndent() + "\n" + folded
+        """.trimIndent() + "\n" + streets
     }
 
     private fun eval(rt: V8Runtime, expression: String): String {
@@ -308,5 +315,42 @@ class Engine(private val assets: AssetManager) {
 
     companion object {
         private const val TAG = "BlackoutMaps"
+        private val oneCitySearch = """
+            const rows = matchingStreets(book, street, 40);
+            const hits = [];
+            for (const row of rows) {
+              const door = await streetPoint(book, row, parsed, anchor);
+              if (!door) continue;
+              hits.push({
+                name: `${'$'}{row.name}, ${'$'}{door.city}`,
+                city: door.city,
+                lat: door.lat,
+                lon: door.lon,
+                distance: anchor ? metersBetween(anchor.lat, anchor.lon, door.lat, door.lon) : 0
+              });
+            }
+        """.trimIndent().prependIndent("    ")
+        private val everyCitySearch = """
+            const rows = matchingStreets(book, street, 40);
+            const hits = [];
+            for (const row of rows) {
+              const view = await streetView(book, row);
+              const seen = new Map();
+              for (let i = 0; i < row.count; i += 1) {
+                const hit = hitAt(book, row, view, i);
+                if (!hit.city || seen.has(hit.city)) continue;
+                if (parsed.city && streetKey(hit.city) !== parsed.city) continue;
+                if (parsed.postcode && formatPostcode(hit.postcode) !== parsed.postcode) continue;
+                seen.set(hit.city, {
+                  name: `${'$'}{row.name}, ${'$'}{hit.city}`,
+                  city: hit.city,
+                  lat: hit.lat,
+                  lon: hit.lon,
+                  distance: anchor ? metersBetween(anchor.lat, anchor.lon, hit.lat, hit.lon) : 0
+                });
+              }
+              hits.push(...seen.values());
+            }
+        """.trimIndent().prependIndent("    ")
     }
 }

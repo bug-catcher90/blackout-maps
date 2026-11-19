@@ -34,9 +34,8 @@ object MapJson {
 
     fun routes(lines: List<RouteChoice>, primary: String?): String {
         val features = JSONArray()
-        lines.forEach { route ->
-            val main = primary == null || route.style == primary
-            features.put(line(route.coordinates, if (main) "#c4552a" else "#e7a04a", if (main) 5.0 else 3.5))
+        lines.sortedBy { routeRank(it.style) + if (primary != null && it.style == primary) 10 else 0 }.forEach { route ->
+            features.put(line(route.coordinates, routeColor(route.style), 5.0))
         }
         return collection(features)
     }
@@ -111,6 +110,24 @@ object MapJson {
     }
 
     private fun collection(features: JSONArray) = JSONObject().put("type", "FeatureCollection").put("features", features).toString()
+
+    private fun routeRank(style: String) = when (style) {
+        "walk" -> 0
+        "walk-alt" -> 1
+        "bicycle" -> 2
+        "bicycle-alt" -> 3
+        "toll" -> 4
+        "local" -> 5
+        else -> 6
+    }
+
+    private fun routeColor(style: String) = when (style) {
+        "walk", "walk-alt" -> "#4A4A4A"
+        "bicycle", "bicycle-alt" -> "#E84294"
+        "toll" -> "#EBB308"
+        "local" -> "#DB2626"
+        else -> "#1A73E8"
+    }
 
     private fun color(kind: String) = when (kind) {
         "0" -> "#2f6f6a"
