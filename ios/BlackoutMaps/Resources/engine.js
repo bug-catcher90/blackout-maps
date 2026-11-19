@@ -2483,6 +2483,44 @@
     if (!hit || !best) return null;
     return best;
   }
+  var PIN_ZOOM = 6.2;
+  var SERVICE_WORDS = [
+    ["hospital", "urgencia", "inem", "centro hospitalar"],
+    ["comando", "esquadra", "psp"],
+    ["bombeiro"],
+    ["galp", "repsol", "bp", "prio", "cepsa", "shell"],
+    ["continente", "pingo doce", "lidl", "auchan", "intermarche", "aldi"],
+    ["restaurante"]
+  ];
+  function pinBudget(zoom) {
+    if (zoom < PIN_ZOOM - 0.05) return { limit: 0, spacing: Infinity };
+    if (zoom >= 16) return { limit: 1e9, spacing: 0 };
+    const steps = zoom - PIN_ZOOM;
+    return {
+      limit: Math.max(2, Math.round(2 * Math.pow(1.55, steps))),
+      spacing: 140000 * Math.pow(0.5, steps / 1.15)
+    };
+  }
+  function serviceScore(category, name) {
+    const text = fold(name || "");
+    const words = SERVICE_WORDS[category] || [];
+    let score = 1;
+    for (const word of words) if (text.includes(word)) score += 10;
+    return score;
+  }
+  function pickSpread(points, zoom, scoreOf) {
+    const budget = pinBudget(zoom);
+    if (budget.limit <= 0 || !points.length) return [];
+    const ranked = points.map((point) => ({ point, score: scoreOf(point) }));
+    ranked.sort((a, b) => b.score - a.score || a.point.lat - b.point.lat || a.point.lon - b.point.lon);
+    const chosen = [];
+    for (const row of ranked) {
+      if (chosen.length >= budget.limit) break;
+      if (budget.spacing > 0 && chosen.some((kept) => metersBetween2(kept.lat, kept.lon, row.point.lat, row.point.lon) < budget.spacing)) continue;
+      chosen.push(row.point);
+    }
+    return chosen;
+  }
   function waterInView(book, west, south, east, north, zoom = 14) {
     const counts = [0, 0, 0, 0, 0];
     let token = book.token + 1 >>> 0;
@@ -2526,7 +2564,7 @@
       if (book.kind[hit.id] !== 0) continue;
       points.push({ id: hit.id, lat: hit.lat, lon: hit.lon, dist: hit.dist });
     }
-    const drawnPoints = zoom >= 13 ? points.slice().sort((a, b) => a.dist - b.dist).slice(0, 80) : [];
+    const drawnPoints = pickSpread(points, zoom, (row) => book.type[row.id] <= 1 ? 20 : 1);
     const features = [];
     for (const row of drawnPoints) {
       const name = featureName(book, row.id);
@@ -2793,7 +2831,13 @@
       });
     },
     viewport(west, south, east, north, zoom) {
-      const pois = state.places ? placesInView(state.places, west, south, east, north, -1, zoom >= 13 ? 40 : 0) : { counts: [0, 0, 0, 0, 0, 0], items: [] };
+      const pois = state.places ? placesInView(state.places, west, south, east, north, -1, 1e9) : { counts: [0, 0, 0, 0, 0, 0], items: [] };
+      const shown = [];
+      for (let kind = 0; kind < CATEGORIES.length; kind += 1) {
+        const group = pois.items.filter((place) => place.category === kind);
+        for (const place of pickSpread(group, zoom, (place) => serviceScore(kind, place.name))) shown.push(place);
+      }
+      pois.items = shown;
       const water = state.water ? waterInView(state.water, west, south, east, north, zoom) : { total: 0, list: [], collection: { features: [] } };
       const buildings = state.buildings && zoom >= 15 ? buildingsInView(state.buildings, west, south, east, north) : { features: [] };
       return JSON.stringify({
