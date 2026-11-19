@@ -197,6 +197,7 @@ private fun addOverlays(style: Style, density: Float) {
         LineLayer("route-line", "routes").withProperties(
             PropertyFactory.lineColor(Expression.toColor(Expression.get("color"))),
             PropertyFactory.lineWidth(5f),
+            PropertyFactory.lineOpacity(0.92f),
             PropertyFactory.lineCap("round"),
             PropertyFactory.lineJoin("round")
         )
