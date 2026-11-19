@@ -8,7 +8,7 @@
 		<true/>
 	</dict>
 	<key>NSMotionUsageDescription</key>
-	<string>O mapa usa o movimento do telemóvel.</string>
+	<string>The map uses the phone’s motion.</string>
 	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>
 	<key>UILaunchScreen</key>

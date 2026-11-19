@@ -68,12 +68,12 @@ enum Catalog {
 
 final class Downloader: NSObject, URLSessionDownloadDelegate {
     private let lock = NSLock()
-    private var onStatus: (String, String) -> Void = { _, _ in }
+    private var onStatus: (String, String, String?) -> Void = { _, _, _ in }
     private var session: URLSession!
     private var waits: [Int: CheckedContinuation<URL, Error>] = [:]
     private var destinations: [Int: URL] = [:]
 
-    func start(onStatus: @escaping (String, String) -> Void) {
+    func start(onStatus: @escaping (String, String, String?) -> Void) {
         self.onStatus = onStatus
         let configuration = URLSessionConfiguration.default
         configuration.requestCachePolicy = .reloadIgnoringLocalCacheData
@@ -90,16 +90,16 @@ final class Downloader: NSObject, URLSessionDownloadDelegate {
             let remote = (try? await head(pack.url)) ?? 0
             if remote == 0 || remote == mark?["gzipSize"] as? Int { return dest }
         }
-        onStatus(pack.key, "A guardar \(pack.label)")
+        onStatus(pack.key, pack.label, nil)
         let partial = Store.file(package, pack.file + ".part")
         let downloaded = try await download(pack.url, to: partial) { [weak self] written, expected in
-            let text: String
+            let amount: String
             if pack.key == "map", expected > 0 {
-                text = "A guardar mapa \(min(100, Int((Double(written) / Double(expected) * 100).rounded())))%"
+                amount = "\(min(100, Int((Double(written) / Double(expected) * 100).rounded())))%"
             } else {
-                text = "A guardar \(pack.label) \(written / 1_000_000) MB"
+                amount = "\(written / 1_000_000) MB"
             }
-            self?.onStatus(pack.key, text)
+            self?.onStatus(pack.key, pack.label, amount)
         }
         let gzipSize = (try? FileManager.default.attributesOfItem(atPath: downloaded.path)[.size] as? NSNumber)?.intValue ?? 0
         if pack.gzip {

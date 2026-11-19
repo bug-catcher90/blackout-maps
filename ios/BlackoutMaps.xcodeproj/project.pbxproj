@@ -27,9 +27,9 @@
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Resources/engine.js,
-				Resources/polyfill.js,
 				"Resources/glyphs/Noto Sans Regular/0-255.pbf",
 				"Resources/glyphs/Noto Sans Regular/256-511.pbf",
+				Resources/polyfill.js,
 			);
 			target = AA0000000000000000000007 /* Blackout Maps */;
 		};
@@ -138,7 +138,7 @@
 				};
 			};
 			buildConfigurationList = AA000000000000000000000D /* Build configuration list for PBXProject "BlackoutMaps" */;
-			developmentRegion = pt;
+			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,

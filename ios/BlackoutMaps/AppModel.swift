@@ -29,7 +29,7 @@ final class AppModel {
 
     var navigating = false
     var navDistance = ""
-    var navSentence = "Siga em frente"
+    var navSentence = ""
     var navTurn = "straight"
     var navTime = ""
     var navMeta = ""
@@ -56,6 +56,8 @@ final class AppModel {
     var downloading = false
     var sensorsOn = true
     var step = 0.7
+    var language = L10n.code()
+    var openingCoord: Coord?
 
     let map = MapController()
     private let engine = Engine()
@@ -77,16 +79,13 @@ final class AppModel {
     private var lastCamera = 0.0
     private var lastNav = 0.0
     private var attached = false
+    private var statusParts: [String: (label: String, amount: String?, failed: Bool)] = [:]
     private let order = ["map", "roads", "addresses", "places", "water", "buildings"]
-    let categories: [(id: String, label: String)] = [
-        ("0", "Saúde"),
-        ("1", "Polícia"),
-        ("2", "Bombeiros"),
-        ("3", "Gasolina"),
-        ("4", "Supermercados"),
-        ("5", "Restaurantes"),
-        ("water", "Água"),
-    ]
+    private let categoryIDs = ["0", "1", "2", "3", "4", "5", "water"]
+    private let categoryKeys = ["health", "police", "fire", "fuel", "supermarkets", "restaurants", "water"]
+    var categories: [(id: String, label: String)] {
+        zip(categoryIDs, categoryKeys).map { ($0.0, t($0.1)) }
+    }
 
     func launch() {
         guard !attached else { return }
@@ -103,10 +102,9 @@ final class AppModel {
         estimator.setStep(step)
         if sensorsOn { estimator.start() }
         glyphs.start()
-        downloads.start { [weak self] key, text in
+        downloads.start { [weak self] key, label, amount in
             Task { @MainActor in
-                self?.note(key, text)
-                if self?.downloading == true, !text.isEmpty { self?.packageNote = text }
+                self?.noteSave(key, label: label, amount: amount, failed: false)
             }
         }
         Task { await boot() }
@@ -391,9 +389,31 @@ final class AppModel {
         chooseDestination(place)
     }
 
+    func t(_ key: String, _ args: String...) -> String {
+        _ = language
+        return L10n.text(language, key, args)
+    }
+
+    func known(_ value: String) -> String {
+        _ = language
+        return L10n.known(value, language)
+    }
+
+    func categoryLabel(_ id: String) -> String {
+        categories.first { $0.id == id }?.label ?? ""
+    }
+
+    func setLanguage(_ code: String) {
+        guard L10n.order.contains(code) else { return }
+        language = code
+        UserDefaults.standard.set(code, forKey: "blackout-language")
+        if let categoryId { categoryTitle = categoryLabel(categoryId) }
+        relocalize()
+    }
+
     func openCategory(_ id: String) {
         categoryId = id
-        categoryTitle = categories.first { $0.id == id }?.label ?? ""
+        categoryTitle = categoryLabel(id)
         categoryPlaces = []
         let box = map.bounds()
         Task { [weak self] in
@@ -408,7 +428,7 @@ final class AppModel {
         UserDefaults.standard.set(on, forKey: "mapa-sensors")
         if on {
             if !CMMotionManager().isDeviceMotionAvailable {
-                note("sensors", "Sensores indisponíveis")
+                note("sensors", t("sensors-unavailable"))
                 return
             }
             estimator.start()
@@ -437,7 +457,7 @@ final class AppModel {
 
     private func boot() async {
         do { try engine.start() } catch {
-            note("map", "Não foi possível guardar o mapa")
+            noteSave("map", label: "mapa", amount: nil, failed: true)
             return
         }
         do {
@@ -447,7 +467,7 @@ final class AppModel {
             try await openPack(RemotePack(key: "roads", url: base.roads, file: "roads.bin", gzip: false, bytes: nil, label: "estradas"), base.roads)
             try await openPack(RemotePack(key: "buildings", url: base.buildings, file: "buildings.bin", gzip: false, bytes: nil, label: "edifícios"), base.buildings)
         } catch {
-            note("map", "Não foi possível guardar o mapa")
+            noteSave("map", label: "mapa", amount: nil, failed: true)
             return
         }
         let saved = activePackageId.flatMap { id in packages.first { $0.id == id } }
@@ -492,9 +512,7 @@ final class AppModel {
             if let open { await open(url) }
             try await openPack(pack, url)
         } catch {
-            let text = "Não foi possível guardar \(pack.label)"
-            note(pack.key, text)
-            packageNote = text
+            noteSave(pack.key, label: pack.label, amount: nil, failed: true)
         }
     }
 
@@ -531,7 +549,7 @@ final class AppModel {
         if query.trimmingCharacters(in: .whitespacesAndNewlines) == text {
             results = found.items
             showResults = !text.isEmpty
-            if found.waiting, found.items.isEmpty { note("addresses", "A guardar moradas") }
+            if found.waiting, found.items.isEmpty { note("addresses", t("saving-addresses")) }
         }
     }
 
@@ -643,11 +661,10 @@ final class AppModel {
         let remaining = (info["remaining"] as? NSNumber)?.doubleValue ?? 0
         let seconds = (info["seconds"] as? NSNumber)?.doubleValue
         let turn = info["turn"] as? String ?? "straight"
-        let text = info["text"] as? String ?? "Siga em frente"
         let street = info["street"] as? String ?? ""
         navTurn = turn
         navDistance = Format.maneuverDistance(meters)
-        navSentence = Format.sentence(turn: turn, text: text, meters: meters, street: street)
+        navSentence = Format.sentence(turn: turn, meters: meters, street: street)
         navTime = Format.duration(meters: remaining, mode: mode, seconds: seconds)
         navMeta = "\(Format.distanceKm(remaining)) · \(Format.arrival(meters: remaining, mode: mode, seconds: seconds))"
     }
@@ -789,6 +806,33 @@ final class AppModel {
         }
     }
 
+    private func noteSave(_ key: String, label: String, amount: String?, failed: Bool) {
+        statusParts[key] = (label, amount, failed)
+        let text = failed ? t("save-failed", L10n.label(label, language)) : saveText(label, amount)
+        note(key, text)
+        if downloading || failed { packageNote = text }
+    }
+
+    private func saveText(_ label: String, _ amount: String?) -> String {
+        let name = L10n.label(label, language)
+        if let amount { return t("saving", "\(name) \(amount)") }
+        return t("saving", name)
+    }
+
+    private func relocalize() {
+        if let categoryId { categoryTitle = categoryLabel(categoryId) }
+        for (key, part) in statusParts {
+            let text = part.failed ? t("save-failed", L10n.label(part.label, language)) : saveText(part.label, part.amount)
+            note(key, text)
+            if downloading || part.failed { packageNote = text }
+        }
+        if lines["addresses"] != nil { note("addresses", t("saving-addresses")) }
+        if lines["sensors"] != nil { note("sensors", t("sensors-unavailable")) }
+        fillTrip(current)
+        if navigating { refreshNav() }
+        if destination != nil { recompute(fit: false) }
+    }
+
     private func note(_ key: String, _ text: String) {
         if text.isEmpty { lines[key] = nil } else { lines[key] = text }
         publishStatus()
@@ -817,6 +861,7 @@ final class AppModel {
         }
         if let saved = UserDefaults.standard.dictionary(forKey: "mapa-pose"),
            let lat = saved["lat"] as? Double, let lon = saved["lon"] as? Double {
+            openingCoord = Coord(lat: lat, lon: lon)
             estimator.hydrate(
                 lat: lat,
                 lon: lon,

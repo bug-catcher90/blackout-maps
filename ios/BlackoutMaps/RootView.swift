@@ -53,6 +53,7 @@ struct RootView: View {
             }
         }
         .background(Paper.bg)
+        .environment(\.layoutDirection, L10n.direction(model.language))
         .onAppear { model.launch() }
     }
 }
@@ -62,7 +63,7 @@ private struct MapCanvas: UIViewRepresentable {
 
     func makeUIView(context: Context) -> MLNMapView {
         model.launch()
-        return model.map.makeView()
+        return model.map.makeView(opening: model.openingCoord)
     }
 
     func updateUIView(_ uiView: MLNMapView, context: Context) {}
@@ -135,7 +136,7 @@ private struct TopChrome: View {
                 Image(systemName: "magnifyingglass")
                     .font(.system(size: 18, weight: .regular))
                     .foregroundStyle(Paper.ink)
-                TextField("Pesquisar", text: Bindable(model).query)
+                TextField(model.t("search"), text: Bindable(model).query)
                     .font(Paper.font(16))
                     .textInputAutocapitalization(.never)
                     .autocorrectionDisabled()
@@ -149,7 +150,7 @@ private struct TopChrome: View {
                     .font(Paper.font(22))
                     .foregroundStyle(Paper.muted)
                     .frame(width: 32, height: 32)
-                    .accessibilityLabel("Limpar")
+                    .accessibilityLabel(model.t("clear"))
                 }
             }
             .padding(.horizontal, 12)
@@ -197,14 +198,14 @@ private struct ResultList: View {
                                     .foregroundStyle(Paper.muted)
                                     .monospacedDigit()
                             }
-                            Text(lines.title)
+                            Text(L10n.known(lines.title, L10n.code()))
                                 .font(Paper.font(15))
                                 .foregroundStyle(Paper.ink)
                                 .multilineTextAlignment(.leading)
                             Spacer(minLength: 0)
                         }
                         if !lines.detail.isEmpty {
-                            Text(lines.detail)
+                            Text(L10n.known(lines.detail, L10n.code()))
                                 .font(Paper.font(13))
                                 .foregroundStyle(Paper.muted)
                                 .multilineTextAlignment(.leading)
@@ -335,7 +336,7 @@ private struct CompassButton: View {
             .shadow(color: .black.opacity(0.16), radius: 1, y: 1)
         }
         .buttonStyle(.plain)
-        .accessibilityLabel("Posição")
+        .accessibilityLabel(L10n.text(L10n.code(), "position"))
     }
 }
 
@@ -394,7 +395,7 @@ private struct RecenterButton: View {
     var model: AppModel
 
     var body: some View {
-        Button("Recentrar") { model.recenter() }
+        Button(model.t("recenter")) { model.recenter() }
             .font(Paper.font(14, .semibold))
             .foregroundStyle(Paper.accent)
             .frame(height: 36)
@@ -450,12 +451,12 @@ private struct TripSheet: View {
                     .font(Paper.font(22))
                     .foregroundStyle(Paper.muted)
                     .frame(width: 32, height: 32)
-                    .accessibilityLabel("Fechar")
+                    .accessibilityLabel(model.t("close"))
             }
             HStack(spacing: 6) {
-                modeButton("walk", "A pé")
-                modeButton("car", "De carro")
-                modeButton("bicycle", "De bicicleta")
+                modeButton("walk", model.t("on-foot"))
+                modeButton("car", model.t("by-car"))
+                modeButton("bicycle", model.t("by-bicycle"))
             }
             if let destination = model.destination, destination.service {
                 Text(destination.name)
@@ -482,7 +483,7 @@ private struct TripSheet: View {
                     } label: {
                         HStack(spacing: 8) {
                             RoundedRectangle(cornerRadius: 4).fill(swatch(route.style)).frame(width: 14, height: 14)
-                            Text(route.label)
+                            Text(model.known(route.label))
                                 .font(Paper.font(15, .semibold))
                                 .foregroundStyle(Paper.ink)
                             Spacer()
@@ -499,7 +500,7 @@ private struct TripSheet: View {
                 }
             }
             HStack(spacing: 8) {
-                Button("Iniciar") { model.startNav() }
+                Button(model.t("start")) { model.startNav() }
                     .font(Paper.font(16, .semibold))
                     .foregroundStyle(Color.white)
                     .frame(maxWidth: .infinity, minHeight: 44)
@@ -507,7 +508,7 @@ private struct TripSheet: View {
                     .clipShape(Capsule())
                     .opacity(model.startEnabled ? 1 : 0.38)
                     .disabled(!model.startEnabled)
-                Button("Direções") { model.directions() }
+                Button(model.t("directions")) { model.directions() }
                     .font(Paper.font(16, .semibold))
                     .foregroundStyle(Color(red: 0.10, green: 0.34, blue: 0.77))
                     .frame(maxWidth: .infinity, minHeight: 44)
@@ -546,7 +547,7 @@ private struct TripSheet: View {
     }
 
     private func modeTitle(_ mode: String) -> String {
-        mode == "car" ? "De carro" : mode == "bicycle" ? "De bicicleta" : "A pé"
+        mode == "car" ? model.t("by-car") : mode == "bicycle" ? model.t("by-bicycle") : model.t("on-foot")
     }
 
     private func swatch(_ style: String) -> Color {
@@ -574,7 +575,7 @@ private struct NavCard: View {
                         .foregroundStyle(Paper.ink)
                         .frame(width: 44, height: 44)
                 }
-                .accessibilityLabel("Ver percurso")
+                .accessibilityLabel(model.t("see-route"))
                 VStack(spacing: 0) {
                     Text(model.navTime)
                         .font(Paper.font(28, .semibold))
@@ -584,7 +585,7 @@ private struct NavCard: View {
                         .foregroundStyle(Paper.muted)
                 }
                 .frame(maxWidth: .infinity)
-                Button("Sair") { model.leaveNav() }
+                Button(model.t("exit")) { model.leaveNav() }
                     .font(Paper.font(16, .semibold))
                     .foregroundStyle(Color.white)
                     .padding(.horizontal, 16)
@@ -592,7 +593,7 @@ private struct NavCard: View {
                     .background(Color(red: 0.85, green: 0.19, blue: 0.15))
                     .clipShape(Capsule())
             }
-            Button("Corrigir posição") { model.startCorrect() }
+            Button(model.t("correct")) { model.startCorrect() }
                 .font(Paper.font(15, .semibold))
                 .foregroundStyle(Paper.ink)
                 .frame(maxWidth: .infinity, minHeight: 40)
@@ -614,12 +615,12 @@ private struct CorrectBar: View {
 
     var body: some View {
         HStack(spacing: 8) {
-            Button("Cancelar") { model.finishCorrect(save: false) }
+            Button(model.t("cancel")) { model.finishCorrect(save: false) }
                 .foregroundStyle(Paper.ink)
                 .frame(maxWidth: .infinity, minHeight: 44)
                 .background(Paper.fill)
                 .clipShape(Capsule())
-            Button("Confirmar") { model.finishCorrect(save: true) }
+            Button(model.t("confirm")) { model.finishCorrect(save: true) }
                 .foregroundStyle(Color.white)
                 .frame(maxWidth: .infinity, minHeight: 44)
                 .background(Paper.accent)
@@ -643,7 +644,7 @@ private struct FixBar: View {
                     .foregroundStyle(Paper.ink)
             }
             if !model.fixAddress.isEmpty {
-                Text(model.fixAddress)
+                Text(model.known(model.fixAddress))
                     .font(Paper.font(13))
                     .foregroundStyle(Paper.muted)
             }
@@ -651,12 +652,12 @@ private struct FixBar: View {
                 .font(Paper.font(13))
                 .foregroundStyle(Paper.muted)
             HStack(spacing: 8) {
-                Button("Cancelar") { model.cancelFix() }
+                Button(model.t("cancel")) { model.cancelFix() }
                     .foregroundStyle(Paper.ink)
                     .frame(maxWidth: .infinity, minHeight: 44)
                     .background(Paper.fill)
                     .clipShape(Capsule())
-                Button("Confirmar") { model.confirmFix() }
+                Button(model.t("confirm")) { model.confirmFix() }
                     .foregroundStyle(Color.white)
                     .frame(maxWidth: .infinity, minHeight: 44)
                     .background(Paper.accent)
@@ -685,7 +686,7 @@ private struct SaveCard: View {
                     .foregroundStyle(Paper.ink)
             }
             if !model.saveService {
-                TextField("Nome", text: Bindable(model).pinName)
+                TextField(model.t("name"), text: Bindable(model).pinName)
                     .font(Paper.font(16))
                     .textInputAutocapitalization(.never)
                     .autocorrectionDisabled()
@@ -697,7 +698,7 @@ private struct SaveCard: View {
                     .onChange(of: model.pinName) { _, _ in model.pinNameChanged() }
             }
             if !model.saveAddress.isEmpty {
-                Text(model.saveAddress)
+                Text(model.known(model.saveAddress))
                     .font(Paper.font(13))
                     .foregroundStyle(Paper.muted)
             }
@@ -706,7 +707,7 @@ private struct SaveCard: View {
                     .font(Paper.font(13))
                     .foregroundStyle(Paper.muted)
             }
-            Button("Guardar") { model.savePin() }
+            Button(model.t("save")) { model.savePin() }
                 .font(Paper.font(15))
                 .foregroundStyle(Color.white)
                 .frame(maxWidth: .infinity, minHeight: 44)
@@ -738,7 +739,7 @@ private struct CategorySheet: View {
                     .font(Paper.font(22))
                     .foregroundStyle(Paper.muted)
                     .frame(width: 32, height: 32)
-                    .accessibilityLabel("Fechar")
+                    .accessibilityLabel(model.t("close"))
             }
             ScrollView {
                 ResultList(places: model.categoryPlaces, origin: nil) {
@@ -764,7 +765,7 @@ private struct PinsPanel: View {
     var body: some View {
         VStack(spacing: 0) {
             if model.pins.isEmpty {
-                Text("Sem pins")
+                Text(model.t("no-pins"))
                     .font(Paper.font(14))
                     .foregroundStyle(Paper.muted)
                     .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
@@ -778,9 +779,9 @@ private struct PinsPanel: View {
                                     model.openPin(place)
                                 } label: {
                                     VStack(alignment: .leading, spacing: 2) {
-                                        Text(place.name).font(Paper.font(15)).foregroundStyle(Paper.ink)
+                                        Text(model.known(place.name)).font(Paper.font(15)).foregroundStyle(Paper.ink)
                                         if !place.address.isEmpty {
-                                            Text(place.address).font(Paper.font(13)).foregroundStyle(Paper.muted)
+                                            Text(model.known(place.address)).font(Paper.font(13)).foregroundStyle(Paper.muted)
                                         }
                                         Text(Format.coord(place.lat, place.lon))
                                             .font(Paper.font(13))
@@ -789,7 +790,7 @@ private struct PinsPanel: View {
                                     .frame(maxWidth: .infinity, alignment: .leading)
                                 }
                                 .buttonStyle(.plain)
-                                Button("Remover") { model.removePin(place) }
+                                Button(model.t("remove")) { model.removePin(place) }
                                     .font(Paper.font(13))
                                     .foregroundStyle(Paper.muted)
                                     .frame(height: 36)
@@ -803,7 +804,7 @@ private struct PinsPanel: View {
                     }
                 }
             }
-            Button("Adicionar") { model.startAdd() }
+            Button(model.t("add")) { model.startAdd() }
                 .font(Paper.font(15))
                 .foregroundStyle(Color.white)
                 .frame(maxWidth: .infinity, minHeight: 44)
@@ -822,15 +823,16 @@ private struct PinsPanel: View {
 private struct SettingsPanel: View {
     var model: AppModel
     @State private var legal: LegalPage?
+    @State private var languages = false
 
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 8) {
-                Text("Mapas")
+                Text(model.t("maps"))
                     .font(Paper.font(12))
                     .foregroundStyle(Paper.muted)
                 if model.packages.isEmpty {
-                    Text("Sem mapas")
+                    Text(model.t("no-maps"))
                         .font(Paper.font(15))
                         .foregroundStyle(Paper.ink)
                         .frame(maxWidth: .infinity, minHeight: 48, alignment: .leading)
@@ -853,11 +855,11 @@ private struct SettingsPanel: View {
                         }
                         Spacer(minLength: 8)
                         if model.activePackageId == package.id, !model.downloading {
-                            Text("A usar")
+                            Text(model.t("in-use"))
                                 .font(Paper.font(15, .semibold))
                                 .foregroundStyle(Paper.accent)
                         } else {
-                            Button(model.downloading ? "A guardar" : "Descarregar") {
+                            Button(model.downloading ? model.t("saving-now") : model.t("download")) {
                                 model.usePackage(package)
                             }
                             .font(Paper.font(15, .semibold))
@@ -871,15 +873,27 @@ private struct SettingsPanel: View {
                     }
                     .frame(minHeight: 48)
                 }
-                legalRow("Política de privacidade", .privacy)
-                legalRow("Termos de utilização", .terms)
+                legalRow(model.t("privacy"), .privacy)
+                legalRow(model.t("terms"), .terms)
+                Button {
+                    languages = true
+                } label: {
+                    HStack {
+                        Text(model.t("language")).font(Paper.font(15)).foregroundStyle(Paper.ink)
+                        Spacer()
+                        Text(L10n.nativeName(model.language)).font(Paper.font(15)).foregroundStyle(Paper.muted)
+                        Text("›").font(Paper.font(22)).foregroundStyle(Paper.muted)
+                    }
+                    .frame(maxWidth: .infinity, minHeight: 48)
+                }
+                .buttonStyle(.plain)
                 Toggle(isOn: Binding(get: { model.sensorsOn }, set: { model.setSensors($0) })) {
-                    Text("Sensores").font(Paper.font(15)).foregroundStyle(Paper.ink)
+                    Text(model.t("sensors")).font(Paper.font(15)).foregroundStyle(Paper.ink)
                 }
                 .tint(Paper.accent)
                 .frame(minHeight: 48)
                 HStack {
-                    Text("Passo base").font(Paper.font(12)).foregroundStyle(Paper.muted)
+                    Text(model.t("base-step")).font(Paper.font(12)).foregroundStyle(Paper.muted)
                     Slider(value: Binding(get: { model.step }, set: { model.setStep($0) }), in: 0.4...1.2, step: 0.05)
                         .tint(Paper.accent)
                     Text(Format.step(model.step)).font(Paper.font(14)).foregroundStyle(Paper.ink)
@@ -893,7 +907,10 @@ private struct SettingsPanel: View {
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
         .background(Paper.bg)
         .sheet(item: $legal) { page in
-            LegalSheet(page: page)
+            LegalSheet(page: page, language: model.language)
+        }
+        .sheet(isPresented: $languages) {
+            LanguageSheet(model: model)
         }
     }
 
@@ -916,30 +933,29 @@ private enum LegalPage: String, Identifiable {
     case privacy
     case terms
     var id: String { rawValue }
-    var title: String {
+    func title(_ language: String) -> String {
         switch self {
-        case .privacy: "Política de privacidade"
-        case .terms: "Termos de utilização"
+        case .privacy: L10n.text(language, "privacy")
+        case .terms: L10n.text(language, "terms")
         }
     }
-    var body: String {
+    func body(_ language: String) -> String {
         switch self {
-        case .privacy:
-            "O Blackout Maps não tem conta, não tem pagamento e não recolhe dados. Não usa GPS. Os sensores ficam no telemóvel."
-        case .terms:
-            "Usa o Blackout Maps sem conta e sem pagamento. Não recolhemos dados e não usamos GPS. Os sensores ficam no telemóvel."
+        case .privacy: L10n.text(language, "privacy-body")
+        case .terms: L10n.text(language, "terms-body")
         }
     }
 }
 
 private struct LegalSheet: View {
     var page: LegalPage
+    var language: String
     @Environment(\.dismiss) private var dismiss
 
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
             HStack {
-                Text(page.title)
+                Text(page.title(language))
                     .font(Paper.font(20, .semibold))
                     .foregroundStyle(Paper.ink)
                 Spacer()
@@ -947,9 +963,9 @@ private struct LegalSheet: View {
                     .font(Paper.font(22))
                     .foregroundStyle(Paper.muted)
                     .frame(width: 32, height: 32)
-                    .accessibilityLabel("Fechar")
+                    .accessibilityLabel(L10n.text(language, "close"))
             }
-            Text(page.body)
+            Text(page.body(language))
                 .font(Paper.font(16))
                 .foregroundStyle(Paper.ink)
             Spacer()
@@ -960,14 +976,63 @@ private struct LegalSheet: View {
     }
 }
 
+private struct LanguageSheet: View {
+    var model: AppModel
+    @Environment(\.dismiss) private var dismiss
+
+    var body: some View {
+        ScrollView {
+            VStack(spacing: 0) {
+                HStack {
+                    Text(model.t("language"))
+                        .font(Paper.font(20, .semibold))
+                        .foregroundStyle(Paper.ink)
+                    Spacer()
+                    Button("×") { dismiss() }
+                        .font(Paper.font(22))
+                        .foregroundStyle(Paper.muted)
+                        .frame(width: 32, height: 32)
+                        .accessibilityLabel(model.t("close"))
+                }
+                .padding(.horizontal, 20)
+                .padding(.top, 20)
+                .padding(.bottom, 8)
+                ForEach(L10n.order, id: \.self) { code in
+                    Button {
+                        model.setLanguage(code)
+                        dismiss()
+                    } label: {
+                        HStack {
+                            Text(L10n.nativeName(code))
+                                .font(Paper.font(16))
+                                .foregroundStyle(Paper.ink)
+                            Spacer()
+                            if model.language == code {
+                                Text("✓").font(Paper.font(16, .semibold)).foregroundStyle(Paper.accent)
+                            }
+                        }
+                        .frame(maxWidth: .infinity, minHeight: 48)
+                        .padding(.horizontal, 20)
+                    }
+                    .buttonStyle(.plain)
+                    Rectangle().fill(Paper.line).frame(height: 1).padding(.leading, 20)
+                }
+            }
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
+        .background(Paper.bg)
+        .environment(\.layoutDirection, L10n.direction(model.language))
+    }
+}
+
 private struct TabBar: View {
     var model: AppModel
 
     var body: some View {
         HStack(spacing: 0) {
-            tab("explorar", "Explorar", "map")
-            tab("pins", "Pins", "mappin")
-            tab("definicoes", "Definições", "gearshape")
+            tab("explorar", model.t("explore"), "map")
+            tab("pins", model.t("pins"), "mappin")
+            tab("definicoes", model.t("settings"), "gearshape")
         }
         .padding(.top, 6)
         .padding(.bottom, 8)
@@ -1026,6 +1091,7 @@ private enum Paper {
     })
 
     static func font(_ size: CGFloat, _ weight: Font.Weight = .regular) -> Font {
-        Font.custom("Helvetica Neue", size: size).weight(weight)
+        if L10n.systemFont(L10n.code()) { return .system(size: size, weight: weight) }
+        return Font.custom("Helvetica Neue", size: size).weight(weight)
     }
 }
