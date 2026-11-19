@@ -106,7 +106,7 @@ fun MapPane(model: AppModel, modifier: Modifier = Modifier) {
             ready.addOnMapClickListener { latLng ->
                 if (model.navigating || model.fixing || model.adding || model.correcting) return@addOnMapClickListener false
                 val point = ready.projection.toScreenLocation(latLng)
-                val hits = ready.queryRenderedFeatures(point, "marker-dots", "marker-label")
+                val hits = ready.queryRenderedFeatures(point, "marker-symbols")
                 val feature = hits.firstOrNull() ?: return@addOnMapClickListener false
                 val name = feature.getStringProperty("name") ?: return@addOnMapClickListener false
                 val geometry = feature.geometry() as? Point ?: return@addOnMapClickListener false
@@ -123,7 +123,7 @@ fun MapPane(model: AppModel, modifier: Modifier = Modifier) {
         val port = model.serverPort
         if (port == 0) return@LaunchedEffect
         ready.setStyle(Style.Builder().fromJson(MapStyle.json(port, model.maxZoom))) { loaded ->
-            addOverlays(loaded)
+            addOverlays(loaded, context.resources.displayMetrics.density)
             ready.cameraPosition = CameraPosition.Builder()
                 .target(LatLng(model.openingLat, model.openingLon))
                 .zoom(model.openingZoom)
@@ -171,17 +171,20 @@ fun MapPane(model: AppModel, modifier: Modifier = Modifier) {
     }
 }
 
-private fun addOverlays(style: Style) {
+private fun addOverlays(style: Style, density: Float) {
     listOf("buildings", "routes", "user", "markers", "dest").forEach { id ->
         style.addSource(GeoJsonSource(id, MapJson.EMPTY))
     }
-    style.addLayer(
-        FillLayer("building-fill", "buildings").withProperties(
-            PropertyFactory.fillColor(Color.parseColor("#e4dccb")),
-            PropertyFactory.fillOpacity(0.92f),
-            PropertyFactory.fillOutlineColor(Color.parseColor("#d5cec2"))
-        )
+    for (index in 0..5) style.addImage("poi-$index", CategoryBitmaps.poi(density, index))
+    style.addImage("water-drop", CategoryBitmaps.water(density))
+    val buildings = LineLayer("building-outline", "buildings").withProperties(
+        PropertyFactory.lineColor(Color.parseColor("#8C8578")),
+        PropertyFactory.lineWidth(1.25f),
+        PropertyFactory.lineCap("round"),
+        PropertyFactory.lineJoin("round")
     )
+    buildings.minZoom = 15f
+    style.addLayer(buildings)
     style.addLayer(
         LineLayer("route-casing", "routes").withProperties(
             PropertyFactory.lineColor(Color.parseColor("#f6f3ec")),
@@ -211,26 +214,23 @@ private fun addOverlays(style: Style) {
     ring.setFilter(Expression.eq(Expression.get("role"), Expression.literal("ring")))
     style.addLayer(ring)
     style.addLayer(
-        CircleLayer("marker-dots", "markers").withProperties(
-            PropertyFactory.circleRadius(5.5f),
-            PropertyFactory.circleColor(Expression.toColor(Expression.get("color"))),
-            PropertyFactory.circleStrokeWidth(1.25f),
-            PropertyFactory.circleStrokeColor(Color.WHITE)
+        SymbolLayer("marker-symbols", "markers").withProperties(
+            PropertyFactory.iconImage(Expression.get("icon")),
+            PropertyFactory.iconSize(0.85f),
+            PropertyFactory.iconAllowOverlap(true),
+            PropertyFactory.iconIgnorePlacement(true),
+            PropertyFactory.iconAnchor("center"),
+            PropertyFactory.textField(Expression.get("name")),
+            PropertyFactory.textSize(12f),
+            PropertyFactory.textFont(arrayOf("Noto Sans Regular")),
+            PropertyFactory.textOffset(arrayOf(0f, 1.15f)),
+            PropertyFactory.textAnchor("top"),
+            PropertyFactory.textOptional(true),
+            PropertyFactory.textColor(Color.parseColor("#1C1916")),
+            PropertyFactory.textHaloColor(Color.parseColor("#FFFCF8")),
+            PropertyFactory.textHaloWidth(1.2f)
         )
     )
-    val labels = SymbolLayer("marker-label", "markers").withProperties(
-        PropertyFactory.textField(Expression.get("name")),
-        PropertyFactory.textSize(12f),
-        PropertyFactory.textFont(arrayOf("Noto Sans Regular")),
-        PropertyFactory.textOffset(arrayOf(0f, 0.9f)),
-        PropertyFactory.textAnchor("top"),
-        PropertyFactory.textColor(Color.parseColor("#1c1916")),
-        PropertyFactory.textHaloColor(Color.parseColor("#f6f3ec")),
-        PropertyFactory.textHaloWidth(1.2f),
-        PropertyFactory.textOptional(true)
-    )
-    labels.minZoom = 13f
-    style.addLayer(labels)
     style.addLayer(
         CircleLayer("dest-dot", "dest").withProperties(
             PropertyFactory.circleRadius(7f),
