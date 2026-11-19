@@ -53,7 +53,7 @@ class Engine(private val assets: AssetManager) {
         val created = V8Host.getV8Instance().createV8Runtime<V8Runtime>()
         created.allowEval(true)
         created.getExecutor(read("polyfill.js")).executeVoid()
-        created.getExecutor(read("engine.js")).executeVoid()
+        created.getExecutor(engineSource(read("engine.js"))).executeVoid()
         runtime = created
         Log.i(TAG, "engine ready")
     }
@@ -206,6 +206,16 @@ class Engine(private val assets: AssetManager) {
     }
 
     private fun read(name: String) = assets.open(name).bufferedReader().use { it.readText() }
+
+    // The shared engine.js keeps /\p{M}/gu for iOS. This Android V8 build has no Unicode property escapes.
+    private fun engineSource(source: String): String {
+        val folded = source.replace("""/\p{M}/gu""", "/[" + "\\u0300" + "-" + "\\u036f" + "]/g")
+        return """
+            if (typeof String.prototype.normalize !== "function") {
+              String.prototype.normalize = function () { return String(this); };
+            }
+        """.trimIndent() + "\n" + folded
+    }
 
     private fun eval(rt: V8Runtime, expression: String): String {
         val script = """

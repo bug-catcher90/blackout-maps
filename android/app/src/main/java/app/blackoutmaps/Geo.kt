@@ -7,6 +7,15 @@ import kotlin.math.sin
 import kotlin.math.sqrt
 
 object Geo {
+    fun meters(aLat: Double, aLon: Double, bLat: Double, bLon: Double): Double {
+        val p1 = Math.toRadians(aLat)
+        val p2 = Math.toRadians(bLat)
+        val dp = p2 - p1
+        val dl = Math.toRadians(bLon - aLon)
+        val h = sin(dp / 2) * sin(dp / 2) + cos(p1) * cos(p2) * sin(dl / 2) * sin(dl / 2)
+        return 2 * 6_371_000 * asin(minOf(1.0, sqrt(h)))
+    }
+
     fun destination(lat: Double, lon: Double, headingDeg: Double, distanceM: Double): Coord {
         val angular = distanceM / 6_378_137.0
         val heading = Math.toRadians(headingDeg)
