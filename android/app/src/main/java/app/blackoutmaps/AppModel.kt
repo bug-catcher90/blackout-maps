@@ -65,6 +65,8 @@ class AppModel(application: Application) : AndroidViewModel(application) {
     var navigating by mutableStateOf(false)
     var follow by mutableStateOf(false)
     var showRecenter by mutableStateOf(false)
+    var navTurn by mutableStateOf("straight")
+    var navDistance by mutableStateOf("")
     var navSentence by mutableStateOf("")
     var navTime by mutableStateOf("")
     var navMeta by mutableStateOf("")
@@ -129,6 +131,14 @@ class AppModel(application: Application) : AndroidViewModel(application) {
     fun nativeName(code: String) = strings.nativeName(code)
 
     fun stepText() = strings.step(language, step)
+
+    fun known(value: String) = strings.known(language, value)
+
+    fun distanceText(meters: Double) = strings.distanceKm(language, meters)
+
+    fun lengthText(meters: Double) = strings.kmOrM(language, meters)
+
+    fun coordText(lat: Double, lon: Double) = strings.coord(language, lat, lon)
 
     fun routeLabel(route: RouteChoice) = strings.known(language, route.label)
 
@@ -388,6 +398,7 @@ class AppModel(application: Application) : AndroidViewModel(application) {
     fun closeTrip() {
         destination = null
         showTrip = false
+        if (sheet == Sheet.Routes) sheet = null
         routes = emptyList()
         current = null
         startEnabled = false
@@ -796,6 +807,8 @@ class AppModel(application: Application) : AndroidViewModel(application) {
             if (!isActive) return@launch
             onMain {
                 if (!navigating) return@onMain
+                navTurn = info.turn.ifEmpty { "straight" }
+                navDistance = strings.maneuverDistance(language, info.meters)
                 navSentence = strings.sentence(language, info.turn, info.meters, info.street)
                 navTime = strings.duration(language, info.remaining, mode, info.seconds)
                 navMeta = "${strings.distanceKm(language, info.remaining)} · ${strings.arrival(language, info.remaining, mode, info.seconds)}"
