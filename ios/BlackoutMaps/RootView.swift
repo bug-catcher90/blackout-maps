@@ -825,83 +825,56 @@ private struct SettingsPanel: View {
     @State private var legal: LegalPage?
     @State private var languages = false
 
+    @State private var importing = false
+
     var body: some View {
         ScrollView {
-            VStack(alignment: .leading, spacing: 8) {
-                Text(model.t("maps"))
-                    .font(Paper.font(12))
-                    .foregroundStyle(Paper.muted)
-                if model.packages.isEmpty {
-                    Text(model.t("no-maps"))
-                        .font(Paper.font(15))
-                        .foregroundStyle(Paper.ink)
-                        .frame(maxWidth: .infinity, minHeight: 48, alignment: .leading)
+            VStack(alignment: .leading, spacing: 0) {
+                section(model.t("maps")) {
+                    if model.packages.isEmpty {
+                        Text(model.t("no-maps"))
+                            .font(Paper.font(15))
+                            .foregroundStyle(Paper.ink)
+                            .frame(maxWidth: .infinity, minHeight: 48, alignment: .leading)
+                    }
+                    ForEach(model.packages) { package in
+                        packageRow(package)
+                    }
+                    linkRow(model.t("import-maps")) { importing = true }
                 }
-                ForEach(model.packages) { package in
-                    HStack(spacing: 12) {
-                        VStack(alignment: .leading, spacing: 2) {
-                            Text(package.name)
-                                .font(Paper.font(15))
-                                .foregroundStyle(Paper.ink)
-                            if model.downloading, !model.packageNote.isEmpty {
-                                Text(model.packageNote)
-                                    .font(Paper.font(13))
-                                    .foregroundStyle(Paper.muted)
-                            } else if !model.downloading, model.activePackageId != package.id, !model.packageNote.isEmpty {
-                                Text(model.packageNote)
-                                    .font(Paper.font(13))
-                                    .foregroundStyle(Paper.muted)
-                            }
+                section(model.t("language")) {
+                    Button {
+                        languages = true
+                    } label: {
+                        HStack(spacing: 12) {
+                            Text(model.t("language")).font(Paper.font(15)).foregroundStyle(Paper.ink)
+                            Spacer()
+                            Text(L10n.nativeName(model.language)).font(Paper.font(15)).foregroundStyle(Paper.muted)
+                            Text("›").font(Paper.font(22)).foregroundStyle(Paper.muted)
                         }
-                        Spacer(minLength: 8)
-                        if model.activePackageId == package.id, !model.downloading {
-                            Text(model.t("in-use"))
-                                .font(Paper.font(15, .semibold))
-                                .foregroundStyle(Paper.accent)
-                        } else {
-                            Button(model.downloading ? model.t("saving-now") : model.t("download")) {
-                                model.usePackage(package)
-                            }
-                            .font(Paper.font(15, .semibold))
-                            .foregroundStyle(Color.white)
-                            .padding(.horizontal, 14)
-                            .frame(minHeight: 36)
-                            .background(Paper.accent)
-                            .clipShape(Capsule())
-                            .disabled(model.downloading)
-                        }
+                        .frame(maxWidth: .infinity, minHeight: 48)
+                    }
+                    .buttonStyle(.plain)
+                }
+                section(model.t("sensors")) {
+                    Toggle(isOn: Binding(get: { model.sensorsOn }, set: { model.setSensors($0) })) {
+                        Text(model.t("sensors")).font(Paper.font(15)).foregroundStyle(Paper.ink)
+                    }
+                    .tint(Paper.accent)
+                    .frame(minHeight: 48)
+                    HStack {
+                        Text(model.t("base-step")).font(Paper.font(15)).foregroundStyle(Paper.ink)
+                        Slider(value: Binding(get: { model.step }, set: { model.setStep($0) }), in: 0.4...1.2, step: 0.05)
+                            .tint(Paper.accent)
+                        Text(Format.step(model.step)).font(Paper.font(14)).foregroundStyle(Paper.ink)
                     }
                     .frame(minHeight: 48)
                 }
-                legalRow(model.t("privacy"), .privacy)
-                legalRow(model.t("terms"), .terms)
-                Button {
-                    languages = true
-                } label: {
-                    HStack {
-                        Text(model.t("language")).font(Paper.font(15)).foregroundStyle(Paper.ink)
-                        Spacer()
-                        Text(L10n.nativeName(model.language)).font(Paper.font(15)).foregroundStyle(Paper.muted)
-                        Text("›").font(Paper.font(22)).foregroundStyle(Paper.muted)
-                    }
-                    .frame(maxWidth: .infinity, minHeight: 48)
+                section(model.t("legal")) {
+                    legalRow(model.t("privacy"), .privacy)
+                    legalRow(model.t("terms"), .terms)
                 }
-                .buttonStyle(.plain)
-                Toggle(isOn: Binding(get: { model.sensorsOn }, set: { model.setSensors($0) })) {
-                    Text(model.t("sensors")).font(Paper.font(15)).foregroundStyle(Paper.ink)
-                }
-                .tint(Paper.accent)
-                .frame(minHeight: 48)
-                HStack {
-                    Text(model.t("base-step")).font(Paper.font(12)).foregroundStyle(Paper.muted)
-                    Slider(value: Binding(get: { model.step }, set: { model.setStep($0) }), in: 0.4...1.2, step: 0.05)
-                        .tint(Paper.accent)
-                    Text(Format.step(model.step)).font(Paper.font(14)).foregroundStyle(Paper.ink)
-                }
-                .frame(minHeight: 48)
             }
-            .padding(.horizontal, 16)
-            .padding(.top, 16)
             .padding(.bottom, 16 + 56)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
@@ -912,6 +885,52 @@ private struct SettingsPanel: View {
         .sheet(isPresented: $languages) {
             LanguageSheet(model: model)
         }
+        .sheet(isPresented: $importing) {
+            ImportSheet(model: model)
+        }
+    }
+
+    private func section<Content: View>(_ title: String, @ViewBuilder content: () -> Content) -> some View {
+        VStack(alignment: .leading, spacing: 0) {
+            Text(title)
+                .font(Paper.font(12))
+                .foregroundStyle(Paper.muted)
+                .padding(.top, 18)
+                .padding(.bottom, 4)
+            content()
+            Rectangle().fill(Paper.line).frame(height: 1).padding(.top, 8)
+        }
+        .padding(.horizontal, 16)
+    }
+
+    private func linkRow(_ title: String, action: @escaping () -> Void) -> some View {
+        Button(action: action) {
+            HStack {
+                Text(title).font(Paper.font(15)).foregroundStyle(Paper.ink)
+                Spacer()
+                Text("›").font(Paper.font(22)).foregroundStyle(Paper.muted)
+            }
+            .frame(maxWidth: .infinity, minHeight: 48)
+        }
+        .buttonStyle(.plain)
+    }
+
+    private func packageRow(_ package: MapPackage) -> some View {
+        HStack(spacing: 12) {
+            Text(package.flag).font(Paper.font(22))
+            Text(package.name).font(Paper.font(15)).foregroundStyle(Paper.ink)
+            Spacer(minLength: 8)
+            if model.downloadingId == package.id {
+                Text(model.t("saving-now"))
+                    .font(Paper.font(15))
+                    .foregroundStyle(Paper.muted)
+            } else if model.activePackageId == package.id {
+                Text(model.t("in-use"))
+                    .font(Paper.font(15, .semibold))
+                    .foregroundStyle(Paper.accent)
+            }
+        }
+        .frame(minHeight: 48)
     }
 
     private func legalRow(_ title: String, _ page: LegalPage) -> some View {
@@ -973,6 +992,77 @@ private struct LegalSheet: View {
         .padding(20)
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
         .background(Paper.bg)
+    }
+}
+
+private struct ImportSheet: View {
+    var model: AppModel
+    @Environment(\.dismiss) private var dismiss
+
+    var body: some View {
+        ScrollView {
+            VStack(spacing: 0) {
+                HStack {
+                    Text(model.t("import-maps"))
+                        .font(Paper.font(20, .semibold))
+                        .foregroundStyle(Paper.ink)
+                    Spacer()
+                    Button("×") { dismiss() }
+                        .font(Paper.font(22))
+                        .foregroundStyle(Paper.muted)
+                        .frame(width: 32, height: 32)
+                        .accessibilityLabel(model.t("close"))
+                }
+                .padding(.horizontal, 20)
+                .padding(.top, 20)
+                .padding(.bottom, 8)
+                if !model.catalogNote.isEmpty {
+                    Text(model.catalogNote)
+                        .font(Paper.font(15))
+                        .foregroundStyle(Paper.muted)
+                        .frame(maxWidth: .infinity, minHeight: 48, alignment: .leading)
+                        .padding(.horizontal, 20)
+                } else if model.catalog.isEmpty, !model.catalogLoading {
+                    Text(model.t("no-maps"))
+                        .font(Paper.font(15))
+                        .foregroundStyle(Paper.ink)
+                        .frame(maxWidth: .infinity, minHeight: 48, alignment: .leading)
+                        .padding(.horizontal, 20)
+                }
+                ForEach(model.catalog) { package in
+                    HStack(spacing: 12) {
+                        Text(package.flag).font(Paper.font(22))
+                        Text(package.name)
+                            .font(Paper.font(16))
+                            .foregroundStyle(Paper.ink)
+                        Spacer(minLength: 8)
+                        if model.activePackageId == package.id, model.downloadingId != package.id {
+                            Text(model.t("in-use"))
+                                .font(Paper.font(15, .semibold))
+                                .foregroundStyle(Paper.accent)
+                        } else {
+                            Button(model.downloadingId == package.id ? model.t("saving-now") : model.t("download")) {
+                                model.usePackage(package)
+                            }
+                            .font(Paper.font(15, .semibold))
+                            .foregroundStyle(Color.white)
+                            .padding(.horizontal, 14)
+                            .frame(minHeight: 36)
+                            .background(Paper.accent)
+                            .clipShape(Capsule())
+                            .disabled(model.downloading)
+                        }
+                    }
+                    .frame(minHeight: 48)
+                    .padding(.horizontal, 20)
+                    Rectangle().fill(Paper.line).frame(height: 1).padding(.leading, 20)
+                }
+            }
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
+        .background(Paper.bg)
+        .environment(\.layoutDirection, L10n.direction(model.language))
+        .task { await model.refreshCatalog() }
     }
 }
 

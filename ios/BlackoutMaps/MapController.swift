@@ -74,7 +74,7 @@ final class MapController: NSObject, MLNMapViewDelegate {
     private var destOn = false
     private var styleReady = false
     private var pendingStyle: URL?
-    private(set) var zoom: Double = 0
+    private(set) var zoom: Double = 6.2
     private var opening: Coord?
     private var framed = false
     private var userMoved = false
@@ -100,7 +100,8 @@ final class MapController: NSObject, MLNMapViewDelegate {
             zoom = 16
             framed = true
         } else {
-            map.setCenter(portugal, zoomLevel: 0, animated: false)
+            map.setCenter(portugal, zoomLevel: 6.2, animated: false)
+            zoom = 6.2
         }
         let tap = UITapGestureRecognizer(target: self, action: #selector(tapped(_:)))
         tap.cancelsTouchesInView = false
@@ -133,12 +134,9 @@ final class MapController: NSObject, MLNMapViewDelegate {
             jump(to: opening, zoom: 16, bearing: 0)
             return
         }
-        guard mapView.bounds.width > 40, mapView.bounds.height > 40 else { return }
-        let span = min(mapView.bounds.width, mapView.bounds.height)
-        let world = log2(span / 512)
         framed = true
-        mapView.setCenter(portugal, zoomLevel: world, direction: 0, animated: false, completionHandler: nil)
-        zoom = world
+        mapView.setCenter(portugal, zoomLevel: 6.2, direction: 0, animated: false, completionHandler: nil)
+        zoom = 6.2
     }
 
     func mapView(_ mapView: MLNMapView, regionWillChangeWith reason: MLNCameraChangeReason, animated: Bool) {

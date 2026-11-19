@@ -51,9 +51,13 @@ final class AppModel {
 
     var pins: [Place] = []
     var packages: [MapPackage] = []
+    var catalog: [MapPackage] = []
+    var catalogLoading = false
+    var catalogNote = ""
     var activePackageId: String?
     var packageNote = ""
     var downloading = false
+    var downloadingId: String?
     var sensorsOn = true
     var step = 0.7
     var language = L10n.code()
@@ -447,11 +451,32 @@ final class AppModel {
 
     func usePackage(_ package: MapPackage) {
         guard !downloading else { return }
+        Catalog.remember(package)
+        if let index = packages.firstIndex(where: { $0.id == package.id }) {
+            packages[index] = package
+        } else {
+            packages.append(package)
+            packages.sort { $0.name.localizedCompare($1.name) == .orderedAscending }
+        }
         downloading = true
+        downloadingId = package.id
         packageNote = ""
         Task {
             await activate(package, download: true)
             downloading = false
+            downloadingId = nil
+        }
+    }
+
+    func refreshCatalog() async {
+        catalogLoading = true
+        catalogNote = ""
+        defer { catalogLoading = false }
+        do {
+            catalog = try await Catalog.remote()
+        } catch {
+            catalog = []
+            catalogNote = t("catalog-failed")
         }
     }
 
@@ -475,8 +500,10 @@ final class AppModel {
         guard let package else { return }
         let ready = package.files.allSatisfy { FileManager.default.fileExists(atPath: Store.file(package.id, $0.file).path) }
         downloading = !ready
+        downloadingId = ready ? nil : package.id
         await activate(package, download: !ready)
         downloading = false
+        downloadingId = nil
     }
 
     private func activate(_ package: MapPackage, download: Bool) async {

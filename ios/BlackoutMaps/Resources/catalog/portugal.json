@@ -1,6 +1,7 @@
 {
   "id": "portugal",
   "name": "Portugal",
+  "flag": "🇵🇹",
   "autoload": true,
   "files": [
     {
