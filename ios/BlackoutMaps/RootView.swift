@@ -644,9 +644,9 @@ private struct TripSheet: View {
                     .disabled(!model.startEnabled)
                 Button(model.t("directions")) { model.directions() }
                     .font(Paper.font(16, .semibold))
-                    .foregroundStyle(Color(red: 0.10, green: 0.34, blue: 0.77))
+                    .foregroundStyle(Paper.link)
                     .frame(maxWidth: .infinity, minHeight: 44)
-                    .background(Color(red: 0.91, green: 0.94, blue: 1))
+                    .background(Paper.linkWash)
                     .clipShape(Capsule())
             }
             .padding(.top, 4)
@@ -1336,6 +1336,16 @@ private enum Paper {
         trait.userInterfaceStyle == .dark
             ? UIColor(red: 0.122, green: 0.541, blue: 0.392, alpha: 1)
             : UIColor(red: 0.059, green: 0.420, blue: 0.298, alpha: 1)
+    })
+    static let link = Color(uiColor: UIColor { trait in
+        trait.userInterfaceStyle == .dark
+            ? UIColor(red: 0.62, green: 0.76, blue: 1, alpha: 1)
+            : UIColor(red: 0.10, green: 0.34, blue: 0.77, alpha: 1)
+    })
+    static let linkWash = Color(uiColor: UIColor { trait in
+        trait.userInterfaceStyle == .dark
+            ? UIColor(red: 0.12, green: 0.16, blue: 0.24, alpha: 1)
+            : UIColor(red: 0.91, green: 0.94, blue: 1, alpha: 1)
     })
 
     static func font(_ size: CGFloat, _ weight: Font.Weight = .regular) -> Font {

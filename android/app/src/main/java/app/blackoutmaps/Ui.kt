@@ -37,6 +37,9 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.darkColorScheme
+import androidx.compose.material3.lightColorScheme
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Slider
 import androidx.compose.material3.SliderDefaults
@@ -88,27 +91,34 @@ private class Ink(
     val muted: Color,
     val line: Color,
     val fill: Color,
-    val accent: Color
+    val accent: Color,
+    val link: Color,
+    val linkWash: Color
 )
 
 private val LocalInk = staticCompositionLocalOf {
-    Ink(Color(0xFFFFFCF8), Color(0xFF1C1916), Color(0xFF6D675E), Color(0xFFE4DED4), Color(0xFFF3EFE8), Color(0xFF0F6B4C))
+    Ink(Color(0xFFFFFCF8), Color(0xFF1C1916), Color(0xFF6D675E), Color(0xFFE4DED4), Color(0xFFF3EFE8), Color(0xFF0F6B4C), Color(0xFF1A57C4), Color(0xFFE8F0FF))
 }
 
-private val lightInk = Ink(Color(0xFFFFFCF8), Color(0xFF1C1916), Color(0xFF6D675E), Color(0xFFE4DED4), Color(0xFFF3EFE8), Color(0xFF0F6B4C))
-private val darkInk = Ink(Color(0xFF161412), Color(0xFFF6F3EC), Color(0xFFB7B0A4), Color(0xFF2E2B26), Color(0xFF241F1B), Color(0xFF1F8A64))
+private val lightInk = Ink(Color(0xFFFFFCF8), Color(0xFF1C1916), Color(0xFF6D675E), Color(0xFFE4DED4), Color(0xFFF3EFE8), Color(0xFF0F6B4C), Color(0xFF1A57C4), Color(0xFFE8F0FF))
+private val darkInk = Ink(Color(0xFF161412), Color(0xFFF6F3EC), Color(0xFFB7B0A4), Color(0xFF2E2B26), Color(0xFF241F1B), Color(0xFF1F8A64), Color(0xFF9EC2FF), Color(0xFF1E293B))
 private val pinColor = Color(0xFFC2400D)
 private val navGreen = Color(0xFF0F6B4D)
-private val linkBlue = Color(0xFF1A57C4)
-private val linkWash = Color(0xFFE8F0FF)
 private val exitRed = Color(0xFFD93026)
 private val sheetTop = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp)
 private val pill = RoundedCornerShape(50)
 
 @Composable
 fun BlackoutScreen(model: AppModel = viewModel()) {
-    val ink = if (isSystemInDarkTheme()) darkInk else lightInk
+    val dark = isSystemInDarkTheme()
+    val ink = if (dark) darkInk else lightInk
+    val scheme = if (dark) {
+        darkColorScheme(background = ink.bg, surface = ink.bg, surfaceContainer = ink.fill, onBackground = ink.ink, onSurface = ink.ink, primary = ink.accent, onPrimary = Color.White, outline = ink.line)
+    } else {
+        lightColorScheme(background = ink.bg, surface = ink.bg, surfaceContainer = ink.fill, onBackground = ink.ink, onSurface = ink.ink, primary = ink.accent, onPrimary = Color.White, outline = ink.line)
+    }
     val direction = if (Text.directionRtl(model.language)) LayoutDirection.Rtl else LayoutDirection.Ltr
+    MaterialTheme(colorScheme = scheme) {
     CompositionLocalProvider(LocalLayoutDirection provides direction, LocalInk provides ink) {
         val lifecycle = LocalLifecycleOwner.current.lifecycle
         DisposableEffect(lifecycle) {
@@ -173,6 +183,7 @@ fun BlackoutScreen(model: AppModel = viewModel()) {
             }
         }
         if (modal) Sheets(model)
+    }
     }
 }
 
@@ -396,7 +407,7 @@ private fun TripSheet(model: AppModel) {
         }
         Row(Modifier.padding(top = 4.dp), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             CapsuleButton(model.t("start"), Color.White, ink.accent, Modifier.weight(1f), model.startEnabled) { model.startNav() }
-            CapsuleButton(model.t("directions"), linkBlue, linkWash, Modifier.weight(1f), true) { model.directions() }
+            CapsuleButton(model.t("directions"), ink.link, ink.linkWash, Modifier.weight(1f), true) { model.directions() }
         }
     }
 }
