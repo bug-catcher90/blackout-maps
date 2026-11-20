@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Blackout Maps</title>
-  <meta name="description" content="An offline map for when the network goes down. Water, medical care and supplies stay on the phone.">
+  <meta name="description" content="An offline map for when the network goes down: water, medical care, supplies, and a route to reach them.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500&display=swap" rel="stylesheet">
@@ -13,131 +13,231 @@
 </head>
 <body>
   <header class="bar">
-    <a class="brand" href="#top"><img src="logo.png" alt="Blackout Maps"></a>
+    <a class="brand" href="#top"><img src="favicon.png" alt="Blackout Maps"></a>
     <nav>
-      <a href="https://github.com/bug-catcher90/blackout-maps">Code</a>
-      <a href="#download">Get the app</a>
+      <a href="#product">Product</a>
+      <a href="#open">Open source</a>
+      <a href="#questions">Questions</a>
+      <a href="#download">Download</a>
     </nav>
   </header>
 
-  <main>
-    <section class="hero" id="top">
-      <div class="hero-copy">
-        <p class="kicker">Open source · Free · Offline</p>
-        <h1>When the network goes down, this map stays.</h1>
-        <p class="sub">Emergency services, water and supplies remain on the phone, with a route to reach them.</p>
-        <div class="ctas">
-          <a class="btn primary" href="https://github.com/bug-catcher90/blackout-maps">View the code</a>
-          <a class="btn" href="#download">Get the app</a>
-        </div>
+  <main id="top">
+    <section class="hero">
+      <img class="lockup" src="logo.png" alt="Blackout Maps">
+      <h1>An offline map for when the network goes down: water, medical care, supplies, and a route to reach them.</h1>
+      <div class="downloads" aria-label="Downloads">
+        <a class="dl" href="#download">
+          <span class="dl-name">Download for iOS</span>
+          <span class="dl-meta">Coming</span>
+        </a>
+        <a class="dl" href="#download">
+          <span class="dl-name">Download for Android</span>
+          <span class="dl-meta">Coming</span>
+        </a>
       </div>
-      <figure class="phone">
-        <img src="screen-hero.png" width="560" height="1217" alt="A direction step on foot toward a drinking fountain: in 30 meters, turn onto Travessa do Hospital.">
+      <p class="oss">Open source. <a href="https://github.com/bug-catcher90/blackout-maps">The code is on GitHub.</a></p>
+
+      <figure class="stage">
+        <svg viewBox="0 0 360 220" role="img" aria-labelledby="stage-title">
+          <title id="stage-title">Two people on a dark map. One checks care and supplies. The other follows the streets to the water.</title>
+          <rect width="360" height="220" fill="#111311"></rect>
+          <g stroke="#2c2e28" stroke-width="8" fill="none">
+            <path d="M0 40 H360 M0 110 H360 M0 180 H360"></path>
+            <path d="M40 0 V220 M140 0 V220 M250 0 V220 M320 0 V220"></path>
+          </g>
+          <g fill="#1a1c18">
+            <rect x="52" y="52" width="76" height="46" rx="2"></rect>
+            <rect x="152" y="52" width="86" height="46" rx="2"></rect>
+            <rect x="52" y="122" width="76" height="46" rx="2"></rect>
+            <rect x="262" y="52" width="46" height="46" rx="2"></rect>
+            <rect x="262" y="122" width="46" height="46" rx="2"></rect>
+          </g>
+          <path class="route-track" d="M 40 180 H 140 V 110 H 320 V 40"></path>
+          <path class="route" pathLength="1" d="M 40 180 H 140 V 110 H 320 V 40"></path>
+
+          <g class="pin supplies">
+            <circle cx="250" cy="180" r="13"></circle>
+            <path d="M245 176 h10 v9 h-10 z"></path>
+            <path class="stroke" d="M247 176 c0 -4 2 -4 2 0 M253 176 c0 -4 2 -4 2 0"></path>
+          </g>
+          <g class="pin care">
+            <circle cx="140" cy="110" r="13"></circle>
+            <path d="M140 103 v14 M133 110 h14"></path>
+          </g>
+          <g class="pin water">
+            <circle cx="320" cy="40" r="13"></circle>
+            <path d="M320 32 c3.5 4 5 7 5 9.5 a5 5 0 0 1 -10 0 c0 -2.5 1.5 -5.5 5 -9.5 z"></path>
+          </g>
+
+          <g class="seeker">
+            <circle class="look" cx="140" cy="110" r="24"></circle>
+            <circle class="head" cx="188" cy="146" r="6"></circle>
+            <path d="M188 153 v14 M188 160 l-8 14 M188 160 l8 14 M180 156 h16"></path>
+          </g>
+          <g class="walker">
+            <circle class="head" cy="-32" r="6"></circle>
+            <path d="M0 -25 v14 M0 -16 l-8 14 M0 -16 l8 14 M-8 -20 h16"></path>
+          </g>
+        </svg>
+        <figcaption>One person checks the services. The other follows the streets to the water.</figcaption>
       </figure>
     </section>
 
-    <section class="band" id="why">
-      <p class="label">Why it exists</p>
-      <h2>A map on a server fails with the network.</h2>
-      <p class="wide">Search and cloud directions go with it. Blackout Maps is the navigation tool that remains on the phone. The first things you need are physical: a hospital, a fire station, drinking water, food. The phone should still show where they are, and a way to reach them.</p>
-    </section>
-
-    <section class="band" id="find">
-      <div class="split">
-        <figure class="phone">
-          <img src="screen-explore.png" width="560" height="1217" alt="Explore mode in Lisbon, with a drinking fountain, Hospital de São José and a supermarket visible on the map.">
-        </figure>
-        <div>
-          <p class="label">Water, emergency, supplies</p>
-          <h2>Help, water and supplies, already mapped.</h2>
-          <p class="wide">Drinking fountains, hospitals and shops are on the same map. A wide view shows one or two places from each category that is actually in sight. Zooming in shows more. In a dense area, every place appears only when the zoom is already close. An empty category stays empty.</p>
-        </div>
+    <section class="band" id="product">
+      <h2>Maps, routes, supplies.</h2>
+      <div class="usps">
+        <article>
+          <figure class="phone">
+            <img src="screen-explore.png" width="560" height="1217" alt="Explore in Lisbon, with a search for Hospital de São José and drinking fountains, shops and the hospital on the map.">
+          </figure>
+          <h3>Maps</h3>
+          <p>The streets and the places stay on the phone. You can search when the network is gone.</p>
+        </article>
+        <article>
+          <figure class="phone">
+            <img src="screen-hero.png" width="560" height="1217" alt="On-foot navigation: in 30 meters, turn onto Travessa do Hospital, with the route drawn on the map.">
+          </figure>
+          <h3>Routes</h3>
+          <p>You get a route on foot, by bicycle or by car, and you follow the turns on the phone.</p>
+        </article>
+        <article>
+          <figure class="phone">
+            <img src="screen-pin.png" width="560" height="1217" alt="The map marks water, care, emergency services and shops, and a pin named Mom's house is ready to save.">
+          </figure>
+          <h3>Supplies</h3>
+          <p>Water, medical care, emergency services and shops are marked. You can save a place you need to find again.</p>
+        </article>
       </div>
-    </section>
 
-    <section class="band" id="route">
-      <div class="split">
-        <div>
-          <p class="label">How you get there</p>
-          <h2>A route that does not need a network.</h2>
-          <p class="wide">On foot, by bicycle or by car. The roads come with the app. You pick a mode and follow the route. The directions list runs from the start of the trip to the place you chose.</p>
-        </div>
-        <figure class="phone">
-          <img src="screen-route.png" width="560" height="1217" alt="The directions list for a walk that arrives at a Bebedouro.">
-        </figure>
-      </div>
-    </section>
-
-    <section class="band" id="does">
-      <p class="label">What the app does</p>
-      <h2>Pins, directions, and a position without GPS.</h2>
-      <div class="split does-split">
-        <div class="does">
-          <article>
-            <h3>Pins</h3>
-            <p>You place a pin on the map, give it a name and save it. You can remove it later.</p>
-          </article>
-          <article>
-            <h3>Directions</h3>
-            <p>During navigation, a map button opens the full list of directions from the start of the trip to the destination.</p>
-          </article>
-          <article>
-            <h3>Position</h3>
-            <p>The app does not use GPS. You set your position on the map, and the phone’s motion sensors keep an approximate position on the device. You can turn the sensors off and change the step length.</p>
-          </article>
-          <article>
-            <h3>Map packages</h3>
-            <p>Places, water, addresses and geography download by country or state. Portugal downloads on first launch. Any other place is added from Settings, where it appears with its flag and name.</p>
-          </article>
-        </div>
-        <figure class="phone">
-          <img src="screen-pin.png" width="560" height="1217" alt="Placing a pin on the map and saving it with the name Mom's house.">
-        </figure>
+      <div class="minis">
+        <article>
+          <h3>No GPS</h3>
+          <p>The app does not use GPS. You set your position on the map, and you can turn the motion sensors off.</p>
+        </article>
+        <article>
+          <h3>Pins</h3>
+          <p>You drop a pin, give it a name and save it on the phone. You can remove it later.</p>
+        </article>
+        <article>
+          <h3>Directions list</h3>
+          <p>During a trip, the list of turns runs from the start to the place you chose.</p>
+        </article>
+        <article>
+          <h3>Free</h3>
+          <p>There is no account and no charge.</p>
+        </article>
+        <article>
+          <h3>Offline</h3>
+          <p>Once the map is on the phone, search and routes do not need a network.</p>
+        </article>
+        <article>
+          <h3>Privacy</h3>
+          <p>The app collects no data. Sensor readings stay on the phone.</p>
+        </article>
       </div>
     </section>
 
     <section class="band" id="open">
-      <p class="label">Open source</p>
-      <h2>Free to use. Offline once the map is on the phone.</h2>
-      <p class="wide">There is no login and no charge. The app collects no data and does not use GPS. Sensor readings stay on the phone. The code is public, and updated maps of services are welcome.</p>
+      <h2>The code is open.</h2>
+      <p class="lead">Blackout Maps is free to read and use. The catalog explains how a country or a state is added.</p>
       <div class="links">
         <a href="https://github.com/bug-catcher90/blackout-maps">github.com/bug-catcher90/blackout-maps</a>
         <a href="https://github.com/bug-catcher90/blackout-maps/blob/main/catalog/README.md">catalog/README.md</a>
       </div>
+    </section>
 
-      <div class="support">
-        <h3>Support the work ☕</h3>
-        <p>PayPal is one way. Bitcoin is the other.</p>
-        <div class="pay-row">
-          <a class="pay" href="https://paypal.me/YOUR-PAYPAL-NAME">
-            <svg class="logo paypal" viewBox="0 0 24 24" aria-hidden="true">
-              <path fill="#003087" d="M15.607 4.653H8.941L6.645 19.251H1.82L4.862 0h7.995c3.754 0 6.375 2.294 6.473 5.513-.648-.478-2.105-.86-3.722-.86m6.57 5.546c0 3.41-3.01 6.853-6.958 6.853h-2.493L11.595 24H6.74l1.845-11.538h3.592c4.208 0 7.346-3.634 7.153-6.949a5.24 5.24 0 0 1 2.848 4.686M9.653 5.546h6.408c.907 0 1.942.222 2.363.541-.195 2.741-2.655 5.483-6.441 5.483H8.714Z"/>
-              <path fill="#009cde" d="M9.653 5.546h6.408c.907 0 1.942.222 2.363.541-.195 2.741-2.655 5.483-6.441 5.483H8.714Z"/>
-            </svg>
-            <strong>PayPal</strong>
-            <span class="slot">paypal.me/YOUR-PAYPAL-NAME</span>
-          </a>
-          <div class="pay">
-            <svg class="logo btc" viewBox="0 0 24 24" aria-hidden="true">
-              <path fill="#f7931a" d="M23.638 14.904c-1.602 6.43-8.113 10.34-14.542 8.736C2.67 22.05-1.244 15.525.362 9.105 1.962 2.67 8.475-1.243 14.9.358c6.43 1.605 10.342 8.115 8.738 14.548v-.002zm-6.35-4.613c.24-1.59-.974-2.45-2.64-3.03l.54-2.153-1.315-.33-.525 2.107c-.345-.087-.705-.167-1.064-.25l.526-2.127-1.32-.33-.54 2.165c-.285-.067-.565-.132-.84-.2l-1.815-.45-.35 1.407s.975.225.955.236c.535.136.63.486.615.766l-1.477 5.92c-.075.166-.24.406-.614.314.015.02-.96-.24-.96-.24l-.66 1.51 1.71.426.93.242-.54 2.19 1.32.327.54-2.17c.36.1.705.19 1.05.273l-.51 2.154 1.32.33.545-2.19c2.24.427 3.93.257 4.64-1.774.57-1.637-.03-2.58-1.217-3.196.854-.193 1.5-.76 1.68-1.93h.01zm-3.01 4.22c-.404 1.64-3.157.75-4.05.53l.72-2.9c.896.23 3.757.67 3.33 2.37zm.41-4.24c-.37 1.49-2.662.735-3.405.55l.654-2.64c.744.18 3.137.524 2.75 2.084v.006z"/>
-            </svg>
-            <strong>Bitcoin</strong>
-            <code class="slot">YOUR-WALLET-ADDRESS</code>
-          </div>
-        </div>
-        <p class="hint">Replace YOUR-PAYPAL-NAME with the real PayPal.me name. Replace YOUR-WALLET-ADDRESS with the real wallet address.</p>
+    <section class="band" id="questions">
+      <h2>Questions</h2>
+      <div class="faqs">
+        <details>
+          <summary>Does it work without a network?</summary>
+          <p>You need a network to download the app and the map. After that, the map, the search and the routes work on the phone with no network.</p>
+        </details>
+        <details>
+          <summary>Does it use GPS?</summary>
+          <p>No. You set your position on the map. Motion sensors can keep an approximate position, those readings stay on the phone, and you can turn the sensors off.</p>
+        </details>
+        <details>
+          <summary>Is it free?</summary>
+          <p>Yes. There is no account and no charge. The app collects no data.</p>
+        </details>
+        <details>
+          <summary>Can I install it today?</summary>
+          <p>Not yet. The iOS app and the Android app are not in a store.</p>
+        </details>
+        <details>
+          <summary>Which places are included?</summary>
+          <p>Portugal downloads on first launch. Other countries and states are added from Settings. They are listed in the public catalog.</p>
+        </details>
+        <details>
+          <summary>What can I save?</summary>
+          <p>You can drop a pin, name it and save it on the phone. You can remove it later.</p>
+        </details>
       </div>
     </section>
 
-    <section class="band download" id="download">
-      <p class="label">Download</p>
-      <h2>iOS and Android are still to come.</h2>
-      <p class="wide">Neither app is in a store yet.</p>
-      <div class="coming">
-        <p><span>iOS</span><span>Coming</span></p>
-        <p><span>Android</span><span>Coming</span></p>
+    <section class="band cta" id="download">
+      <h2>Download it when it is ready.</h2>
+      <p class="lead">Get the map while you still have a network. Neither app is in a store yet.</p>
+      <div class="downloads">
+        <p class="dl">
+          <span class="dl-name">Download for iOS</span>
+          <span class="dl-meta">Coming</span>
+        </p>
+        <p class="dl">
+          <span class="dl-name">Download for Android</span>
+          <span class="dl-meta">Coming</span>
+        </p>
+      </div>
+    </section>
+
+    <section class="band" id="guide">
+      <h2>Buying guide</h2>
+      <p class="lead">This is the place for a guide to preparedness gear. No product is listed yet, and this page has no prices and no shop links.</p>
+      <div class="slots">
+        <article>
+          <div class="slot-well" aria-hidden="true"></div>
+          <h3>Drinking water</h3>
+          <p>Reserved for a product. None is chosen yet.</p>
+        </article>
+        <article>
+          <div class="slot-well" aria-hidden="true"></div>
+          <h3>Light</h3>
+          <p>Reserved for a product. None is chosen yet.</p>
+        </article>
+        <article>
+          <div class="slot-well" aria-hidden="true"></div>
+          <h3>Medical care</h3>
+          <p>Reserved for a product. None is chosen yet.</p>
+        </article>
+        <article>
+          <div class="slot-well" aria-hidden="true"></div>
+          <h3>Food</h3>
+          <p>Reserved for a product. None is chosen yet.</p>
+        </article>
+        <article>
+          <div class="slot-well" aria-hidden="true"></div>
+          <h3>Power</h3>
+          <p>Reserved for a product. None is chosen yet.</p>
+        </article>
+        <article>
+          <div class="slot-well" aria-hidden="true"></div>
+          <h3>Shelter</h3>
+          <p>Reserved for a product. None is chosen yet.</p>
+        </article>
       </div>
     </section>
   </main>
+
+  <footer class="foot">
+    <img src="favicon.png" alt="">
+    <p>Blackout Maps is an offline map. The apps are not in a store yet.</p>
+    <nav>
+      <a href="https://github.com/bug-catcher90/blackout-maps">GitHub</a>
+      <a href="https://github.com/bug-catcher90/blackout-maps/blob/main/catalog/README.md">Catalog</a>
+      <a href="#questions">Questions</a>
+    </nav>
+  </footer>
 </body>
 </html>
