@@ -340,40 +340,44 @@ private struct CompassButton: View {
                     .rotationEffect(direction == .rightToLeft ? .degrees(180) : .zero)
                     .padding(.trailing, 8)
             }
-            Button(action: action) {
-                ZStack {
-                    Circle().stroke(Paper.ink, lineWidth: 1.6).frame(width: 22, height: 22)
-                    CompassNeedle()
-                        .fill(Color(red: 0.76, green: 0.25, blue: 0.05))
-                        .frame(width: 8, height: 10)
-                        .offset(y: -3)
-                    CompassNeedle()
-                        .fill(Paper.ink)
-                        .frame(width: 8, height: 10)
-                        .rotationEffect(.degrees(180))
-                        .offset(y: 3)
+            ZStack {
+                if prompt != nil {
+                    Circle()
+                        .stroke(Color(red: 0.76, green: 0.25, blue: 0.05), lineWidth: 3)
+                        .background(Circle().fill(Color(red: 0.76, green: 0.25, blue: 0.05).opacity(0.28)))
+                        .frame(width: 44, height: 44)
+                        .scaleEffect(pulse ? 1.42 : 1)
+                        .opacity(pulse ? 0.12 : 1)
+                        .animation(.easeInOut(duration: 0.7).repeatForever(autoreverses: true), value: pulse)
+                        .allowsHitTesting(false)
                 }
-                .frame(width: 44, height: 44)
-                .background(Paper.bg)
-                .clipShape(Circle())
-                .overlay(Circle().stroke(prompt == nil ? Paper.line : Color(red: 0.76, green: 0.25, blue: 0.05), lineWidth: prompt == nil ? 1 : 2))
-                .shadow(color: .black.opacity(0.16), radius: 1, y: 1)
+                Button(action: action) {
+                    ZStack {
+                        Circle().stroke(Paper.ink, lineWidth: 1.6).frame(width: 22, height: 22)
+                        CompassNeedle()
+                            .fill(Color(red: 0.76, green: 0.25, blue: 0.05))
+                            .frame(width: 8, height: 10)
+                            .offset(y: -3)
+                        CompassNeedle()
+                            .fill(Paper.ink)
+                            .frame(width: 8, height: 10)
+                            .rotationEffect(.degrees(180))
+                            .offset(y: 3)
+                    }
+                    .frame(width: 44, height: 44)
+                    .background(Paper.bg)
+                    .clipShape(Circle())
+                    .overlay(Circle().stroke(prompt == nil ? Paper.line : Color(red: 0.76, green: 0.25, blue: 0.05), lineWidth: prompt == nil ? 1 : 2))
+                    .shadow(color: .black.opacity(0.16), radius: 1, y: 1)
+                    .contentShape(Circle())
+                }
+                .buttonStyle(.plain)
+                .accessibilityLabel(L10n.text(L10n.code(), "position"))
             }
-            .buttonStyle(.plain)
-            .scaleEffect(prompt != nil && pulse ? 1.14 : 1)
-            .opacity(prompt != nil && pulse ? 0.4 : 1)
-            .accessibilityLabel(L10n.text(L10n.code(), "position"))
+            .frame(width: 44, height: 44)
         }
-        .onAppear { startPulse() }
-        .onChange(of: prompt) { _, _ in startPulse() }
-    }
-
-    private func startPulse() {
-        pulse = false
-        guard prompt != nil else { return }
-        withAnimation(.easeInOut(duration: 0.7).repeatForever(autoreverses: true)) {
-            pulse = true
-        }
+        .onAppear { pulse = prompt != nil }
+        .onChange(of: prompt) { _, next in pulse = next != nil }
     }
 }
 
