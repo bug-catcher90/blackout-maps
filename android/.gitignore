@@ -2,5 +2,9 @@
 build/
 local.properties
 *.apk
+*.aab
+*.keystore
+*.jks
+keystore.properties
 .cxx/
 captures/

@@ -1,7 +1,20 @@
+import java.io.FileInputStream
+import java.util.Properties
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("org.jetbrains.kotlin.plugin.compose")
+}
+
+val releaseSigningFile = File(
+    System.getProperty("user.home"),
+    "Library/Application Support/Blackout Maps/keystore.properties"
+)
+val releaseSigning = Properties().apply {
+    if (releaseSigningFile.isFile) {
+        FileInputStream(releaseSigningFile).use { load(it) }
+    }
 }
 
 android {
@@ -16,9 +29,23 @@ android {
         versionName = "1.0"
     }
 
+    signingConfigs {
+        if (releaseSigningFile.isFile) {
+            create("release") {
+                storeFile = file(releaseSigning.getProperty("storeFile"))
+                storePassword = releaseSigning.getProperty("storePassword")
+                keyAlias = releaseSigning.getProperty("keyAlias")
+                keyPassword = releaseSigning.getProperty("keyPassword")
+            }
+        }
+    }
+
     buildTypes {
         release {
             isMinifyEnabled = false
+            if (releaseSigningFile.isFile) {
+                signingConfig = signingConfigs.getByName("release")
+            }
         }
     }
 
