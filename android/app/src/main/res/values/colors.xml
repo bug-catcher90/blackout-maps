@@ -2,4 +2,6 @@
 <resources>
     <color name="paper">#FFFCF8</color>
     <color name="ink">#1C1916</color>
+    <color name="splash">#000000</color>
+    <color name="icon_bg">#000000</color>
 </resources>

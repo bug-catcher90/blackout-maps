@@ -40,14 +40,14 @@ a { color: inherit; }
 .brand {
   display: inline-flex;
   align-items: center;
-  gap: 0.6rem;
   text-decoration: none;
 }
 
-.lamp {
-  width: 0.5rem;
-  height: 0.5rem;
-  background: var(--amber);
+.brand img {
+  display: block;
+  height: 2.4rem;
+  width: auto;
+  max-width: min(18rem, 62vw);
 }
 
 .bar nav { display: flex; gap: 1.25rem; }
