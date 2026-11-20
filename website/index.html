@@ -24,115 +24,163 @@
 
   <main id="top">
     <section class="hero">
-      <img class="lockup" src="logo.png" alt="Blackout Maps">
-      <h1>An offline map for when the network goes down: water, medical care, supplies, and a route to reach them.</h1>
-      <div class="downloads" aria-label="Downloads">
-        <a class="dl" href="#download">
-          <span class="dl-name">Download for iOS</span>
-          <span class="dl-meta">Coming</span>
-        </a>
-        <a class="dl" href="#download">
-          <span class="dl-name">Download for Android</span>
-          <span class="dl-meta">Coming</span>
+      <div class="hero-map" aria-hidden="true">
+        <svg viewBox="0 0 1440 920" preserveAspectRatio="xMidYMid slice">
+          <rect width="1440" height="920" fill="#0c0e0c"></rect>
+          <g class="streets" fill="none" stroke="#2a2c28" stroke-width="22">
+            <path d="M0 100 H1440 M0 250 H1440 M0 400 H1440 M0 550 H1440 M0 700 H1440 M0 820 H1440"></path>
+            <path d="M120 0 V920 M360 0 V920 M600 0 V920 M840 0 V920 M1080 0 V920 M1320 0 V920"></path>
+          </g>
+          <g fill="#161815">
+            <rect x="148" y="128" width="184" height="94" rx="3"></rect>
+            <rect x="388" y="128" width="184" height="94" rx="3"></rect>
+            <rect x="868" y="128" width="184" height="94" rx="3"></rect>
+            <rect x="1108" y="128" width="184" height="94" rx="3"></rect>
+            <rect x="148" y="278" width="184" height="94" rx="3"></rect>
+            <rect x="628" y="278" width="184" height="94" rx="3"></rect>
+            <rect x="868" y="278" width="184" height="94" rx="3"></rect>
+            <rect x="1108" y="278" width="184" height="94" rx="3"></rect>
+            <rect x="148" y="428" width="184" height="94" rx="3"></rect>
+            <rect x="388" y="428" width="184" height="94" rx="3"></rect>
+            <rect x="868" y="428" width="184" height="94" rx="3"></rect>
+            <rect x="1108" y="428" width="184" height="94" rx="3"></rect>
+            <rect x="148" y="578" width="184" height="94" rx="3"></rect>
+            <rect x="388" y="578" width="184" height="94" rx="3"></rect>
+            <rect x="628" y="578" width="184" height="94" rx="3"></rect>
+            <rect x="1108" y="578" width="184" height="94" rx="3"></rect>
+            <rect x="148" y="728" width="184" height="64" rx="3"></rect>
+            <rect x="388" y="728" width="184" height="64" rx="3"></rect>
+            <rect x="628" y="728" width="184" height="64" rx="3"></rect>
+            <rect x="868" y="728" width="184" height="64" rx="3"></rect>
+          </g>
+
+          <path class="track" d="M360 820 H840 V400 H1320 V100"></path>
+          <path class="track" d="M840 100 H360 V250"></path>
+          <path class="track" d="M1080 250 H360 V700 H120"></path>
+          <path class="track" d="M600 820 H1080 V550 H1320"></path>
+          <path class="track" d="M120 400 H600 V820 H1080"></path>
+          <path class="track" d="M840 700 H600 V100"></path>
+          <path class="route r1" pathLength="1" d="M360 820 H840 V400 H1320 V100"></path>
+          <path class="route r2" pathLength="1" d="M840 100 H360 V250"></path>
+          <path class="route r3" pathLength="1" d="M1080 250 H360 V700 H120"></path>
+          <path class="route r4" pathLength="1" d="M600 820 H1080 V550 H1320"></path>
+          <path class="route r5" pathLength="1" d="M120 400 H600 V820 H1080"></path>
+          <path class="route r6" pathLength="1" d="M840 700 H600 V100"></path>
+
+          <g class="pin water"><circle cx="1320" cy="100" r="16"></circle><path d="M1320 90 c4 5 6 8 6 11 a6 6 0 0 1 -12 0 c0 -3 2 -6 6 -11z"></path></g>
+          <g class="pin shelter"><circle cx="360" cy="250" r="16"></circle><path d="M360 240 l8 7 h-3 v8 h-10 v-8 h-3 z"></path></g>
+          <g class="pin care"><circle cx="120" cy="700" r="16"></circle><path d="M120 692 v16 M112 700 h16"></path></g>
+          <g class="pin fuel"><circle cx="1320" cy="550" r="16"></circle><path d="M1314 544 h8 v12 h-8 z M1322 548 h3 v5"></path></g>
+          <g class="pin supplies"><circle cx="1080" cy="820" r="16"></circle><path d="M1073 814 h14 v10 h-14 z"></path></g>
+          <g class="pin shop"><circle cx="600" cy="100" r="16"></circle><path d="M592 102 h16 v8 h-16 z M592 102 l2 -6 h12 l2 6"></path></g>
+
+          <g class="mover m1"><g class="walker"><circle class="head" cy="-30" r="7"></circle><path d="M0 -22 v14 M0 -12 l-8 14 M0 -12 l8 14 M-8 -16 h16"></path></g></g>
+          <g class="mover m2"><g class="walker"><circle class="head" cy="-30" r="7"></circle><path d="M0 -22 v14 M0 -12 l-8 14 M0 -12 l8 14 M-8 -16 h16"></path></g></g>
+          <g class="mover m3"><g class="bike"><circle cx="-12" cy="-4" r="7"></circle><circle cx="12" cy="-4" r="7"></circle><path d="M-12 -4 L-2 -16 L12 -4 M-2 -16 V-8 M-6 -20 h8"></path><circle class="head" cx="-2" cy="-28" r="6"></circle></g></g>
+          <g class="mover m4"><g class="bike"><circle cx="-12" cy="-4" r="7"></circle><circle cx="12" cy="-4" r="7"></circle><path d="M-12 -4 L-2 -16 L12 -4 M-2 -16 V-8 M-6 -20 h8"></path><circle class="head" cx="-2" cy="-28" r="6"></circle></g></g>
+          <g class="mover m5"><g class="car"><path d="M-16 -16 h32 v12 h-32 z M-8 -16 v-8 h16 v8"></path><circle cx="-10" cy="-4" r="4"></circle><circle cx="10" cy="-4" r="4"></circle></g></g>
+          <g class="mover m6"><g class="car"><path d="M-16 -16 h32 v12 h-32 z M-8 -16 v-8 h16 v8"></path><circle cx="-10" cy="-4" r="4"></circle><circle cx="10" cy="-4" r="4"></circle></g></g>
+        </svg>
+      </div>
+      <div class="hero-shade" aria-hidden="true"></div>
+
+      <div class="centre">
+        <img class="lockup" src="logo.png" alt="Blackout Maps">
+        <h1>An offline map for when the network goes down: water, medical care, supplies, and a route to reach them.</h1>
+        <div class="downloads">
+          <a class="store ios" href="#download">
+            <svg class="mark" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M16.2 12.5c0-2.2 1.8-3.2 1.9-3.3-1-1.5-2.6-1.7-3.2-1.7-1.3-.2-2.6.8-3.3.8-.7 0-1.8-.8-3-.7-1.5.1-2.9.9-3.6 2.3-1.6 2.7-.4 6.7 1.1 8.9.7 1.1 1.6 2.3 2.8 2.2 1.1 0 1.5-.7 2.8-.7s1.7.7 2.9.7 1.9-1.1 2.6-2.2c.8-1.2 1.2-2.3 1.2-2.4s-2.3-.9-2.2-3.9zM14.2 6.5c.6-.8 1-1.8.9-2.9-1 .1-2.1.7-2.7 1.5-.6.7-1.1 1.8-.9 2.8 1 .1 2.1-.5 2.7-1.4z"></path></svg>
+            <span class="store-copy">
+              <span class="store-name">Download for iOS</span>
+              <span class="store-meta">Coming</span>
+            </span>
+          </a>
+          <a class="store android" href="#download">
+            <svg class="mark" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M7.1 8.6h9.8v7.2c0 .7-.6 1.3-1.3 1.3h-.7v2.2a1.1 1.1 0 0 1-2.2 0V17H11.3v2.3a1.1 1.1 0 0 1-2.2 0V17h-.7c-.7 0-1.3-.6-1.3-1.3V8.6z"></path><path fill="currentColor" d="M8.2 8.4a4 4 0 0 1 7.6 0H8.2z"></path><circle cx="9.4" cy="7.2" r="0.8" fill="#111"></circle><circle cx="14.6" cy="7.2" r="0.8" fill="#111"></circle><path fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" d="M8.2 4.2 9.4 6.1M15.8 4.2 14.6 6.1"></path></svg>
+            <span class="store-copy">
+              <span class="store-name">Download for Android</span>
+            </span>
+          </a>
+        </div>
+        <a class="oss" href="https://github.com/bug-catcher90/blackout-maps">
+          <span class="oss-kicker">Open source. Built by enthusiasts.</span>
+          <span class="oss-row">
+            <svg class="gh" viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"></path></svg>
+            <span>Build with us on GitHub</span>
+            <span class="stars"><span aria-hidden="true">☆</span> 0<span class="vh"> stars</span></span>
+            <span aria-hidden="true">↗</span>
+          </span>
         </a>
       </div>
-      <p class="oss">Open source. <a href="https://github.com/bug-catcher90/blackout-maps">The code is on GitHub.</a></p>
-
-      <figure class="stage">
-        <svg viewBox="0 0 360 220" role="img" aria-labelledby="stage-title">
-          <title id="stage-title">Two people on a dark map. One checks care and supplies. The other follows the streets to the water.</title>
-          <rect width="360" height="220" fill="#111311"></rect>
-          <g stroke="#2c2e28" stroke-width="8" fill="none">
-            <path d="M0 40 H360 M0 110 H360 M0 180 H360"></path>
-            <path d="M40 0 V220 M140 0 V220 M250 0 V220 M320 0 V220"></path>
-          </g>
-          <g fill="#1a1c18">
-            <rect x="52" y="52" width="76" height="46" rx="2"></rect>
-            <rect x="152" y="52" width="86" height="46" rx="2"></rect>
-            <rect x="52" y="122" width="76" height="46" rx="2"></rect>
-            <rect x="262" y="52" width="46" height="46" rx="2"></rect>
-            <rect x="262" y="122" width="46" height="46" rx="2"></rect>
-          </g>
-          <path class="route-track" d="M 40 180 H 140 V 110 H 320 V 40"></path>
-          <path class="route" pathLength="1" d="M 40 180 H 140 V 110 H 320 V 40"></path>
-
-          <g class="pin supplies">
-            <circle cx="250" cy="180" r="13"></circle>
-            <path d="M245 176 h10 v9 h-10 z"></path>
-            <path class="stroke" d="M247 176 c0 -4 2 -4 2 0 M253 176 c0 -4 2 -4 2 0"></path>
-          </g>
-          <g class="pin care">
-            <circle cx="140" cy="110" r="13"></circle>
-            <path d="M140 103 v14 M133 110 h14"></path>
-          </g>
-          <g class="pin water">
-            <circle cx="320" cy="40" r="13"></circle>
-            <path d="M320 32 c3.5 4 5 7 5 9.5 a5 5 0 0 1 -10 0 c0 -2.5 1.5 -5.5 5 -9.5 z"></path>
-          </g>
-
-          <g class="seeker">
-            <circle class="look" cx="140" cy="110" r="24"></circle>
-            <circle class="head" cx="188" cy="146" r="6"></circle>
-            <path d="M188 153 v14 M188 160 l-8 14 M188 160 l8 14 M180 156 h16"></path>
-          </g>
-          <g class="walker">
-            <circle class="head" cy="-32" r="6"></circle>
-            <path d="M0 -25 v14 M0 -16 l-8 14 M0 -16 l8 14 M-8 -20 h16"></path>
-          </g>
-        </svg>
-        <figcaption>One person checks the services. The other follows the streets to the water.</figcaption>
-      </figure>
     </section>
 
     <section class="band" id="product">
-      <h2>Maps, routes, supplies.</h2>
+      <h2>On the phone, without the network.</h2>
       <div class="usps">
         <article>
+          <h3>Maps</h3>
+          <p>The streets and the places stay on the phone. You can search when the network is gone.</p>
           <figure class="phone">
             <img src="screen-explore.png" width="560" height="1217" alt="Explore in Lisbon, with a search for Hospital de São José and drinking fountains, shops and the hospital on the map.">
           </figure>
-          <h3>Maps</h3>
-          <p>The streets and the places stay on the phone. You can search when the network is gone.</p>
         </article>
         <article>
+          <h3>Routes</h3>
+          <p>You get a route on foot, by bicycle or by car, and you follow the turns on the phone.</p>
           <figure class="phone">
             <img src="screen-hero.png" width="560" height="1217" alt="On-foot navigation: in 30 meters, turn onto Travessa do Hospital, with the route drawn on the map.">
           </figure>
-          <h3>Routes</h3>
-          <p>You get a route on foot, by bicycle or by car, and you follow the turns on the phone.</p>
         </article>
         <article>
+          <h3>Supplies</h3>
+          <p>Water, medical care, emergency services and shops are marked. You can save a place you need to find again.</p>
           <figure class="phone">
             <img src="screen-pin.png" width="560" height="1217" alt="The map marks water, care, emergency services and shops, and a pin named Mom's house is ready to save.">
           </figure>
-          <h3>Supplies</h3>
-          <p>Water, medical care, emergency services and shops are marked. You can save a place you need to find again.</p>
         </article>
       </div>
 
-      <div class="minis">
-        <article>
-          <h3>No GPS</h3>
+      <div class="cards">
+        <article class="card">
+          <div class="card-title">
+            <svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="8" fill="none" stroke="currentColor" stroke-width="2"></circle><path d="M20 8 v6 M20 26 v6 M8 20 h6 M26 20 h6 M12 12 l16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path></svg>
+            <h3>No GPS</h3>
+          </div>
           <p>The app does not use GPS. You set your position on the map, and you can turn the motion sensors off.</p>
         </article>
-        <article>
-          <h3>Pins</h3>
+        <article class="card">
+          <div class="card-title">
+            <svg viewBox="0 0 40 40" aria-hidden="true"><path d="M20 6 c6 7 10 11 10 16 a10 10 0 0 1 -20 0 c0 -5 4 -9 10 -16z" fill="none" stroke="currentColor" stroke-width="2"></path><circle cx="20" cy="22" r="3" fill="currentColor"></circle></svg>
+            <h3>Pins</h3>
+          </div>
           <p>You drop a pin, give it a name and save it on the phone. You can remove it later.</p>
         </article>
-        <article>
-          <h3>Directions list</h3>
+        <article class="card">
+          <div class="card-title">
+            <svg viewBox="0 0 40 40" aria-hidden="true"><path d="M8 12 h16 M8 20 h22 M8 28 h12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path><path d="M28 16 l6 4 -6 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+            <h3>Directions list</h3>
+          </div>
           <p>During a trip, the list of turns runs from the start to the place you chose.</p>
         </article>
-        <article>
-          <h3>Free</h3>
+        <article class="card">
+          <div class="card-title">
+            <svg viewBox="0 0 40 40" aria-hidden="true"><ellipse cx="20" cy="20" rx="8" ry="11" fill="none" stroke="currentColor" stroke-width="2"></ellipse></svg>
+            <h3>Free</h3>
+          </div>
           <p>There is no account and no charge.</p>
         </article>
-        <article>
-          <h3>Offline</h3>
+        <article class="card">
+          <div class="card-title">
+            <svg viewBox="0 0 40 40" aria-hidden="true"><path d="M8 24 a12 12 0 0 1 24 0 M13 24 a7 7 0 0 1 14 0 M20 24 v0" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path><circle cx="20" cy="24" r="1.6" fill="currentColor"></circle><path d="M10 30 L30 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path></svg>
+            <h3>Offline</h3>
+          </div>
           <p>Once the map is on the phone, search and routes do not need a network.</p>
         </article>
-        <article>
-          <h3>Privacy</h3>
+        <article class="card">
+          <div class="card-title">
+            <svg viewBox="0 0 40 40" aria-hidden="true"><rect x="12" y="18" width="16" height="12" rx="2" fill="none" stroke="currentColor" stroke-width="2"></rect><path d="M16 18 v-3 a4 4 0 0 1 8 0 v3" fill="none" stroke="currentColor" stroke-width="2"></path></svg>
+            <h3>Privacy</h3>
+          </div>
           <p>The app collects no data. Sensor readings stay on the phone.</p>
         </article>
       </div>
@@ -140,11 +188,25 @@
 
     <section class="band" id="open">
       <h2>The code is open.</h2>
-      <p class="lead">Blackout Maps is free to read and use. The catalog explains how a country or a state is added.</p>
-      <div class="links">
-        <a href="https://github.com/bug-catcher90/blackout-maps">github.com/bug-catcher90/blackout-maps</a>
-        <a href="https://github.com/bug-catcher90/blackout-maps/blob/main/catalog/README.md">catalog/README.md</a>
+      <p class="lead">Blackout Maps is free to read and use. The <a href="https://github.com/bug-catcher90/blackout-maps/blob/main/catalog/README.md">catalog</a> explains how a country or a state is added.</p>
+      <div class="actions">
+        <div>
+          <h3>Improve the app</h3>
+          <p>Code, design and how the map feels in the hand.</p>
+        </div>
+        <div>
+          <h3>Grow and maintain the map</h3>
+          <p>Maps, updated information and more resources.</p>
+        </div>
+        <div>
+          <h3>Try it</h3>
+          <p>Use the app, and say what fails and what you still need.</p>
+        </div>
       </div>
+      <a class="github-btn" href="https://github.com/bug-catcher90/blackout-maps">
+        <svg viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"></path></svg>
+        GitHub
+      </a>
     </section>
 
     <section class="band" id="questions">
@@ -164,7 +226,7 @@
         </details>
         <details>
           <summary>Can I install it today?</summary>
-          <p>Not yet. The iOS app and the Android app are not in a store.</p>
+          <p>Android is ready. The iOS app is not in the App Store yet.</p>
         </details>
         <details>
           <summary>Which places are included?</summary>
@@ -178,16 +240,21 @@
     </section>
 
     <section class="band cta" id="download">
-      <h2>Download it when it is ready.</h2>
-      <p class="lead">Get the map while you still have a network. Neither app is in a store yet.</p>
+      <h2>Get the map.</h2>
+      <p class="lead">Android is ready to install. iOS is still to come. Download it while you still have a network.</p>
       <div class="downloads">
-        <p class="dl">
-          <span class="dl-name">Download for iOS</span>
-          <span class="dl-meta">Coming</span>
+        <p class="store ios">
+          <svg class="mark" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M16.2 12.5c0-2.2 1.8-3.2 1.9-3.3-1-1.5-2.6-1.7-3.2-1.7-1.3-.2-2.6.8-3.3.8-.7 0-1.8-.8-3-.7-1.5.1-2.9.9-3.6 2.3-1.6 2.7-.4 6.7 1.1 8.9.7 1.1 1.6 2.3 2.8 2.2 1.1 0 1.5-.7 2.8-.7s1.7.7 2.9.7 1.9-1.1 2.6-2.2c.8-1.2 1.2-2.3 1.2-2.4s-2.3-.9-2.2-3.9zM14.2 6.5c.6-.8 1-1.8.9-2.9-1 .1-2.1.7-2.7 1.5-.6.7-1.1 1.8-.9 2.8 1 .1 2.1-.5 2.7-1.4z"></path></svg>
+          <span class="store-copy">
+            <span class="store-name">Download for iOS</span>
+            <span class="store-meta">Coming</span>
+          </span>
         </p>
-        <p class="dl">
-          <span class="dl-name">Download for Android</span>
-          <span class="dl-meta">Coming</span>
+        <p class="store android">
+          <svg class="mark" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M7.1 8.6h9.8v7.2c0 .7-.6 1.3-1.3 1.3h-.7v2.2a1.1 1.1 0 0 1-2.2 0V17H11.3v2.3a1.1 1.1 0 0 1-2.2 0V17h-.7c-.7 0-1.3-.6-1.3-1.3V8.6z"></path><path fill="currentColor" d="M8.2 8.4a4 4 0 0 1 7.6 0H8.2z"></path><circle cx="9.4" cy="7.2" r="0.8" fill="#111"></circle><circle cx="14.6" cy="7.2" r="0.8" fill="#111"></circle><path fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" d="M8.2 4.2 9.4 6.1M15.8 4.2 14.6 6.1"></path></svg>
+          <span class="store-copy">
+            <span class="store-name">Download for Android</span>
+          </span>
         </p>
       </div>
     </section>
@@ -232,7 +299,7 @@
 
   <footer class="foot">
     <img src="favicon.png" alt="">
-    <p>Blackout Maps is an offline map. The apps are not in a store yet.</p>
+    <p>Blackout Maps is an offline map. Android is ready. iOS is still to come.</p>
     <nav>
       <a href="https://github.com/bug-catcher90/blackout-maps">GitHub</a>
       <a href="https://github.com/bug-catcher90/blackout-maps/blob/main/catalog/README.md">Catalog</a>
