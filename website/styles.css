@@ -467,14 +467,25 @@ h3 {
   border-radius: 16px;
 }
 
-.slot-photo {
+.slot-frame {
+  position: relative;
   display: block;
   width: 100%;
   aspect-ratio: 4 / 3;
-  object-fit: contain;
-  background: #fff;
+  overflow: hidden;
   border: 1px solid var(--line);
   border-radius: 16px;
+  background: #121412;
+}
+
+.slot-photo {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
 }
 
 .video {
@@ -519,18 +530,42 @@ h3 {
 
 .empty-products p { margin: 0; color: var(--muted); font-size: 0.95rem; }
 
-.lessons { text-align: left; margin-top: 2.5rem; }
+.playlists { margin-top: 2.5rem; }
 
-.lessons h2 { margin-top: 2.75rem; }
-
-.lesson {
-  padding: 1.1rem 0;
-  border-top: 1px solid var(--line);
+.playlist {
+  width: min(42rem, 100%);
+  margin: 2.75rem auto 0;
+  container-type: inline-size;
 }
 
-.lesson h3 { margin: 0 0 0.35rem; font-size: 1.2rem; }
+.playlist h2 { margin-bottom: 0.85rem; }
 
-.lesson p { margin: 0.25rem 0 0; }
+.playlist-scroll {
+  max-height: calc(100cqw * 9 / 16 + 11rem);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  scrollbar-color: #3a3d36 transparent;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: #0e100e;
+  padding: 0.15rem 1rem 0.35rem;
+  text-align: left;
+}
+
+.lesson {
+  padding: 1rem 0 1.15rem;
+  border-top: 1px solid var(--line);
+  scroll-margin-top: 5rem;
+}
+
+.lesson:first-child { border-top: 0; }
+
+.lesson h3 { margin: 0; font-size: 1.2rem; }
+
+.lesson p { margin: 0.35rem 0 0; }
+
+.lesson .video { margin: 0.75rem 0 0.55rem; }
 
 .lesson a { color: var(--ink); }
 
