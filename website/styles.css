@@ -507,6 +507,9 @@ h3 {
 
 .slots h3 { margin-top: 0.85rem; font-size: 1.15rem; }
 
+#guide .slot h3 { margin-top: 0; }
+#guide .slot-frame { margin-top: 0.85rem; }
+
 .slots p { margin-top: 0.35rem; }
 
 .guide h2 { margin-top: 3rem; }
