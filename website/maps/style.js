@@ -1,0 +1,194 @@
+const font = ["Noto Sans Regular"]
+
+function lineWidth(stops) {
+  return ["interpolate", ["linear"], ["zoom"], ...stops]
+}
+
+function roadLayer(id, filter, color, widthStops, minzoom) {
+  return {
+    id,
+    type: "line",
+    source: "protomaps",
+    "source-layer": "roads",
+    minzoom,
+    filter,
+    layout: { "line-cap": "round", "line-join": "round" },
+    paint: {
+      "line-color": color,
+      "line-width": lineWidth(widthStops),
+    },
+  }
+}
+
+function casing(id, filter, widthStops, minzoom) {
+  return roadLayer(id, filter, "#d5cec2", widthStops, minzoom)
+}
+
+const placeLabel = {
+  "text-font": font,
+  "text-field": ["coalesce", ["get", "name:pt"], ["get", "name"]],
+  "text-anchor": "center",
+  "text-max-width": 8,
+}
+
+export function mapStyle(archiveUrl) {
+  return {
+    version: 8,
+    name: "Portugal",
+    glyphs: "/maps/glyphs/{fontstack}/{range}.pbf",
+    sources: {
+      protomaps: {
+        type: "vector",
+        url: archiveUrl,
+        attribution:
+          '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> © <a href="https://protomaps.com">Protomaps</a>',
+      },
+    },
+    layers: [
+      { id: "background", type: "background", paint: { "background-color": "#c5d5e0" } },
+      {
+        id: "earth",
+        type: "fill",
+        source: "protomaps",
+        "source-layer": "earth",
+        paint: { "fill-color": "#f4f0e6" },
+      },
+      {
+        id: "water",
+        type: "fill",
+        source: "protomaps",
+        "source-layer": "water",
+        filter: ["==", "$type", "Polygon"],
+        paint: { "fill-color": "#c5d5e0" },
+      },
+      {
+        id: "boundary",
+        type: "line",
+        source: "protomaps",
+        "source-layer": "boundaries",
+        filter: ["==", "kind", "country"],
+        paint: { "line-color": "#c4b8a4", "line-width": lineWidth([3, 0.6, 8, 1.4]), "line-dasharray": [2, 1.2] },
+      },
+      casing("minor-casing", ["==", "kind", "minor_road"], [12, 0.4, 14, 3.2, 17, 14], 12),
+      roadLayer("minor", ["==", "kind", "minor_road"], "#ffffff", [12, 0.2, 14, 1.8, 17, 10], 12),
+      casing("major-casing", ["==", "kind", "major_road"], [7, 0.5, 12, 3, 17, 16], 7),
+      roadLayer("major", ["==", "kind", "major_road"], "#f7f3ea", [7, 0.3, 12, 1.6, 17, 11], 7),
+      casing("highway-casing", ["==", "kind", "highway"], [5, 0.8, 12, 4, 17, 18], 5),
+      roadLayer("highway", ["==", "kind", "highway"], "#e7a04a", [5, 0.4, 12, 2.2, 17, 12], 5),
+      {
+        id: "rail",
+        type: "line",
+        source: "protomaps",
+        "source-layer": "roads",
+        minzoom: 8,
+        filter: ["==", "kind", "rail"],
+        paint: {
+          "line-color": "#b7aa9c",
+          "line-width": lineWidth([8, 0.4, 15, 1.4]),
+          "line-dasharray": [2, 2],
+        },
+      },
+      {
+        id: "path",
+        type: "line",
+        source: "protomaps",
+        "source-layer": "roads",
+        minzoom: 14,
+        filter: ["==", "kind", "path"],
+        paint: {
+          "line-color": "#b7a48a",
+          "line-width": lineWidth([14, 0.6, 17, 2.4]),
+          "line-dasharray": [1.4, 1.2],
+        },
+      },
+      {
+        id: "ferry",
+        type: "line",
+        source: "protomaps",
+        "source-layer": "roads",
+        minzoom: 5,
+        filter: ["==", "kind", "ferry"],
+        paint: {
+          "line-color": "#6f97ad",
+          "line-width": 1.2,
+          "line-dasharray": [2, 2],
+        },
+      },
+      {
+        id: "road-label",
+        type: "symbol",
+        source: "protomaps",
+        "source-layer": "roads",
+        minzoom: 13,
+        filter: ["in", "kind", "highway", "major_road", "minor_road"],
+        layout: {
+          "symbol-placement": "line",
+          "text-font": font,
+          "text-size": 11,
+          "text-max-angle": 28,
+          "text-field": [
+            "case",
+            ["all", ["has", "ref"], ["has", "name"]],
+            ["concat", ["get", "ref"], "  ", ["coalesce", ["get", "name:pt"], ["get", "name"]]],
+            ["coalesce", ["get", "name:pt"], ["get", "name"], ["get", "ref"], ""],
+          ],
+        },
+        paint: {
+          "text-color": "#4e483f",
+          "text-halo-color": "#f6f3ec",
+          "text-halo-width": 1.3,
+        },
+      },
+      {
+        id: "place-hamlet",
+        type: "symbol",
+        source: "protomaps",
+        "source-layer": "places",
+        minzoom: 12,
+        filter: ["in", "kind_detail", "hamlet", "locality", "farm", "isolated_dwelling"],
+        layout: { ...placeLabel, "text-size": 11 },
+        paint: { "text-color": "#5c564c", "text-halo-color": "#f6f3ec", "text-halo-width": 1.2 },
+      },
+      {
+        id: "place-village",
+        type: "symbol",
+        source: "protomaps",
+        "source-layer": "places",
+        minzoom: 10,
+        filter: ["==", "kind_detail", "village"],
+        layout: { ...placeLabel, "text-size": 12 },
+        paint: { "text-color": "#3d3832", "text-halo-color": "#f6f3ec", "text-halo-width": 1.2 },
+      },
+      {
+        id: "place-neighbourhood",
+        type: "symbol",
+        source: "protomaps",
+        "source-layer": "places",
+        minzoom: 13,
+        filter: ["==", "kind", "neighbourhood"],
+        layout: { ...placeLabel, "text-size": 11 },
+        paint: { "text-color": "#6a645b", "text-halo-color": "#f6f3ec", "text-halo-width": 1.2 },
+      },
+      {
+        id: "place-town",
+        type: "symbol",
+        source: "protomaps",
+        "source-layer": "places",
+        minzoom: 7,
+        filter: ["==", "kind_detail", "town"],
+        layout: { ...placeLabel, "text-size": 14 },
+        paint: { "text-color": "#241f1a", "text-halo-color": "#f6f3ec", "text-halo-width": 1.4 },
+      },
+      {
+        id: "place-city",
+        type: "symbol",
+        source: "protomaps",
+        "source-layer": "places",
+        minzoom: 4,
+        filter: ["==", "kind_detail", "city"],
+        layout: { ...placeLabel, "text-size": ["interpolate", ["linear"], ["zoom"], 4, 12, 8, 18] },
+        paint: { "text-color": "#1c1916", "text-halo-color": "#f6f3ec", "text-halo-width": 1.6 },
+      },
+    ],
+  }
+}

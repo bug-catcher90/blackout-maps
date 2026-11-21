@@ -1,0 +1,103 @@
+const DICT = {
+  es: {
+    "Corrigir posição": "Corregir posición",
+    Confirmar: "Confirmar",
+    Cancelar: "Cancelar",
+    Agora: "Ahora",
+    "{n} metros": "{n} metros",
+    "A {distance}, virar para a {street}": "A {distance}, girar hacia {street}",
+    "Agora, virar para a {street}": "Ahora, girar hacia {street}",
+    "A {distance}, siga em frente pela {street}": "A {distance}, siga recto por {street}",
+    "Agora, siga em frente pela {street}": "Ahora, siga recto por {street}",
+    "A {distance}, siga em frente": "A {distance}, siga recto",
+    "Siga em frente": "Siga recto",
+    "Vire à direita": "Gire a la derecha",
+    "Vire à esquerda": "Gire a la izquierda",
+    "Vire ligeiramente à direita": "Gire levemente a la derecha",
+    "Vire ligeiramente à esquerda": "Gire levemente a la izquierda",
+    "Vire acentuadamente à direita": "Gire cerrado a la derecha",
+    "Vire acentuadamente à esquerda": "Gire cerrado a la izquierda",
+    "Inverta a marcha": "Dé la vuelta",
+    "Entre na rotunda": "Entre en la rotonda",
+    "A {distance}, {turn}": "A {distance}, {turn}",
+  },
+  fr: {
+    "Corrigir posição": "Corriger la position",
+    Confirmar: "Confirmer",
+    Cancelar: "Annuler",
+    Agora: "Maintenant",
+    "{n} metros": "{n} mètres",
+    "A {distance}, virar para a {street}": "À {distance}, tourner vers {street}",
+    "Agora, virar para a {street}": "Maintenant, tourner vers {street}",
+    "A {distance}, siga em frente pela {street}": "À {distance}, tout droit sur {street}",
+    "Agora, siga em frente pela {street}": "Maintenant, tout droit sur {street}",
+    "A {distance}, siga em frente": "À {distance}, tout droit",
+    "Siga em frente": "Tout droit",
+    "Vire à direita": "Tournez à droite",
+    "Vire à esquerda": "Tournez à gauche",
+    "Vire ligeiramente à direita": "Tournez légèrement à droite",
+    "Vire ligeiramente à esquerda": "Tournez légèrement à gauche",
+    "Vire acentuadamente à direita": "Tournez franchement à droite",
+    "Vire acentuadamente à esquerda": "Tournez franchement à gauche",
+    "Inverta a marcha": "Faites demi-tour",
+    "Entre na rotunda": "Prenez le rond-point",
+    "A {distance}, {turn}": "À {distance}, {turn}",
+  },
+  de: {
+    "Corrigir posição": "Position korrigieren",
+    Confirmar: "Bestätigen",
+    Cancelar: "Abbrechen",
+    Agora: "Jetzt",
+    "{n} metros": "{n} Meter",
+    "A {distance}, virar para a {street}": "Nach {distance} in {street} abbiegen",
+    "Agora, virar para a {street}": "Jetzt in {street} abbiegen",
+    "A {distance}, siga em frente pela {street}": "Nach {distance} weiter auf {street}",
+    "Agora, siga em frente pela {street}": "Jetzt weiter auf {street}",
+    "A {distance}, siga em frente": "Nach {distance} geradeaus",
+    "Siga em frente": "Geradeaus",
+    "Vire à direita": "Rechts abbiegen",
+    "Vire à esquerda": "Links abbiegen",
+    "Vire ligeiramente à direita": "Leicht rechts abbiegen",
+    "Vire ligeiramente à esquerda": "Leicht links abbiegen",
+    "Vire acentuadamente à direita": "Scharf rechts abbiegen",
+    "Vire acentuadamente à esquerda": "Scharf links abbiegen",
+    "Inverta a marcha": "Wenden",
+    "Entre na rotunda": "In den Kreisverkehr",
+    "A {distance}, {turn}": "Nach {distance}, {turn}",
+  },
+  it: {
+    "Corrigir posição": "Correggi posizione",
+    Confirmar: "Conferma",
+    Cancelar: "Annulla",
+    Agora: "Adesso",
+    "{n} metros": "{n} metri",
+    "A {distance}, virar para a {street}": "Tra {distance}, svoltare in {street}",
+    "Agora, virar para a {street}": "Adesso, svoltare in {street}",
+    "A {distance}, siga em frente pela {street}": "Per {distance}, dritto su {street}",
+    "Agora, siga em frente pela {street}": "Adesso, dritto su {street}",
+    "A {distance}, siga em frente": "Per {distance}, dritto",
+    "Siga em frente": "Dritto",
+    "Vire à direita": "Svolta a destra",
+    "Vire à esquerda": "Svolta a sinistra",
+    "Vire ligeiramente à direita": "Leggera svolta a destra",
+    "Vire ligeiramente à esquerda": "Leggera svolta a sinistra",
+    "Vire acentuadamente à direita": "Svolta decisa a destra",
+    "Vire acentuadamente à esquerda": "Svolta decisa a sinistra",
+    "Inverta a marcha": "Inverti la marcia",
+    "Entre na rotunda": "Entra nella rotonda",
+    "A {distance}, {turn}": "Tra {distance}, {turn}",
+  },
+}
+
+function lang() {
+  const code = (navigator.language || "pt").slice(0, 2).toLowerCase()
+  return DICT[code] ? code : "pt"
+}
+
+export function t(key, vars) {
+  let text = DICT[lang()]?.[key] || key
+  if (vars) {
+    for (const [name, value] of Object.entries(vars)) text = text.split(`{${name}}`).join(String(value))
+  }
+  return text
+}
