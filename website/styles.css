@@ -572,6 +572,60 @@ h3 {
 
 .lesson a { color: var(--ink); }
 
+.section-more { margin: 1.75rem 0 0; }
+.section-more a { color: var(--ink); text-decoration: none; }
+.section-more a:hover { color: var(--amber); }
+
+.reel {
+  display: grid;
+  grid-template-columns: auto minmax(0, 42rem) auto;
+  justify-content: center;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: 2rem;
+}
+
+.reel-track {
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+  text-align: left;
+}
+
+.reel-track::-webkit-scrollbar { display: none; }
+
+.reel-slide {
+  flex: 0 0 100%;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+}
+
+.reel-slide h3 { margin: 0; font-size: 1.2rem; }
+.reel-slide p { margin: 0.35rem 0 0; }
+.reel-slide .video { margin: 0.75rem 0 0.55rem; }
+.reel-slide a { color: var(--ink); }
+
+.reel-btn {
+  width: 2.5rem;
+  height: 2.5rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--card);
+  color: var(--ink);
+  font: inherit;
+  font-size: 1.4rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.reel-btn:hover { border-color: var(--muted); }
+
+@media (prefers-reduced-motion: reduce) {
+  .reel-track { scroll-behavior: auto; }
+}
+
 .foot {
   width: min(1120px, calc(100% - 3rem));
   margin: 0 auto;
