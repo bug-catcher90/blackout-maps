@@ -208,6 +208,67 @@ export function placesInView(book, west, south, east, north, category = -1, limi
   return { counts, items }
 }
 
+const PIN_ZOOM = 6.2
+const SERVICE_WORDS = [
+  ["hospital", "urgencia", "inem", "centro hospitalar"],
+  ["comando", "esquadra", "psp"],
+  ["bombeiro"],
+  ["galp", "repsol", "bp", "prio", "cepsa", "shell"],
+  ["continente", "pingo doce", "lidl", "auchan", "intermarche", "aldi"],
+  ["restaurante"],
+]
+
+function metersBetweenPlaces(lat1, lon1, lat2, lon2) {
+  const radius = 6371e3
+  const p1 = (lat1 * Math.PI) / 180
+  const p2 = (lat2 * Math.PI) / 180
+  const dp = p2 - p1
+  const dl = ((lon2 - lon1) * Math.PI) / 180
+  const h = Math.sin(dp / 2) ** 2 + Math.cos(p1) * Math.cos(p2) * Math.sin(dl / 2) ** 2
+  return 2 * radius * Math.asin(Math.min(1, Math.sqrt(h)))
+}
+
+function pinBudget(zoom) {
+  if (zoom < PIN_ZOOM - 0.05) return { limit: 0, spacing: Infinity }
+  if (zoom >= 14) return { limit: 1e9, spacing: 0 }
+  const steps = zoom - PIN_ZOOM
+  return {
+    limit: Math.max(2, Math.round(2 * Math.pow(1.55, steps))),
+    spacing: 140000 * Math.pow(0.5, steps / 1.15),
+  }
+}
+
+function serviceScore(category, name) {
+  const text = fold(name || "")
+  const words = SERVICE_WORDS[category] || []
+  let score = 1
+  for (const word of words) if (text.includes(word)) score += 10
+  return score
+}
+
+function pickSpread(points, zoom, scoreOf) {
+  const budget = pinBudget(zoom)
+  if (budget.limit <= 0 || !points.length) return []
+  const ranked = points.map((point) => ({ point, score: scoreOf(point) }))
+  ranked.sort((a, b) => b.score - a.score || a.point.lat - b.point.lat || a.point.lon - b.point.lon)
+  const chosen = []
+  for (const row of ranked) {
+    if (chosen.length >= budget.limit) break
+    if (budget.spacing > 0 && chosen.some((kept) => metersBetweenPlaces(kept.lat, kept.lon, row.point.lat, row.point.lon) < budget.spacing)) continue
+    chosen.push(row.point)
+  }
+  return chosen
+}
+
+export function serviceIcons(items, zoom) {
+  const shown = []
+  for (let kind = 0; kind < CATEGORIES.length; kind += 1) {
+    const group = items.filter((place) => place.category === kind)
+    for (const place of pickSpread(group, zoom, (place) => serviceScore(kind, place.name))) shown.push(place)
+  }
+  return shown
+}
+
 export function searchServices(book, query, limit = 6) {
   const parts = fold(query).split(/\s+/).filter((part) => part.length > 1)
   if (!book || parts.length === 0) return []
