@@ -105,7 +105,7 @@ final class MapController: NSObject, MLNMapViewDelegate {
     }
 
     func load(archive: URL, glyphs: String) {
-        let world = Bundle.main.url(forResource: "world", withExtension: "geojson")?.absoluteString ?? ""
+        let world = Bundle.main.url(forResource: "world", withExtension: "pmtiles").map { "pmtiles://\($0.absoluteString)" } ?? ""
         let json = MapStyle.json(archive: "pmtiles://\(archive.absoluteString)", glyphs: glyphs, world: world)
         let url = FileManager.default.temporaryDirectory.appendingPathComponent("mapa-style.json")
         try? json.write(to: url, atomically: true, encoding: .utf8)
