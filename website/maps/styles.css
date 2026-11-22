@@ -509,8 +509,48 @@ body.navigating .tabbar { display: none; }
   z-index: 3;
   right: 12px;
   bottom: calc(var(--bar) + var(--lift) + 12px);
-  display: grid;
-  gap: 8px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.compass-row {
+  display: flex;
+  align-items: center;
+}
+
+.position-prompt {
+  position: relative;
+  max-width: 220px;
+  margin: 0 8px 0 0;
+  padding: 11px 14px;
+  background: #1c1916;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 650;
+  line-height: 20px;
+  border-radius: 14px;
+  border: 1px solid #fff;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.16);
+}
+
+.position-prompt::after {
+  content: "";
+  position: absolute;
+  right: -8px;
+  top: 50%;
+  margin-top: -8px;
+  border-width: 8px 0 8px 8px;
+  border-style: solid;
+  border-color: transparent transparent transparent #1c1916;
+}
+
+#fix-btn.needs-fix {
+  animation: compass-pulse 0.7s ease-in-out infinite alternate;
+}
+
+@keyframes compass-pulse {
+  from { box-shadow: 0 0 0 2px #c2410c, 0 1px 2px rgba(0, 0, 0, 0.16); }
+  to { box-shadow: 0 0 0 2px #c2410c, 0 0 0 12px rgba(194, 65, 12, 0.16); }
 }
 
 .tools button {

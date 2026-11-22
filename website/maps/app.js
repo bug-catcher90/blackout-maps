@@ -100,6 +100,7 @@ const pinsPanel = document.querySelector("#panel-pins")
 const settingsPanel = document.querySelector("#panel-settings")
 const pinList = document.querySelector("#pin-list")
 const tools = document.querySelector("#tools")
+const positionPrompt = document.querySelector("#position-prompt")
 const topEl = document.querySelector("#top")
 
 const metersFormat = new Intl.NumberFormat("pt-PT", { minimumFractionDigits: 2, maximumFractionDigits: 2 })
@@ -176,6 +177,7 @@ let travelMode = "walk"
 let navigating = false
 let correcting = false
 let fixing = false
+let positionFixed = false
 let fixHeld = null
 let fixMoveFrame = 0
 let fixDoorToken = 0
@@ -269,6 +271,7 @@ function persist() {
       steps: pose.steps,
       distanceM: pose.distanceM,
     },
+    fixed: positionFixed,
   }
   try {
     localStorage.setItem(STATE_KEY, JSON.stringify(data))
@@ -472,9 +475,16 @@ function readStored() {
   }
 }
 
+function syncPositionPrompt() {
+  const show = !positionFixed && tab === "explorar" && !navigating && !fixing && !addingPin
+  positionPrompt.hidden = !show
+  fixBtn.classList.toggle("needs-fix", show)
+}
+
 function restore() {
   const data = readStored()
   if (!data) return
+  positionFixed = Boolean(data.fixed)
   if (Number.isFinite(data.stepLength)) {
     estimator.setStepLength(data.stepLength)
     stepInput.value = String(data.stepLength)
@@ -487,6 +497,7 @@ function restore() {
     map.jumpTo({ center: [data.pin.lon, data.pin.lat], zoom: 16 })
   }
   updateButtons()
+  syncPositionPrompt()
 }
 
 function addOverlay() {
@@ -1066,6 +1077,7 @@ function startFix() {
   topEl.hidden = false
   tools.hidden = true
   fixBtn.setAttribute("aria-pressed", "true")
+  syncPositionPrompt()
   if (marker) marker.setDraggable(false)
   userMapGesture = false
   syncTypingFields()
@@ -1099,11 +1111,13 @@ function stopFix() {
   if (held?.trip && tab === "explorar" && !navigating && destPlace) tripEl.hidden = false
   syncTypingFields()
   layoutMap()
+  syncPositionPrompt()
 }
 
 function confirmFix() {
   if (!fixing || !mapReady) return
   const here = pointUnderPin()
+  positionFixed = true
   stopFix()
   anchorAt(here.lat, here.lon)
 }
@@ -1345,6 +1359,7 @@ function startAddPin() {
   settingsPanel.hidden = true
   topEl.hidden = false
   tools.hidden = true
+  syncPositionPrompt()
   categoryBar.hidden = false
   if (marker) marker.setDraggable(false)
   centerPin.hidden = false
@@ -1445,6 +1460,7 @@ function showTab(name) {
   placeCard.hidden = true
   if (name === "pins") renderPins()
   syncTypingFields()
+  syncPositionPrompt()
   layoutMap()
 }
 
@@ -1983,6 +1999,7 @@ function beginNavigation(route) {
   searchForm.hidden = true
   topEl.hidden = true
   tools.hidden = true
+  syncPositionPrompt()
   sheet = null
   pinSheet.hidden = true
   placesSheet.hidden = true
@@ -2012,6 +2029,7 @@ function leaveNavigation() {
   syncTypingFields()
   topEl.hidden = tab !== "explorar"
   tools.hidden = tab !== "explorar"
+  syncPositionPrompt()
   if (mapReady) map.easeTo({ bearing: 0, duration: 0 })
   if (destPlace && tab === "explorar") {
     tripEl.hidden = false
@@ -2211,6 +2229,8 @@ function bindUi() {
   correctOkBtn.textContent = t("Confirmar")
   fixCancelBtn.textContent = t("Cancelar")
   fixOkBtn.textContent = t("Confirmar")
+  positionPrompt.textContent = t("Defina a sua posição aqui para começar")
+  syncPositionPrompt()
   navCorrectBtn.addEventListener("click", startCorrect)
   correctCancelBtn.addEventListener("click", () => finishCorrect(false))
   correctOkBtn.addEventListener("click", () => finishCorrect(true))
