@@ -809,6 +809,19 @@ h3 {
   text-decoration: none;
 }
 
+button.guide-buy {
+  border: 0;
+  font: inherit;
+  font-weight: 500;
+  line-height: 1.3;
+  text-align: center;
+  white-space: normal;
+  max-width: 100%;
+  cursor: pointer;
+}
+
+button.guide-buy:disabled { cursor: wait; opacity: 0.65; }
+
 .guide-buy:hover { background: #fff; color: #14140f; }
 
 .guide-example { margin-top: 1.35rem; }
