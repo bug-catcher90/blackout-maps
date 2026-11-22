@@ -1,4 +1,4 @@
-const CACHE = "posicao-shell-v40"
+const CACHE = "posicao-shell-v41"
 
 const SHELL = [
   "/maps/index.html",
