@@ -1,0 +1,40 @@
+{
+  "id": "lithuania",
+  "name": "Lithuania",
+  "flag": "🇱🇹",
+  "autoload": false,
+  "files": [
+    {
+      "key": "places",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/lithuania/places.bin.gz",
+      "file": "places.bin",
+      "gzip": true,
+      "bytes": 667632,
+      "label": "lugares"
+    },
+    {
+      "key": "water",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/lithuania/water.bin.gz",
+      "file": "water.bin",
+      "gzip": true,
+      "bytes": 202864,
+      "label": "água"
+    },
+    {
+      "key": "addresses",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/lithuania/addresses.bin.gz",
+      "file": "addresses.bin",
+      "gzip": true,
+      "bytes": 20116987,
+      "label": "moradas"
+    },
+    {
+      "key": "geo",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/lithuania/geo.json.gz",
+      "file": "geo.json",
+      "gzip": true,
+      "bytes": null,
+      "label": "geo"
+    }
+  ]
+}
