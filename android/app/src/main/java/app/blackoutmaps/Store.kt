@@ -48,6 +48,7 @@ object Store {
     fun prepare(context: Context, assets: AssetManager): File {
         val base = directory(context, "base")
         copyAsset(assets, "base/portugal.pmtiles", File(base, "portugal.pmtiles"))
+        copyAsset(assets, "base/world.pmtiles", File(base, "world.pmtiles"))
         // aapt unpacks a .gz asset and drops the extension, so the APK may already hold the raw file.
         copyOrInflate(assets, "base/roads.bin", "base/roads.bin.gz", File(base, "roads.bin"), 170_238_576)
         copyOrInflate(assets, "base/buildings.bin", "base/buildings.bin.gz", File(base, "buildings.bin"), 79_915_812)

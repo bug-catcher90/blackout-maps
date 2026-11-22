@@ -7,7 +7,7 @@ import java.net.Socket
 import java.net.URLDecoder
 import java.util.concurrent.Executors
 
-class TileServer(private val archive: Pmtiles, private val assets: AssetManager) {
+class TileServer(private val archive: Pmtiles, private val world: Pmtiles, private val assets: AssetManager) {
     private val socket = ServerSocket()
     private val pool = Executors.newFixedThreadPool(4)
     val port: Int
@@ -31,6 +31,7 @@ class TileServer(private val archive: Pmtiles, private val assets: AssetManager)
         runCatching { socket.close() }
         pool.shutdownNow()
         archive.close()
+        world.close()
     }
 
     private fun serve(client: Socket) {
@@ -51,7 +52,6 @@ class TileServer(private val archive: Pmtiles, private val assets: AssetManager)
                 } else {
                     val type = when {
                         path.startsWith("/glyphs/") -> "application/x-protobuf"
-                        path.startsWith("/world") -> "application/geo+json"
                         else -> "application/vnd.mapbox-vector-tile"
                     }
                     val header = "HTTP/1.1 200 OK\r\nContent-Type: $type\r\nContent-Length: ${body.size}\r\nConnection: close\r\n\r\n"
@@ -72,12 +72,11 @@ class TileServer(private val archive: Pmtiles, private val assets: AssetManager)
             val y = parts[3].substringBefore('.').substringBefore('@').toIntOrNull() ?: return null
             return archive.tile(z, x, y)
         }
-        if (parts.firstOrNull() == "world.geojson") {
-            return try {
-                assets.open("world.geojson").use { it.readBytes() }
-            } catch (_: Exception) {
-                null
-            }
+        if (parts.firstOrNull() == "world" && parts.size == 4) {
+            val z = parts[1].toIntOrNull() ?: return null
+            val x = parts[2].toIntOrNull() ?: return null
+            val y = parts[3].substringBefore('.').substringBefore('@').toIntOrNull() ?: return null
+            return world.tile(z, x, y)
         }
         if (parts.firstOrNull() == "glyphs" && parts.size == 3) {
             val font = URLDecoder.decode(parts[1], "UTF-8")

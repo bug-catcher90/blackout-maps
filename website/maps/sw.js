@@ -1,10 +1,9 @@
-const CACHE = "posicao-shell-v37"
+const CACHE = "posicao-shell-v38"
 
 const SHELL = [
   "/maps/index.html",
   "/maps/styles.css",
-  "/maps/app.js?v=37",
-  "/maps/world.geojson",
+  "/maps/app.js?v=38",
   "/maps/i18n.js",
   "/maps/places.js",
   "/maps/water.js",
@@ -66,6 +65,6 @@ self.addEventListener("fetch", (event) => {
   if (request.method !== "GET") return
   const url = new URL(request.url)
   if (url.origin !== self.location.origin) return
-  if (url.pathname === "/maps/portugal.pmtiles") return
+  if (url.pathname === "/maps/portugal.pmtiles" || url.pathname === "/maps/world.pmtiles") return
   event.respondWith(networkFirst(request))
 })

@@ -600,7 +600,8 @@ class AppModel(application: Application) : AndroidViewModel(application) {
             onMain { saving("mapa") }
             val base = Store.prepare(app, app.assets)
             val archive = Pmtiles(File(base, "portugal.pmtiles"))
-            val server = TileServer(archive, app.assets)
+            val world = Pmtiles(File(base, "world.pmtiles"))
+            val server = TileServer(archive, world, app.assets)
             tileServer = server
             onMain {
                 maxZoom = archive.maxZoom

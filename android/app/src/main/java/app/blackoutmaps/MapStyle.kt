@@ -11,8 +11,11 @@ object MapStyle {
           "glyphs": "$glyphs",
           "sources": {
             "world": {
-              "type": "geojson",
-              "data": "http://127.0.0.1:$port/world.geojson"
+              "type": "vector",
+              "tiles": ["http://127.0.0.1:$port/world/{z}/{x}/{y}.mvt"],
+              "minzoom": 0,
+              "maxzoom": 7,
+              "attribution": "Natural Earth"
             },
             "protomaps": {
               "type": "vector",
@@ -24,8 +27,12 @@ object MapStyle {
           },
           "layers": [
             {"id": "background", "type": "background", "paint": {"background-color": "#c5d5e0"}},
-            {"id": "world-land", "type": "fill", "source": "world", "filter": ["==", "${'$'}type", "Polygon"], "paint": {"fill-color": "#f4f0e6"}},
-            {"id": "world-line", "type": "line", "source": "world", "filter": ["==", "${'$'}type", "LineString"], "paint": {"line-color": "#c4b8a4", "line-width": ["interpolate", ["linear"], ["zoom"], 0, 0.6, 6, 1.2]}},
+            {"id": "world-land", "type": "fill", "source": "world", "source-layer": "land", "paint": {"fill-color": "#f4f0e6"}},
+            {"id": "world-lakes", "type": "fill", "source": "world", "source-layer": "lakes", "paint": {"fill-color": "#c5d5e0"}},
+            {"id": "world-rivers", "type": "line", "source": "world", "source-layer": "rivers", "layout": {"line-cap": "round", "line-join": "round"}, "paint": {"line-color": "#7fabc2", "line-width": ["interpolate", ["linear"], ["zoom"], 0, 0.4, 3, 0.9, 6, 1.5, 7, 2]}},
+            {"id": "world-border", "type": "line", "source": "world", "source-layer": "countries", "filter": ["==", "kind", "country"], "paint": {"line-color": "#b3a898", "line-width": ["interpolate", ["linear"], ["zoom"], 0, 0.5, 4, 1, 7, 1.6]}},
+            {"id": "world-disputed", "type": "line", "source": "world", "source-layer": "countries", "filter": ["!=", "kind", "country"], "paint": {"line-color": "#b3a898", "line-width": ["interpolate", ["linear"], ["zoom"], 0, 0.5, 4, 1, 7, 1.4], "line-dasharray": [2, 1.4]}},
+            {"id": "world-country", "type": "symbol", "source": "world", "source-layer": "country_labels", "maxzoom": 5, "layout": {"text-font": ["Noto Sans Regular"], "text-field": ["get", "name"], "text-size": ["interpolate", ["linear"], ["zoom"], 1, 11, 4, 15], "text-max-width": 8}, "paint": {"text-color": "#6a645b", "text-halo-color": "#f4f0e6", "text-halo-width": 1.2}},
             {"id": "earth", "type": "fill", "source": "protomaps", "source-layer": "earth", "paint": {"fill-color": "#f4f0e6"}},
             {"id": "water", "type": "fill", "source": "protomaps", "source-layer": "water", "filter": ["==", "${'$'}type", "Polygon"], "paint": {"fill-color": "#c5d5e0"}},
             {"id": "boundary", "type": "line", "source": "protomaps", "source-layer": "boundaries", "filter": ["==", "kind", "country"], "paint": {"line-color": "#c4b8a4", "line-width": ["interpolate", ["linear"], ["zoom"], 3, 0.6, 8, 1.4], "line-dasharray": [2, 1.2]}},
