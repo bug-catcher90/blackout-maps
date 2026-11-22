@@ -124,11 +124,18 @@ fun MapPane(model: AppModel, modifier: Modifier = Modifier) {
         if (port == 0) return@LaunchedEffect
         ready.setStyle(Style.Builder().fromJson(MapStyle.json(port, model.maxZoom))) { loaded ->
             addOverlays(loaded, context.resources.displayMetrics.density)
-            ready.cameraPosition = CameraPosition.Builder()
-                .target(LatLng(model.openingLat, model.openingLon))
-                .zoom(model.openingZoom)
-                .bearing(0.0)
+            val europe = LatLngBounds.Builder()
+                .include(LatLng(34.0, -25.0))
+                .include(LatLng(71.0, 40.0))
                 .build()
+            val framed = runCatching { ready.moveCamera(CameraUpdateFactory.newLatLngBounds(europe, 72)) }.isSuccess
+            if (!framed) {
+                ready.cameraPosition = CameraPosition.Builder()
+                    .target(LatLng(model.openingLat, model.openingLon))
+                    .zoom(model.openingZoom)
+                    .bearing(0.0)
+                    .build()
+            }
             style = loaded
             model.noteStyle()
         }
@@ -161,8 +168,11 @@ fun MapPane(model: AppModel, modifier: Modifier = Modifier) {
         }
     }
 
-    LaunchedEffect(style, model.overlay, model.styleStamp) {
+    LaunchedEffect(style, model.overlay, model.styleStamp, model.countriesJson) {
         val loaded = style ?: return@LaunchedEffect
+        if (model.countriesJson.isNotEmpty()) {
+            runCatching { loaded.getSourceAs<GeoJsonSource>("countries")?.setGeoJson(model.countriesJson) }
+        }
         runCatching { loaded.getSourceAs<GeoJsonSource>("markers")?.setGeoJson(model.markersJson) }
         runCatching { loaded.getSourceAs<GeoJsonSource>("buildings")?.setGeoJson(model.buildingsJson) }
         runCatching { loaded.getSourceAs<GeoJsonSource>("routes")?.setGeoJson(model.routesJson) }

@@ -37,6 +37,12 @@
     </div>
 
     <div id="tools" class="tools">
+      <button type="button" id="maps-btn" aria-label="Mapas">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M8.2 3.2 3.2 5.1v15.7l5-1.8 7.6 1.8 5-1.8V3.2l-5 1.9-7.6-1.9Z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" />
+          <path d="M8.2 3.2v15.8M15.8 5.1v15.7" fill="none" stroke="currentColor" stroke-width="1.6" />
+        </svg>
+      </button>
       <div class="compass-row">
       <p id="position-prompt" class="position-prompt" hidden></p>
       <button type="button" id="fix-btn" aria-label="Posição" aria-pressed="false">
@@ -241,6 +247,6 @@
     </nav>
 
     <script src="/maps/vendor/pmtiles.js"></script>
-    <script type="module" src="/maps/app.js?v=38"></script>
+    <script type="module" src="/maps/app.js?v=39"></script>
   </body>
 </html>

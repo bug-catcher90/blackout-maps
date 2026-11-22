@@ -165,13 +165,17 @@ fun BlackoutScreen(model: AppModel = viewModel()) {
             Column(Modifier.align(Alignment.BottomCenter).fillMaxWidth()) {
                 val compass = model.tab == Tab.Explore && !model.navigating && !model.fixing && !model.adding
                 if (compass) {
-                    Row(
+                    Column(
                         Modifier.fillMaxWidth().padding(start = 12.dp, end = 12.dp, bottom = 12.dp),
-                        horizontalArrangement = Arrangement.End,
-                        verticalAlignment = Alignment.CenterVertically
+                        horizontalAlignment = Alignment.End,
+                        verticalArrangement = Arrangement.spacedBy(12.dp)
                     ) {
-                        if (!model.positionFixed) PositionPrompt(model.t("set-position"))
-                        CompassButton(model.t("position"), pulse = !model.positionFixed) { model.startFix() }
+                        MapButton(model.t("maps"), pulse = !model.mapsPromptDone) { model.openMaps() }
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            val prompt = model.mapsPromptDone && !model.holdCompass && !model.positionFixed
+                            if (prompt) PositionPrompt(model.t("set-position"))
+                            CompassButton(model.t("position"), pulse = prompt) { model.startFix() }
+                        }
                     }
                 }
                 if (model.showRecenter) {
@@ -839,6 +843,58 @@ private fun PositionPrompt(text: String) {
             drawPath(path, bubble)
         }
         Spacer(Modifier.width(8.dp))
+    }
+}
+
+@Composable
+private fun MapButton(label: String, pulse: Boolean, onClick: () -> Unit) {
+    val ink = LocalInk.current
+    val transition = rememberInfiniteTransition(label = "maps")
+    val scale by transition.animateFloat(
+        initialValue = 1f,
+        targetValue = if (pulse) 1.14f else 1f,
+        animationSpec = infiniteRepeatable(tween(if (pulse) 700 else 1), RepeatMode.Reverse),
+        label = "maps-scale"
+    )
+    val alpha by transition.animateFloat(
+        initialValue = 1f,
+        targetValue = if (pulse) 0.45f else 1f,
+        animationSpec = infiniteRepeatable(tween(if (pulse) 700 else 1), RepeatMode.Reverse),
+        label = "maps-alpha"
+    )
+    Box(
+        Modifier
+            .graphicsLayer {
+                scaleX = scale
+                scaleY = scale
+                this.alpha = alpha
+            }
+            .size(48.dp)
+            .shadow(1.dp, CircleShape, clip = false)
+            .background(ink.bg, CircleShape)
+            .border(if (pulse) 2.dp else 1.dp, if (pulse) pinColor else ink.line, CircleShape)
+            .clip(CircleShape)
+            .clickable(onClick = onClick)
+            .semantics { contentDescription = label },
+        contentAlignment = Alignment.Center
+    ) {
+        Canvas(Modifier.size(22.dp)) {
+            val stroke = Stroke(width = 1.6.dp.toPx(), join = StrokeJoin.Round)
+            val path = Path().apply {
+                moveTo(size.width * 0.34f, size.height * 0.12f)
+                lineTo(size.width * 0.08f, size.height * 0.22f)
+                lineTo(size.width * 0.08f, size.height * 0.88f)
+                lineTo(size.width * 0.34f, size.height * 0.76f)
+                lineTo(size.width * 0.66f, size.height * 0.88f)
+                lineTo(size.width * 0.92f, size.height * 0.76f)
+                lineTo(size.width * 0.92f, size.height * 0.12f)
+                lineTo(size.width * 0.66f, size.height * 0.24f)
+                close()
+            }
+            drawPath(path, ink.ink, style = stroke)
+            drawLine(ink.ink, Offset(size.width * 0.34f, size.height * 0.12f), Offset(size.width * 0.34f, size.height * 0.76f), strokeWidth = 1.6.dp.toPx())
+            drawLine(ink.ink, Offset(size.width * 0.66f, size.height * 0.24f), Offset(size.width * 0.66f, size.height * 0.88f), strokeWidth = 1.6.dp.toPx())
+        }
     }
 }
 

@@ -73,6 +73,9 @@ class AppModel(application: Application) : AndroidViewModel(application) {
     var steps by mutableStateOf(emptyList<NavStep>())
     var fixing by mutableStateOf(false)
     var positionFixed by mutableStateOf(false)
+    var mapsPromptDone by mutableStateOf(false)
+    var holdCompass by mutableStateOf(false)
+    var countriesJson by mutableStateOf("")
     var fixName by mutableStateOf("")
     var fixAddress by mutableStateOf("")
     var fixCoords by mutableStateOf("")
@@ -113,16 +116,18 @@ class AppModel(application: Application) : AndroidViewModel(application) {
     var jump by mutableStateOf<CameraJump?>(null)
     var fit by mutableStateOf<CameraFit?>(null)
     var pose by mutableStateOf<Pose?>(null)
-    var openingLat = 39.6
-    var openingLon = -8.0
-    var openingZoom = 6.2
-    var centerLat = 39.6
-    var centerLon = -8.0
-    var zoom = 6.2
-    private var west = -10.2
-    private var south = 37.6
-    private var east = -5.8
-    private var north = 41.6
+    var openingLat = 54.0
+    var openingLon = 8.0
+    var openingZoom = 3.2
+    var centerLat = 54.0
+    var centerLon = 8.0
+    var zoom = 3.2
+    private var west = -25.0
+    private var south = 34.0
+    private var east = 40.0
+    private var north = 71.0
+    private var pendingPack = ""
+    private var countryTemplate: String? = null
 
     val categoryIds = listOf("0", "1", "2", "3", "4", "5", "water")
     private val categoryKeys = listOf("health", "police", "fire", "fuel", "supermarkets", "restaurants", "water")
@@ -528,7 +533,7 @@ class AppModel(application: Application) : AndroidViewModel(application) {
         downloading = true
         downloadingId = pkg.id
         viewModelScope.launch(Dispatchers.IO) {
-            activate(pkg, download = true)
+            activate(pkg, download = true, picked = true)
             onMain {
                 downloading = false
                 downloadingId = null
@@ -560,8 +565,71 @@ class AppModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
+    fun openMaps() {
+        sheet = Sheet.Import
+    }
+
     fun closeSheet() {
+        val imported = sheet == Sheet.Import
         sheet = null
+        if (imported) noteMapsClosed()
+    }
+
+    private fun noteMapsClosed() {
+        mapsPromptDone = true
+        prefs.edit().putBoolean("blackout-maps-prompt", true).apply()
+        if (!revealCountry()) holdCompass = false
+    }
+
+    private fun revealCountry(): Boolean {
+        if (sheet == Sheet.Import || pendingPack.isEmpty()) return false
+        val frame = countryFrame(pendingPack) ?: run {
+            pendingPack = ""
+            return false
+        }
+        pendingPack = ""
+        holdCompass = true
+        jumpTo(frame[0], frame[1], frame[2])
+        viewModelScope.launch {
+            delay(280)
+            holdCompass = false
+        }
+        return true
+    }
+
+    private fun countryFrame(id: String): DoubleArray? = when (id) {
+        "portugal" -> doubleArrayOf(39.6, -8.0, 6.2)
+        "spain" -> doubleArrayOf(40.2, -3.6, 5.5)
+        "france" -> doubleArrayOf(46.6, 2.5, 5.3)
+        "belgium" -> doubleArrayOf(50.6, 4.6, 7.2)
+        "netherlands" -> doubleArrayOf(52.2, 5.5, 6.8)
+        "germany" -> doubleArrayOf(51.2, 10.4, 5.5)
+        "italy" -> doubleArrayOf(42.8, 12.5, 5.3)
+        "england" -> doubleArrayOf(52.5, -1.5, 6.0)
+        "scotland" -> doubleArrayOf(56.8, -4.2, 6.1)
+        "wales" -> doubleArrayOf(52.3, -3.8, 6.8)
+        "northern-ireland" -> doubleArrayOf(54.6, -6.7, 7.2)
+        "estonia" -> doubleArrayOf(58.6, 25.5, 6.5)
+        "latvia" -> doubleArrayOf(56.9, 24.8, 6.6)
+        "lithuania" -> doubleArrayOf(55.3, 23.9, 6.6)
+        "finland" -> doubleArrayOf(64.5, 26.5, 4.8)
+        "poland" -> doubleArrayOf(52.1, 19.4, 5.7)
+        else -> null
+    }
+
+    private fun refreshCountryColors() {
+        viewModelScope.launch(Dispatchers.IO) {
+            val raw = countryTemplate ?: app.assets.open("countries.geojson").bufferedReader().use { it.readText() }.also { countryTemplate = it }
+            val loaded = packages.map { it.id }.toSet() + "portugal"
+            val root = JSONObject(raw)
+            val features = root.getJSONArray("features")
+            for (index in 0 until features.length()) {
+                val props = features.getJSONObject(index).getJSONObject("properties")
+                props.put("on", if (props.optString("pack") in loaded) 1 else 0)
+            }
+            val next = root.toString()
+            onMain { countriesJson = next }
+        }
     }
 
     fun noteStyle() {
@@ -633,9 +701,10 @@ class AppModel(application: Application) : AndroidViewModel(application) {
             downloading = false
             downloadingId = null
         }
+        refreshCountryColors()
     }
 
-    private fun activate(pkg: MapPackage, download: Boolean) {
+    private fun activate(pkg: MapPackage, download: Boolean, picked: Boolean = false) {
         var failed = false
         for (pack in pkg.files) {
             val dest = Store.file(app, pkg.id, pack.file)
@@ -661,7 +730,12 @@ class AppModel(application: Application) : AndroidViewModel(application) {
                 activePackageId = pkg.id
                 prefs.edit().putString("blackout-package", pkg.id).apply()
                 showStatus = false
+                if (picked) {
+                    pendingPack = pkg.id
+                    revealCountry()
+                }
             }
+            refreshCountryColors()
         }
     }
 
@@ -945,6 +1019,7 @@ class AppModel(application: Application) : AndroidViewModel(application) {
 
     private fun load() {
         positionFixed = prefs.getBoolean("mapa-fixed", false)
+        mapsPromptDone = prefs.getBoolean("blackout-maps-prompt", false)
         val savedCode = prefs.getString("blackout-language", "en") ?: "en"
         language = if (savedCode in Text.order) savedCode else "en"
         if (prefs.contains("mapa-step")) step = prefs.getFloat("mapa-step", 0.7f).toDouble().coerceIn(0.3, 1.5)
