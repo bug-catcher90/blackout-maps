@@ -713,6 +713,75 @@ label {
   font-size: 13px;
 }
 
+.settings-block {
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 8px;
+}
+
+.settings-label {
+  margin: 18px 0 4px;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.settings-link {
+  display: flex;
+  width: 100%;
+  min-height: 48px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  color: inherit;
+  text-decoration: none;
+  font-size: 15px;
+}
+
+.pack-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 48px;
+  border-bottom: 1px solid var(--line);
+}
+
+.pack-flag { font-size: 22px; line-height: 1; }
+
+.pack-name { flex: 1; min-width: 0; font-size: 15px; }
+
+.pack-state { font-size: 15px; font-weight: 650; color: var(--accent); }
+
+.pack-state.muted { font-weight: 400; color: var(--muted); }
+
+.pack-empty {
+  display: flex;
+  align-items: center;
+  min-height: 48px;
+  font-size: 15px;
+}
+
+.pack-download {
+  flex: none;
+  height: 36px;
+  padding: 0 14px;
+  border-radius: 18px;
+  background: var(--accent);
+  color: #fff;
+  font-size: 15px;
+  font-weight: 650;
+}
+
+#sheet-import {
+  z-index: 6;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  padding-top: calc(8px + env(safe-area-inset-top));
+}
+
+#sheet-import .sheet-head { flex: none; }
+
+#catalog-list { flex: 1; min-height: 0; overflow: auto; }
+
 .step {
   grid-template-columns: auto 1fr auto;
   align-items: center;
