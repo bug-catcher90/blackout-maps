@@ -45,7 +45,7 @@
   }
 
   function hrefFor(book) {
-    return "/guide-books.html#" + book.slug
+    return "/guides.html#" + book.slug
   }
 
   function money(book) {
