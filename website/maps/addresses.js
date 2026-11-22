@@ -51,7 +51,10 @@ export async function openAddressBook(file) {
     streets.push({ name, key: streetKey(name), first, count })
     offset = next + 8
   }
-  return { file, recordOffset, cities, numbers, streets, cityKeys }
+  const book = { file, recordOffset, cities, numbers, streets, cityKeys }
+  await prepareNearest(book)
+  if (!book.grid?.ready) throw new Error("addresses")
+  return book
 }
 
 function lowerBound(streets, query) {
@@ -257,15 +260,16 @@ async function streetPoint(book, street, parsed, anchor) {
 async function nearbyStreetHits(book, queryKey, parsed, anchor, limit) {
   await prepareNearest(book)
   const grid = book.grid
-  const cx = Math.floor((anchor.lon - LON0) / CELL)
-  const cy = Math.floor((anchor.lat - LAT0) / CELL)
+  if (!grid?.ready) return []
+  const cx = Math.floor((anchor.lon - grid.lon0) / grid.cell)
+  const cy = Math.floor((anchor.lat - grid.lat0) / grid.cell)
   const best = new Map()
   for (let ring = 0; ring <= 5 && best.size < limit * 2; ring += 1) {
     for (let y = cy - ring; y <= cy + ring; y += 1) {
       for (let x = cx - ring; x <= cx + ring; x += 1) {
         if (ring && Math.abs(y - cy) !== ring && Math.abs(x - cx) !== ring) continue
-        if (y < 0 || x < 0 || y >= YN || x >= XN) continue
-        const cell = y * XN + x
+        if (y < 0 || x < 0 || y >= grid.yn || x >= grid.xn) continue
+        const cell = y * grid.xn + x
         const start = grid.starts[cell]
         const size = grid.counts[cell]
         for (let i = 0; i < size; i += 1) {
@@ -336,17 +340,43 @@ export async function suggestAddresses(book, query, limit = 8, anchor = null) {
   return ordered.slice(0, 80).map(publicHit)
 }
 
-const CELL = 0.02
-const LAT0 = 36.8
-const LON0 = -9.8
-const YN = 280
-const XN = 190
+function cellIndex(lat, lon, grid) {
+  const y = Math.floor((lat - grid.lat0) / grid.cell)
+  const x = Math.floor((lon - grid.lon0) / grid.cell)
+  if (y < 0 || x < 0 || y >= grid.yn || x >= grid.xn) return -1
+  return y * grid.xn + x
+}
 
-function cellIndex(lat, lon) {
-  const y = Math.floor((lat - LAT0) / CELL)
-  const x = Math.floor((lon - LON0) / CELL)
-  if (y < 0 || x < 0 || y >= YN || x >= XN) return -1
-  return y * XN + x
+function doorGrid(lats, lons) {
+  let cell = 0.02
+  let minLat = Infinity
+  let maxLat = -Infinity
+  let minLon = Infinity
+  let maxLon = -Infinity
+  let kept = 0
+  for (let index = 0; index < lats.length; index += 1) {
+    const lat = lats[index] / 1e6
+    const lon = lons[index] / 1e6
+    if (!Number.isFinite(lat) || !Number.isFinite(lon) || lat < -90 || lat > 90 || lon < -180 || lon > 180) continue
+    kept += 1
+    if (lat < minLat) minLat = lat
+    if (lat > maxLat) maxLat = lat
+    if (lon < minLon) minLon = lon
+    if (lon > maxLon) maxLon = lon
+  }
+  if (!kept) return null
+  let lat0 = Math.floor(minLat / cell) * cell - cell
+  let lon0 = Math.floor(minLon / cell) * cell - cell
+  let yn = Math.floor((maxLat - lat0) / cell) + 2
+  let xn = Math.floor((maxLon - lon0) / cell) + 2
+  while (yn * xn > 2000000) {
+    cell *= 2
+    lat0 = Math.floor(minLat / cell) * cell - cell
+    lon0 = Math.floor(minLon / cell) * cell - cell
+    yn = Math.floor((maxLat - lat0) / cell) + 2
+    xn = Math.floor((maxLon - lon0) / cell) + 2
+  }
+  return { cell, lat0, lon0, yn, xn, ready: true }
 }
 
 function metersBetween(lat1, lon1, lat2, lon2) {
@@ -382,7 +412,6 @@ async function buildNearest(book) {
   const count = Math.floor((book.file.size - book.recordOffset) / 18)
   const lats = new Int32Array(count)
   const lons = new Int32Array(count)
-  const counts = new Uint32Array(YN * XN)
   const chunk = 120000
   for (let start = 0; start < count; start += chunk) {
     const size = Math.min(chunk, count - start)
@@ -391,14 +420,20 @@ async function buildNearest(book) {
     )
     const view = new DataView(bytes.buffer)
     for (let i = 0; i < size; i += 1) {
-      const lat = view.getInt32(i * 18 + 10, true)
-      const lon = view.getInt32(i * 18 + 14, true)
-      lats[start + i] = lat
-      lons[start + i] = lon
-      const cell = cellIndex(lat / 1e6, lon / 1e6)
-      if (cell >= 0) counts[cell] += 1
+      lats[start + i] = view.getInt32(i * 18 + 10, true)
+      lons[start + i] = view.getInt32(i * 18 + 14, true)
     }
     await new Promise((resolve) => setTimeout(resolve, 0))
+  }
+  const grid = doorGrid(lats, lons)
+  if (!grid) {
+    book.grid = { ready: false }
+    return
+  }
+  const counts = new Uint32Array(grid.yn * grid.xn)
+  for (let i = 0; i < count; i += 1) {
+    const cell = cellIndex(lats[i] / 1e6, lons[i] / 1e6, grid)
+    if (cell >= 0) counts[cell] += 1
   }
   const starts = new Uint32Array(counts.length)
   let cursor = 0
@@ -409,7 +444,7 @@ async function buildNearest(book) {
   const ids = new Uint32Array(cursor)
   const fill = starts.slice()
   for (let i = 0; i < count; i += 1) {
-    const cell = cellIndex(lats[i] / 1e6, lons[i] / 1e6)
+    const cell = cellIndex(lats[i] / 1e6, lons[i] / 1e6, grid)
     if (cell < 0) continue
     ids[fill[cell]] = i
     fill[cell] += 1
@@ -417,20 +452,21 @@ async function buildNearest(book) {
   const spans = book.streets
     .map((street, streetIndex) => ({ first: street.first, count: street.count, street: streetIndex }))
     .sort((a, b) => a.first - b.first)
-  book.grid = { lats, lons, counts, starts, ids, spans }
+  book.grid = { ...grid, lats, lons, counts, starts, ids, spans }
 }
 
 function nearestIndex(grid, lat, lon) {
-  const cx = Math.floor((lon - LON0) / CELL)
-  const cy = Math.floor((lat - LAT0) / CELL)
+  if (!grid?.ready) return -1
+  const cx = Math.floor((lon - grid.lon0) / grid.cell)
+  const cy = Math.floor((lat - grid.lat0) / grid.cell)
   let best = -1
   let bestM = Infinity
   for (let ring = 0; ring < 40; ring += 1) {
     for (let y = cy - ring; y <= cy + ring; y += 1) {
       for (let x = cx - ring; x <= cx + ring; x += 1) {
         if (ring && Math.abs(y - cy) !== ring && Math.abs(x - cx) !== ring) continue
-        if (y < 0 || x < 0 || y >= YN || x >= XN) continue
-        const cell = y * XN + x
+        if (y < 0 || x < 0 || y >= grid.yn || x >= grid.xn) continue
+        const cell = y * grid.xn + x
         const start = grid.starts[cell]
         const size = grid.counts[cell]
         for (let i = 0; i < size; i += 1) {
@@ -444,10 +480,10 @@ function nearestIndex(grid, lat, lon) {
       }
     }
     if (best < 0) continue
-    const south = LAT0 + (cy - ring) * CELL
-    const north = LAT0 + (cy + ring + 1) * CELL
-    const west = LON0 + (cx - ring) * CELL
-    const east = LON0 + (cx + ring + 1) * CELL
+    const south = grid.lat0 + (cy - ring) * grid.cell
+    const north = grid.lat0 + (cy + ring + 1) * grid.cell
+    const west = grid.lon0 + (cx - ring) * grid.cell
+    const east = grid.lon0 + (cx + ring + 1) * grid.cell
     if (lat < south || lat > north || lon < west || lon > east) continue
     const latM = Math.min(lat - south, north - lat) * 111320
     const lonM = Math.min(lon - west, east - lon) * 111320 * Math.cos((lat * Math.PI) / 180)

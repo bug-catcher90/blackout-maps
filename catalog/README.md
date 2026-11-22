@@ -81,8 +81,24 @@ Put these four gzip files in `catalog/<id>/`. Same names, same formats as `catal
 
 `geo.json.gz` unpacks to `geo.json`. One JSON object with two arrays. `p` is places, each `[name, latitude, longitude, rank]`. `s` is streets, each `[name, latitude, longitude]`. Latitude and longitude are decimal degrees. Portugal leaves `bytes` null.
 
+## The grids
+
+Two grids are required. A country missing either one is not ready, and the app does not list it.
+
+The water grid is inside `water.bin.gz`. The header stores `lat0`, `lon0`, `latN`, `lonN` and `step`, and the cell index after the records must cover every water record in that country. Do not reuse Portugal’s box. Each record still carries its own latitude and longitude. If those coordinates are missing, there is no water grid.
+
+The nearest-door grid comes from `addresses.bin.gz`. Every door record is 18 bytes and includes a latitude and a longitude. Those coordinates are the grid. A file with street names and no door coordinates is not ready. Name search still uses the street and city strings in the same file.
+
 ## On GitHub
 
-Push `catalog/<id>.json` and `catalog/<id>/` to `main`. The app reads `https://api.github.com/repos/bug-catcher90/blackout-maps/contents/catalog`, keeps each `*.json` that has a name and a flag, and ignores this README and the data folders.
+Commit these files, and only these files, for a new place:
+
+- `catalog/<id>.json`
+- `catalog/<id>/places.bin.gz`
+- `catalog/<id>/water.bin.gz`
+- `catalog/<id>/addresses.bin.gz`
+- `catalog/<id>/geo.json.gz`
+
+`catalog/<id>.json` must list `water` and `addresses` in `files`, with the same fields as Portugal. Push the JSON and the folder to `main`. The app reads `https://api.github.com/repos/bug-catcher90/blackout-maps/contents/catalog`, keeps each `*.json` that has a name, a flag, a water file and an addresses file, and ignores this README and the data folders.
 
 When that JSON and its files are on GitHub, Settings shows the flag and the name. The user downloads the place from that list. Portugal is already downloaded on first launch.
