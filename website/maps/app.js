@@ -8,14 +8,18 @@ import { buildingsInView, openBuildingBook } from "./buildings.js"
 import { fold, preparePlaces, prepareStreets, searchNames } from "./search.js"
 import { mapStyle } from "./style.js"
 import { createBrowserSensors } from "./sensors.js"
-import { loadAddressFile, loadBuildingFile, loadMapFile, loadPlaceFile, loadRoadFile, loadWaterFile } from "./storage.js"
+import { loadAddressFile, loadBuildingFile, loadCatalog, loadMapFile, loadPackFile, loadPlaceFile, loadRoadFile, loadWaterFile } from "./storage.js"
 import { t } from "./i18n.js"
 
 const STATE_KEY = "posicao-v1"
 const PINS_KEY = "posicao-pins-v1"
 const HERE = "A sua posição"
 const DOOR_NEAR_M = 40
-const VIEW = { center: [11.05, 56.7], zoom: 2.4 }
+const EUROPE_BOX = [[-12, 36], [32, 58]]
+const VIEW = { center: [10, 48], zoom: 3.8 }
+const PACKAGE_KEY = "blackout-package"
+const PACKAGES_KEY = "blackout-packages"
+const PORTUGAL = { id: "portugal", name: "Portugal", flag: "🇵🇹", files: [] }
 
 const statusEl = document.querySelector("#status")
 const anchorBtn = document.querySelector("#anchor")
@@ -98,6 +102,21 @@ const pinResults = document.querySelector("#pin-results")
 const sensorToggle = document.querySelector("#sensors")
 const pinsPanel = document.querySelector("#panel-pins")
 const settingsPanel = document.querySelector("#panel-settings")
+const mapsLabel = document.querySelector("#maps-label")
+const installedMaps = document.querySelector("#installed-maps")
+const importBtn = document.querySelector("#import-maps")
+const importLabel = document.querySelector("#import-maps-label")
+const sensorsHeading = document.querySelector("#sensors-heading")
+const sensorsLabel = document.querySelector("#sensors-label")
+const stepLabel = document.querySelector("#step-label")
+const legalLabel = document.querySelector("#legal-label")
+const privacyLink = document.querySelector("#privacy-link")
+const termsLink = document.querySelector("#terms-link")
+const importSheet = document.querySelector("#sheet-import")
+const importTitle = document.querySelector("#import-title")
+const importClose = document.querySelector("#import-close")
+const importNote = document.querySelector("#import-note")
+const catalogList = document.querySelector("#catalog-list")
 const pinList = document.querySelector("#pin-list")
 const tools = document.querySelector("#tools")
 const positionPrompt = document.querySelector("#position-prompt")
@@ -109,6 +128,12 @@ const kmFormat = new Intl.NumberFormat("pt-PT", { minimumFractionDigits: 1, maxi
 const clockFormat = new Intl.DateTimeFormat("pt-PT", { hour: "2-digit", minute: "2-digit" })
 const MODE_TITLE = { walk: "A pé", car: "De carro", bicycle: "De bicicleta" }
 const NAV_ZOOM = 17
+let countryToken = 0
+let activePackageId = "portugal"
+let downloadingId = ""
+let catalog = []
+let catalogNote = ""
+let catalogLoading = false
 
 const sensors = createBrowserSensors()
 const estimator = createPedestrianDeadReckoning(sensors)
@@ -1432,6 +1457,7 @@ function renderPins() {
 function showTab(name) {
   if (addingPin) stopAddPin()
   if (fixing) stopFix()
+  importSheet.hidden = true
   tab = name
   for (const button of document.querySelectorAll("[data-tab]")) {
     button.setAttribute("aria-current", button.dataset.tab === name ? "page" : "false")
@@ -2274,6 +2300,12 @@ function bindUi() {
   for (const button of document.querySelectorAll("[data-tab]")) {
     button.addEventListener("click", () => showTab(button.dataset.tab))
   }
+  importBtn.addEventListener("click", () => {
+    openImport().catch((error) => console.error(error))
+  })
+  importClose.addEventListener("click", () => {
+    importSheet.hidden = true
+  })
 }
 
 estimator.subscribe((pose) => {
@@ -2300,26 +2332,225 @@ estimator.subscribe((pose) => {
   if (!tripEl.hidden) refreshStart()
 })
 
-function europeHolds(zoom) {
-  map.jumpTo({ center: VIEW.center, zoom, bearing: 0, pitch: 0 })
-  const center = map.getCenter()
-  if (Math.abs(center.lat - VIEW.center[1]) > 0.25 || Math.abs(center.lng - VIEW.center[0]) > 0.25) return false
-  map.jumpTo({ center: [VIEW.center[0], 64], zoom })
-  if (map.getCenter().lat < 60) return false
-  map.jumpTo({ center: [VIEW.center[0], 40], zoom })
-  if (map.getCenter().lat > 44) return false
-  map.jumpTo({ center: [-9, 39.5], zoom })
-  if (Math.abs(map.getCenter().lng + 9) > 1) return false
-  map.jumpTo({ center: [25, 61], zoom })
-  return Math.abs(map.getCenter().lng - 25) < 1
+function readPackages() {
+  try {
+    const list = JSON.parse(localStorage.getItem(PACKAGES_KEY) || "[]")
+    return Array.isArray(list) ? list.filter((item) => item && typeof item.id === "string") : []
+  } catch {
+    return []
+  }
+}
+
+function rememberPackage(pack) {
+  const list = readPackages().filter((item) => item.id !== pack.id)
+  const stored = { id: pack.id, name: pack.name, flag: pack.flag, files: pack.files || [] }
+  if (pack.id === "portugal") list.unshift(stored)
+  else list.push(stored)
+  localStorage.setItem(PACKAGES_KEY, JSON.stringify(list))
+}
+
+function ensurePortugal() {
+  if (!readPackages().some((item) => item.id === "portugal")) rememberPackage(PORTUGAL)
+  if (!localStorage.getItem(PACKAGE_KEY)) localStorage.setItem(PACKAGE_KEY, "portugal")
+  activePackageId = localStorage.getItem(PACKAGE_KEY) || "portugal"
+}
+
+function startPortugal() {
+  loadGeo().catch((error) => console.error(error))
+  loadPlaces().catch((error) => console.error(error))
+  loadWater().catch((error) => console.error(error))
+  loadAddresses().catch(() => {})
+}
+
+function packState(pack) {
+  const state = document.createElement("span")
+  const busy = downloadingId === pack.id
+  state.className = busy ? "pack-state muted" : "pack-state"
+  state.textContent = busy ? t("A guardar") : t("A usar")
+  return state
+}
+
+function installedRow(pack) {
+  const row = document.createElement("div")
+  row.className = "pack-row"
+  const flag = document.createElement("span")
+  flag.className = "pack-flag"
+  flag.textContent = pack.flag || ""
+  const name = document.createElement("span")
+  name.className = "pack-name"
+  name.textContent = pack.name || pack.id
+  row.append(flag, name)
+  if (downloadingId === pack.id || activePackageId === pack.id) row.append(packState(pack))
+  return row
+}
+
+function catalogRow(pack) {
+  const row = document.createElement("div")
+  row.className = "pack-row"
+  const flag = document.createElement("span")
+  flag.className = "pack-flag"
+  flag.textContent = pack.flag || ""
+  const name = document.createElement("span")
+  name.className = "pack-name"
+  name.textContent = pack.name || pack.id
+  row.append(flag, name)
+  if (activePackageId === pack.id && downloadingId !== pack.id) {
+    row.append(packState(pack))
+    return row
+  }
+  const button = document.createElement("button")
+  button.type = "button"
+  button.className = "pack-download"
+  button.textContent = downloadingId === pack.id ? t("A guardar") : t("Descarregar")
+  button.disabled = Boolean(downloadingId)
+  button.addEventListener("click", () => {
+    usePackage(pack).catch((error) => console.error(error))
+  })
+  row.append(button)
+  return row
+}
+
+function renderMaps() {
+  mapsLabel.textContent = t("Mapas")
+  importLabel.textContent = t("Importar mapas")
+  importTitle.textContent = t("Importar mapas")
+  sensorsHeading.textContent = t("Sensores")
+  stepLabel.textContent = t("Passo base")
+  sensorsLabel.textContent = t("Sensores")
+  legalLabel.textContent = t("Legal")
+  privacyLink.querySelector("span").textContent = t("Política de privacidade")
+  termsLink.querySelector("span").textContent = t("Termos de utilização")
+  importClose.setAttribute("aria-label", t("Fechar"))
+  importSheet.setAttribute("aria-label", t("Importar mapas"))
+
+  installedMaps.replaceChildren()
+  const packs = readPackages()
+  if (!packs.length) {
+    const empty = document.createElement("p")
+    empty.className = "pack-empty"
+    empty.textContent = t("Sem mapas")
+    installedMaps.append(empty)
+  }
+  for (const pack of packs) installedMaps.append(installedRow(pack))
+
+  catalogList.replaceChildren()
+  importNote.hidden = !catalogNote
+  importNote.textContent = catalogNote || ""
+  if (!catalogNote && !catalog.length && !catalogLoading) {
+    const empty = document.createElement("p")
+    empty.className = "pack-empty"
+    empty.textContent = t("Sem mapas")
+    catalogList.append(empty)
+  }
+  for (const pack of catalog) catalogList.append(catalogRow(pack))
+}
+
+async function openImport() {
+  importSheet.hidden = false
+  catalogNote = ""
+  catalogLoading = true
+  renderMaps()
+  try {
+    const packs = await loadCatalog()
+    catalog = packs
+    catalogNote = ""
+    for (const pack of packs) {
+      if (pack.id === "portugal" || readPackages().some((item) => item.id === pack.id)) rememberPackage(pack)
+    }
+  } catch (error) {
+    console.error(error)
+    if (!catalog.length) catalogNote = t("Não foi possível carregar os mapas")
+  } finally {
+    catalogLoading = false
+    renderMaps()
+  }
+}
+
+async function applyCountry(files, token) {
+  const placesBuffer = files.places ? await files.places.arrayBuffer() : null
+  const waterBuffer = files.water ? await files.water.arrayBuffer() : null
+  const addressBookNext = files.addresses ? await openAddressBook(files.addresses) : null
+  const geo = files.geo ? JSON.parse(await files.geo.text()) : null
+  if (token !== countryToken) return
+  if (placesBuffer) placeBook = openPlaceBook(placesBuffer)
+  if (waterBuffer) waterBook = openWaterBook(waterBuffer)
+  if (addressBookNext) addressBook = addressBookNext
+  if (geo) {
+    places = preparePlaces(geo.p)
+    streets = prepareStreets(geo.s)
+    geoReady = true
+    indexStreets()
+    if (queryInput.value) renderResults(queryInput.value)
+  }
+  categoryBar.hidden = tab !== "explorar" && !addingPin
+  refreshPois()
+  if (addressInput.value) renderAddressSuggestions(addressInput.value)
+  else if (sheet === "pin" && pin && !addressDirty) labelPin()
+  if (addingPin && dropTarget && !dropTarget.service) queueDoor(dropTarget.lat, dropTarget.lon)
+  if (fixing) refreshFixCard()
+}
+
+async function usePackage(pack) {
+  if (!pack || downloadingId) return
+  const token = ++countryToken
+  downloadingId = pack.id
+  catalogNote = ""
+  renderMaps()
+  try {
+    if (pack.id === "portugal") await Promise.all([loadPlaces(), loadWater(), loadAddresses(), loadGeo()])
+    else {
+      const files = {}
+      for (const file of pack.files || []) {
+        if (token !== countryToken) return
+        files[file.key] = await loadPackFile(pack.id, file)
+      }
+      if (token !== countryToken) return
+      await applyCountry(files, token)
+    }
+    if (token !== countryToken) return
+    activePackageId = pack.id
+    localStorage.setItem(PACKAGE_KEY, pack.id)
+    rememberPackage(pack)
+  } catch (error) {
+    console.error(error)
+    if (token !== countryToken) return
+    catalogNote = t("Não foi possível carregar os mapas")
+    if (pack.id !== "portugal") {
+      downloadingId = ""
+      renderMaps()
+      await usePackage(readPackages().find((item) => item.id === "portugal") || PORTUGAL)
+      return
+    }
+  } finally {
+    if (downloadingId === pack.id) downloadingId = ""
+    renderMaps()
+  }
 }
 
 function applyEurope() {
   map.setMinZoom(0)
-  let zoom = VIEW.zoom
-  while (zoom <= 6 && !europeHolds(zoom)) zoom = Math.round((zoom + 0.1) * 10) / 10
-  map.setMinZoom(zoom)
-  map.jumpTo({ center: VIEW.center, zoom, bearing: 0, pitch: 0 })
+  map.setMaxBounds(null)
+  map.fitBounds(EUROPE_BOX, { duration: 0 })
+  let zoom = map.getZoom()
+  const lon = (EUROPE_BOX[0][0] + EUROPE_BOX[1][0]) / 2
+  while (map.getBounds().getWest() < -34 && zoom < 6) {
+    zoom = Math.round((zoom + 0.1) * 10) / 10
+    map.jumpTo({ center: [lon, map.getCenter().lat], zoom, bearing: 0, pitch: 0 })
+  }
+  zoom = map.getZoom()
+  const wide = map.getBounds()
+  if (wide.getSouth() < 28 && wide.getNorth() > 60) {
+    map.jumpTo({ center: [lon, 54], zoom, bearing: 0, pitch: 0 })
+  }
+  const fitted = map.getZoom()
+  const center = map.getCenter()
+  map.setMinZoom(Math.round(fitted * 10) / 10)
+  map.setMaxBounds([[-42, 8], [55, 75]])
+  if (map.getZoom() > fitted + 0.2) {
+    map.setMaxBounds(null)
+    map.jumpTo({ center: [center.lng, center.lat], zoom: fitted, bearing: 0, pitch: 0 })
+    map.setMinZoom(Math.round(fitted * 10) / 10)
+  }
 }
 
 async function bootMap(file) {
@@ -2337,6 +2568,7 @@ async function bootMap(file) {
     center: VIEW.center,
     zoom: VIEW.zoom,
     maxZoom: 18,
+    renderWorldCopies: false,
     padding: { top: 72, right: 8, bottom: 72, left: 8 },
     attributionControl: false,
     dragRotate: false,
@@ -2399,10 +2631,12 @@ async function bootMap(file) {
 }
 
 async function loadGeo() {
+  const token = countryToken
   const response = await fetch("/maps/geo.json.gz")
   if (!response.ok || !response.body) return
   const stream = response.body.pipeThrough(new DecompressionStream("gzip"))
   const data = await new Response(stream).json()
+  if (token !== countryToken) return
   places = preparePlaces(data.p)
   streets = prepareStreets(data.s)
   geoReady = true
@@ -2412,6 +2646,7 @@ async function loadGeo() {
 }
 
 async function loadAddresses() {
+  const token = countryToken
   addressStatus = "A guardar moradas"
   showStatus()
   try {
@@ -2419,7 +2654,9 @@ async function loadAddresses() {
       addressStatus = `A guardar moradas ${Math.round(got / 1e6)} MB`
       showStatus()
     })
-    addressBook = await openAddressBook(file)
+    const book = await openAddressBook(file)
+    if (token !== countryToken) return
+    addressBook = book
     addressStatus = ""
     showStatus()
     if (queryInput.value) renderResults(queryInput.value)
@@ -2456,6 +2693,7 @@ async function loadBuildings() {
 }
 
 async function loadWater() {
+  const token = countryToken
   waterStatus = "A guardar água"
   showStatus()
   try {
@@ -2463,7 +2701,9 @@ async function loadWater() {
       waterStatus = `A guardar água ${Math.round(got / 1e6)} MB`
       showStatus()
     })
-    waterBook = openWaterBook(await file.arrayBuffer())
+    const buffer = await file.arrayBuffer()
+    if (token !== countryToken) return
+    waterBook = openWaterBook(buffer)
     waterStatus = ""
     showStatus()
     refreshPois()
@@ -2476,6 +2716,7 @@ async function loadWater() {
 }
 
 async function loadPlaces() {
+  const token = countryToken
   placeStatus = "A guardar lugares"
   showStatus()
   try {
@@ -2483,7 +2724,9 @@ async function loadPlaces() {
       placeStatus = `A guardar lugares ${Math.round(got / 1e6)} MB`
       showStatus()
     })
-    placeBook = openPlaceBook(await file.arrayBuffer())
+    const buffer = await file.arrayBuffer()
+    if (token !== countryToken) return
+    placeBook = openPlaceBook(buffer)
     placeStatus = ""
     showStatus()
     categoryBar.hidden = tab !== "explorar" && !addingPin
@@ -2521,16 +2764,22 @@ async function loadRoads() {
 async function main() {
   bindUi()
   renderPins()
+  ensurePortugal()
+  renderMaps()
   setSensors(true, { quiet: true }).catch(() => {})
   if ("serviceWorker" in navigator) navigator.serviceWorker.register("/maps/sw.js").catch(() => {})
   mapStatus = "A guardar mapa"
   showStatus()
-  loadGeo().catch((error) => console.error(error))
+  const saved = readPackages().find((item) => item.id === activePackageId)
+  if (saved && saved.id !== "portugal" && (saved.files || []).some((file) => file.key === "places")) {
+    usePackage(saved).catch((error) => console.error(error))
+  } else {
+    activePackageId = "portugal"
+    localStorage.setItem(PACKAGE_KEY, "portugal")
+    startPortugal()
+  }
   loadRoads().catch((error) => console.error(error))
-  loadPlaces().catch((error) => console.error(error))
-  loadWater().catch((error) => console.error(error))
   loadBuildings().catch((error) => console.error(error))
-  loadAddresses().catch(() => {})
   try {
     const file = await loadMapFile((got, length) => {
       if (length) mapStatus = `A guardar mapa ${Math.min(100, Math.round((got / length) * 100))}%`

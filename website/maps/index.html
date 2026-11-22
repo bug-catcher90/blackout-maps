@@ -176,15 +176,40 @@
     </section>
 
     <section id="panel-settings" class="panel" hidden aria-label="Definições">
-      <label class="toggle">
-        Sensores
-        <input id="sensors" type="checkbox" />
-      </label>
-      <label class="step">
-        Passo base
-        <input id="step" type="range" min="0.4" max="1.2" step="0.05" value="0.7" />
-        <span id="step-value">0,70 m</span>
-      </label>
+      <div class="settings-block">
+        <p class="settings-label" id="maps-label">Mapas</p>
+        <div id="installed-maps"></div>
+        <button type="button" id="import-maps" class="settings-link">
+          <span id="import-maps-label">Importar mapas</span>
+          <span aria-hidden="true">›</span>
+        </button>
+      </div>
+      <div class="settings-block">
+        <p class="settings-label" id="sensors-heading">Sensores</p>
+        <label class="toggle">
+          <span id="sensors-label">Sensores</span>
+          <input id="sensors" type="checkbox" />
+        </label>
+        <label class="step">
+          <span id="step-label">Passo base</span>
+          <input id="step" type="range" min="0.4" max="1.2" step="0.05" value="0.7" />
+          <span id="step-value">0,70 m</span>
+        </label>
+      </div>
+      <div class="settings-block">
+        <p class="settings-label" id="legal-label">Legal</p>
+        <a class="settings-link" id="privacy-link" href="/privacy.html"><span>Política de privacidade</span><span aria-hidden="true">›</span></a>
+        <a class="settings-link" id="terms-link" href="/terms.html"><span>Termos de utilização</span><span aria-hidden="true">›</span></a>
+      </div>
+    </section>
+
+    <section id="sheet-import" class="panel import" hidden aria-label="Importar mapas">
+      <div class="sheet-head">
+        <h2 id="import-title">Importar mapas</h2>
+        <button type="button" id="import-close" aria-label="Fechar">×</button>
+      </div>
+      <p id="import-note" class="hint" hidden></p>
+      <div id="catalog-list"></div>
     </section>
 
     <nav class="tabbar" aria-label="Secções">
@@ -216,6 +241,6 @@
     </nav>
 
     <script src="/maps/vendor/pmtiles.js"></script>
-    <script type="module" src="/maps/app.js?v=35"></script>
+    <script type="module" src="/maps/app.js?v=36"></script>
   </body>
 </html>

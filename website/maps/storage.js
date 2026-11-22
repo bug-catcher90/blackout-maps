@@ -533,3 +533,116 @@ export async function loadBuildingFile(onProgress) {
   localStorage.setItem(BUILDING_MARK, JSON.stringify({ size: file.size, gzipSize, complete: true }))
   return file
 }
+
+const CATALOG_URL = "https://api.github.com/repos/bug-catcher90/blackout-maps/contents/catalog"
+
+function listedPackage(pack) {
+  if (!pack || typeof pack.id !== "string" || !pack.name || !pack.flag) return false
+  const keys = new Set((pack.files || []).map((file) => file && file.key))
+  return keys.has("water") && keys.has("addresses")
+}
+
+export async function loadCatalog() {
+  const response = await fetch(CATALOG_URL, { headers: { Accept: "application/vnd.github+json" } })
+  if (!response.ok) throw new Error("catalog")
+  const entries = await response.json()
+  if (!Array.isArray(entries)) throw new Error("catalog")
+  const files = entries.filter((entry) => entry && entry.type === "file" && String(entry.name || "").endsWith(".json") && entry.download_url)
+  const packs = await Promise.all(files.map(async (entry) => {
+    try {
+      const file = await fetch(entry.download_url)
+      if (!file.ok) return null
+      const pack = await file.json()
+      return listedPackage(pack) ? pack : null
+    } catch {
+      return null
+    }
+  }))
+  return packs.filter(Boolean).sort((a, b) => String(a.name).localeCompare(String(b.name)))
+}
+
+async function packageDir(id) {
+  if (!navigator.storage?.getDirectory) {
+    const error = new Error("opfs")
+    error.code = "opfs"
+    throw error
+  }
+  const root = await navigator.storage.getDirectory()
+  const maps = await root.getDirectoryHandle("packages", { create: true })
+  return maps.getDirectoryHandle(id, { create: true })
+}
+
+function readPackMark(id, key) {
+  try {
+    return JSON.parse(localStorage.getItem(`blackout-${id}-${key}`) || "null")
+  } catch {
+    return null
+  }
+}
+
+export async function loadPackFile(packageId, spec, onProgress) {
+  const bytes = Number(spec.bytes) || 0
+  const dir = await packageDir(packageId)
+  let saved = null
+  try {
+    saved = await (await dir.getFileHandle(spec.file)).getFile()
+  } catch {
+    saved = null
+  }
+  const mark = readPackMark(packageId, spec.key)
+  const sized = !bytes || (saved && saved.size === bytes && mark?.size === bytes)
+  if (saved && mark?.complete && sized) {
+    if (navigator.onLine === false) return saved
+    try {
+      const head = await fetch(spec.url, { method: "HEAD", cache: "no-store" })
+      const gzipSize = Number(head.headers.get("content-length") || 0)
+      if (!head.ok || !gzipSize || gzipSize === mark.gzipSize) return saved
+    } catch {
+      return saved
+    }
+  }
+
+  let response
+  try {
+    response = await fetch(spec.url, { cache: "no-store" })
+  } catch (error) {
+    error.code = "offline"
+    throw error
+  }
+  if (!response.ok || !response.body) {
+    const error = new Error("download")
+    error.code = "download"
+    throw error
+  }
+  const gzipSize = Number(response.headers.get("content-length") || 0)
+  const stream = spec.gzip === false ? response.body : response.body.pipeThrough(new DecompressionStream("gzip"))
+  const handle = await dir.getFileHandle(spec.file, { create: true })
+  const writable = await handle.createWritable()
+  const reader = stream.getReader()
+  let got = 0
+  try {
+    while (true) {
+      const { done, value } = await reader.read()
+      if (done) break
+      await writable.write(value)
+      got += value.byteLength
+      onProgress?.(got, bytes)
+    }
+    await writable.close()
+  } catch (error) {
+    try {
+      await writable.abort()
+    } catch {
+      /* already closed */
+    }
+    throw error
+  }
+  const file = await handle.getFile()
+  if (bytes && file.size !== bytes) {
+    const error = new Error("short")
+    error.code = "short"
+    throw error
+  }
+  localStorage.setItem(`blackout-${packageId}-${spec.key}`, JSON.stringify({ size: file.size, gzipSize, complete: true }))
+  return file
+}
