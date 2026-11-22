@@ -2,7 +2,7 @@ import { AttributionControl, Map, Marker, addProtocol } from "/maps/vendor/mapli
 import { circlePolygon, createPedestrianDeadReckoning, wedgePolygon } from "./estimator.js"
 import { advanceOnLine, findRoute, findRoutes, isMotorwayEdge, isTollEdge, maneuver, metersBetween, moveAlongRoad, openRoadGraph, sliceRoute, TRAVEL_KMH, tripMinutes } from "./route.js"
 import { nearestDoor, openAddressBook, parseDoorQuery, suggestAddresses } from "./addresses.js"
-import { CATEGORIES, categoryIcon, openPlaceBook, placesInView, searchServices } from "./places.js"
+import { CATEGORIES, categoryIcon, openPlaceBook, placesInView, searchServices, serviceIcons } from "./places.js"
 import { openWaterBook, waterIcon, waterInView } from "./water.js"
 import { buildingsInView, openBuildingBook } from "./buildings.js"
 import { fold, preparePlaces, prepareStreets, searchNames } from "./search.js"
@@ -879,7 +879,8 @@ function refreshPois() {
   const east = bounds.getEast()
   const north = bounds.getNorth()
   const zoom = map.getZoom()
-  const view = placesInView(placeBook, west, south, east, north, -1, zoom >= 13 ? 40 : 0)
+  const view = placesInView(placeBook, west, south, east, north, -1, 1e9)
+  const icons = serviceIcons(view.items, zoom)
   for (const button of categoryBar.querySelectorAll("[data-cat]")) {
     if (button.dataset.cat === "water") continue
     const count = button.querySelector(".cat-count")
@@ -888,7 +889,7 @@ function refreshPois() {
   if (poiSource) {
     poiSource.setData({
       type: "FeatureCollection",
-      features: view.items.map((place) => ({
+      features: icons.map((place) => ({
         type: "Feature",
         properties: { name: place.name, address: place.address || "", icon: `poi-${place.category}`, category: place.category },
         geometry: { type: "Point", coordinates: [place.lon, place.lat] },
