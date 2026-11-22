@@ -9,12 +9,6 @@ export const CATEGORIES = [
   { id: 5, label: "Restaurantes", mark: "Restaurante", color: "#be185d" },
 ]
 
-const LAT0 = 36800000
-const LON0 = -9700000
-const STEP = 20000
-const LAT_N = 275
-const LON_N = 190
-
 function pad(bytes) {
   const extra = (4 - (bytes.length % 4)) % 4
   if (!extra) return bytes
@@ -25,6 +19,27 @@ function pad(bytes) {
 
 function encode(text) {
   return new TextEncoder().encode(text || "")
+}
+
+function gridFor(points) {
+  const step = 20000
+  const finite = points.filter((point) => point[0] >= -90000000 && point[0] <= 90000000 && point[1] >= -180000000 && point[1] <= 180000000)
+  if (!finite.length) return { lat0: 0, lon0: 0, latN: 1, lonN: 1, step }
+  let minLat = finite[0][0]
+  let maxLat = finite[0][0]
+  let minLon = finite[0][1]
+  let maxLon = finite[0][1]
+  for (const [lat, lon] of finite) {
+    if (lat < minLat) minLat = lat
+    if (lat > maxLat) maxLat = lat
+    if (lon < minLon) minLon = lon
+    if (lon > maxLon) maxLon = lon
+  }
+  const lat0 = Math.floor(minLat / step) * step - step
+  const lon0 = Math.floor(minLon / step) * step - step
+  const latN = Math.floor((maxLat - lat0) / step) + 2
+  const lonN = Math.floor((maxLon - lon0) / step) + 2
+  return { lat0, lon0, latN, lonN, step }
 }
 
 export function buildPlaceBook(rows) {
@@ -58,13 +73,14 @@ export function buildPlaceBook(rows) {
     addrs.push(addr)
     addrBytes += addr.length
   }
-  const cellCount = LAT_N * LON_N
+  const grid = gridFor(kept.map((row) => [row.lat, row.lon]))
+  const cellCount = grid.latN * grid.lonN
   const buckets = Array.from({ length: cellCount }, () => [])
   kept.forEach((row, index) => {
-    const y = Math.floor((row.lat - LAT0) / STEP)
-    const x = Math.floor((row.lon - LON0) / STEP)
-    if (y < 0 || x < 0 || y >= LAT_N || x >= LON_N) return
-    buckets[y * LON_N + x].push(index)
+    const y = Math.floor((row.lat - grid.lat0) / grid.step)
+    const x = Math.floor((row.lon - grid.lon0) / grid.step)
+    if (y < 0 || x < 0 || y >= grid.latN || x >= grid.lonN) throw new Error("places")
+    buckets[y * grid.lonN + x].push(index)
   })
   const cellIds = []
   const cellHead = [0]
@@ -97,11 +113,11 @@ export function buildPlaceBook(rows) {
   view.setUint32(8, count, true)
   view.setUint32(12, nameBytes, true)
   view.setUint32(16, addrBytes, true)
-  view.setInt32(20, LAT0, true)
-  view.setInt32(24, LON0, true)
-  view.setUint32(28, LAT_N, true)
-  view.setUint32(32, LON_N, true)
-  view.setUint32(36, STEP, true)
+  view.setInt32(20, grid.lat0, true)
+  view.setInt32(24, grid.lon0, true)
+  view.setUint32(28, grid.latN, true)
+  view.setUint32(32, grid.lonN, true)
+  view.setUint32(36, grid.step, true)
   view.setUint32(40, cellCount, true)
   view.setUint32(44, body.length, true)
   return body.buffer.slice(body.byteOffset, body.byteOffset + body.byteLength)
