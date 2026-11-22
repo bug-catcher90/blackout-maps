@@ -74,12 +74,12 @@ final class MapController: NSObject, MLNMapViewDelegate {
     private var destOn = false
     private var styleReady = false
     private var pendingStyle: URL?
-    private(set) var zoom: Double = 6.2
+    private(set) var zoom: Double = 2.4
     private var opening: Coord?
     private var framed = false
     private var userMoved = false
     var dragEnabled = true
-    private let portugal = CLLocationCoordinate2D(latitude: 39.6, longitude: -8.05)
+    private let europe = CLLocationCoordinate2D(latitude: 56.7, longitude: 11.05)
 
     func makeView(opening: Coord?) -> MLNMapView {
         if let mapView { return mapView }
@@ -100,8 +100,8 @@ final class MapController: NSObject, MLNMapViewDelegate {
             zoom = 16
             framed = true
         } else {
-            map.setCenter(portugal, zoomLevel: 6.2, animated: false)
-            zoom = 6.2
+            map.setCenter(europe, zoomLevel: 2.4, animated: false)
+            zoom = 2.4
         }
         let tap = UITapGestureRecognizer(target: self, action: #selector(tapped(_:)))
         tap.cancelsTouchesInView = false
@@ -135,8 +135,8 @@ final class MapController: NSObject, MLNMapViewDelegate {
             return
         }
         framed = true
-        mapView.setCenter(portugal, zoomLevel: 6.2, direction: 0, animated: false, completionHandler: nil)
-        zoom = 6.2
+        mapView.setCenter(europe, zoomLevel: 2.4, direction: 0, animated: false, completionHandler: nil)
+        zoom = 2.4
     }
 
     func mapView(_ mapView: MLNMapView, regionWillChangeWith reason: MLNCameraChangeReason, animated: Bool) {
@@ -158,7 +158,7 @@ final class MapController: NSObject, MLNMapViewDelegate {
     }
 
     func centerCoordinate() -> Coord {
-        guard let mapView else { return Coord(lat: 39.6, lon: -8.05) }
+        guard let mapView else { return Coord(lat: 56.7, lon: 11.05) }
         let point = CGPoint(x: mapView.bounds.midX, y: mapView.bounds.midY)
         let coord = mapView.convert(point, toCoordinateFrom: mapView)
         return Coord(lat: coord.latitude, lon: coord.longitude)
@@ -325,7 +325,7 @@ final class MapController: NSObject, MLNMapViewDelegate {
     }
 
     func bounds() -> (west: Double, south: Double, east: Double, north: Double) {
-        guard let mapView else { return (-10.2, 36.45, -5.9, 42.45) }
+        guard let mapView else { return (-10.5, 35.5, 32.5, 70.5) }
         let box = mapView.visibleCoordinateBounds
         return (box.sw.longitude, box.sw.latitude, box.ne.longitude, box.ne.latitude)
     }
