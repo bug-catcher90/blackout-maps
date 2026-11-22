@@ -170,7 +170,10 @@ fun BlackoutScreen(model: AppModel = viewModel()) {
                         horizontalAlignment = Alignment.End,
                         verticalArrangement = Arrangement.spacedBy(12.dp)
                     ) {
-                        MapButton(model.t("maps"), pulse = !model.mapsPromptDone) { model.openMaps() }
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            if (!model.mapsPromptDone) PositionPrompt(model.t("select-map"))
+                            MapButton(model.t("maps"), pulse = !model.mapsPromptDone) { model.openMaps() }
+                        }
                         Row(verticalAlignment = Alignment.CenterVertically) {
                             val prompt = model.mapsPromptDone && !model.holdCompass && !model.positionFixed
                             if (prompt) PositionPrompt(model.t("set-position"))

@@ -139,6 +139,7 @@ const catalogList = document.querySelector("#catalog-list")
 const pinList = document.querySelector("#pin-list")
 const tools = document.querySelector("#tools")
 const positionPrompt = document.querySelector("#position-prompt")
+const mapsPrompt = document.querySelector("#maps-prompt")
 const topEl = document.querySelector("#top")
 
 const metersFormat = new Intl.NumberFormat("pt-PT", { minimumFractionDigits: 2, maximumFractionDigits: 2 })
@@ -525,7 +526,9 @@ function readStored() {
 
 function syncPositionPrompt() {
   const onMap = tab === "explorar" && !navigating && !fixing && !addingPin
-  mapsBtn.classList.toggle("needs-maps", onMap && !mapsPromptDone)
+  const askMap = onMap && !mapsPromptDone
+  mapsBtn.classList.toggle("needs-maps", askMap)
+  mapsPrompt.hidden = !askMap
   const show = onMap && mapsPromptDone && !holdCompass && !positionFixed
   positionPrompt.hidden = !show
   fixBtn.classList.toggle("needs-fix", show)
@@ -2278,6 +2281,7 @@ function bindUi() {
   fixCancelBtn.textContent = t("Cancelar")
   fixOkBtn.textContent = t("Confirmar")
   positionPrompt.textContent = t("Defina a sua posição aqui para começar")
+  mapsPrompt.textContent = t("Selecione um mapa para importar dados")
   syncPositionPrompt()
   navCorrectBtn.addEventListener("click", startCorrect)
   correctCancelBtn.addEventListener("click", () => finishCorrect(false))
@@ -2558,14 +2562,22 @@ async function usePackage(pack) {
 
 function closeImport() {
   importSheet.hidden = true
-  if (!mapsPromptDone) {
+  const first = !mapsPromptDone
+  if (first) {
     mapsPromptDone = true
     localStorage.setItem("posicao-maps-prompt", "1")
+    hideCountryColors()
+    if (!pendingPack) pendingPack = activePackageId || "portugal"
   }
   if (!revealCountry()) {
     holdCompass = false
     syncPositionPrompt()
   }
+}
+
+function hideCountryColors() {
+  if (!map?.getLayer("country-fill")) return
+  map.setLayoutProperty("country-fill", "visibility", "none")
 }
 
 function revealCountry() {
@@ -2592,6 +2604,10 @@ function revealCountry() {
 }
 
 async function paintCountries() {
+  if (mapsPromptDone) {
+    hideCountryColors()
+    return
+  }
   if (!countries) {
     const response = await fetch("/maps/countries.geojson")
     if (!response.ok) return
@@ -2653,7 +2669,8 @@ async function bootMap(file) {
     showStatus()
     layoutMap()
     applyEurope()
-    paintCountries().catch((error) => console.error(error))
+    if (mapsPromptDone) hideCountryColors()
+    else paintCountries().catch((error) => console.error(error))
     refreshPois()
   })
   map.on("dragstart", (event) => {

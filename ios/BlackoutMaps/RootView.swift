@@ -41,7 +41,7 @@ struct RootView: View {
                     HStack {
                         Spacer().allowsHitTesting(false)
                         VStack(alignment: .trailing, spacing: 12) {
-                            MapButton(pulse: !model.mapsPromptDone) { model.openMaps() }
+                            MapButton(prompt: model.mapsPromptDone ? nil : model.t("select-map")) { model.openMaps() }
                             CompassButton(prompt: model.mapsPromptDone && !model.holdCompass && !model.positionFixed ? model.t("set-position") : nil) { model.startFix() }
                         }
                     }
@@ -322,39 +322,59 @@ private struct CategoryMark: View {
 }
 
 private struct MapButton: View {
-    var pulse: Bool
+    var prompt: String?
     var action: () -> Void
     @State private var on = false
+    @Environment(\.layoutDirection) private var direction
 
     var body: some View {
-        ZStack {
-            if pulse {
-                Circle()
-                    .stroke(Color(red: 0.76, green: 0.25, blue: 0.05), lineWidth: 3)
-                    .background(Circle().fill(Color(red: 0.76, green: 0.25, blue: 0.05).opacity(0.28)))
-                    .frame(width: 44, height: 44)
-                    .scaleEffect(on ? 1.42 : 1)
-                    .opacity(on ? 0.12 : 1)
-                    .animation(.easeInOut(duration: 0.7).repeatForever(autoreverses: true), value: on)
-                    .allowsHitTesting(false)
+        HStack(alignment: .center, spacing: 0) {
+            if let prompt {
+                Text(prompt)
+                    .font(Paper.font(16, .semibold))
+                    .foregroundStyle(Color.white)
+                    .multilineTextAlignment(.leading)
+                    .fixedSize(horizontal: false, vertical: true)
+                    .padding(.horizontal, 14)
+                    .padding(.vertical, 11)
+                    .frame(maxWidth: 220, alignment: .leading)
+                    .background(Color(red: 0.11, green: 0.098, blue: 0.086), in: RoundedRectangle(cornerRadius: 14, style: .continuous))
+                    .overlay(RoundedRectangle(cornerRadius: 14, style: .continuous).stroke(Color.white.opacity(0.9), lineWidth: 1))
+                CompassTail()
+                    .fill(Color(red: 0.11, green: 0.098, blue: 0.086))
+                    .frame(width: 10, height: 16)
+                    .rotationEffect(direction == .rightToLeft ? .degrees(180) : .zero)
+                    .padding(.trailing, 8)
             }
-            Button(action: action) {
-                MapGlyph()
-                    .stroke(Paper.ink, style: StrokeStyle(lineWidth: 1.6, lineJoin: .round))
-                    .frame(width: 22, height: 22)
-                    .frame(width: 44, height: 44)
-                    .background(Paper.bg)
-                    .clipShape(Circle())
-                    .overlay(Circle().stroke(pulse ? Color(red: 0.76, green: 0.25, blue: 0.05) : Paper.line, lineWidth: pulse ? 2 : 1))
-                    .shadow(color: .black.opacity(0.16), radius: 1, y: 1)
-                    .contentShape(Circle())
+            ZStack {
+                if prompt != nil {
+                    Circle()
+                        .stroke(Color(red: 0.76, green: 0.25, blue: 0.05), lineWidth: 3)
+                        .background(Circle().fill(Color(red: 0.76, green: 0.25, blue: 0.05).opacity(0.28)))
+                        .frame(width: 44, height: 44)
+                        .scaleEffect(on ? 1.42 : 1)
+                        .opacity(on ? 0.12 : 1)
+                        .animation(.easeInOut(duration: 0.7).repeatForever(autoreverses: true), value: on)
+                        .allowsHitTesting(false)
+                }
+                Button(action: action) {
+                    MapGlyph()
+                        .stroke(Paper.ink, style: StrokeStyle(lineWidth: 1.6, lineJoin: .round))
+                        .frame(width: 22, height: 22)
+                        .frame(width: 44, height: 44)
+                        .background(Paper.bg)
+                        .clipShape(Circle())
+                        .overlay(Circle().stroke(prompt == nil ? Paper.line : Color(red: 0.76, green: 0.25, blue: 0.05), lineWidth: prompt == nil ? 1 : 2))
+                        .shadow(color: .black.opacity(0.16), radius: 1, y: 1)
+                        .contentShape(Circle())
+                }
+                .buttonStyle(.plain)
+                .accessibilityLabel(L10n.text(L10n.code(), "maps"))
             }
-            .buttonStyle(.plain)
-            .accessibilityLabel(L10n.text(L10n.code(), "maps"))
+            .frame(width: 44, height: 44)
         }
-        .frame(width: 44, height: 44)
-        .onAppear { on = pulse }
-        .onChange(of: pulse) { _, next in on = next }
+        .onAppear { on = prompt != nil }
+        .onChange(of: prompt) { _, next in on = next != nil }
     }
 }
 

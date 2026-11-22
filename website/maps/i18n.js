@@ -1,6 +1,7 @@
 const DICT = {
   en: {
     "Defina a sua posição aqui para começar": "Set your position here to start",
+    "Selecione um mapa para importar dados": "Select a map to import data",
     Mapas: "Maps",
     "Importar mapas": "Import maps",
     "Sem mapas": "No maps",
@@ -17,6 +18,7 @@ const DICT = {
   },
   es: {
     "Defina a sua posição aqui para começar": "Defina su posición aquí para empezar",
+    "Selecione um mapa para importar dados": "Seleccione un mapa para importar datos",
     "Corrigir posição": "Corregir posición",
     Confirmar: "Confirmar",
     Cancelar: "Cancelar",
@@ -53,6 +55,7 @@ const DICT = {
   },
   fr: {
     "Defina a sua posição aqui para começar": "Définissez votre position ici pour commencer",
+    "Selecione um mapa para importar dados": "Sélectionnez une carte pour importer des données",
     "Corrigir posição": "Corriger la position",
     Confirmar: "Confirmer",
     Cancelar: "Annuler",
@@ -89,6 +92,7 @@ const DICT = {
   },
   de: {
     "Defina a sua posição aqui para começar": "Legen Sie hier Ihre Position fest, um zu beginnen",
+    "Selecione um mapa para importar dados": "Wählen Sie eine Karte aus, um Daten zu importieren",
     "Corrigir posição": "Position korrigieren",
     Confirmar: "Bestätigen",
     Cancelar: "Abbrechen",
@@ -125,6 +129,7 @@ const DICT = {
   },
   it: {
     "Defina a sua posição aqui para começar": "Imposta qui la tua posizione per iniziare",
+    "Selecione um mapa para importar dados": "Seleziona una mappa per importare i dati",
     "Corrigir posição": "Correggi posizione",
     Confirmar: "Conferma",
     Cancelar: "Annulla",

@@ -74,6 +74,7 @@ class AppModel(application: Application) : AndroidViewModel(application) {
     var fixing by mutableStateOf(false)
     var positionFixed by mutableStateOf(false)
     var mapsPromptDone by mutableStateOf(false)
+    var showCountryColors by mutableStateOf(true)
     var holdCompass by mutableStateOf(false)
     var countriesJson by mutableStateOf("")
     var fixName by mutableStateOf("")
@@ -576,8 +577,13 @@ class AppModel(application: Application) : AndroidViewModel(application) {
     }
 
     private fun noteMapsClosed() {
+        val first = !mapsPromptDone
         mapsPromptDone = true
         prefs.edit().putBoolean("blackout-maps-prompt", true).apply()
+        if (first) {
+            showCountryColors = false
+            if (pendingPack.isEmpty()) pendingPack = activePackageId ?: "portugal"
+        }
         if (!revealCountry()) holdCompass = false
     }
 
@@ -1020,6 +1026,7 @@ class AppModel(application: Application) : AndroidViewModel(application) {
     private fun load() {
         positionFixed = prefs.getBoolean("mapa-fixed", false)
         mapsPromptDone = prefs.getBoolean("blackout-maps-prompt", false)
+        showCountryColors = !mapsPromptDone
         val savedCode = prefs.getString("blackout-language", "en") ?: "en"
         language = if (savedCode in Text.order) savedCode else "en"
         if (prefs.contains("mapa-step")) step = prefs.getFloat("mapa-step", 0.7f).toDouble().coerceIn(0.3, 1.5)
