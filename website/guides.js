@@ -25,10 +25,14 @@
       root.replaceChildren.apply(root, books.map(function (book) {
         return mode === "featured" ? featured(book) : entry(book)
       }))
-      var id = location.hash.slice(1)
+      var fromCheckout = new URLSearchParams(location.search).get("book")
+      var id = fromCheckout || (location.hash ? decodeURIComponent(location.hash.slice(1)) : "")
       if (id) {
-        var target = document.getElementById(decodeURIComponent(id))
-        if (target) target.scrollIntoView()
+        var target = document.getElementById(id)
+        if (target) {
+          if (fromCheckout) history.replaceState(null, "", "/guides.html#" + id)
+          target.scrollIntoView()
+        }
       }
     })
     .catch(function () {
@@ -127,6 +131,14 @@
       link.textContent = (book.buy && book.buy.label) || ("Buy the " + book.topic + " guide — " + money(book))
       return link
     }
+    if (book.buy && book.buy.channel === "stripe" && book.buy.label) {
+      var button = document.createElement("button")
+      button.type = "button"
+      button.className = "guide-buy"
+      button.textContent = book.buy.label
+      button.addEventListener("click", function () { startCheckout(button, book) })
+      return button
+    }
     var block = document.createElement("div")
     block.className = "guide-offer"
     var price = document.createElement("p")
@@ -137,6 +149,38 @@
     status.textContent = book.availability || "Not for sale on this site yet."
     block.append(price, status)
     return block
+  }
+
+  function startCheckout(button, book) {
+    if (button.disabled) return
+    var label = button.textContent
+    button.disabled = true
+    button.textContent = "Opening checkout"
+    fetch("/api/checkout", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ slug: book.slug }),
+    })
+      .then(function (res) {
+        return res.json().then(function (body) {
+          var next = body && body.url
+          if (!res.ok || typeof next !== "string" || next.indexOf("https://checkout.stripe.com/") !== 0) {
+            throw new Error("checkout")
+          }
+          window.location.assign(next)
+        })
+      })
+      .catch(function () {
+        button.disabled = false
+        button.textContent = label
+        var note = button.nextElementSibling
+        if (!note || !note.classList.contains("guide-availability")) {
+          note = document.createElement("p")
+          note.className = "guide-availability"
+          button.after(note)
+        }
+        note.textContent = "Checkout could not be opened."
+      })
   }
 
   function example(book) {

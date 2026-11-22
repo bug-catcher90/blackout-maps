@@ -20,8 +20,8 @@
       ],
       "pages": 39,
       "price": { "amount": "19.86", "currency": "EUR" },
-      "buy": { "url": null, "label": null, "channel": null },
-      "availability": "Not for sale on this site yet.",
+      "buy": { "url": null, "label": "Buy the power guide — €19.86", "channel": "stripe" },
+      "availability": null,
       "example": {
         "title": "Can a 1 kWh battery run your fridge for three days?",
         "href": "/sheets/worked-example-fridge.pdf"
@@ -64,8 +64,8 @@
       ],
       "pages": 26,
       "price": { "amount": "14.32", "currency": "EUR" },
-      "buy": { "url": null, "label": null, "channel": null },
-      "availability": "Not for sale on this site yet.",
+      "buy": { "url": null, "label": "Buy the water guide — €14.32", "channel": "stripe" },
+      "availability": null,
       "example": {
         "title": "Four people, twelve litres and one fountain pin",
         "href": "/sheets/worked-example-12-litres.pdf"

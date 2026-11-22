@@ -2,5 +2,10 @@
   "framework": null,
   "redirects": [
     { "source": "/guide-books.html", "destination": "/guides.html", "permanent": true }
-  ]
+  ],
+  "functions": {
+    "api/guide-download.js": {
+      "includeFiles": "api/_files/**"
+    }
+  }
 }
