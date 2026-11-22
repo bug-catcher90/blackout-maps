@@ -26,6 +26,7 @@ import org.maplibre.android.style.expressions.Expression
 import org.maplibre.android.style.layers.CircleLayer
 import org.maplibre.android.style.layers.FillLayer
 import org.maplibre.android.style.layers.LineLayer
+import org.maplibre.android.style.layers.Property
 import org.maplibre.android.style.layers.PropertyFactory
 import org.maplibre.android.style.layers.SymbolLayer
 import org.maplibre.android.style.sources.GeoJsonSource
@@ -166,6 +167,13 @@ fun MapPane(model: AppModel, modifier: Modifier = Modifier) {
         runCatching {
             ready.easeCamera(CameraUpdateFactory.newLatLngBounds(builder.build(), 140), 400)
         }
+    }
+
+    LaunchedEffect(style, model.showCountryColors) {
+        val loaded = style ?: return@LaunchedEffect
+        loaded.getLayer("country-fill")?.setProperties(
+            PropertyFactory.visibility(if (model.showCountryColors) Property.VISIBLE else Property.NONE)
+        )
     }
 
     LaunchedEffect(style, model.overlay, model.styleStamp, model.countriesJson) {

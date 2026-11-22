@@ -120,6 +120,7 @@ final class MapController: NSObject, MLNMapViewDelegate {
         install(style)
         styleReady = true
         applyCountryColors()
+        applyCountryColorVisibility()
         if !userMoved { framed = false }
         applyOpening()
     }
@@ -129,6 +130,17 @@ final class MapController: NSObject, MLNMapViewDelegate {
         framed = true
         fit([[-25, 34], [40, 71]], insets: UIEdgeInsets(top: 88, left: 16, bottom: 120, right: 16))
         zoom = mapView?.zoomLevel ?? 3.2
+    }
+
+    private var countryColors = true
+
+    func setCountryColors(_ visible: Bool) {
+        countryColors = visible
+        applyCountryColorVisibility()
+    }
+
+    private func applyCountryColorVisibility() {
+        mapView?.style?.layer(withIdentifier: "country-fill")?.isVisible = countryColors
     }
 
     func setLoadedPacks(_ ids: Set<String>) {

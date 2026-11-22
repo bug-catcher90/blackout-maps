@@ -561,8 +561,13 @@ final class AppModel {
     }
 
     func noteMapsClosed() {
+        let first = !mapsPromptDone
         mapsPromptDone = true
         UserDefaults.standard.set(true, forKey: "blackout-maps-prompt")
+        if first {
+            map.setCountryColors(false)
+            if pendingPack.isEmpty { pendingPack = activePackageId ?? "portugal" }
+        }
         if !revealCountry() { holdCompass = false }
     }
 
@@ -933,6 +938,7 @@ final class AppModel {
     private func loadSaved() {
         positionFixed = UserDefaults.standard.bool(forKey: "mapa-fixed")
         mapsPromptDone = UserDefaults.standard.bool(forKey: "blackout-maps-prompt")
+        map.setCountryColors(!mapsPromptDone)
         if let value = UserDefaults.standard.object(forKey: "mapa-step") as? Double { step = value }
         if UserDefaults.standard.object(forKey: "mapa-sensors") != nil {
             sensorsOn = UserDefaults.standard.bool(forKey: "mapa-sensors")
