@@ -719,6 +719,67 @@ h3 {
   .res-picks { grid-template-columns: 1fr; }
 }
 
+.covers {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 1.25rem;
+  margin-top: 2rem;
+}
+
+.covers img,
+.book-set img {
+  height: auto;
+  border-radius: 6px 14px 14px 6px;
+  box-shadow: 10px 16px 32px rgba(0, 0, 0, 0.45);
+}
+
+.covers img { width: min(16.5rem, 46%); }
+
+.book-set {
+  display: grid;
+  grid-template-columns: minmax(0, 16rem) minmax(0, 36rem);
+  gap: 1.75rem 2.25rem;
+  align-items: center;
+  justify-content: center;
+  margin-top: 3.5rem;
+  text-align: left;
+}
+
+.book-set img { width: 100%; }
+
+.book-set h2 {
+  margin: 0 0 0.65rem;
+  max-width: none;
+  font-size: clamp(1.7rem, 3vw, 2.4rem);
+  text-align: left;
+}
+
+.book-set p { margin: 0; color: var(--muted); }
+
+.book-set .price {
+  margin-top: 0.9rem;
+  color: var(--amber);
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 1.15rem;
+  letter-spacing: 0.04em;
+}
+
+.book-set h3 {
+  margin: 1.35rem 0 0.45rem;
+  color: var(--muted);
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.book-set ul { margin: 0; padding: 0; list-style: none; }
+.book-set li { margin-top: 0.4rem; }
+.book-set a { color: var(--ink); }
+.book-set a:hover { color: var(--amber); }
+
 .section-more { margin: 1.75rem 0 0; }
 .section-more a { color: var(--ink); text-decoration: none; }
 .section-more a:hover { color: var(--amber); }
@@ -788,6 +849,11 @@ h3 {
 
 @media (max-width: 900px) {
   .usps, .cards, .actions, .slots, .empty-products { grid-template-columns: 1fr 1fr; }
+}
+
+@media (max-width: 720px) {
+  .book-set { grid-template-columns: 1fr; }
+  .book-set img { width: min(16rem, 78%); margin-inline: auto; }
 }
 
 @media (max-width: 640px) {
