@@ -89,7 +89,7 @@ enum Catalog {
             guard let fileURL = entry.downloadURL else { continue }
             let (body, fileResponse) = try await URLSession.shared.data(from: fileURL)
             guard (fileResponse as? HTTPURLResponse)?.statusCode == 200 else { continue }
-            guard let package = try? JSONDecoder().decode(MapPackage.self, from: body), !package.flag.isEmpty, !package.name.isEmpty else { continue }
+            guard let package = try? JSONDecoder().decode(MapPackage.self, from: body), Self.listed(package) else { continue }
             packages.append(package)
         }
         return packages.sorted { $0.name.localizedCompare($1.name) == .orderedAscending }
@@ -111,10 +111,15 @@ enum Catalog {
         for case let url as URL in found where url.pathExtension == "json" {
             guard let data = try? Data(contentsOf: url),
                   let package = try? decoder.decode(MapPackage.self, from: data),
-                  !package.flag.isEmpty else { continue }
+                  listed(package) else { continue }
             packages.append(package)
         }
         return packages
+    }
+
+    private static func listed(_ package: MapPackage) -> Bool {
+        let keys = Set(package.files.map(\.key))
+        return !package.name.isEmpty && !package.flag.isEmpty && keys.contains("water") && keys.contains("addresses")
     }
 }
 

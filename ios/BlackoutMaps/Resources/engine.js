@@ -124,7 +124,10 @@
       streets.push({ name, key: streetKey(name), first, count });
       offset = next + 8;
     }
-    return { file, recordOffset, cities, numbers, streets, cityKeys };
+    const book = { file, recordOffset, cities, numbers, streets, cityKeys };
+    await prepareNearest(book);
+    if (!book.grid?.ready) throw new Error("addresses");
+    return book;
   }
   function lowerBound2(streets, query) {
     let lo = 0;
@@ -305,15 +308,16 @@
   async function nearbyStreetHits(book, queryKey, parsed, anchor, limit) {
     await prepareNearest(book);
     const grid = book.grid;
-    const cx = Math.floor((anchor.lon - LON0) / CELL);
-    const cy = Math.floor((anchor.lat - LAT0) / CELL);
+    if (!grid?.ready) return [];
+    const cx = Math.floor((anchor.lon - grid.lon0) / grid.cell);
+    const cy = Math.floor((anchor.lat - grid.lat0) / grid.cell);
     const best = /* @__PURE__ */ new Map();
     for (let ring = 0; ring <= 5 && best.size < limit * 2; ring += 1) {
       for (let y = cy - ring; y <= cy + ring; y += 1) {
         for (let x = cx - ring; x <= cx + ring; x += 1) {
           if (ring && Math.abs(y - cy) !== ring && Math.abs(x - cx) !== ring) continue;
-          if (y < 0 || x < 0 || y >= YN || x >= XN) continue;
-          const cell = y * XN + x;
+          if (y < 0 || x < 0 || y >= grid.yn || x >= grid.xn) continue;
+          const cell = y * grid.xn + x;
           const start = grid.starts[cell];
           const size = grid.counts[cell];
           for (let i = 0; i < size; i += 1) {
@@ -381,16 +385,42 @@
     const ordered = anchor && !parsed.city ? byAnchor(hits, anchor) : hits;
     return ordered.slice(0, 80).map(publicHit);
   }
-  var CELL = 0.02;
-  var LAT0 = 36.8;
-  var LON0 = -9.8;
-  var YN = 280;
-  var XN = 190;
-  function cellIndex(lat, lon) {
-    const y = Math.floor((lat - LAT0) / CELL);
-    const x = Math.floor((lon - LON0) / CELL);
-    if (y < 0 || x < 0 || y >= YN || x >= XN) return -1;
-    return y * XN + x;
+  function cellIndex(lat, lon, grid) {
+    const y = Math.floor((lat - grid.lat0) / grid.cell);
+    const x = Math.floor((lon - grid.lon0) / grid.cell);
+    if (y < 0 || x < 0 || y >= grid.yn || x >= grid.xn) return -1;
+    return y * grid.xn + x;
+  }
+  function doorGrid(lats, lons) {
+    let cell = 0.02;
+    let minLat = Infinity;
+    let maxLat = -Infinity;
+    let minLon = Infinity;
+    let maxLon = -Infinity;
+    let kept = 0;
+    for (let index = 0; index < lats.length; index += 1) {
+      const lat = lats[index] / 1e6;
+      const lon = lons[index] / 1e6;
+      if (!Number.isFinite(lat) || !Number.isFinite(lon) || lat < -90 || lat > 90 || lon < -180 || lon > 180) continue;
+      kept += 1;
+      if (lat < minLat) minLat = lat;
+      if (lat > maxLat) maxLat = lat;
+      if (lon < minLon) minLon = lon;
+      if (lon > maxLon) maxLon = lon;
+    }
+    if (!kept) return null;
+    let lat0 = Math.floor(minLat / cell) * cell - cell;
+    let lon0 = Math.floor(minLon / cell) * cell - cell;
+    let yn = Math.floor((maxLat - lat0) / cell) + 2;
+    let xn = Math.floor((maxLon - lon0) / cell) + 2;
+    while (yn * xn > 2e6) {
+      cell *= 2;
+      lat0 = Math.floor(minLat / cell) * cell - cell;
+      lon0 = Math.floor(minLon / cell) * cell - cell;
+      yn = Math.floor((maxLat - lat0) / cell) + 2;
+      xn = Math.floor((maxLon - lon0) / cell) + 2;
+    }
+    return { cell, lat0, lon0, yn, xn, ready: true };
   }
   function metersBetween(lat1, lon1, lat2, lon2) {
     const p1 = lat1 * Math.PI / 180;
@@ -422,7 +452,6 @@
     const count = Math.floor((book.file.size - book.recordOffset) / 18);
     const lats = new Int32Array(count);
     const lons = new Int32Array(count);
-    const counts = new Uint32Array(YN * XN);
     const chunk = 12e4;
     for (let start = 0; start < count; start += chunk) {
       const size = Math.min(chunk, count - start);
@@ -431,14 +460,20 @@
       );
       const view = new DataView(bytes.buffer);
       for (let i = 0; i < size; i += 1) {
-        const lat = view.getInt32(i * 18 + 10, true);
-        const lon = view.getInt32(i * 18 + 14, true);
-        lats[start + i] = lat;
-        lons[start + i] = lon;
-        const cell = cellIndex(lat / 1e6, lon / 1e6);
-        if (cell >= 0) counts[cell] += 1;
+        lats[start + i] = view.getInt32(i * 18 + 10, true);
+        lons[start + i] = view.getInt32(i * 18 + 14, true);
       }
       await new Promise((resolve) => setTimeout(resolve, 0));
+    }
+    const grid = doorGrid(lats, lons);
+    if (!grid) {
+      book.grid = { ready: false };
+      return;
+    }
+    const counts = new Uint32Array(grid.yn * grid.xn);
+    for (let i = 0; i < count; i += 1) {
+      const cell = cellIndex(lats[i] / 1e6, lons[i] / 1e6, grid);
+      if (cell >= 0) counts[cell] += 1;
     }
     const starts = new Uint32Array(counts.length);
     let cursor = 0;
@@ -449,25 +484,26 @@
     const ids = new Uint32Array(cursor);
     const fill = starts.slice();
     for (let i = 0; i < count; i += 1) {
-      const cell = cellIndex(lats[i] / 1e6, lons[i] / 1e6);
+      const cell = cellIndex(lats[i] / 1e6, lons[i] / 1e6, grid);
       if (cell < 0) continue;
       ids[fill[cell]] = i;
       fill[cell] += 1;
     }
     const spans = book.streets.map((street, streetIndex) => ({ first: street.first, count: street.count, street: streetIndex })).sort((a, b) => a.first - b.first);
-    book.grid = { lats, lons, counts, starts, ids, spans };
+    book.grid = { ...grid, lats, lons, counts, starts, ids, spans };
   }
   function nearestIndex(grid, lat, lon) {
-    const cx = Math.floor((lon - LON0) / CELL);
-    const cy = Math.floor((lat - LAT0) / CELL);
+    if (!grid?.ready) return -1;
+    const cx = Math.floor((lon - grid.lon0) / grid.cell);
+    const cy = Math.floor((lat - grid.lat0) / grid.cell);
     let best = -1;
     let bestM = Infinity;
     for (let ring = 0; ring < 40; ring += 1) {
       for (let y = cy - ring; y <= cy + ring; y += 1) {
         for (let x = cx - ring; x <= cx + ring; x += 1) {
           if (ring && Math.abs(y - cy) !== ring && Math.abs(x - cx) !== ring) continue;
-          if (y < 0 || x < 0 || y >= YN || x >= XN) continue;
-          const cell = y * XN + x;
+          if (y < 0 || x < 0 || y >= grid.yn || x >= grid.xn) continue;
+          const cell = y * grid.xn + x;
           const start = grid.starts[cell];
           const size = grid.counts[cell];
           for (let i = 0; i < size; i += 1) {
@@ -481,10 +517,10 @@
         }
       }
       if (best < 0) continue;
-      const south = LAT0 + (cy - ring) * CELL;
-      const north = LAT0 + (cy + ring + 1) * CELL;
-      const west = LON0 + (cx - ring) * CELL;
-      const east = LON0 + (cx + ring + 1) * CELL;
+      const south = grid.lat0 + (cy - ring) * grid.cell;
+      const north = grid.lat0 + (cy + ring + 1) * grid.cell;
+      const west = grid.lon0 + (cx - ring) * grid.cell;
+      const east = grid.lon0 + (cx + ring + 1) * grid.cell;
       if (lat < south || lat > north || lon < west || lon > east) continue;
       const latM = Math.min(lat - south, north - lat) * 111320;
       const lonM = Math.min(lon - west, east - lon) * 111320 * Math.cos(lat * Math.PI / 180);
@@ -2356,11 +2392,6 @@
     { id: 3, label: "A\xE7ude" },
     { id: 4, label: "Acesso" }
   ];
-  var LAT03 = 368e5;
-  var LON03 = -97e5;
-  var STEP2 = 2e4;
-  var LAT_N2 = 275;
-  var LON_N2 = 190;
   function align3(offset) {
     return offset + 3 & ~3;
   }
@@ -2373,6 +2404,11 @@
     }
     const count = view.getUint32(8, true);
     const nameBytes = view.getUint32(12, true);
+    const lat0 = view.getInt32(16, true);
+    const lon0 = view.getInt32(20, true);
+    const latN = view.getUint32(24, true);
+    const lonN = view.getUint32(28, true);
+    const step = view.getUint32(32, true);
     const cellCount = view.getUint32(36, true);
     const geomBytes = view.getUint32(40, true);
     let offset = 64;
@@ -2402,7 +2438,7 @@
     offset += (cellCount + 1) * 4;
     const idCount = cellHead[cellCount];
     const cellIds = new Uint32Array(bytes.buffer, bytes.byteOffset + offset, idCount);
-    return {
+    const book = {
       count,
       type,
       kind,
@@ -2418,11 +2454,107 @@
       geomLen,
       cellHead,
       cellIds,
+      lat0,
+      lon0,
+      latN,
+      lonN,
+      step,
       decoded: new Array(count),
       names: new Array(count),
       stamp: new Uint32Array(count),
-      token: 1
+      token: 1,
+      gridReady: false
     };
+    ensureWaterGrid(book);
+    if (!book.gridReady) throw new Error("water");
+    return book;
+  }
+  function waterCell(lat, lon, grid) {
+    const y = Math.floor((lat - grid.lat0) / grid.step);
+    const x = Math.floor((lon - grid.lon0) / grid.step);
+    if (y < 0 || x < 0 || y >= grid.latN || x >= grid.lonN) return -1;
+    return y * grid.lonN + x;
+  }
+  function waterGrid(points) {
+    const step = 2e4;
+    let minLat = Infinity;
+    let maxLat = -Infinity;
+    let minLon = Infinity;
+    let maxLon = -Infinity;
+    let kept = 0;
+    for (const point of points) {
+      const lat = point[0];
+      const lon = point[1];
+      if (lat < -9e7 || lat > 9e7 || lon < -18e7 || lon > 18e7) continue;
+      kept += 1;
+      if (lat < minLat) minLat = lat;
+      if (lat > maxLat) maxLat = lat;
+      if (lon < minLon) minLon = lon;
+      if (lon > maxLon) maxLon = lon;
+    }
+    if (!kept) return null;
+    const lat0 = Math.floor(minLat / step) * step - step;
+    const lon0 = Math.floor(minLon / step) * step - step;
+    const latN = Math.floor((maxLat - lat0) / step) + 2;
+    const lonN = Math.floor((maxLon - lon0) / step) + 2;
+    return { lat0, lon0, latN, lonN, step };
+  }
+  function storedGridCovers(book) {
+    if (!book.count || !book.step || book.latN < 1 || book.lonN < 1) return false;
+    if (book.cellHead.length !== book.latN * book.lonN + 1) return false;
+    for (let index = 0; index < book.count; index += 1) {
+      if (waterCell(book.labelLat[index], book.labelLon[index], book) < 0) return false;
+    }
+    return true;
+  }
+  function rebuildWaterGrid(book) {
+    const points = new Array(book.count);
+    for (let index = 0; index < book.count; index += 1) points[index] = [book.labelLat[index], book.labelLon[index]];
+    const grid = waterGrid(points);
+    if (!grid || grid.latN * grid.lonN > 3e6) {
+      book.gridReady = false;
+      return;
+    }
+    const cellCount = grid.latN * grid.lonN;
+    const buckets = Array.from({ length: cellCount }, () => []);
+    let indexed = 0;
+    for (let index = 0; index < book.count; index += 1) {
+      const cell = waterCell(book.labelLat[index], book.labelLon[index], grid);
+      if (cell < 0) continue;
+      buckets[cell].push(index);
+      indexed += 1;
+    }
+    if (!indexed) {
+      book.gridReady = false;
+      return;
+    }
+    const cellHead = new Uint32Array(cellCount + 1);
+    let cursor = 0;
+    for (let index = 0; index < cellCount; index += 1) {
+      cellHead[index] = cursor;
+      cursor += buckets[index].length;
+    }
+    cellHead[cellCount] = cursor;
+    const cellIds = new Uint32Array(cursor);
+    let fill = 0;
+    for (const bucket of buckets) {
+      for (const id of bucket) cellIds[fill++] = id;
+    }
+    book.lat0 = grid.lat0;
+    book.lon0 = grid.lon0;
+    book.latN = grid.latN;
+    book.lonN = grid.lonN;
+    book.step = grid.step;
+    book.cellHead = cellHead;
+    book.cellIds = cellIds;
+    book.gridReady = true;
+  }
+  function ensureWaterGrid(book) {
+    if (storedGridCovers(book)) {
+      book.gridReady = true;
+      return;
+    }
+    rebuildWaterGrid(book);
   }
   var decoder = new TextDecoder();
   function featureName(book, id) {
@@ -2574,7 +2706,11 @@
     }
     return chosen;
   }
+  function emptyWater() {
+    return { counts: [0, 0, 0, 0, 0], total: 0, list: [], collection: { type: "FeatureCollection", features: [] } };
+  }
   function waterInView(book, west, south, east, north, zoom = 14) {
+    if (!book?.gridReady) return emptyWater();
     const counts = [0, 0, 0, 0, 0];
     let token = book.token + 1 >>> 0;
     if (token === 0) {
@@ -2582,16 +2718,16 @@
       token = 1;
     }
     book.token = token;
-    const y0 = Math.max(0, Math.min(LAT_N2 - 1, Math.floor((Math.round(south * 1e6) - LAT03) / STEP2)));
-    const y1 = Math.max(0, Math.min(LAT_N2 - 1, Math.floor((Math.round(north * 1e6) - LAT03) / STEP2)));
-    const x0 = Math.max(0, Math.min(LON_N2 - 1, Math.floor((Math.round(west * 1e6) - LON03) / STEP2)));
-    const x1 = Math.max(0, Math.min(LON_N2 - 1, Math.floor((Math.round(east * 1e6) - LON03) / STEP2)));
+    const y0 = Math.max(0, Math.min(book.latN - 1, Math.floor((Math.round(south * 1e6) - book.lat0) / book.step)));
+    const y1 = Math.max(0, Math.min(book.latN - 1, Math.floor((Math.round(north * 1e6) - book.lat0) / book.step)));
+    const x0 = Math.max(0, Math.min(book.lonN - 1, Math.floor((Math.round(west * 1e6) - book.lon0) / book.step)));
+    const x1 = Math.max(0, Math.min(book.lonN - 1, Math.floor((Math.round(east * 1e6) - book.lon0) / book.step)));
     const cy = (south + north) / 2;
     const cx = (west + east) / 2;
     const hits = [];
     for (let y = y0; y <= y1; y += 1) {
       for (let x = x0; x <= x1; x += 1) {
-        const cell = y * LON_N2 + x;
+        const cell = y * book.lonN + x;
         const start = book.cellHead[cell];
         const end = book.cellHead[cell + 1];
         for (let index = start; index < end; index += 1) {

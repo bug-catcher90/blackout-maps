@@ -6,12 +6,6 @@ export const WATER_TYPES = [
   { id: 4, label: "Acesso" },
 ]
 
-const LAT0 = 36800000
-const LON0 = -9700000
-const STEP = 20000
-const LAT_N = 275
-const LON_N = 190
-
 function pad(bytes) {
   const extra = (4 - (bytes.length % 4)) % 4
   if (!extra) return bytes
@@ -35,25 +29,104 @@ function align(offset) {
   return (offset + 3) & ~3
 }
 
-function cellOf(lat, lon) {
-  const y = Math.floor((lat - LAT0) / STEP)
-  const x = Math.floor((lon - LON0) / STEP)
-  if (y < 0 || x < 0 || y >= LAT_N || x >= LON_N) return -1
-  return y * LON_N + x
+function cellOf(lat, lon, grid) {
+  const y = Math.floor((lat - grid.lat0) / grid.step)
+  const x = Math.floor((lon - grid.lon0) / grid.step)
+  if (y < 0 || x < 0 || y >= grid.latN || x >= grid.lonN) return -1
+  return y * grid.lonN + x
 }
 
-function cellsAlong(latA, lonA, latB, lonB, into) {
-  const y0 = Math.floor((latA - LAT0) / STEP)
-  const x0 = Math.floor((lonA - LON0) / STEP)
-  const y1 = Math.floor((latB - LAT0) / STEP)
-  const x1 = Math.floor((lonB - LON0) / STEP)
+function cellsAlong(latA, lonA, latB, lonB, into, grid) {
+  const y0 = Math.floor((latA - grid.lat0) / grid.step)
+  const x0 = Math.floor((lonA - grid.lon0) / grid.step)
+  const y1 = Math.floor((latB - grid.lat0) / grid.step)
+  const x1 = Math.floor((lonB - grid.lon0) / grid.step)
   const steps = Math.max(Math.abs(x1 - x0), Math.abs(y1 - y0), 1)
   for (let index = 0; index <= steps; index += 1) {
     const y = Math.round(y0 + ((y1 - y0) * index) / steps)
     const x = Math.round(x0 + ((x1 - x0) * index) / steps)
-    if (y < 0 || x < 0 || y >= LAT_N || x >= LON_N) continue
-    into.add(y * LON_N + x)
+    if (y < 0 || x < 0 || y >= grid.latN || x >= grid.lonN) continue
+    into.add(y * grid.lonN + x)
   }
+}
+
+function waterGrid(points) {
+  const step = 20000
+  const finite = points.filter((point) => point[0] >= -90000000 && point[0] <= 90000000 && point[1] >= -180000000 && point[1] <= 180000000)
+  if (!finite.length) return { lat0: 0, lon0: 0, latN: 1, lonN: 1, step }
+  let minLat = finite[0][0]
+  let maxLat = finite[0][0]
+  let minLon = finite[0][1]
+  let maxLon = finite[0][1]
+  for (const [lat, lon] of finite) {
+    if (lat < minLat) minLat = lat
+    if (lat > maxLat) maxLat = lat
+    if (lon < minLon) minLon = lon
+    if (lon > maxLon) maxLon = lon
+  }
+  const lat0 = Math.floor(minLat / step) * step - step
+  const lon0 = Math.floor(minLon / step) * step - step
+  const latN = Math.floor((maxLat - lat0) / step) + 2
+  const lonN = Math.floor((maxLon - lon0) / step) + 2
+  return { lat0, lon0, latN, lonN, step }
+}
+
+function storedGridCovers(book) {
+  if (!book.count || !book.step || book.latN < 1 || book.lonN < 1) return false
+  if (book.cellHead.length !== book.latN * book.lonN + 1) return false
+  for (let index = 0; index < book.count; index += 1) {
+    if (cellOf(book.labelLat[index], book.labelLon[index], book) < 0) return false
+  }
+  return true
+}
+
+function rebuildWaterGrid(book) {
+  const grid = waterGrid(Array.from({ length: book.count }, (_, index) => [book.labelLat[index], book.labelLon[index]]))
+  if (!book.count || grid.latN * grid.lonN > 3000000) {
+    book.gridReady = false
+    return
+  }
+  const cellCount = grid.latN * grid.lonN
+  const buckets = Array.from({ length: cellCount }, () => [])
+  let indexed = 0
+  for (let index = 0; index < book.count; index += 1) {
+    const cell = cellOf(book.labelLat[index], book.labelLon[index], grid)
+    if (cell < 0) continue
+    buckets[cell].push(index)
+    indexed += 1
+  }
+  if (!indexed) {
+    book.gridReady = false
+    return
+  }
+  const cellHead = new Uint32Array(cellCount + 1)
+  let cursor = 0
+  for (let index = 0; index < cellCount; index += 1) {
+    cellHead[index] = cursor
+    cursor += buckets[index].length
+  }
+  cellHead[cellCount] = cursor
+  const cellIds = new Uint32Array(cursor)
+  let fill = 0
+  for (const bucket of buckets) {
+    for (const id of bucket) cellIds[fill++] = id
+  }
+  book.lat0 = grid.lat0
+  book.lon0 = grid.lon0
+  book.latN = grid.latN
+  book.lonN = grid.lonN
+  book.step = grid.step
+  book.cellHead = cellHead
+  book.cellIds = cellIds
+  book.gridReady = true
+}
+
+function ensureWaterGrid(book) {
+  if (storedGridCovers(book)) {
+    book.gridReady = true
+    return
+  }
+  rebuildWaterGrid(book)
 }
 
 export function buildWaterBook(rows) {
@@ -74,6 +147,7 @@ export function buildWaterBook(rows) {
       }
     })
     .sort((a, b) => a.type - b.type || a.lat - b.lat || a.lon - b.lon || a.name.localeCompare(b.name, "pt"))
+  const grid = waterGrid(kept.map((row) => [row.lat, row.lon]))
   const names = []
   const nameOff = []
   const nameLen = []
@@ -82,7 +156,7 @@ export function buildWaterBook(rows) {
   const geomOff = []
   const geomLen = []
   let geomBytes = 0
-  const buckets = Array.from({ length: LAT_N * LON_N }, () => [])
+  const buckets = Array.from({ length: grid.latN * grid.lonN }, () => [])
   kept.forEach((row, index) => {
     const encoded = new TextEncoder().encode(row.name)
     nameOff.push(nameBytes)
@@ -90,7 +164,7 @@ export function buildWaterBook(rows) {
     names.push(encoded)
     nameBytes += encoded.length
     const cells = new Set()
-    const home = cellOf(row.lat, row.lon)
+    const home = cellOf(row.lat, row.lon, grid)
     if (home >= 0) cells.add(home)
     if (!row.parts.length) {
       geomOff.push(0)
@@ -110,9 +184,9 @@ export function buildWaterBook(rows) {
         for (const [lat, lon] of part) {
           push32(lat)
           push32(lon)
-          const cell = cellOf(lat, lon)
+          const cell = cellOf(lat, lon, grid)
           if (cell >= 0) cells.add(cell)
-          if (prev) cellsAlong(prev[0], prev[1], lat, lon, cells)
+          if (prev) cellsAlong(prev[0], prev[1], lat, lon, cells, grid)
           prev = [lat, lon]
         }
       }
@@ -166,12 +240,12 @@ export function buildWaterBook(rows) {
   view.setUint32(4, 1, true)
   view.setUint32(8, count, true)
   view.setUint32(12, nameBytes, true)
-  view.setInt32(16, LAT0, true)
-  view.setInt32(20, LON0, true)
-  view.setUint32(24, LAT_N, true)
-  view.setUint32(28, LON_N, true)
-  view.setUint32(32, STEP, true)
-  view.setUint32(36, LAT_N * LON_N, true)
+  view.setInt32(16, grid.lat0, true)
+  view.setInt32(20, grid.lon0, true)
+  view.setUint32(24, grid.latN, true)
+  view.setUint32(28, grid.lonN, true)
+  view.setUint32(32, grid.step, true)
+  view.setUint32(36, grid.latN * grid.lonN, true)
   view.setUint32(40, geomBytes, true)
   view.setUint32(44, body.length, true)
   return body.buffer.slice(body.byteOffset, body.byteOffset + body.byteLength)
@@ -186,6 +260,11 @@ export function openWaterBook(buffer) {
   }
   const count = view.getUint32(8, true)
   const nameBytes = view.getUint32(12, true)
+  const lat0 = view.getInt32(16, true)
+  const lon0 = view.getInt32(20, true)
+  const latN = view.getUint32(24, true)
+  const lonN = view.getUint32(28, true)
+  const step = view.getUint32(32, true)
   const cellCount = view.getUint32(36, true)
   const geomBytes = view.getUint32(40, true)
   let offset = 64
@@ -215,7 +294,7 @@ export function openWaterBook(buffer) {
   offset += (cellCount + 1) * 4
   const idCount = cellHead[cellCount]
   const cellIds = new Uint32Array(bytes.buffer, bytes.byteOffset + offset, idCount)
-  return {
+  const book = {
     count,
     type,
     kind,
@@ -231,11 +310,20 @@ export function openWaterBook(buffer) {
     geomLen,
     cellHead,
     cellIds,
+    lat0,
+    lon0,
+    latN,
+    lonN,
+    step,
     decoded: new Array(count),
     names: new Array(count),
     stamp: new Uint32Array(count),
     token: 1,
+    gridReady: false,
   }
+  ensureWaterGrid(book)
+  if (!book.gridReady) throw new Error("water")
+  return book
 }
 
 const decoder = new TextDecoder()
@@ -394,7 +482,12 @@ function shapeFeature(book, id) {
   return { type: "MultiLineString", coordinates: lines }
 }
 
+function emptyWater() {
+  return { counts: [0, 0, 0, 0, 0], total: 0, list: [], collection: { type: "FeatureCollection", features: [] } }
+}
+
 export function waterInView(book, west, south, east, north, zoom = 14) {
+  if (!book?.gridReady) return emptyWater()
   const counts = [0, 0, 0, 0, 0]
   let token = (book.token + 1) >>> 0
   if (token === 0) {
@@ -402,16 +495,16 @@ export function waterInView(book, west, south, east, north, zoom = 14) {
     token = 1
   }
   book.token = token
-  const y0 = Math.max(0, Math.min(LAT_N - 1, Math.floor((Math.round(south * 1e6) - LAT0) / STEP)))
-  const y1 = Math.max(0, Math.min(LAT_N - 1, Math.floor((Math.round(north * 1e6) - LAT0) / STEP)))
-  const x0 = Math.max(0, Math.min(LON_N - 1, Math.floor((Math.round(west * 1e6) - LON0) / STEP)))
-  const x1 = Math.max(0, Math.min(LON_N - 1, Math.floor((Math.round(east * 1e6) - LON0) / STEP)))
+  const y0 = Math.max(0, Math.min(book.latN - 1, Math.floor((Math.round(south * 1e6) - book.lat0) / book.step)))
+  const y1 = Math.max(0, Math.min(book.latN - 1, Math.floor((Math.round(north * 1e6) - book.lat0) / book.step)))
+  const x0 = Math.max(0, Math.min(book.lonN - 1, Math.floor((Math.round(west * 1e6) - book.lon0) / book.step)))
+  const x1 = Math.max(0, Math.min(book.lonN - 1, Math.floor((Math.round(east * 1e6) - book.lon0) / book.step)))
   const cy = (south + north) / 2
   const cx = (west + east) / 2
   const hits = []
   for (let y = y0; y <= y1; y += 1) {
     for (let x = x0; x <= x1; x += 1) {
-      const cell = y * LON_N + x
+      const cell = y * book.lonN + x
       const start = book.cellHead[cell]
       const end = book.cellHead[cell + 1]
       for (let index = start; index < end; index += 1) {

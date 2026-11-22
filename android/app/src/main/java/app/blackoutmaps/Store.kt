@@ -177,7 +177,9 @@ object Catalog {
                     }
                 }
             }
-            MapPackage(id, name, flag, objectJson.optBoolean("autoload"), packs)
+            val keys = packs.map { it.key }.toSet()
+            if (!keys.contains("water") || !keys.contains("addresses")) null
+            else MapPackage(id, name, flag, objectJson.optBoolean("autoload"), packs)
         }
     } catch (_: Exception) {
         null
