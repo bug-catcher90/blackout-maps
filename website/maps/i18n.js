@@ -1,5 +1,9 @@
 const DICT = {
+  en: {
+    "Defina a sua posição aqui para começar": "Set your position here to start",
+  },
   es: {
+    "Defina a sua posição aqui para começar": "Defina su posición aquí para empezar",
     "Corrigir posição": "Corregir posición",
     Confirmar: "Confirmar",
     Cancelar: "Cancelar",
@@ -22,6 +26,7 @@ const DICT = {
     "A {distance}, {turn}": "A {distance}, {turn}",
   },
   fr: {
+    "Defina a sua posição aqui para começar": "Définissez votre position ici pour commencer",
     "Corrigir posição": "Corriger la position",
     Confirmar: "Confirmer",
     Cancelar: "Annuler",
@@ -44,6 +49,7 @@ const DICT = {
     "A {distance}, {turn}": "À {distance}, {turn}",
   },
   de: {
+    "Defina a sua posição aqui para começar": "Legen Sie hier Ihre Position fest, um zu beginnen",
     "Corrigir posição": "Position korrigieren",
     Confirmar: "Bestätigen",
     Cancelar: "Abbrechen",
@@ -66,6 +72,7 @@ const DICT = {
     "A {distance}, {turn}": "Nach {distance}, {turn}",
   },
   it: {
+    "Defina a sua posição aqui para começar": "Imposta qui la tua posizione per iniziare",
     "Corrigir posição": "Correggi posizione",
     Confirmar: "Conferma",
     Cancelar: "Annulla",
