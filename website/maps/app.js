@@ -15,7 +15,7 @@ const STATE_KEY = "posicao-v1"
 const PINS_KEY = "posicao-pins-v1"
 const HERE = "A sua posição"
 const DOOR_NEAR_M = 40
-const VIEW = { center: [-8.05, 39.6], zoom: 5.8 }
+const VIEW = { center: [11.05, 56.7], zoom: 2.4 }
 
 const statusEl = document.querySelector("#status")
 const anchorBtn = document.querySelector("#anchor")
@@ -2298,10 +2298,6 @@ async function bootMap(file) {
     center: VIEW.center,
     zoom: VIEW.zoom,
     maxZoom: 18,
-    maxBounds: [
-      [-10.2, 36.45],
-      [-5.9, 42.45],
-    ],
     padding: { top: 72, right: 8, bottom: 72, left: 8 },
     attributionControl: false,
     dragRotate: false,

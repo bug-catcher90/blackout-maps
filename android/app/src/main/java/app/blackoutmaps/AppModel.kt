@@ -113,16 +113,16 @@ class AppModel(application: Application) : AndroidViewModel(application) {
     var jump by mutableStateOf<CameraJump?>(null)
     var fit by mutableStateOf<CameraFit?>(null)
     var pose by mutableStateOf<Pose?>(null)
-    var openingLat = 39.6
-    var openingLon = -8.05
-    var openingZoom = 6.2
-    var centerLat = 39.6
-    var centerLon = -8.05
-    var zoom = 6.2
-    private var west = -12.0
-    private var south = 36.5
-    private var east = -4.0
-    private var north = 42.5
+    var openingLat = 56.7
+    var openingLon = 11.05
+    var openingZoom = 2.4
+    var centerLat = 56.7
+    var centerLon = 11.05
+    var zoom = 2.4
+    private var west = -10.5
+    private var south = 35.5
+    private var east = 32.5
+    private var north = 70.5
 
     val categoryIds = listOf("0", "1", "2", "3", "4", "5", "water")
     private val categoryKeys = listOf("health", "police", "fire", "fuel", "supermarkets", "restaurants", "water")
