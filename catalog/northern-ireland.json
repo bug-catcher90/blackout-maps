@@ -1,0 +1,40 @@
+{
+  "id": "northern-ireland",
+  "name": "Northern Ireland",
+  "flag": "🇬🇧",
+  "autoload": false,
+  "files": [
+    {
+      "key": "places",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/northern-ireland/places.bin.gz",
+      "file": "places.bin",
+      "gzip": true,
+      "bytes": 331600,
+      "label": "lugares"
+    },
+    {
+      "key": "water",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/northern-ireland/water.bin.gz",
+      "file": "water.bin",
+      "gzip": true,
+      "bytes": 237380,
+      "label": "água"
+    },
+    {
+      "key": "addresses",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/northern-ireland/addresses.bin.gz",
+      "file": "addresses.bin",
+      "gzip": true,
+      "bytes": 1713173,
+      "label": "moradas"
+    },
+    {
+      "key": "geo",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/northern-ireland/geo.json.gz",
+      "file": "geo.json",
+      "gzip": true,
+      "bytes": null,
+      "label": "geo"
+    }
+  ]
+}

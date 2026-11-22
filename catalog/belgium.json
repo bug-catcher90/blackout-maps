@@ -1,0 +1,40 @@
+{
+  "id": "belgium",
+  "name": "Belgium",
+  "flag": "🇧🇪",
+  "autoload": false,
+  "files": [
+    {
+      "key": "places",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/belgium/places.bin.gz",
+      "file": "places.bin",
+      "gzip": true,
+      "bytes": 2667056,
+      "label": "lugares"
+    },
+    {
+      "key": "water",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/belgium/water.bin.gz",
+      "file": "water.bin",
+      "gzip": true,
+      "bytes": 439604,
+      "label": "água"
+    },
+    {
+      "key": "addresses",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/belgium/addresses.bin.gz",
+      "file": "addresses.bin",
+      "gzip": true,
+      "bytes": 77268374,
+      "label": "moradas"
+    },
+    {
+      "key": "geo",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/belgium/geo.json.gz",
+      "file": "geo.json",
+      "gzip": true,
+      "bytes": null,
+      "label": "geo"
+    }
+  ]
+}
