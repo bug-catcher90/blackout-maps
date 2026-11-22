@@ -113,16 +113,16 @@ class AppModel(application: Application) : AndroidViewModel(application) {
     var jump by mutableStateOf<CameraJump?>(null)
     var fit by mutableStateOf<CameraFit?>(null)
     var pose by mutableStateOf<Pose?>(null)
-    var openingLat = 56.7
-    var openingLon = 11.05
-    var openingZoom = 2.4
-    var centerLat = 56.7
-    var centerLon = 11.05
-    var zoom = 2.4
-    private var west = -10.5
-    private var south = 35.5
-    private var east = 32.5
-    private var north = 70.5
+    var openingLat = 39.6
+    var openingLon = -8.0
+    var openingZoom = 6.2
+    var centerLat = 39.6
+    var centerLon = -8.0
+    var zoom = 6.2
+    private var west = -10.2
+    private var south = 37.6
+    private var east = -5.8
+    private var north = 41.6
 
     val categoryIds = listOf("0", "1", "2", "3", "4", "5", "water")
     private val categoryKeys = listOf("health", "police", "fire", "fuel", "supermarkets", "restaurants", "water")
@@ -955,16 +955,6 @@ class AppModel(application: Application) : AndroidViewModel(application) {
             val lat = objectJson?.optDouble("lat") ?: Double.NaN
             val lon = objectJson?.optDouble("lon") ?: Double.NaN
             if (lat.isFinite() && lon.isFinite()) {
-                openingLat = lat
-                openingLon = lon
-                openingZoom = 16.0
-                centerLat = lat
-                centerLon = lon
-                zoom = 16.0
-                west = lon - 0.02
-                south = lat - 0.02
-                east = lon + 0.02
-                north = lat + 0.02
                 estimator.hydrate(lat, lon, objectJson?.optDouble("uncertainty", 12.0) ?: 12.0, objectJson?.optInt("steps") ?: 0, objectJson?.optDouble("distance") ?: 0.0)
             }
         }

@@ -74,16 +74,14 @@ final class MapController: NSObject, MLNMapViewDelegate {
     private var destOn = false
     private var styleReady = false
     private var pendingStyle: URL?
-    private(set) var zoom: Double = 2.4
-    private var opening: Coord?
+    private(set) var zoom: Double = 6.2
     private var framed = false
     private var userMoved = false
     var dragEnabled = true
-    private let europe = CLLocationCoordinate2D(latitude: 56.7, longitude: 11.05)
+    private let portugal = CLLocationCoordinate2D(latitude: 39.6, longitude: -8)
 
-    func makeView(opening: Coord?) -> MLNMapView {
+    func makeView(opening _: Coord?) -> MLNMapView {
         if let mapView { return mapView }
-        self.opening = opening
         let blank = FileManager.default.temporaryDirectory.appendingPathComponent("mapa-blank.json")
         try? MapStyle.blank.write(to: blank, atomically: true, encoding: .utf8)
         let map = OpeningMapView(frame: .zero, styleURL: blank)
@@ -95,14 +93,8 @@ final class MapController: NSObject, MLNMapViewDelegate {
         map.allowsRotating = false
         map.minimumZoomLevel = -2
         map.maximumZoomLevel = 18
-        if let opening {
-            map.setCenter(CLLocationCoordinate2D(latitude: opening.lat, longitude: opening.lon), zoomLevel: 16, animated: false)
-            zoom = 16
-            framed = true
-        } else {
-            map.setCenter(europe, zoomLevel: 2.4, animated: false)
-            zoom = 2.4
-        }
+        map.setCenter(portugal, zoomLevel: 6.2, animated: false)
+        zoom = 6.2
         let tap = UITapGestureRecognizer(target: self, action: #selector(tapped(_:)))
         tap.cancelsTouchesInView = false
         map.addGestureRecognizer(tap)
@@ -113,7 +105,8 @@ final class MapController: NSObject, MLNMapViewDelegate {
     }
 
     func load(archive: URL, glyphs: String) {
-        let json = MapStyle.json(archive: "pmtiles://\(archive.absoluteString)", glyphs: glyphs)
+        let world = Bundle.main.url(forResource: "world", withExtension: "geojson")?.absoluteString ?? ""
+        let json = MapStyle.json(archive: "pmtiles://\(archive.absoluteString)", glyphs: glyphs, world: world)
         let url = FileManager.default.temporaryDirectory.appendingPathComponent("mapa-style.json")
         try? json.write(to: url, atomically: true, encoding: .utf8)
         pendingStyle = url
@@ -129,14 +122,9 @@ final class MapController: NSObject, MLNMapViewDelegate {
 
     func applyOpening() {
         guard !userMoved, !framed, let mapView else { return }
-        if let opening {
-            framed = true
-            jump(to: opening, zoom: 16, bearing: 0)
-            return
-        }
         framed = true
-        mapView.setCenter(europe, zoomLevel: 2.4, direction: 0, animated: false, completionHandler: nil)
-        zoom = 2.4
+        mapView.setCenter(portugal, zoomLevel: 6.2, direction: 0, animated: false, completionHandler: nil)
+        zoom = 6.2
     }
 
     func mapView(_ mapView: MLNMapView, regionWillChangeWith reason: MLNCameraChangeReason, animated: Bool) {
@@ -158,7 +146,7 @@ final class MapController: NSObject, MLNMapViewDelegate {
     }
 
     func centerCoordinate() -> Coord {
-        guard let mapView else { return Coord(lat: 56.7, lon: 11.05) }
+        guard let mapView else { return Coord(lat: 39.6, lon: -8) }
         let point = CGPoint(x: mapView.bounds.midX, y: mapView.bounds.midY)
         let coord = mapView.convert(point, toCoordinateFrom: mapView)
         return Coord(lat: coord.latitude, lon: coord.longitude)
