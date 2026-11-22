@@ -490,12 +490,8 @@ function restore() {
     stepInput.value = String(data.stepLength)
     formatStep(data.stepLength)
   }
+  if (data.pose) estimator.hydrate(data.pose)
   if (data.pin && Number.isFinite(data.pin.lat) && Number.isFinite(data.pin.lon)) setPin(data.pin.lat, data.pin.lon)
-  if (data.pose && estimator.hydrate(data.pose)) {
-    map.jumpTo({ center: [data.pose.lon, data.pose.lat], zoom: 16 })
-  } else if (data.pin) {
-    map.jumpTo({ center: [data.pin.lon, data.pin.lat], zoom: 16 })
-  }
   updateButtons()
   syncPositionPrompt()
 }
@@ -2304,6 +2300,28 @@ estimator.subscribe((pose) => {
   if (!tripEl.hidden) refreshStart()
 })
 
+function europeHolds(zoom) {
+  map.jumpTo({ center: VIEW.center, zoom, bearing: 0, pitch: 0 })
+  const center = map.getCenter()
+  if (Math.abs(center.lat - VIEW.center[1]) > 0.25 || Math.abs(center.lng - VIEW.center[0]) > 0.25) return false
+  map.jumpTo({ center: [VIEW.center[0], 64], zoom })
+  if (map.getCenter().lat < 60) return false
+  map.jumpTo({ center: [VIEW.center[0], 40], zoom })
+  if (map.getCenter().lat > 44) return false
+  map.jumpTo({ center: [-9, 39.5], zoom })
+  if (Math.abs(map.getCenter().lng + 9) > 1) return false
+  map.jumpTo({ center: [25, 61], zoom })
+  return Math.abs(map.getCenter().lng - 25) < 1
+}
+
+function applyEurope() {
+  map.setMinZoom(0)
+  let zoom = VIEW.zoom
+  while (zoom <= 6 && !europeHolds(zoom)) zoom = Math.round((zoom + 0.1) * 10) / 10
+  map.setMinZoom(zoom)
+  map.jumpTo({ center: VIEW.center, zoom, bearing: 0, pitch: 0 })
+}
+
 async function bootMap(file) {
   const { Protocol, PMTiles, FileSource } = globalThis.pmtiles
   const source = new FileSource(file)
@@ -2339,6 +2357,7 @@ async function bootMap(file) {
     mapStatus = ""
     showStatus()
     layoutMap()
+    applyEurope()
     refreshPois()
   })
   map.on("dragstart", (event) => {
