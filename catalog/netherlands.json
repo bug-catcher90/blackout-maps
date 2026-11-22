@@ -1,0 +1,40 @@
+{
+  "id": "netherlands",
+  "name": "Netherlands",
+  "flag": "🇳🇱",
+  "autoload": false,
+  "files": [
+    {
+      "key": "places",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/netherlands/places.bin.gz",
+      "file": "places.bin",
+      "gzip": true,
+      "bytes": 3953920,
+      "label": "lugares"
+    },
+    {
+      "key": "water",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/netherlands/water.bin.gz",
+      "file": "water.bin",
+      "gzip": true,
+      "bytes": 670644,
+      "label": "água"
+    },
+    {
+      "key": "addresses",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/netherlands/addresses.bin.gz",
+      "file": "addresses.bin",
+      "gzip": true,
+      "bytes": 149374699,
+      "label": "moradas"
+    },
+    {
+      "key": "geo",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/netherlands/geo.json.gz",
+      "file": "geo.json",
+      "gzip": true,
+      "bytes": null,
+      "label": "geo"
+    }
+  ]
+}

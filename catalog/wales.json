@@ -1,0 +1,40 @@
+{
+  "id": "wales",
+  "name": "Wales",
+  "flag": "🏴󠁧󠁢󠁷󠁬󠁳󠁿",
+  "autoload": false,
+  "files": [
+    {
+      "key": "places",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/wales/places.bin.gz",
+      "file": "places.bin",
+      "gzip": true,
+      "bytes": 787812,
+      "label": "lugares"
+    },
+    {
+      "key": "water",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/wales/water.bin.gz",
+      "file": "water.bin",
+      "gzip": true,
+      "bytes": 354992,
+      "label": "água"
+    },
+    {
+      "key": "addresses",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/wales/addresses.bin.gz",
+      "file": "addresses.bin",
+      "gzip": true,
+      "bytes": 3321101,
+      "label": "moradas"
+    },
+    {
+      "key": "geo",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/wales/geo.json.gz",
+      "file": "geo.json",
+      "gzip": true,
+      "bytes": null,
+      "label": "geo"
+    }
+  ]
+}

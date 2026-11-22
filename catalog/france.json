@@ -1,0 +1,40 @@
+{
+  "id": "france",
+  "name": "France",
+  "flag": "🇫🇷",
+  "autoload": false,
+  "files": [
+    {
+      "key": "places",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/france/places.bin.gz",
+      "file": "places.bin",
+      "gzip": true,
+      "bytes": 15185140,
+      "label": "lugares"
+    },
+    {
+      "key": "water",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/france/water.bin.gz",
+      "file": "water.bin",
+      "gzip": true,
+      "bytes": 4469560,
+      "label": "água"
+    },
+    {
+      "key": "addresses",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/france/addresses.bin.gz",
+      "file": "addresses.bin",
+      "gzip": true,
+      "bytes": 119964356,
+      "label": "moradas"
+    },
+    {
+      "key": "geo",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/france/geo.json.gz",
+      "file": "geo.json",
+      "gzip": true,
+      "bytes": null,
+      "label": "geo"
+    }
+  ]
+}
