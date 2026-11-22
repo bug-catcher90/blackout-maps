@@ -15,8 +15,7 @@ const STATE_KEY = "posicao-v1"
 const PINS_KEY = "posicao-pins-v1"
 const HERE = "A sua posição"
 const DOOR_NEAR_M = 40
-const EUROPE_BOX = [[-12, 36], [32, 58]]
-const VIEW = { center: [10, 48], zoom: 3.8 }
+const VIEW = { center: [-8, 39.6], zoom: 6.2 }
 const PACKAGE_KEY = "blackout-package"
 const PACKAGES_KEY = "blackout-packages"
 const PORTUGAL = { id: "portugal", name: "Portugal", flag: "🇵🇹", files: [] }
@@ -2527,30 +2526,10 @@ async function usePackage(pack) {
   }
 }
 
-function applyEurope() {
+function applyPortugal() {
   map.setMinZoom(0)
   map.setMaxBounds(null)
-  map.fitBounds(EUROPE_BOX, { duration: 0 })
-  let zoom = map.getZoom()
-  const lon = (EUROPE_BOX[0][0] + EUROPE_BOX[1][0]) / 2
-  while (map.getBounds().getWest() < -34 && zoom < 6) {
-    zoom = Math.round((zoom + 0.1) * 10) / 10
-    map.jumpTo({ center: [lon, map.getCenter().lat], zoom, bearing: 0, pitch: 0 })
-  }
-  zoom = map.getZoom()
-  const wide = map.getBounds()
-  if (wide.getSouth() < 28 && wide.getNorth() > 60) {
-    map.jumpTo({ center: [lon, 54], zoom, bearing: 0, pitch: 0 })
-  }
-  const fitted = map.getZoom()
-  const center = map.getCenter()
-  map.setMinZoom(Math.round(fitted * 10) / 10)
-  map.setMaxBounds([[-42, 8], [55, 75]])
-  if (map.getZoom() > fitted + 0.2) {
-    map.setMaxBounds(null)
-    map.jumpTo({ center: [center.lng, center.lat], zoom: fitted, bearing: 0, pitch: 0 })
-    map.setMinZoom(Math.round(fitted * 10) / 10)
-  }
+  map.jumpTo({ center: VIEW.center, zoom: VIEW.zoom, bearing: 0, pitch: 0 })
 }
 
 async function bootMap(file) {
@@ -2568,7 +2547,6 @@ async function bootMap(file) {
     center: VIEW.center,
     zoom: VIEW.zoom,
     maxZoom: 18,
-    renderWorldCopies: false,
     padding: { top: 72, right: 8, bottom: 72, left: 8 },
     attributionControl: false,
     dragRotate: false,
@@ -2589,7 +2567,7 @@ async function bootMap(file) {
     mapStatus = ""
     showStatus()
     layoutMap()
-    applyEurope()
+    applyPortugal()
     refreshPois()
   })
   map.on("dragstart", (event) => {

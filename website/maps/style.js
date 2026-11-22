@@ -37,6 +37,7 @@ export function mapStyle(archiveUrl) {
     name: "Portugal",
     glyphs: "/maps/glyphs/{fontstack}/{range}.pbf",
     sources: {
+      world: { type: "geojson", data: "/maps/world.geojson" },
       protomaps: {
         type: "vector",
         url: archiveUrl,
@@ -46,6 +47,20 @@ export function mapStyle(archiveUrl) {
     },
     layers: [
       { id: "background", type: "background", paint: { "background-color": "#c5d5e0" } },
+      {
+        id: "world-land",
+        type: "fill",
+        source: "world",
+        filter: ["==", "$type", "Polygon"],
+        paint: { "fill-color": "#f4f0e6" },
+      },
+      {
+        id: "world-line",
+        type: "line",
+        source: "world",
+        filter: ["==", "$type", "LineString"],
+        paint: { "line-color": "#c4b8a4", "line-width": lineWidth([0, 0.6, 6, 1.2]) },
+      },
       {
         id: "earth",
         type: "fill",

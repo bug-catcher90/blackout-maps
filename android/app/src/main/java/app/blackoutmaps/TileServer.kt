@@ -49,7 +49,11 @@ class TileServer(private val archive: Pmtiles, private val assets: AssetManager)
                 if (body == null) {
                     output.write("HTTP/1.1 204 No Content\r\nConnection: close\r\n\r\n".toByteArray())
                 } else {
-                    val type = if (path.startsWith("/glyphs/")) "application/x-protobuf" else "application/vnd.mapbox-vector-tile"
+                    val type = when {
+                        path.startsWith("/glyphs/") -> "application/x-protobuf"
+                        path.startsWith("/world") -> "application/geo+json"
+                        else -> "application/vnd.mapbox-vector-tile"
+                    }
                     val header = "HTTP/1.1 200 OK\r\nContent-Type: $type\r\nContent-Length: ${body.size}\r\nConnection: close\r\n\r\n"
                     output.write(header.toByteArray())
                     output.write(body)
@@ -67,6 +71,13 @@ class TileServer(private val archive: Pmtiles, private val assets: AssetManager)
             val x = parts[2].toIntOrNull() ?: return null
             val y = parts[3].substringBefore('.').substringBefore('@').toIntOrNull() ?: return null
             return archive.tile(z, x, y)
+        }
+        if (parts.firstOrNull() == "world.geojson") {
+            return try {
+                assets.open("world.geojson").use { it.readBytes() }
+            } catch (_: Exception) {
+                null
+            }
         }
         if (parts.firstOrNull() == "glyphs" && parts.size == 3) {
             val font = URLDecoder.decode(parts[1], "UTF-8")

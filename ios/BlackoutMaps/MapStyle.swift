@@ -1,13 +1,17 @@
 import Foundation
 
 enum MapStyle {
-    static func json(archive: String, glyphs: String) -> String {
+    static func json(archive: String, glyphs: String, world: String) -> String {
         """
         {
           "version": 8,
           "name": "Portugal",
           "glyphs": "\(glyphs)",
           "sources": {
+            "world": {
+              "type": "geojson",
+              "data": "\(world)"
+            },
             "protomaps": {
               "type": "vector",
               "url": "\(archive)",
@@ -16,6 +20,8 @@ enum MapStyle {
           },
           "layers": [
             {"id": "background", "type": "background", "paint": {"background-color": "#c5d5e0"}},
+            {"id": "world-land", "type": "fill", "source": "world", "filter": ["==", "$type", "Polygon"], "paint": {"fill-color": "#f4f0e6"}},
+            {"id": "world-line", "type": "line", "source": "world", "filter": ["==", "$type", "LineString"], "paint": {"line-color": "#c4b8a4", "line-width": ["interpolate", ["linear"], ["zoom"], 0, 0.6, 6, 1.2]}},
             {"id": "earth", "type": "fill", "source": "protomaps", "source-layer": "earth", "paint": {"fill-color": "#f4f0e6"}},
             {"id": "water", "type": "fill", "source": "protomaps", "source-layer": "water", "filter": ["==", "$type", "Polygon"], "paint": {"fill-color": "#c5d5e0"}},
             {"id": "boundary", "type": "line", "source": "protomaps", "source-layer": "boundaries", "filter": ["==", "kind", "country"], "paint": {"line-color": "#c4b8a4", "line-width": ["interpolate", ["linear"], ["zoom"], 3, 0.6, 8, 1.4], "line-dasharray": [2, 1.2]}},
