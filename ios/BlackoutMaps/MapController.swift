@@ -78,7 +78,9 @@ final class MapController: NSObject, MLNMapViewDelegate {
     private var framed = false
     private var userMoved = false
     var dragEnabled = true
-    private let portugal = CLLocationCoordinate2D(latitude: 39.6, longitude: -8)
+    private let europeCenter = CLLocationCoordinate2D(latitude: 54, longitude: 8)
+    private var loadedPacks: Set<String> = ["portugal"]
+    private var countryTemplate: Data?
 
     func makeView(opening _: Coord?) -> MLNMapView {
         if let mapView { return mapView }
@@ -93,8 +95,8 @@ final class MapController: NSObject, MLNMapViewDelegate {
         map.allowsRotating = false
         map.minimumZoomLevel = -2
         map.maximumZoomLevel = 18
-        map.setCenter(portugal, zoomLevel: 6.2, animated: false)
-        zoom = 6.2
+        map.setCenter(europeCenter, zoomLevel: 3.2, animated: false)
+        zoom = 3.2
         let tap = UITapGestureRecognizer(target: self, action: #selector(tapped(_:)))
         tap.cancelsTouchesInView = false
         map.addGestureRecognizer(tap)
@@ -106,7 +108,8 @@ final class MapController: NSObject, MLNMapViewDelegate {
 
     func load(archive: URL, glyphs: String) {
         let world = Bundle.main.url(forResource: "world", withExtension: "pmtiles").map { "pmtiles://\($0.absoluteString)" } ?? ""
-        let json = MapStyle.json(archive: "pmtiles://\(archive.absoluteString)", glyphs: glyphs, world: world)
+        let countries = Bundle.main.url(forResource: "countries", withExtension: "geojson")?.absoluteString ?? ""
+        let json = MapStyle.json(archive: "pmtiles://\(archive.absoluteString)", glyphs: glyphs, world: world, countries: countries)
         let url = FileManager.default.temporaryDirectory.appendingPathComponent("mapa-style.json")
         try? json.write(to: url, atomically: true, encoding: .utf8)
         pendingStyle = url
@@ -116,15 +119,58 @@ final class MapController: NSObject, MLNMapViewDelegate {
     func mapView(_ mapView: MLNMapView, didFinishLoading style: MLNStyle) {
         install(style)
         styleReady = true
+        applyCountryColors()
         if !userMoved { framed = false }
         applyOpening()
     }
 
     func applyOpening() {
-        guard !userMoved, !framed, let mapView else { return }
+        guard !userMoved, !framed, mapView != nil else { return }
         framed = true
-        mapView.setCenter(portugal, zoomLevel: 6.2, direction: 0, animated: false, completionHandler: nil)
-        zoom = 6.2
+        fit([[-25, 34], [40, 71]], insets: UIEdgeInsets(top: 88, left: 16, bottom: 120, right: 16))
+        zoom = mapView?.zoomLevel ?? 3.2
+    }
+
+    func setLoadedPacks(_ ids: Set<String>) {
+        loadedPacks = ids.union(["portugal"])
+        applyCountryColors()
+    }
+
+    func focusCountry(_ id: String, done: (() -> Void)? = nil) {
+        guard let frame = CountryFrame.lookup(id), let mapView else {
+            done?()
+            return
+        }
+        userMoved = true
+        framed = true
+        mapView.setCenter(
+            CLLocationCoordinate2D(latitude: frame.lat, longitude: frame.lon),
+            zoomLevel: frame.zoom,
+            direction: 0,
+            animated: true,
+            completionHandler: done
+        )
+        zoom = frame.zoom
+    }
+
+    private func applyCountryColors() {
+        guard styleReady,
+              let source = mapView?.style?.source(withIdentifier: "countries") as? MLNShapeSource,
+              let file = Bundle.main.url(forResource: "countries", withExtension: "geojson") else { return }
+        if countryTemplate == nil { countryTemplate = try? Data(contentsOf: file) }
+        guard let countryTemplate,
+              var object = try? JSONSerialization.jsonObject(with: countryTemplate) as? [String: Any],
+              var features = object["features"] as? [[String: Any]] else { return }
+        for index in features.indices {
+            var props = features[index]["properties"] as? [String: Any] ?? [:]
+            let pack = props["pack"] as? String ?? ""
+            props["on"] = loadedPacks.contains(pack) ? 1 : 0
+            features[index]["properties"] = props
+        }
+        object["features"] = features
+        guard let next = try? JSONSerialization.data(withJSONObject: object),
+              let shape = try? MLNShape(data: next, encoding: .utf8) else { return }
+        source.shape = shape
     }
 
     func mapView(_ mapView: MLNMapView, regionWillChangeWith reason: MLNCameraChangeReason, animated: Bool) {
@@ -146,7 +192,7 @@ final class MapController: NSObject, MLNMapViewDelegate {
     }
 
     func centerCoordinate() -> Coord {
-        guard let mapView else { return Coord(lat: 39.6, lon: -8) }
+        guard let mapView else { return Coord(lat: 54, lon: 8) }
         let point = CGPoint(x: mapView.bounds.midX, y: mapView.bounds.midY)
         let coord = mapView.convert(point, toCoordinateFrom: mapView)
         return Coord(lat: coord.latitude, lon: coord.longitude)
@@ -435,6 +481,31 @@ final class MapController: NSObject, MLNMapViewDelegate {
             hole.fill()
         }
     }()
+}
+
+enum CountryFrame {
+    static func lookup(_ id: String) -> (lat: Double, lon: Double, zoom: Double)? {
+        let frames: [String: (Double, Double, Double)] = [
+            "portugal": (39.6, -8, 6.2),
+            "spain": (40.2, -3.6, 5.5),
+            "france": (46.6, 2.5, 5.3),
+            "belgium": (50.6, 4.6, 7.2),
+            "netherlands": (52.2, 5.5, 6.8),
+            "germany": (51.2, 10.4, 5.5),
+            "italy": (42.8, 12.5, 5.3),
+            "england": (52.5, -1.5, 6),
+            "scotland": (56.8, -4.2, 6.1),
+            "wales": (52.3, -3.8, 6.8),
+            "northern-ireland": (54.6, -6.7, 7.2),
+            "estonia": (58.6, 25.5, 6.5),
+            "latvia": (56.9, 24.8, 6.6),
+            "lithuania": (55.3, 23.9, 6.6),
+            "finland": (64.5, 26.5, 4.8),
+            "poland": (52.1, 19.4, 5.7),
+        ]
+        guard let frame = frames[id] else { return nil }
+        return (frame.0, frame.1, frame.2)
+    }
 }
 
 final class KindPin: MLNPointAnnotation {

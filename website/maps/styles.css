@@ -510,7 +510,9 @@ body.navigating .tabbar { display: none; }
   right: 12px;
   bottom: calc(var(--bar) + var(--lift) + 12px);
   display: flex;
-  justify-content: flex-end;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 12px;
 }
 
 .compass-row {
@@ -544,7 +546,8 @@ body.navigating .tabbar { display: none; }
   border-color: transparent transparent transparent #1c1916;
 }
 
-#fix-btn.needs-fix {
+#fix-btn.needs-fix,
+#maps-btn.needs-maps {
   animation: compass-pulse 0.7s ease-in-out infinite alternate;
 }
 

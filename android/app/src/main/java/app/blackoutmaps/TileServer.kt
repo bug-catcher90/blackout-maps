@@ -52,6 +52,7 @@ class TileServer(private val archive: Pmtiles, private val world: Pmtiles, priva
                 } else {
                     val type = when {
                         path.startsWith("/glyphs/") -> "application/x-protobuf"
+                        path.startsWith("/countries") -> "application/geo+json"
                         else -> "application/vnd.mapbox-vector-tile"
                     }
                     val header = "HTTP/1.1 200 OK\r\nContent-Type: $type\r\nContent-Length: ${body.size}\r\nConnection: close\r\n\r\n"
@@ -71,6 +72,13 @@ class TileServer(private val archive: Pmtiles, private val world: Pmtiles, priva
             val x = parts[2].toIntOrNull() ?: return null
             val y = parts[3].substringBefore('.').substringBefore('@').toIntOrNull() ?: return null
             return archive.tile(z, x, y)
+        }
+        if (parts.firstOrNull() == "countries.geojson") {
+            return try {
+                assets.open("countries.geojson").use { it.readBytes() }
+            } catch (_: Exception) {
+                null
+            }
         }
         if (parts.firstOrNull() == "world" && parts.size == 4) {
             val z = parts[1].toIntOrNull() ?: return null

@@ -40,7 +40,10 @@ struct RootView: View {
                 if showCompass {
                     HStack {
                         Spacer().allowsHitTesting(false)
-                        CompassButton(prompt: model.positionFixed ? nil : model.t("set-position")) { model.startFix() }
+                        VStack(alignment: .trailing, spacing: 12) {
+                            MapButton(pulse: !model.mapsPromptDone) { model.openMaps() }
+                            CompassButton(prompt: model.mapsPromptDone && !model.holdCompass && !model.positionFixed ? model.t("set-position") : nil) { model.startFix() }
+                        }
                     }
                     .padding(.trailing, 12)
                     .padding(.bottom, 12)
@@ -57,6 +60,9 @@ struct RootView: View {
         .onAppear { model.launch() }
         .sheet(isPresented: Binding(get: { model.showSteps }, set: { model.showSteps = $0 })) {
             StepsSheet(model: model)
+        }
+        .sheet(isPresented: Binding(get: { model.showMaps }, set: { model.showMaps = $0 }), onDismiss: { model.noteMapsClosed() }) {
+            ImportSheet(model: model)
         }
     }
 }
@@ -312,6 +318,65 @@ private struct CategoryMark: View {
             .interpolation(.high)
             .frame(width: 22, height: 22)
             .accessibilityHidden(true)
+    }
+}
+
+private struct MapButton: View {
+    var pulse: Bool
+    var action: () -> Void
+    @State private var on = false
+
+    var body: some View {
+        ZStack {
+            if pulse {
+                Circle()
+                    .stroke(Color(red: 0.76, green: 0.25, blue: 0.05), lineWidth: 3)
+                    .background(Circle().fill(Color(red: 0.76, green: 0.25, blue: 0.05).opacity(0.28)))
+                    .frame(width: 44, height: 44)
+                    .scaleEffect(on ? 1.42 : 1)
+                    .opacity(on ? 0.12 : 1)
+                    .animation(.easeInOut(duration: 0.7).repeatForever(autoreverses: true), value: on)
+                    .allowsHitTesting(false)
+            }
+            Button(action: action) {
+                MapGlyph()
+                    .stroke(Paper.ink, style: StrokeStyle(lineWidth: 1.6, lineJoin: .round))
+                    .frame(width: 22, height: 22)
+                    .frame(width: 44, height: 44)
+                    .background(Paper.bg)
+                    .clipShape(Circle())
+                    .overlay(Circle().stroke(pulse ? Color(red: 0.76, green: 0.25, blue: 0.05) : Paper.line, lineWidth: pulse ? 2 : 1))
+                    .shadow(color: .black.opacity(0.16), radius: 1, y: 1)
+                    .contentShape(Circle())
+            }
+            .buttonStyle(.plain)
+            .accessibilityLabel(L10n.text(L10n.code(), "maps"))
+        }
+        .frame(width: 44, height: 44)
+        .onAppear { on = pulse }
+        .onChange(of: pulse) { _, next in on = next }
+    }
+}
+
+private struct MapGlyph: Shape {
+    func path(in rect: CGRect) -> Path {
+        var path = Path()
+        let w = rect.width
+        let h = rect.height
+        path.move(to: CGPoint(x: w * 0.34, y: h * 0.12))
+        path.addLine(to: CGPoint(x: w * 0.08, y: h * 0.22))
+        path.addLine(to: CGPoint(x: w * 0.08, y: h * 0.88))
+        path.addLine(to: CGPoint(x: w * 0.34, y: h * 0.76))
+        path.addLine(to: CGPoint(x: w * 0.66, y: h * 0.88))
+        path.addLine(to: CGPoint(x: w * 0.92, y: h * 0.76))
+        path.addLine(to: CGPoint(x: w * 0.92, y: h * 0.12))
+        path.addLine(to: CGPoint(x: w * 0.66, y: h * 0.24))
+        path.closeSubpath()
+        path.move(to: CGPoint(x: w * 0.34, y: h * 0.12))
+        path.addLine(to: CGPoint(x: w * 0.34, y: h * 0.76))
+        path.move(to: CGPoint(x: w * 0.66, y: h * 0.24))
+        path.addLine(to: CGPoint(x: w * 0.66, y: h * 0.88))
+        return path
     }
 }
 
@@ -1043,7 +1108,7 @@ private struct SettingsPanel: View {
         .sheet(isPresented: $languages) {
             LanguageSheet(model: model)
         }
-        .sheet(isPresented: $importing) {
+        .sheet(isPresented: $importing, onDismiss: { model.noteMapsClosed() }) {
             ImportSheet(model: model)
         }
     }

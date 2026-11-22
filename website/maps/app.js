@@ -16,6 +16,25 @@ const PINS_KEY = "posicao-pins-v1"
 const HERE = "A sua posição"
 const DOOR_NEAR_M = 40
 const VIEW = { center: [-8, 39.6], zoom: 6.2 }
+const EUROPE = [[-25, 34], [40, 71]]
+const COUNTRY_VIEW = {
+  portugal: [-8, 39.6, 6.2],
+  spain: [-3.6, 40.2, 5.5],
+  france: [2.5, 46.6, 5.3],
+  belgium: [4.6, 50.6, 7.2],
+  netherlands: [5.5, 52.2, 6.8],
+  germany: [10.4, 51.2, 5.5],
+  italy: [12.5, 42.8, 5.3],
+  england: [-1.5, 52.5, 6],
+  scotland: [-4.2, 56.8, 6.1],
+  wales: [-3.8, 52.3, 6.8],
+  "northern-ireland": [-6.7, 54.6, 7.2],
+  estonia: [25.5, 58.6, 6.5],
+  latvia: [24.8, 56.9, 6.6],
+  lithuania: [23.9, 55.3, 6.6],
+  finland: [26.5, 64.5, 4.8],
+  poland: [19.4, 52.1, 5.7],
+}
 const PACKAGE_KEY = "blackout-package"
 const PACKAGES_KEY = "blackout-packages"
 const PORTUGAL = { id: "portugal", name: "Portugal", flag: "🇵🇹", files: [] }
@@ -80,6 +99,7 @@ saveLabel.autocorrect = "off"
 saveLabel.autocapitalize = "off"
 saveLabel.spellcheck = false
 const fixBtn = document.querySelector("#fix-btn")
+const mapsBtn = document.querySelector("#maps-btn")
 const fixBar = document.querySelector("#fix-bar")
 const fixName = document.querySelector("#fix-name")
 const fixAddress = document.querySelector("#fix-address")
@@ -202,6 +222,10 @@ let navigating = false
 let correcting = false
 let fixing = false
 let positionFixed = false
+let mapsPromptDone = localStorage.getItem("posicao-maps-prompt") === "1"
+let holdCompass = false
+let pendingPack = ""
+let countries = null
 let fixHeld = null
 let fixMoveFrame = 0
 let fixDoorToken = 0
@@ -500,7 +524,9 @@ function readStored() {
 }
 
 function syncPositionPrompt() {
-  const show = !positionFixed && tab === "explorar" && !navigating && !fixing && !addingPin
+  const onMap = tab === "explorar" && !navigating && !fixing && !addingPin
+  mapsBtn.classList.toggle("needs-maps", onMap && !mapsPromptDone)
+  const show = onMap && mapsPromptDone && !holdCompass && !positionFixed
   positionPrompt.hidden = !show
   fixBtn.classList.toggle("needs-fix", show)
 }
@@ -2302,9 +2328,10 @@ function bindUi() {
   importBtn.addEventListener("click", () => {
     openImport().catch((error) => console.error(error))
   })
-  importClose.addEventListener("click", () => {
-    importSheet.hidden = true
+  mapsBtn.addEventListener("click", () => {
+    openImport().catch((error) => console.error(error))
   })
+  importClose.addEventListener("click", closeImport)
 }
 
 estimator.subscribe((pose) => {
@@ -2510,6 +2537,9 @@ async function usePackage(pack) {
     activePackageId = pack.id
     localStorage.setItem(PACKAGE_KEY, pack.id)
     rememberPackage(pack)
+    pendingPack = pack.id
+    paintCountries()
+    revealCountry()
   } catch (error) {
     console.error(error)
     if (token !== countryToken) return
@@ -2526,10 +2556,65 @@ async function usePackage(pack) {
   }
 }
 
-function applyPortugal() {
+function closeImport() {
+  importSheet.hidden = true
+  if (!mapsPromptDone) {
+    mapsPromptDone = true
+    localStorage.setItem("posicao-maps-prompt", "1")
+  }
+  if (!revealCountry()) {
+    holdCompass = false
+    syncPositionPrompt()
+  }
+}
+
+function revealCountry() {
+  if (!importSheet.hidden || !pendingPack || !map) return false
+  const view = COUNTRY_VIEW[pendingPack]
+  pendingPack = ""
+  if (!view) return false
+  holdCompass = true
+  syncPositionPrompt()
+  let tries = 0
+  const release = () => {
+    const center = map.getCenter()
+    const arrived = Math.abs(center.lng - view[0]) < 0.4 && Math.abs(center.lat - view[1]) < 0.4 && Math.abs(map.getZoom() - view[2]) < 0.4
+    if (!arrived && tries++ < 1) {
+      map.once("moveend", release)
+      return
+    }
+    holdCompass = false
+    syncPositionPrompt()
+  }
+  map.once("moveend", release)
+  map.easeTo({ center: [view[0], view[1]], zoom: view[2], duration: 700 })
+  return true
+}
+
+async function paintCountries() {
+  if (!countries) {
+    const response = await fetch("/maps/countries.geojson")
+    if (!response.ok) return
+    countries = await response.json()
+  }
+  if (!map?.getSource("countries")) return
+  const loaded = new Set(readPackages().map((item) => item.id))
+  loaded.add("portugal")
+  let changed = false
+  for (const feature of countries.features) {
+    const on = loaded.has(feature.properties.pack) ? 1 : 0
+    if (feature.properties.on !== on) {
+      feature.properties.on = on
+      changed = true
+    }
+  }
+  if (changed) map.getSource("countries").setData(countries)
+}
+
+function applyEurope() {
   map.setMinZoom(0)
   map.setMaxBounds(null)
-  map.jumpTo({ center: VIEW.center, zoom: VIEW.zoom, bearing: 0, pitch: 0 })
+  map.fitBounds(EUROPE, { padding: 0, animate: false })
 }
 
 async function bootMap(file) {
@@ -2544,8 +2629,8 @@ async function bootMap(file) {
   map = new Map({
     container: "map",
     style: mapStyle("pmtiles://portugal.pmtiles"),
-    center: VIEW.center,
-    zoom: VIEW.zoom,
+    center: [8, 54],
+    zoom: 3.2,
     maxZoom: 18,
     padding: { top: 72, right: 8, bottom: 72, left: 8 },
     attributionControl: false,
@@ -2567,7 +2652,8 @@ async function bootMap(file) {
     mapStatus = ""
     showStatus()
     layoutMap()
-    applyPortugal()
+    applyEurope()
+    paintCountries().catch((error) => console.error(error))
     refreshPois()
   })
   map.on("dragstart", (event) => {

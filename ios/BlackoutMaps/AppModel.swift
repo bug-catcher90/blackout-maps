@@ -40,6 +40,10 @@ final class AppModel {
 
     var fixing = false
     var positionFixed = false
+    var mapsPromptDone = false
+    var holdCompass = false
+    var showMaps = false
+    private var pendingPack = ""
     var fixName = ""
     var fixAddress = ""
     var fixCoords = ""
@@ -483,7 +487,7 @@ final class AppModel {
         downloadingId = package.id
         packageNote = ""
         Task {
-            await activate(package, download: true)
+            await activate(package, download: true, picked: true)
             downloading = false
             downloadingId = nil
         }
@@ -522,12 +526,13 @@ final class AppModel {
         let ready = package.files.allSatisfy { FileManager.default.fileExists(atPath: Store.file(package.id, $0.file).path) }
         downloading = !ready
         downloadingId = ready ? nil : package.id
-        await activate(package, download: !ready)
+        await activate(package, download: !ready, picked: false)
         downloading = false
         downloadingId = nil
+        map.setLoadedPacks(Set(packages.map(\.id)))
     }
 
-    private func activate(_ package: MapPackage, download: Bool) async {
+    private func activate(_ package: MapPackage, download: Bool, picked: Bool) async {
         var failed = false
         for file in package.files {
             let local = Store.file(package.id, file.file)
@@ -543,7 +548,34 @@ final class AppModel {
             activePackageId = package.id
             UserDefaults.standard.set(package.id, forKey: "blackout-package")
             packageNote = ""
+            map.setLoadedPacks(Set(packages.map(\.id)))
+            if picked {
+                pendingPack = package.id
+                revealCountry()
+            }
         }
+    }
+
+    func openMaps() {
+        showMaps = true
+    }
+
+    func noteMapsClosed() {
+        mapsPromptDone = true
+        UserDefaults.standard.set(true, forKey: "blackout-maps-prompt")
+        if !revealCountry() { holdCompass = false }
+    }
+
+    @discardableResult
+    private func revealCountry() -> Bool {
+        guard !showMaps, !pendingPack.isEmpty else { return false }
+        let id = pendingPack
+        pendingPack = ""
+        holdCompass = true
+        map.focusCountry(id) { [weak self] in
+            self?.holdCompass = false
+        }
+        return true
     }
 
     private func waitGlyphs() async {
@@ -900,6 +932,7 @@ final class AppModel {
 
     private func loadSaved() {
         positionFixed = UserDefaults.standard.bool(forKey: "mapa-fixed")
+        mapsPromptDone = UserDefaults.standard.bool(forKey: "blackout-maps-prompt")
         if let value = UserDefaults.standard.object(forKey: "mapa-step") as? Double { step = value }
         if UserDefaults.standard.object(forKey: "mapa-sensors") != nil {
             sensorsOn = UserDefaults.standard.bool(forKey: "mapa-sensors")
