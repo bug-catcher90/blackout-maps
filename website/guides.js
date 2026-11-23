@@ -1,165 +1,165 @@
-// A new guide is one published object in /guides/catalog.json, plus its cover,
-// free sheets and preview images. Featured titles appear on the homepage.
-// Every published title appears here. Unpublished titles stay out of both.
 (function () {
-  var root = document.querySelector("[data-guides]")
-  if (!root) return
+  var KEY = "blackout-guides-cart"
+  var BOOKS = [
+    { slug: "power-in-a-blackout", title: "Power in a Blackout", cents: 980 },
+    { slug: "water-when-the-tap-stops", title: "Water When the Tap Stops", cents: 780 },
+    { slug: "food-without-power", title: "Food Without Power", cents: 740 },
+    { slug: "the-go-bag-and-leaving-home", title: "The Go-Bag and Leaving Home", cents: 780 },
+    { slug: "first-aid-when-help-is-slow", title: "First Aid When Help Is Slow", cents: 940 },
+    { slug: "staying-informed-and-in-touch", title: "Staying Informed and in Touch", cents: 820 },
+    { slug: "fire-gas-and-a-safe-home", title: "Fire, Gas and a Safe Home", cents: 700 },
+    { slug: "warm-cool-and-sheltered", title: "Warm, Cool and Sheltered", cents: 740 }
+  ]
 
-  var dialog = null
-  var dialogImage = null
-  var dialogCaption = null
-  var largerButton = null
-  var opener = null
+  function lookup(slug) {
+    for (var i = 0; i < BOOKS.length; i += 1) {
+      if (BOOKS[i].slug === slug) return BOOKS[i]
+    }
+    return null
+  }
 
-  fetch("/guides/catalog.json")
-    .then(function (res) {
-      if (!res.ok) throw new Error("catalog")
-      return res.json()
+  function read() {
+    try {
+      var parsed = JSON.parse(localStorage.getItem(KEY) || "[]")
+      if (!Array.isArray(parsed)) return []
+      var seen = {}
+      return parsed.filter(function (slug) {
+        if (typeof slug !== "string" || !lookup(slug) || seen[slug]) return false
+        seen[slug] = true
+        return true
+      })
+    } catch (error) {
+      return []
+    }
+  }
+
+  function ordered(slugs) {
+    return BOOKS.map(function (book) { return book.slug }).filter(function (slug) {
+      return slugs.indexOf(slug) !== -1
     })
-    .then(function (catalog) {
-      var books = published(catalog)
-      if (root.getAttribute("data-guides") === "featured") {
-        books = books.filter(function (book) { return book.featured })
-      }
-      var mode = root.getAttribute("data-guides")
-      root.replaceChildren.apply(root, books.map(function (book) {
-        return mode === "featured" ? featured(book) : entry(book)
-      }))
-      var fromCheckout = new URLSearchParams(location.search).get("book")
-      var id = fromCheckout || (location.hash ? decodeURIComponent(location.hash.slice(1)) : "")
-      if (id) {
-        var target = document.getElementById(id)
-        if (target) {
-          if (fromCheckout) history.replaceState(null, "", "/guides.html#" + id)
-          target.scrollIntoView()
-        }
-      }
+  }
+
+  function write(slugs) {
+    localStorage.setItem(KEY, JSON.stringify(ordered(slugs)))
+    paint()
+  }
+
+  function money(cents) {
+    return "€" + (cents / 100).toFixed(2)
+  }
+
+  function percentFor(count) {
+    if (count === BOOKS.length) return 50
+    if (count >= 3) return 15
+    return 0
+  }
+
+  function discountCents(slugs) {
+    var percent = percentFor(slugs.length)
+    return slugs.reduce(function (sum, slug) {
+      return sum + Math.round(lookup(slug).cents * percent / 100)
+    }, 0)
+  }
+
+  function subtotalCents(slugs) {
+    return slugs.reduce(function (sum, slug) { return sum + lookup(slug).cents }, 0)
+  }
+
+  function paintCounts(slugs) {
+    document.querySelectorAll("[data-cart-count]").forEach(function (el) {
+      el.textContent = slugs.length ? " " + slugs.length : ""
     })
-    .catch(function () {
-      var note = document.createElement("p")
-      note.className = "lead"
-      note.textContent = "The field guides could not be loaded."
-      root.replaceChildren(note)
+  }
+
+  function paintButtons(slugs) {
+    document.querySelectorAll("[data-add]").forEach(function (button) {
+      var slug = button.getAttribute("data-add")
+      var inCart = slugs.indexOf(slug) !== -1
+      button.textContent = inCart ? "In the cart" : "Add to cart"
+      button.setAttribute("aria-pressed", inCart ? "true" : "false")
     })
-
-  function published(catalog) {
-    return (catalog.titles || [])
-      .filter(function (book) { return book.published })
-      .sort(function (a, b) { return a.position - b.position })
   }
 
-  function hrefFor(book) {
-    return "/guides.html#" + book.slug
+  function line(title, amount, extra) {
+    var row = document.createElement("p")
+    row.className = extra || "cart-sub"
+    var name = document.createElement("span")
+    name.textContent = title
+    var value = document.createElement("span")
+    value.textContent = amount
+    row.append(name, value)
+    return row
   }
 
-  function money(book) {
-    return "€" + book.price.amount
-  }
-
-  function buyUrl(book) {
-    var url = book.buy && book.buy.url
-    return typeof url === "string" && /^https:\/\//.test(url) ? url : ""
-  }
-
-  function coverImage(book) {
-    var img = document.createElement("img")
-    img.src = book.cover
-    img.width = book.coverWidth
-    img.height = book.coverHeight
-    img.alt = "Cover of " + book.title
-    return img
-  }
-
-  function featured(book) {
-    var article = document.createElement("article")
-    article.className = "featured-title"
-    var cover = document.createElement("a")
-    cover.href = hrefFor(book)
-    cover.append(coverImage(book))
-    var copy = document.createElement("div")
-    var heading = document.createElement("h3")
-    var title = document.createElement("a")
-    title.href = hrefFor(book)
-    title.textContent = book.title
-    heading.append(title)
-    var question = document.createElement("p")
-    question.textContent = book.homeQuestion
-    var more = document.createElement("a")
-    more.className = "featured-more"
-    more.href = hrefFor(book)
-    more.append(document.createTextNode(book.exploreLabel + " "))
-    var arrow = document.createElement("span")
-    arrow.setAttribute("aria-hidden", "true")
-    arrow.textContent = "→"
-    more.append(arrow)
-    copy.append(heading, question, more)
-    article.append(cover, copy)
-    return article
-  }
-
-  function entry(book) {
-    var article = document.createElement("article")
-    article.className = "guide-book"
-    article.id = book.slug
-    var copy = document.createElement("div")
-    var heading = document.createElement("h2")
-    heading.textContent = book.title
-    var question = document.createElement("h3")
-    question.textContent = book.headline
-    copy.append(heading, question)
-    book.description.forEach(function (paragraph) {
-      var p = document.createElement("p")
-      p.className = "guide-desc"
-      p.textContent = paragraph
-      copy.append(p)
-    })
-    var meta = document.createElement("p")
-    meta.className = "guide-meta"
-    meta.textContent = book.pages + "-page illustrated PDF · Read offline · Worked example and printable worksheet"
-    copy.append(meta, offer(book), example(book), previews(book), worksheet(book))
-    article.append(coverImage(book), copy)
-    return article
-  }
-
-  function offer(book) {
-    var url = buyUrl(book)
-    if (url) {
+  function renderCart(root, slugs) {
+    root.replaceChildren()
+    if (!slugs.length) {
+      var empty = document.createElement("p")
+      empty.className = "lead"
+      empty.textContent = "Your cart is empty."
+      var back = document.createElement("p")
+      back.className = "section-more"
       var link = document.createElement("a")
-      link.className = "guide-buy"
-      link.href = url
-      link.rel = "noopener"
-      link.textContent = (book.buy && book.buy.label) || ("Buy the " + book.topic + " guide — " + money(book))
-      return link
+      link.href = "/guides.html"
+      link.textContent = "See the guides"
+      back.append(link)
+      root.append(empty, back)
+      return
     }
-    if (book.buy && book.buy.channel === "stripe" && book.buy.label) {
-      var button = document.createElement("button")
-      button.type = "button"
-      button.className = "guide-buy"
-      button.textContent = book.buy.label
-      button.addEventListener("click", function () { startCheckout(button, book) })
-      return button
+    var list = document.createElement("div")
+    list.className = "cart-lines"
+    slugs.forEach(function (slug) {
+      var book = lookup(slug)
+      var row = document.createElement("div")
+      row.className = "cart-line"
+      var title = document.createElement("a")
+      title.href = "/guides/" + book.slug + ".html"
+      title.textContent = book.title
+      var price = document.createElement("span")
+      price.textContent = money(book.cents)
+      var remove = document.createElement("button")
+      remove.type = "button"
+      remove.className = "cart-remove"
+      remove.textContent = "Remove"
+      remove.addEventListener("click", function () {
+        write(read().filter(function (item) { return item !== slug }))
+      })
+      row.append(title, price, remove)
+      list.append(row)
+    })
+    var totals = document.createElement("div")
+    totals.className = "cart-totals"
+    var subtotal = subtotalCents(slugs)
+    var percent = percentFor(slugs.length)
+    var discount = discountCents(slugs)
+    var total = subtotal - discount
+    if (percent) {
+      totals.append(line("Subtotal", money(subtotal)))
+      var label = percent === 50 ? "50% off for every guide" : "15% off for 3 or more guides"
+      totals.append(line(label, "-" + money(discount), "cart-discount"))
     }
-    var block = document.createElement("div")
-    block.className = "guide-offer"
-    var price = document.createElement("p")
-    price.className = "guide-price"
-    price.textContent = money(book)
-    var status = document.createElement("p")
-    status.className = "guide-availability"
-    status.textContent = book.availability || "Not for sale on this site yet."
-    block.append(price, status)
-    return block
+    var totalRow = line("Total", money(total), "cart-total")
+    totalRow.setAttribute("data-cart-total", String(total))
+    totals.append(totalRow)
+    var note = document.createElement("p")
+    note.className = "cart-note"
+    note.textContent = "Prices include tax."
+    var checkout = document.createElement("button")
+    checkout.type = "button"
+    checkout.className = "guide-buy"
+    checkout.textContent = "Checkout"
+    checkout.addEventListener("click", function () { startCheckout(checkout, ordered(read())) })
+    root.append(list, totals, note, checkout)
   }
 
-  function startCheckout(button, book) {
-    if (button.disabled) return
-    var label = button.textContent
+  function startCheckout(button, slugs) {
+    if (button.disabled || !slugs.length) return
     button.disabled = true
     button.textContent = "Opening checkout"
     fetch("/api/checkout", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ slug: book.slug }),
+      body: JSON.stringify({ slugs: slugs })
     })
       .then(function (res) {
         return res.json().then(function (body) {
@@ -172,119 +172,45 @@
       })
       .catch(function () {
         button.disabled = false
-        button.textContent = label
-        var note = button.nextElementSibling
-        if (!note || !note.classList.contains("guide-availability")) {
-          note = document.createElement("p")
-          note.className = "guide-availability"
-          button.after(note)
-        }
-        note.textContent = "Checkout could not be opened."
+        button.textContent = "Checkout"
+        var note = button.previousElementSibling
+        var error = document.createElement("p")
+        error.className = "guide-availability"
+        error.textContent = "Checkout could not be opened."
+        if (note && note.classList.contains("guide-availability")) note.replaceWith(error)
+        else button.before(error)
       })
   }
 
-  function example(book) {
-    var block = document.createElement("div")
-    block.className = "guide-example"
-    var link = document.createElement("a")
-    link.href = book.example.href
-    link.textContent = "Read the free example"
-    var title = document.createElement("p")
-    title.textContent = book.example.title
-    block.append(link, title)
-    return block
+  function paint() {
+    var slugs = ordered(read())
+    paintCounts(slugs)
+    paintButtons(slugs)
+    var cart = document.querySelector("[data-cart]")
+    if (cart) renderCart(cart, slugs)
   }
 
-  function worksheet(book) {
-    var link = document.createElement("a")
-    link.className = "guide-sheet"
-    link.href = book.worksheet.href
-    link.setAttribute("download", "")
-    link.textContent = book.worksheet.label
-    return link
-  }
-
-  function previews(book) {
-    var list = document.createElement("div")
-    list.className = "guide-previews"
-    book.previews.forEach(function (preview, index) {
-      var figure = document.createElement("figure")
-      var button = document.createElement("button")
-      button.type = "button"
-      var captionId = book.slug + "-preview-" + index
-      button.setAttribute("aria-describedby", captionId)
-      var img = document.createElement("img")
-      img.src = preview.src
-      img.width = preview.width
-      img.height = preview.height
-      img.alt = ""
-      var label = document.createElement("span")
-      label.textContent = "Preview inside"
-      button.append(img, label)
-      button.addEventListener("click", function () { openPreview(button, preview) })
-      var caption = document.createElement("figcaption")
-      caption.id = captionId
-      caption.textContent = preview.caption
-      figure.append(button, caption)
-      list.append(figure)
+  document.querySelectorAll("[data-add]").forEach(function (button) {
+    button.addEventListener("click", function () {
+      var slug = button.getAttribute("data-add")
+      if (!lookup(slug)) return
+      var slugs = read()
+      if (slugs.indexOf(slug) !== -1) {
+        window.location.assign("/cart.html")
+        return
+      }
+      slugs.push(slug)
+      write(slugs)
     })
-    return list
+  })
+
+  var params = new URLSearchParams(location.search)
+  var jump = params.get("book") || (location.hash ? decodeURIComponent(location.hash.slice(1)) : "")
+  if (jump === "when-the-tap-runs-dry") jump = "water-when-the-tap-stops"
+  if (lookup(jump) && document.querySelector("[data-shop]")) {
+    window.location.replace("/guides/" + jump + ".html")
+    return
   }
 
-  function ensureDialog() {
-    if (dialog) return
-    dialog = document.createElement("dialog")
-    dialog.className = "preview-dialog"
-    var bar = document.createElement("div")
-    bar.className = "preview-bar"
-    var close = document.createElement("button")
-    close.type = "button"
-    close.textContent = "Close"
-    close.addEventListener("click", function () { dialog.close() })
-    largerButton = document.createElement("button")
-    largerButton.type = "button"
-    largerButton.textContent = "Larger"
-    largerButton.addEventListener("click", toggleLarger)
-    dialogCaption = document.createElement("figcaption")
-    dialogCaption.id = "preview-caption"
-    dialogImage = document.createElement("img")
-    dialogImage.alt = ""
-    var figure = document.createElement("figure")
-    figure.append(dialogImage, dialogCaption)
-    bar.append(close, largerButton)
-    dialog.append(bar, figure)
-    dialog.setAttribute("aria-labelledby", "preview-caption")
-    dialog.addEventListener("close", function () {
-      resetSize()
-      if (opener) opener.focus()
-    })
-    dialog.addEventListener("click", function (event) {
-      if (event.target === dialog) dialog.close()
-    })
-    document.body.append(dialog)
-  }
-
-  function resetSize() {
-    dialog.classList.remove("is-large")
-    dialogImage.style.width = ""
-    largerButton.textContent = "Larger"
-  }
-
-  function toggleLarger() {
-    var large = dialog.classList.toggle("is-large")
-    dialogImage.style.width = large ? (dialogImage.naturalWidth || 864) + "px" : ""
-    largerButton.textContent = large ? "Fit the screen" : "Larger"
-  }
-
-  function openPreview(button, preview) {
-    ensureDialog()
-    opener = button
-    resetSize()
-    dialogImage.src = preview.src
-    dialogImage.width = preview.width
-    dialogImage.height = preview.height
-    dialogCaption.textContent = preview.caption
-    dialog.showModal()
-    dialog.querySelector(".preview-bar button").focus()
-  }
+  paint()
 })()

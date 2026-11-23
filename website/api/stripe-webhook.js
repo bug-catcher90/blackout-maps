@@ -1,4 +1,4 @@
-const { liveStripe, paidBook } = require("./_lib/books")
+const { liveStripe, paidBooks } = require("./_lib/books")
 
 const FULFILL = new Set([
   "checkout.session.completed",
@@ -52,8 +52,8 @@ module.exports = async function handler(req, res) {
     const session = await stripe.checkout.sessions.retrieve(sessionId, {
       expand: ["line_items.data.price"],
     })
-    const book = paidBook(session)
-    res.status(200).json({ received: true, fulfilled: Boolean(book) })
+    const books = paidBooks(session)
+    res.status(200).json({ received: true, fulfilled: Boolean(books && books.length) })
   } catch (error) {
     res.status(500).json({ error: "Not accepted." })
   }
