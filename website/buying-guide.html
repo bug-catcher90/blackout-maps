@@ -23,140 +23,178 @@
     </nav>
   </header>
 
+  <svg class="vh" aria-hidden="true" focusable="false">
+    <symbol id="i-water" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" d="M12 3.2s6 6.2 6 10.1a6 6 0 0 1-12 0c0-3.9 6-10.1 6-10.1z"/></symbol>
+    <symbol id="i-light" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" stroke-linecap="round" d="M9 18h6M10 21h4M12 3a6 6 0 0 0-3.2 11.1c.5.4.8 1 .8 1.6V17h4.8v-1.3c0-.6.3-1.2.8-1.6A6 6 0 0 0 12 3z"/></symbol>
+    <symbol id="i-medical" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" d="M12 5v14M5 12h14"/></symbol>
+    <symbol id="i-food" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" d="M4.5 11h15a7.5 7.5 0 0 1-15 0zM8 11V7.5M12 11V5.5M16 11V7.5"/></symbol>
+    <symbol id="i-power" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" stroke-linecap="round" d="M13 3 5.5 13H11l-1 8 8.5-11H12L13 3z"/></symbol>
+    <symbol id="i-shelter" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" stroke-linecap="round" d="M3.5 11 12 4l8.5 7M6 10.5V20h12v-9.5"/></symbol>
+  </svg>
+
   <main>
-    <section class="band guide">
+    <section class="band guide shop">
       <h1>Supplies</h1>
-      <p class="lead">The same six categories as the front page. Each product is a listing that was in stock on Amazon.es. The price is Amazon’s, and it can change.</p>
-      <p class="lead">Shop links are Amazon affiliate links. Blackout Maps earns a commission if you buy.</p>
+      <p class="lead">Six things a home needs when the power, the tap or the shops stop.</p>
+      <p class="lead">Filipe earns as an Amazon affiliate. If you buy through these links, Amazon pays him a commission. You pay Amazon’s price.</p>
 
-      <h2 id="drinking-water">Drinking water</h2>
-      <p class="lead">Water you can store, and a way to treat more when the tap is not safe.</p>
+      <nav class="cat-row" aria-label="Categories">
+        <a href="#drinking-water"><svg class="ico"><use href="#i-water"/></svg>Drinking water</a>
+        <a href="#light"><svg class="ico"><use href="#i-light"/></svg>Light</a>
+        <a href="#medical-care"><svg class="ico"><use href="#i-medical"/></svg>Medical care</a>
+        <a href="#food"><svg class="ico"><use href="#i-food"/></svg>Food</a>
+        <a href="#power"><svg class="ico"><use href="#i-power"/></svg>Power</a>
+        <a href="#shelter"><svg class="ico"><use href="#i-shelter"/></svg>Shelter</a>
+      </nav>
+
+      <h2 id="drinking-water"><svg class="ico" aria-hidden="true"><use href="#i-water"/></svg>Drinking water</h2>
+      <p class="cat-lead">Water you can store, and a way to treat more when the tap is not safe.</p>
       <div class="products">
-        <a href="https://www.amazon.es/dp/B006QF3TW4?tag=s3mz-21" rel="sponsored noopener noreferrer" target="_blank">
+        <article>
+          <img src="images/supplies/B006QF3TW4.jpg" alt="LifeStraw personal water filter">
           <h3>LifeStraw personal water filter</h3>
-          <p>A straw filter for water you are about to drink.</p>
-          <p class="price">€26.29</p>
-        </a>
-        <a href="https://www.amazon.es/dp/B0DT99W4MK?tag=s3mz-21" rel="sponsored noopener noreferrer" target="_blank">
+          <p>The tap is off, and the water you can reach is the water you have to trust before it touches your mouth.</p>
+          <a class="buy" href="https://www.amazon.es/dp/B006QF3TW4?tag=s3mz-21" rel="sponsored noopener noreferrer" target="_blank">Buy on Amazon</a>
+        </article>
+        <article>
+          <img src="images/supplies/B0DT99W4MK.jpg" alt="Katadyn BeFree bottle">
           <h3>Katadyn BeFree AC, 1.0 L</h3>
-          <p>A soft bottle with a filter, for carrying water and cleaning it.</p>
-          <p class="price">€49.51</p>
-        </a>
-        <a href="https://www.amazon.es/dp/B0FJVXYFHJ?tag=s3mz-21" rel="sponsored noopener noreferrer" target="_blank">
+          <p>Fill it from a barrel or a stream and drink on the way home. No pot, and no wait.</p>
+          <a class="buy" href="https://www.amazon.es/dp/B0DT99W4MK?tag=s3mz-21" rel="sponsored noopener noreferrer" target="_blank">Buy on Amazon</a>
+        </article>
+        <article>
+          <img src="images/supplies/B0FJVXYFHJ.jpg" alt="Four collapsible 10 litre water canisters">
           <h3>Collapsible water canisters, four 10 L</h3>
-          <p>Bags for storing water when the tap is off.</p>
-          <p class="price">€13.59</p>
-        </a>
-        <a href="https://www.amazon.es/dp/B077JZRK5Z?tag=s3mz-21" rel="sponsored noopener noreferrer" target="_blank">
+          <p>The first hour is when you fill what you can. These stay folded until that hour, then hold forty litres.</p>
+          <a class="buy" href="https://www.amazon.es/dp/B0FJVXYFHJ?tag=s3mz-21" rel="sponsored noopener noreferrer" target="_blank">Buy on Amazon</a>
+        </article>
+        <article>
+          <img src="images/supplies/B077JZRK5Z.jpg" alt="Jar of water-tank tablets">
           <h3>Water-tank tablets, 50</h3>
-          <p>For water stored in a tank on a motorhome, camper or boat. Not a filter for a river.</p>
-          <p class="price">€22.25</p>
-        </a>
+          <p>Water you stored weeks ago goes stale. These keep a tank drinkable. They do not clean a river.</p>
+          <a class="buy" href="https://www.amazon.es/dp/B077JZRK5Z?tag=s3mz-21" rel="sponsored noopener noreferrer" target="_blank">Buy on Amazon</a>
+        </article>
       </div>
 
-      <h2 id="light">Light</h2>
-      <p class="lead">A way to see the room, the stairs and the street when the power is out. Three products. A fourth would only repeat one of these.</p>
+      <h2 id="light"><svg class="ico" aria-hidden="true"><use href="#i-light"/></svg>Light</h2>
+      <p class="cat-lead">See the room, the stairs and the street.</p>
       <div class="products">
-        <a href="https://www.amazon.es/dp/B0C3VZ57NY?tag=s3mz-21" rel="sponsored noopener noreferrer" target="_blank">
+        <article>
+          <img src="images/supplies/B0C3VZ57NY.jpg" alt="Blukar rechargeable LED flashlight">
           <h3>Blukar rechargeable LED flashlight</h3>
-          <p>A handheld light for the room and the street.</p>
-          <p class="price">€16.25</p>
-        </a>
-        <a href="https://www.amazon.es/dp/B07Y21GMKQ?tag=s3mz-21" rel="sponsored noopener noreferrer" target="_blank">
+          <p>Stairs, the fuse box and the street are dark at the same time. One light in a hand covers the walk between them.</p>
+          <a class="buy" href="https://www.amazon.es/dp/B0C3VZ57NY?tag=s3mz-21" rel="sponsored noopener noreferrer" target="_blank">Buy on Amazon</a>
+        </article>
+        <article>
+          <img src="images/supplies/B07Y21GMKQ.jpg" alt="Lepro rechargeable headlamp, two pack">
           <h3>Lepro rechargeable headlamp, two pack</h3>
-          <p>A light you wear, so both hands stay free on the stairs.</p>
-          <p class="price">€20.73</p>
-        </a>
-        <a href="https://www.amazon.es/dp/B015ZFKLNK?tag=s3mz-21" rel="sponsored noopener noreferrer" target="_blank">
+          <p>Your hands are full of water, or of someone else. The light stays where you are looking.</p>
+          <a class="buy" href="https://www.amazon.es/dp/B07Y21GMKQ?tag=s3mz-21" rel="sponsored noopener noreferrer" target="_blank">Buy on Amazon</a>
+        </article>
+        <article>
+          <img src="images/supplies/B015ZFKLNK.jpg" alt="Lepro rechargeable camping lantern">
           <h3>Lepro rechargeable camping lantern</h3>
-          <p>A lamp that sits in the room.</p>
-          <p class="price">€23.22</p>
-        </a>
+          <p>A beam in one hand still leaves the room dark. This sits on the table so everyone can see.</p>
+          <a class="buy" href="https://www.amazon.es/dp/B015ZFKLNK?tag=s3mz-21" rel="sponsored noopener noreferrer" target="_blank">Buy on Amazon</a>
+        </article>
       </div>
 
-      <h2 id="medical-care">Medical care</h2>
-      <p class="lead">Care for cuts, and for bleeding that will not stop on its own. Three products. Another kit would cover the same cuts.</p>
+      <h2 id="medical-care"><svg class="ico" aria-hidden="true"><use href="#i-medical"/></svg>Medical care</h2>
+      <p class="cat-lead">Cuts, and bleeding that will not stop on its own.</p>
       <div class="products">
-        <a href="https://www.amazon.es/dp/B08L1Y7M8J?tag=s3mz-21" rel="sponsored noopener noreferrer" target="_blank">
+        <article>
+          <img src="images/supplies/B08L1Y7M8J.jpg" alt="Lewis-Plast first aid kit">
           <h3>Lewis-Plast first aid kit, 309 pieces</h3>
-          <p>A large kit for the house. The listing says it meets European standards.</p>
-          <p class="price">€53.11</p>
-        </a>
-        <a href="https://www.amazon.es/dp/B0B4GWF112?tag=s3mz-21" rel="sponsored noopener noreferrer" target="_blank">
+          <p>The pharmacy is shut and the cut is already open. This is the kit you open before you go looking for one.</p>
+          <a class="buy" href="https://www.amazon.es/dp/B08L1Y7M8J?tag=s3mz-21" rel="sponsored noopener noreferrer" target="_blank">Buy on Amazon</a>
+        </article>
+        <article>
+          <img src="images/supplies/B0B4GWF112.jpg" alt="HONYAO mini first aid kit">
           <h3>HONYAO mini first aid kit, 90 pieces</h3>
-          <p>A small kit for a bag.</p>
-          <p class="price">€15.93</p>
-        </a>
-        <a href="https://www.amazon.es/dp/B0DR8XGVJ8?tag=s3mz-21" rel="sponsored noopener noreferrer" target="_blank">
+          <p>The injury is not at home. A kit that fits in a bag is the one you actually have with you.</p>
+          <a class="buy" href="https://www.amazon.es/dp/B0B4GWF112?tag=s3mz-21" rel="sponsored noopener noreferrer" target="_blank">Buy on Amazon</a>
+        </article>
+        <article>
+          <img src="images/supplies/B0DR8XGVJ8.jpg" alt="Two tourniquets in the listing box">
           <h3>CAT Gen 7 tourniquet, two pack</h3>
-          <p>For bleeding that a bandage does not stop.</p>
-          <p class="price">€21.32</p>
-        </a>
+          <p>A bandage will not stop a bleed that pumps. This is for that bleed, and the second is for the other person.</p>
+          <a class="buy" href="https://www.amazon.es/dp/B0DR8XGVJ8?tag=s3mz-21" rel="sponsored noopener noreferrer" target="_blank">Buy on Amazon</a>
+        </article>
       </div>
 
-      <h2 id="food">Food</h2>
-      <p class="lead">Food that keeps, and a way to heat it, for the days the shops are closed.</p>
+      <h2 id="food"><svg class="ico" aria-hidden="true"><use href="#i-food"/></svg>Food</h2>
+      <p class="cat-lead">Meals that keep, and a way to heat them, for the days the shops are closed.</p>
       <div class="products">
-        <a href="https://www.amazon.es/dp/B094NR3P1Z?tag=s3mz-21" rel="sponsored noopener noreferrer" target="_blank">
+        <article>
+          <img src="images/supplies/B094NR3P1Z.jpg" alt="Trek’n Eat protein porridge">
           <h3>Trek’n Eat protein porridge</h3>
-          <p>Freeze-dried breakfast. Add hot water.</p>
-          <p class="price">€7.05</p>
-        </a>
-        <a href="https://www.amazon.es/dp/B0BYV43DRN?tag=s3mz-21" rel="sponsored noopener noreferrer" target="_blank">
+          <p>The first morning with no power, you still need breakfast that does not come from a fridge.</p>
+          <a class="buy" href="https://www.amazon.es/dp/B094NR3P1Z?tag=s3mz-21" rel="sponsored noopener noreferrer" target="_blank">Buy on Amazon</a>
+        </article>
+        <article>
+          <img src="images/supplies/B0BYV43DRN.jpg" alt="Trek’n Eat creamy chicken and rice">
           <h3>Trek’n Eat creamy chicken and rice</h3>
-          <p>A freeze-dried meal, 145 g dry.</p>
-          <p class="price">€8.98</p>
-        </a>
-        <a href="https://www.amazon.es/dp/B006G5N9C4?tag=s3mz-21" rel="sponsored noopener noreferrer" target="_blank">
+          <p>A hot meal after the shops have shut, from a pouch that was already on the shelf.</p>
+          <a class="buy" href="https://www.amazon.es/dp/B0BYV43DRN?tag=s3mz-21" rel="sponsored noopener noreferrer" target="_blank">Buy on Amazon</a>
+        </article>
+        <article>
+          <img src="images/supplies/B006G5N9C4.jpg" alt="Trek’n Eat chili with meat">
           <h3>Trek’n Eat chili with meat</h3>
-          <p>Freeze-dried chili. Add hot water and wait.</p>
-          <p class="price">€8.06</p>
-        </a>
-        <a href="https://www.amazon.es/dp/B0GY4KL1LX?tag=s3mz-21" rel="sponsored noopener noreferrer" target="_blank">
+          <p>The third day should not be the same plate as the second. This waits until the water is hot.</p>
+          <a class="buy" href="https://www.amazon.es/dp/B006G5N9C4?tag=s3mz-21" rel="sponsored noopener noreferrer" target="_blank">Buy on Amazon</a>
+        </article>
+        <article>
+          <img src="images/supplies/B0GY4KL1LX.jpg" alt="Hibron camping stove with gas cartridges">
           <h3>Hibron camping stove, four cartridges</h3>
-          <p>A gas stove in a case, with four cartridges, to heat the water.</p>
-          <p class="price">€36.69</p>
-        </a>
+          <p>Freeze-dried food is useless until the water is hot. This is the heat, with gas already in the case.</p>
+          <a class="buy" href="https://www.amazon.es/dp/B0GY4KL1LX?tag=s3mz-21" rel="sponsored noopener noreferrer" target="_blank">Buy on Amazon</a>
+        </article>
       </div>
 
-      <h2 id="power">Power</h2>
-      <p class="lead">A way to keep a light and a phone charged after the power goes out. Three products. A fourth bank would only repeat these two.</p>
+      <h2 id="power"><svg class="ico" aria-hidden="true"><use href="#i-power"/></svg>Power</h2>
+      <p class="cat-lead">Keep a light and a phone alive after the sockets die.</p>
       <div class="products">
-        <a href="https://www.amazon.es/dp/B0CB1DC7GS?tag=s3mz-21" rel="sponsored noopener noreferrer" target="_blank">
+        <article>
+          <img src="images/supplies/B0CB1DC7GS.jpg" alt="INIU 10,000 mAh power bank">
           <h3>INIU power bank, 10,000 mAh</h3>
-          <p>A small 45 W bank for a phone.</p>
-          <p class="price">€24.13</p>
-        </a>
-        <a href="https://www.amazon.es/dp/B0FX9HMGWS?tag=s3mz-21" rel="sponsored noopener noreferrer" target="_blank">
+          <p>The phone is how you hear that the power is back, and how you call if it is not. This keeps that one phone alive.</p>
+          <a class="buy" href="https://www.amazon.es/dp/B0CB1DC7GS?tag=s3mz-21" rel="sponsored noopener noreferrer" target="_blank">Buy on Amazon</a>
+        </article>
+        <article>
+          <img src="images/supplies/B0FX9HMGWS.jpg" alt="INIU 20,000 mAh power bank">
           <h3>INIU power bank, 20,000 mAh</h3>
-          <p>A larger 22.5 W bank, for a longer stretch.</p>
-          <p class="price">€28.97</p>
-        </a>
-        <a href="https://www.amazon.es/dp/B0FP2LS4N7?tag=s3mz-21" rel="sponsored noopener noreferrer" target="_blank">
+          <p>One night is a small bank. A second night and a third need more than a pocket holds.</p>
+          <a class="buy" href="https://www.amazon.es/dp/B0FX9HMGWS?tag=s3mz-21" rel="sponsored noopener noreferrer" target="_blank">Buy on Amazon</a>
+        </article>
+        <article>
+          <img src="images/supplies/B0FP2LS4N7.jpg" alt="BigBlue 35 W solar charger">
           <h3>BigBlue solar charger, 35 W</h3>
-          <p>A panel for when the banks run down. USB-C and USB-A.</p>
-          <p class="price">€65.66</p>
-        </a>
+          <p>The banks run down. The sun does not. This fills them again when there is no socket.</p>
+          <a class="buy" href="https://www.amazon.es/dp/B0FP2LS4N7?tag=s3mz-21" rel="sponsored noopener noreferrer" target="_blank">Buy on Amazon</a>
+        </article>
       </div>
 
-      <h2 id="shelter">Shelter</h2>
-      <p class="lead">A dry place to stay, and the few things a simple repair needs. Three products. A second tarp would only repeat the cover.</p>
+      <h2 id="shelter"><svg class="ico" aria-hidden="true"><use href="#i-shelter"/></svg>Shelter</h2>
+      <p class="cat-lead">Stay dry, stay warm, and fix what you can tonight.</p>
       <div class="products">
-        <a href="https://www.amazon.es/dp/B0748FG2Z6?tag=s3mz-21" rel="sponsored noopener noreferrer" target="_blank">
+        <article>
+          <img src="images/supplies/B0748FG2Z6.jpg" alt="Amazon Basics camping tarp">
           <h3>Amazon Basics camping tarp</h3>
-          <p>A waterproof sheet for a cover, or under a tent.</p>
-          <p class="price">€11.57</p>
-        </a>
-        <a href="https://www.amazon.es/dp/B01M19HAEB?tag=s3mz-21" rel="sponsored noopener noreferrer" target="_blank">
+          <p>Rain on a broken window is the night getting worse. Throw this over the gap and the room stays dry.</p>
+          <a class="buy" href="https://www.amazon.es/dp/B0748FG2Z6?tag=s3mz-21" rel="sponsored noopener noreferrer" target="_blank">Buy on Amazon</a>
+        </article>
+        <article>
+          <img src="images/supplies/B01M19HAEB.jpg" alt="Pack of Bramble emergency blankets">
           <h3>Bramble emergency blankets, pack of 10</h3>
-          <p>Gold and silver foil blankets, 210 × 160 cm.</p>
-          <p class="price">€19.30</p>
-        </a>
-        <a href="https://www.amazon.es/dp/B079D86TT6?tag=s3mz-21" rel="sponsored noopener noreferrer" target="_blank">
+          <p>The heating is off and the house cools fast. Ten of these cover the people in the room, not just one.</p>
+          <a class="buy" href="https://www.amazon.es/dp/B01M19HAEB?tag=s3mz-21" rel="sponsored noopener noreferrer" target="_blank">Buy on Amazon</a>
+        </article>
+        <article>
+          <img src="images/supplies/B079D86TT6.jpg" alt="Roll of Gorilla Tape">
           <h3>Gorilla Tape, 32 m</h3>
-          <p>Black cloth tape, 48 mm wide, for a simple repair.</p>
-          <p class="price">€17.27</p>
-        </a>
+          <p>A split pipe, a torn sheet, a window that will not stay shut. The repair that can wait for a shop is not this one.</p>
+          <a class="buy" href="https://www.amazon.es/dp/B079D86TT6?tag=s3mz-21" rel="sponsored noopener noreferrer" target="_blank">Buy on Amazon</a>
+        </article>
       </div>
     </section>
   </main>
