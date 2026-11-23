@@ -80,102 +80,75 @@
     })
   }
 
-  function moreTitles(count) {
-    return count + " more " + (count === 1 ? "title" : "titles")
+  function moreBooks(count) {
+    return count + " more " + (count === 1 ? "book" : "books")
   }
 
-  function dealModel(count) {
+  function offerStatus(count) {
     var goal = BOOKS.length
-    var countLine = count + (count === 1 ? " title" : " titles") + " in the cart"
-    var fifteenFill = Math.round(Math.min(count, 3) / 3 * 100)
-    var fiftyFill = Math.round(count / goal * 100)
-    if (count >= goal) {
-      return {
-        countLine: countLine,
-        note: "50% off reached",
-        extra: "This replaces the 15% discount.",
-        fifteen: "Reached",
-        fifty: "Reached",
-        fifteenState: "reached",
-        fiftyState: "reached",
-        fifteenFill: 100,
-        fiftyFill: 100
-      }
-    }
-    if (count >= 3) {
-      var left = goal - count
-      return {
-        countLine: countLine,
-        note: "15% off reached. " + moreTitles(left) + " for 50% off.",
-        extra: "",
-        fifteen: "Reached",
-        fifty: moreTitles(left),
-        fifteenState: "reached",
-        fiftyState: "next",
-        fifteenFill: 100,
-        fiftyFill: fiftyFill
-      }
-    }
-    var need = 3 - count
-    return {
-      countLine: countLine,
-      note: moreTitles(need) + " for 15% off.",
-      extra: "",
-      fifteen: moreTitles(need),
-      fifty: moreTitles(goal - count),
-      fifteenState: "next",
-      fiftyState: "later",
-      fifteenFill: fifteenFill,
-      fiftyFill: fiftyFill
-    }
+    if (count >= goal) return "50% off all of them, reached."
+    if (count >= 3) return "15% off reached. " + moreBooks(goal - count) + " for 50% off all of them."
+    if (count > 0) return count + " of 3 books toward 15% off. 50% off all of them."
+    return "15% off 3 books, 50% off all of them."
   }
 
-  function dealStage(name, detail, state, fill) {
-    var block = document.createElement("div")
-    block.className = "deal-stage"
-    block.setAttribute("data-state", state)
-    var top = document.createElement("div")
-    top.className = "deal-stage-top"
+  function paintShopDeal(count) {
+    var el = document.querySelector("[data-shop-deal]")
+    if (!el) return
+    var goal = BOOKS.length
+    var fifteen = el.querySelector("[data-offer='15']")
+    var fifty = el.querySelector("[data-offer='50']")
+    var fifteenState = count >= 3 ? "reached" : (count > 0 ? "next" : "idle")
+    var fiftyState = count >= goal ? "reached" : (count >= 3 ? "next" : "idle")
+    fifteen.setAttribute("data-state", fifteenState)
+    fifty.setAttribute("data-state", fiftyState)
+    fifteen.textContent = count > 0 && count < 3 ? "15% off 3 books (" + count + " of 3)" : "15% off 3 books"
+    fifty.textContent = count >= 3 && count < goal
+      ? "50% off all of them (" + count + " of " + goal + ")."
+      : "50% off all of them."
+    el.style.setProperty("--fill", Math.round(count / goal * 100) + "%")
+    el.setAttribute("aria-label", offerStatus(count))
+  }
+
+  function meterLabel(text, state) {
     var label = document.createElement("span")
-    label.textContent = name
-    var aside = document.createElement("span")
-    aside.textContent = detail
-    top.append(label, aside)
-    var track = document.createElement("div")
-    track.className = "deal-track"
-    track.setAttribute("aria-hidden", "true")
-    var bar = document.createElement("span")
-    bar.style.width = fill + "%"
-    track.append(bar)
-    block.append(top, track)
-    return block
+    label.textContent = text
+    label.setAttribute("data-state", state)
+    return label
   }
 
   function renderDeal(count) {
-    var model = dealModel(count)
+    var goal = BOOKS.length
     var deal = document.createElement("div")
     deal.className = "deal"
     deal.setAttribute("role", "status")
-    var kicker = document.createElement("p")
-    kicker.className = "deal-kicker"
-    kicker.textContent = "Volume discount"
+    deal.setAttribute("aria-label", count + (count === 1 ? " title" : " titles") + " in the cart. " + offerStatus(count))
     var countEl = document.createElement("p")
     countEl.className = "deal-count"
-    countEl.textContent = model.countLine
-    var note = document.createElement("p")
-    note.className = "deal-note"
-    note.textContent = model.note
-    deal.append(kicker, countEl, note)
-    if (model.extra) {
-      var extra = document.createElement("p")
-      extra.className = "deal-extra"
-      extra.textContent = model.extra
-      deal.append(extra)
-    }
-    deal.append(
-      dealStage("15% off", model.fifteen, model.fifteenState, model.fifteenFill),
-      dealStage("50% off", model.fifty, model.fiftyState, model.fiftyFill)
-    )
+    countEl.textContent = count + (count === 1 ? " title" : " titles") + " in the cart"
+    var meter = document.createElement("div")
+    meter.className = "deal-meter"
+    meter.setAttribute("aria-hidden", "true")
+    var wrap = document.createElement("div")
+    wrap.className = "deal-track-wrap"
+    var track = document.createElement("div")
+    track.className = "deal-track"
+    var bar = document.createElement("span")
+    bar.className = "deal-fill"
+    bar.style.width = Math.round(count / goal * 100) + "%"
+    track.append(bar)
+    var gate = document.createElement("i")
+    gate.className = count >= 3 ? "deal-gate is-reached" : "deal-gate"
+    wrap.append(track, gate)
+    var labels = document.createElement("div")
+    labels.className = "deal-scale"
+    var fifteen = meterLabel("15%", count >= 3 ? "reached" : (count > 0 ? "next" : "later"))
+    fifteen.className = "at-fifteen"
+    var fifty = meterLabel("50%", count >= goal ? "reached" : (count >= 3 ? "next" : "later"))
+    fifty.className = "at-fifty"
+    labels.append(fifteen, fifty)
+    meter.append(wrap, labels)
+    deal.append(countEl, meter)
     return deal
   }
 
@@ -221,6 +194,11 @@
       var book = lookup(slug)
       var row = document.createElement("div")
       row.className = "cart-line"
+      var cover = document.createElement("img")
+      cover.src = "/images/covers/" + book.slug + ".png"
+      cover.alt = ""
+      cover.width = 700
+      cover.height = 993
       var title = document.createElement("a")
       title.href = "/guides/" + book.slug + ".html"
       title.textContent = book.title
@@ -233,7 +211,7 @@
       remove.addEventListener("click", function () {
         write(read().filter(function (item) { return item !== slug }))
       })
-      row.append(title, price, remove)
+      row.append(cover, title, price, remove)
       list.append(row)
     })
     var totals = document.createElement("div")
@@ -295,6 +273,7 @@
     var slugs = ordered(read())
     paintCounts(slugs)
     paintButtons(slugs)
+    paintShopDeal(slugs.length)
     var cart = document.querySelector("[data-cart]")
     if (cart) renderCart(cart, slugs)
   }
