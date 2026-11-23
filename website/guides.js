@@ -66,9 +66,117 @@
   }
 
   function paintCounts(slugs) {
-    document.querySelectorAll("[data-cart-count]").forEach(function (el) {
-      el.textContent = slugs.length ? " " + slugs.length : ""
+    var total = slugs.length ? subtotalCents(slugs) - discountCents(slugs) : 0
+    var items = slugs.length === 1 ? "item" : "items"
+    var label = "Cart, " + slugs.length + " " + items + ", " + money(total)
+    document.querySelectorAll(".nav-cart").forEach(function (el) {
+      el.setAttribute("aria-label", label)
     })
+    document.querySelectorAll("[data-cart-count]").forEach(function (el) {
+      el.textContent = String(slugs.length)
+    })
+    document.querySelectorAll("[data-cart-sum]").forEach(function (el) {
+      el.textContent = money(total)
+    })
+  }
+
+  function moreTitles(count) {
+    return count + " more " + (count === 1 ? "title" : "titles")
+  }
+
+  function dealModel(count) {
+    var goal = BOOKS.length
+    var countLine = count + (count === 1 ? " title" : " titles") + " in the cart"
+    var fifteenFill = Math.round(Math.min(count, 3) / 3 * 100)
+    var fiftyFill = Math.round(count / goal * 100)
+    if (count >= goal) {
+      return {
+        countLine: countLine,
+        note: "50% off reached",
+        extra: "This replaces the 15% discount.",
+        fifteen: "Reached",
+        fifty: "Reached",
+        fifteenState: "reached",
+        fiftyState: "reached",
+        fifteenFill: 100,
+        fiftyFill: 100
+      }
+    }
+    if (count >= 3) {
+      var left = goal - count
+      return {
+        countLine: countLine,
+        note: "15% off reached. " + moreTitles(left) + " for 50% off.",
+        extra: "",
+        fifteen: "Reached",
+        fifty: moreTitles(left),
+        fifteenState: "reached",
+        fiftyState: "next",
+        fifteenFill: 100,
+        fiftyFill: fiftyFill
+      }
+    }
+    var need = 3 - count
+    return {
+      countLine: countLine,
+      note: moreTitles(need) + " for 15% off.",
+      extra: "",
+      fifteen: moreTitles(need),
+      fifty: moreTitles(goal - count),
+      fifteenState: "next",
+      fiftyState: "later",
+      fifteenFill: fifteenFill,
+      fiftyFill: fiftyFill
+    }
+  }
+
+  function dealStage(name, detail, state, fill) {
+    var block = document.createElement("div")
+    block.className = "deal-stage"
+    block.setAttribute("data-state", state)
+    var top = document.createElement("div")
+    top.className = "deal-stage-top"
+    var label = document.createElement("span")
+    label.textContent = name
+    var aside = document.createElement("span")
+    aside.textContent = detail
+    top.append(label, aside)
+    var track = document.createElement("div")
+    track.className = "deal-track"
+    track.setAttribute("aria-hidden", "true")
+    var bar = document.createElement("span")
+    bar.style.width = fill + "%"
+    track.append(bar)
+    block.append(top, track)
+    return block
+  }
+
+  function renderDeal(count) {
+    var model = dealModel(count)
+    var deal = document.createElement("div")
+    deal.className = "deal"
+    deal.setAttribute("role", "status")
+    var kicker = document.createElement("p")
+    kicker.className = "deal-kicker"
+    kicker.textContent = "Volume discount"
+    var countEl = document.createElement("p")
+    countEl.className = "deal-count"
+    countEl.textContent = model.countLine
+    var note = document.createElement("p")
+    note.className = "deal-note"
+    note.textContent = model.note
+    deal.append(kicker, countEl, note)
+    if (model.extra) {
+      var extra = document.createElement("p")
+      extra.className = "deal-extra"
+      extra.textContent = model.extra
+      deal.append(extra)
+    }
+    deal.append(
+      dealStage("15% off", model.fifteen, model.fifteenState, model.fifteenFill),
+      dealStage("50% off", model.fifty, model.fiftyState, model.fiftyFill)
+    )
+    return deal
   }
 
   function paintButtons(slugs) {
@@ -93,6 +201,7 @@
 
   function renderCart(root, slugs) {
     root.replaceChildren()
+    root.append(renderDeal(slugs.length))
     if (!slugs.length) {
       var empty = document.createElement("p")
       empty.className = "lead"
