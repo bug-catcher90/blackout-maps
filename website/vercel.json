@@ -1,7 +1,13 @@
 {
   "framework": null,
-  "redirects": [
-    { "source": "/guide-books.html", "destination": "/guides.html", "permanent": true }
+  "routes": [
+    { "src": "/api/_files/(.*)", "status": 404 },
+    { "src": "/api/_files", "status": 404 },
+    { "src": "/sheets/(.*)", "status": 404 },
+    { "src": "/sheets", "status": 404 },
+    { "src": "/(.*)\\.(pdf|PDF)", "status": 404 },
+    { "src": "/guide-books.html", "status": 308, "headers": { "Location": "/guides.html" } },
+    { "handle": "filesystem" }
   ],
   "functions": {
     "api/guide-download.js": {
