@@ -839,7 +839,19 @@ button.guide-buy {
 
 button.guide-buy:disabled { cursor: wait; opacity: 0.65; }
 
+button.guide-buy[aria-pressed="true"] {
+  background: transparent;
+  color: var(--muted);
+  box-shadow: inset 0 0 0 1px var(--line);
+  cursor: default;
+}
+
 .guide-buy:hover { background: #fff; color: #14140f; }
+
+button.guide-buy[aria-pressed="true"]:hover {
+  background: transparent;
+  color: var(--muted);
+}
 
 .guide-example { margin-top: 1.35rem; }
 .guide-example p { margin: 0.3rem 0 0; color: var(--muted); }
@@ -994,10 +1006,44 @@ a.book-cell:hover h3,
 .book-all { margin: 1.75rem 0 0; }
 .book-all .guide-buy { margin-top: 0; }
 
+.shop-deal {
+  display: block;
+  width: fit-content;
+  max-width: min(28rem, 100%);
+  margin: 1.5rem 0 0 auto;
+  padding: 0.7rem 1rem;
+  border-radius: 14px;
+  background: #16140f;
+  box-shadow: inset 0 0 0 1px rgba(226, 163, 28, 0.75);
+  color: var(--ink);
+  font-weight: 500;
+  line-height: 1.4;
+  text-align: left;
+  position: relative;
+  overflow: hidden;
+}
+
+.shop-deal::before {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: var(--fill, 0%);
+  background: rgba(226, 163, 28, 0.28);
+}
+
+.shop-deal span { position: relative; }
+
+.shop-deal [data-state="next"] { color: var(--amber); }
+
+.shop-deal [data-state="reached"]::after {
+  content: " ✓";
+  color: var(--amber);
+}
+
 .book-list {
   display: flex;
   flex-direction: column;
-  margin-top: 1.75rem;
+  margin-top: 0.85rem;
   text-align: left;
   border-top: 1px solid var(--line);
 }
@@ -1023,13 +1069,22 @@ a.book-cell:hover h3,
 .book-list h2 { grid-column: 2; grid-row: 1; margin: 0; font-size: 1.2rem; }
 .book-list .book-blurb { grid-column: 2; grid-row: 2; margin: 0; }
 .book-list .book-more {
+  display: inline-flex;
+  align-items: center;
+  justify-self: start;
+  gap: 0.4rem;
   grid-column: 2;
   grid-row: 3;
+  width: fit-content;
+  color: var(--ink);
+  font-weight: 500;
+  text-decoration: none;
+}
+.book-list .book-more:hover {
   color: var(--ink);
   text-decoration: underline;
-  text-underline-offset: 0.15em;
+  text-underline-offset: 4px;
 }
-.book-list .book-more:hover { color: var(--amber); }
 
 .book-list .guide-price {
   grid-column: 3;
@@ -1076,11 +1131,18 @@ a.book-cell:hover h3,
 
 .cart-line {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) auto auto;
+  grid-template-columns: 3.1rem minmax(0, 1fr) auto auto;
   gap: 0.75rem 1rem;
-  align-items: baseline;
+  align-items: center;
   padding: 0.85rem 0;
   border-top: 1px solid var(--line);
+}
+
+.cart-line img {
+  width: 3.1rem;
+  height: auto;
+  border-radius: 2px 6px 6px 2px;
+  box-shadow: 3px 6px 12px rgba(0, 0, 0, 0.35);
 }
 
 .cart-line a { color: inherit; text-decoration: none; }
@@ -1126,51 +1188,26 @@ a.book-cell:hover h3,
     var(--card);
 }
 
-.deal-kicker {
-  margin: 0;
-  color: var(--amber);
-  font-family: "IBM Plex Mono", ui-monospace, monospace;
-  font-size: 0.72rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-
 .deal-count {
-  margin: 0.4rem 0 0;
+  margin: 0;
   font-size: 1.2rem;
   font-weight: 500;
   line-height: 1.3;
 }
 
-.deal-note { margin: 0.3rem 0 0; font-size: 1.02rem; }
-.deal-extra { margin: 0.25rem 0 0; color: var(--muted); font-size: 0.98rem; }
+.deal-meter { margin-top: 0.9rem; }
 
-.deal-stage { margin-top: 0.9rem; }
-
-.deal-stage-top {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  align-items: baseline;
-  gap: 0.2rem 0.75rem;
-  margin-bottom: 0.4rem;
-  font-size: 1rem;
-}
-
-.deal-stage-top span:last-child { margin-left: auto; color: var(--muted); text-align: right; }
-
-.deal-stage[data-state="next"] .deal-stage-top span:first-child,
-.deal-stage[data-state="reached"] .deal-stage-top span:last-child { color: var(--amber); }
+.deal-track-wrap { position: relative; }
 
 .deal-track {
-  height: 0.75rem;
+  height: 0.85rem;
   border-radius: 999px;
   background: #1c1e1a;
-  box-shadow: inset 0 0 0 1px var(--line);
+  box-shadow: inset 0 0 0 1px rgba(226, 163, 28, 0.45);
   overflow: hidden;
 }
 
-.deal-track span {
+.deal-fill {
   display: block;
   height: 100%;
   width: 0;
@@ -1178,13 +1215,40 @@ a.book-cell:hover h3,
   background: linear-gradient(90deg, #9a6b10, var(--amber));
 }
 
-.deal-stage[data-state="later"] .deal-track span { background: #3c4038; }
+.deal-gate {
+  position: absolute;
+  top: -0.2rem;
+  bottom: -0.2rem;
+  left: 37.5%;
+  width: 3px;
+  margin-left: -1.5px;
+  border-radius: 2px;
+  background: var(--ink);
+}
 
-.deal-stage[data-state="reached"] .deal-track span { background: var(--amber); }
+.deal-gate.is-reached { background: #fff; }
 
-.deal-stage[data-state="next"] .deal-track,
-.deal-stage[data-state="reached"] .deal-track {
-  box-shadow: inset 0 0 0 1px rgba(226, 163, 28, 0.55);
+.deal-scale {
+  position: relative;
+  height: 1.45rem;
+  margin-top: 0.4rem;
+  font-size: 0.98rem;
+}
+
+.deal-scale span {
+  position: absolute;
+  top: 0;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.deal-scale .at-fifteen { left: 37.5%; transform: translateX(-50%); }
+.deal-scale .at-fifty { right: 0; }
+
+.deal-scale span[data-state="next"],
+.deal-scale span[data-state="reached"] {
+  color: var(--amber);
+  font-weight: 500;
 }
 
 .download-list {
@@ -1292,6 +1356,17 @@ a.book-cell:hover h3,
   .book-list .book-more { grid-row: 3; }
   .book-list .guide-price { grid-row: 4; justify-self: start; }
   .book-list .guide-buy { grid-row: 5; justify-self: start; white-space: normal; }
+  .shop-deal { max-width: 100%; }
+  .cart-line {
+    grid-template-columns: 3.1rem minmax(0, 1fr) auto;
+    grid-template-areas:
+      "cover title title"
+      "cover price remove";
+  }
+  .cart-line img { grid-area: cover; }
+  .cart-line a { grid-area: title; }
+  .cart-line > span { grid-area: price; }
+  .cart-remove { grid-area: remove; justify-self: end; }
   .hero { padding: 5.5rem 1rem 3.5rem; }
   .downloads { width: 100%; }
   .store { flex: 1 1 16rem; justify-content: center; }
