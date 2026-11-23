@@ -9,7 +9,7 @@ function allowedHost(req) {
   } catch (error) {
     return false
   }
-  return host === "blackout-maps.vercel.app" || host === req.headers.host
+  return host === "blackoutmaps.com" || host === req.headers.host
 }
 
 function readBody(req) {

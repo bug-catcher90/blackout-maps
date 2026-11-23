@@ -1,7 +1,7 @@
 const fs = require("fs")
 const path = require("path")
 
-const SITE = "https://blackout-maps.vercel.app"
+const SITE = "https://blackoutmaps.com"
 
 // Live Neonancestry prices. tax_behavior is inclusive. Amounts are euro cents.
 // The water guide's Stripe product id stays when-the-tap-runs-dry.
