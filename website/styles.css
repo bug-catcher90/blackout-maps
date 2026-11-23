@@ -57,9 +57,26 @@ a { color: inherit; }
 
 .brand img { display: block; width: 2rem; height: 2rem; }
 
-.bar nav { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 1.1rem; }
+.bar nav { display: flex; flex-wrap: wrap; justify-content: flex-end; align-items: center; gap: 1.1rem; }
 .bar nav a { color: var(--muted); text-decoration: none; }
 .bar nav a:hover { color: var(--ink); }
+
+.nav-cart {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  flex: none;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+  color: var(--ink);
+}
+
+.bar nav a.nav-cart,
+.bar nav a.nav-cart:hover { color: var(--ink); }
+
+.nav-cart-icon { width: 1.15rem; height: 1.15rem; flex: none; }
+
+.nav-cart [data-cart-sum] { color: var(--amber); }
 
 .hero {
   position: relative;
@@ -977,6 +994,58 @@ a.book-cell:hover h3,
 .book-all { margin: 1.75rem 0 0; }
 .book-all .guide-buy { margin-top: 0; }
 
+.book-list {
+  display: flex;
+  flex-direction: column;
+  margin-top: 1.75rem;
+  text-align: left;
+  border-top: 1px solid var(--line);
+}
+
+.book-list .book-cell {
+  display: grid;
+  grid-template-columns: 4.6rem minmax(0, 1fr) auto auto;
+  column-gap: 1.15rem;
+  row-gap: 0.3rem;
+  align-items: center;
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.book-list .book-cover { grid-column: 1; grid-row: 1 / span 3; display: block; }
+
+.book-list .book-cover img {
+  width: 4.6rem;
+  border-radius: 3px 8px 8px 3px;
+  box-shadow: 4px 8px 16px rgba(0, 0, 0, 0.4);
+}
+
+.book-list h2 { grid-column: 2; grid-row: 1; margin: 0; font-size: 1.2rem; }
+.book-list .book-blurb { grid-column: 2; grid-row: 2; margin: 0; }
+.book-list .book-more {
+  grid-column: 2;
+  grid-row: 3;
+  color: var(--ink);
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+}
+.book-list .book-more:hover { color: var(--amber); }
+
+.book-list .guide-price {
+  grid-column: 3;
+  grid-row: 1 / span 3;
+  margin: 0;
+  justify-self: end;
+  white-space: nowrap;
+}
+
+.book-list .guide-buy {
+  grid-column: 4;
+  grid-row: 1 / span 3;
+  margin: 0;
+  white-space: nowrap;
+}
+
 .book-page { text-align: left; }
 
 .book-page h1 {
@@ -1046,6 +1115,77 @@ a.book-cell:hover h3,
 }
 
 .cart-note { margin: 0.8rem 0 0; color: var(--muted); }
+
+.deal {
+  margin: 0 0 1.35rem;
+  padding: 1rem 1rem 1.1rem;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background:
+    linear-gradient(180deg, rgba(226, 163, 28, 0.14), transparent 46%),
+    var(--card);
+}
+
+.deal-kicker {
+  margin: 0;
+  color: var(--amber);
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.deal-count {
+  margin: 0.4rem 0 0;
+  font-size: 1.2rem;
+  font-weight: 500;
+  line-height: 1.3;
+}
+
+.deal-note { margin: 0.3rem 0 0; font-size: 1.02rem; }
+.deal-extra { margin: 0.25rem 0 0; color: var(--muted); font-size: 0.98rem; }
+
+.deal-stage { margin-top: 0.9rem; }
+
+.deal-stage-top {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 0.2rem 0.75rem;
+  margin-bottom: 0.4rem;
+  font-size: 1rem;
+}
+
+.deal-stage-top span:last-child { margin-left: auto; color: var(--muted); text-align: right; }
+
+.deal-stage[data-state="next"] .deal-stage-top span:first-child,
+.deal-stage[data-state="reached"] .deal-stage-top span:last-child { color: var(--amber); }
+
+.deal-track {
+  height: 0.75rem;
+  border-radius: 999px;
+  background: #1c1e1a;
+  box-shadow: inset 0 0 0 1px var(--line);
+  overflow: hidden;
+}
+
+.deal-track span {
+  display: block;
+  height: 100%;
+  width: 0;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #9a6b10, var(--amber));
+}
+
+.deal-stage[data-state="later"] .deal-track span { background: #3c4038; }
+
+.deal-stage[data-state="reached"] .deal-track span { background: var(--amber); }
+
+.deal-stage[data-state="next"] .deal-track,
+.deal-stage[data-state="reached"] .deal-track {
+  box-shadow: inset 0 0 0 1px rgba(226, 163, 28, 0.55);
+}
 
 .download-list {
   display: flex;
@@ -1136,6 +1276,22 @@ a.book-cell:hover h3,
   .bar, .band, .foot { width: min(1120px, calc(100% - 2rem)); }
   .bar { flex-wrap: wrap; }
   .bar nav { min-width: 0; justify-content: flex-end; gap: 0.65rem 0.9rem; }
+  .book-list .book-cell {
+    grid-template-columns: 4.4rem minmax(0, 1fr);
+    align-items: start;
+  }
+  .book-list .book-cover { grid-row: 1 / span 5; }
+  .book-list .book-cover img { width: 4.4rem; }
+  .book-list h2,
+  .book-list .book-blurb,
+  .book-list .book-more,
+  .book-list .guide-price,
+  .book-list .guide-buy { grid-column: 2; }
+  .book-list h2 { grid-row: 1; }
+  .book-list .book-blurb { grid-row: 2; }
+  .book-list .book-more { grid-row: 3; }
+  .book-list .guide-price { grid-row: 4; justify-self: start; }
+  .book-list .guide-buy { grid-row: 5; justify-self: start; white-space: normal; }
   .hero { padding: 5.5rem 1rem 3.5rem; }
   .downloads { width: 100%; }
   .store { flex: 1 1 16rem; justify-content: center; }
