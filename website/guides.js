@@ -86,10 +86,10 @@
 
   function offerStatus(count) {
     var goal = BOOKS.length
-    if (count >= goal) return "50% off all of them, reached."
-    if (count >= 3) return "15% off reached. " + moreBooks(goal - count) + " for 50% off all of them."
-    if (count > 0) return count + " of 3 books toward 15% off. 50% off all of them."
-    return "15% off 3 books, 50% off all of them."
+    if (count >= goal) return "The full set: 50% off, reached."
+    if (count >= 3) return "Any 3 guides: 15% off, reached. " + moreBooks(goal - count) + " for 50% off the full set."
+    if (count > 0) return count + " of 3 guides toward 15% off. The full set: 50% off."
+    return "Any 3 guides: 15% off. The full set: 50% off."
   }
 
   function paintShopDeal(count) {
@@ -102,10 +102,10 @@
     var fiftyState = count >= goal ? "reached" : (count >= 3 ? "next" : "idle")
     fifteen.setAttribute("data-state", fifteenState)
     fifty.setAttribute("data-state", fiftyState)
-    fifteen.textContent = count > 0 && count < 3 ? "15% off 3 books (" + count + " of 3)" : "15% off 3 books"
+    fifteen.textContent = count > 0 && count < 3 ? "Any 3 guides: 15% off (" + count + " of 3)" : "Any 3 guides: 15% off"
     fifty.textContent = count >= 3 && count < goal
-      ? "50% off all of them (" + count + " of " + goal + ")."
-      : "50% off all of them."
+      ? "The full set: 50% off (" + count + " of " + goal + ")."
+      : "The full set: 50% off."
     el.style.setProperty("--fill", Math.round(count / goal * 100) + "%")
     el.setAttribute("aria-label", offerStatus(count))
   }
