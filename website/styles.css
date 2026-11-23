@@ -558,6 +558,43 @@ h3 {
 
 .empty-products p { margin: 0; color: var(--muted); font-size: 0.95rem; }
 
+.products {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.85rem;
+  margin-top: 1rem;
+  text-align: left;
+}
+
+.products a {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  min-height: 100%;
+  padding: 0.9rem;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--card);
+  color: inherit;
+  text-decoration: none;
+}
+
+.products h3 {
+  margin: 0;
+  font-size: 1.05rem;
+  font-weight: 500;
+}
+
+.products p { margin: 0; color: var(--muted); font-size: 0.95rem; }
+
+.products .price {
+  margin-top: auto;
+  padding-top: 0.65rem;
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 0.92rem;
+  color: var(--ink);
+}
+
 .res-search {
   width: min(36rem, 100%);
   margin: 1.6rem auto 0;
@@ -1325,7 +1362,7 @@ a.book-cell:hover h3,
 .foot nav a { color: var(--ink); }
 
 @media (max-width: 900px) {
-  .usps, .cards, .actions, .slots, .empty-products, .book-row { grid-template-columns: 1fr 1fr; }
+  .usps, .cards, .actions, .slots, .empty-products, .products, .book-row { grid-template-columns: 1fr 1fr; }
 }
 
 @media (max-width: 720px) {
@@ -1370,5 +1407,5 @@ a.book-cell:hover h3,
   .hero { padding: 5.5rem 1rem 3.5rem; }
   .downloads { width: 100%; }
   .store { flex: 1 1 16rem; justify-content: center; }
-  .usps, .cards, .actions, .slots, .empty-products, .book-row { grid-template-columns: 1fr; }
+  .usps, .cards, .actions, .slots, .empty-products, .products, .book-row { grid-template-columns: 1fr; }
 }
