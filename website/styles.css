@@ -924,7 +924,31 @@ h3 {
 }
 
 .guide-desc { margin: 0.85rem 0 0; color: var(--muted); }
+.guide-desc + .guide-desc { margin-top: 0.75rem; }
 .guide-meta { margin: 1.15rem 0 0; }
+
+.guide-book h2.inside-title {
+  margin: 1.75rem 0 0.55rem;
+  max-width: none;
+  color: var(--amber);
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  line-height: 1.4;
+  text-align: left;
+  text-transform: uppercase;
+}
+
+.guide-inside {
+  margin: 0;
+  padding: 0 0 0 1.15rem;
+  color: var(--muted);
+}
+
+.guide-inside li + li { margin-top: 0.35rem; }
+
+.starter { margin-top: 0.85rem; }
 
 .guide-price {
   margin: 1.15rem 0 0;
