@@ -533,7 +533,13 @@ h3 {
 .slots h3 { margin-top: 0.85rem; font-size: 1.15rem; }
 
 #guide .slot h3 { margin-top: 0; }
-#guide .slot-frame { margin-top: 0.85rem; }
+#guide .slot-frame { margin-top: 0.85rem; background: #f4f1ea; }
+#guide .slot-photo {
+  inset: 0.7rem;
+  width: calc(100% - 1.4rem);
+  height: calc(100% - 1.4rem);
+  object-fit: contain;
+}
 
 .slots p { margin-top: 0.35rem; }
 
