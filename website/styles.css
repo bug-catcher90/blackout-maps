@@ -1223,10 +1223,16 @@ a.book-cell:hover h3,
 .book-page .guide-previews {
   grid-column: 1 / -1;
   grid-row: 2;
+  width: 100%;
+  min-width: 0;
   grid-template-columns: repeat(3, minmax(0, 14rem));
   justify-content: start;
   margin-top: 2rem;
 }
+
+.book-page .guide-previews figure,
+.book-page .guide-previews button,
+.book-page .guide-previews img { min-width: 0; max-width: 100%; }
 
 .cart-panel {
   width: min(36rem, 100%);
@@ -1444,7 +1450,17 @@ a.book-cell:hover h3,
   .book-page .guide-copy,
   .book-page .guide-previews { grid-column: 1; }
   .book-page .guide-book > img { grid-row: 1; }
-  .book-page .guide-previews { grid-row: 2; margin-top: 1.25rem; }
+  .book-page .guide-previews {
+    grid-row: 2;
+    margin-top: 1.25rem;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.55rem;
+  }
+  .book-page .guide-previews figcaption {
+    overflow-wrap: break-word;
+    font-size: 0.78rem;
+    line-height: 1.25;
+  }
   .book-page .guide-copy { grid-row: 3; }
 }
 
