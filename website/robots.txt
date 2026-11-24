@@ -1,0 +1,51 @@
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /sheets/
+Disallow: /*.pdf
+Disallow: /*.PDF
+
+# Paid guide files are not published. The download page is noindex.
+User-agent: GPTBot
+Allow: /
+Disallow: /api/
+Disallow: /sheets/
+Disallow: /*.pdf
+Disallow: /*.PDF
+
+User-agent: ChatGPT-User
+Allow: /
+Disallow: /api/
+Disallow: /sheets/
+Disallow: /*.pdf
+Disallow: /*.PDF
+
+User-agent: ClaudeBot
+Allow: /
+Disallow: /api/
+Disallow: /sheets/
+Disallow: /*.pdf
+Disallow: /*.PDF
+
+User-agent: anthropic-ai
+Allow: /
+Disallow: /api/
+Disallow: /sheets/
+Disallow: /*.pdf
+Disallow: /*.PDF
+
+User-agent: PerplexityBot
+Allow: /
+Disallow: /api/
+Disallow: /sheets/
+Disallow: /*.pdf
+Disallow: /*.PDF
+
+User-agent: Google-Extended
+Allow: /
+Disallow: /api/
+Disallow: /sheets/
+Disallow: /*.pdf
+Disallow: /*.PDF
+
+Sitemap: https://blackoutmaps.com/sitemap.xml

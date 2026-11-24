@@ -8,7 +8,79 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="default" />
     <meta name="apple-mobile-web-app-title" content="Posição" />
     <meta name="theme-color" content="#fffcf8" />
-    <title>Posição</title>
+    <title>Free offline map — Blackout Maps</title>
+    <meta name="description" content="Open the free Blackout Maps emergency map in the browser. Find water, medical care and supplies, and a route to them, without the network.">
+    <link rel="canonical" href="https://blackoutmaps.com/maps/">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Blackout Maps">
+    <meta property="og:locale" content="en">
+    <meta property="og:url" content="https://blackoutmaps.com/maps/">
+    <meta property="og:title" content="Free offline map — Blackout Maps">
+    <meta property="og:description" content="Open the free Blackout Maps emergency map in the browser. Find water, medical care and supplies, and a route to them, without the network.">
+    <meta property="og:image" content="https://blackoutmaps.com/og/maps.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="The map, in the browser">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Free offline map — Blackout Maps">
+    <meta name="twitter:description" content="Open the free Blackout Maps emergency map in the browser. Find water, medical care and supplies, and a route to them, without the network.">
+    <meta name="twitter:image" content="https://blackoutmaps.com/og/maps.png">
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": "https://blackoutmaps.com/#website",
+      "url": "https://blackoutmaps.com/",
+      "name": "Blackout Maps",
+      "description": "Free offline emergency maps for when the network goes down.",
+      "publisher": {
+        "@id": "https://blackoutmaps.com/#organization"
+      },
+      "inLanguage": "en"
+    },
+    {
+      "@type": [
+        "SoftwareApplication",
+        "MobileApplication"
+      ],
+      "@id": "https://blackoutmaps.com/#app",
+      "name": "Blackout Maps",
+      "applicationCategory": "NavigationApplication",
+      "operatingSystem": "Android, Web",
+      "url": "https://blackoutmaps.com/maps/",
+      "description": "Free offline emergency maps. Find water, medical care and supplies, and a route to them, without the network.",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "EUR"
+      },
+      "publisher": {
+        "@id": "https://blackoutmaps.com/#organization"
+      },
+      "isAccessibleForFree": true
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://blackoutmaps.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Map",
+          "item": "https://blackoutmaps.com/maps/"
+        }
+      ]
+    }
+  ]
+}
+    </script>
     <link rel="manifest" href="/maps/manifest.webmanifest" />
     <link rel="icon" href="/maps/icons/icon-192.png" />
     <link rel="apple-touch-icon" href="/maps/icons/icon-180.png" />
@@ -16,6 +88,7 @@
     <link rel="stylesheet" href="/maps/styles.css" />
   </head>
   <body>
+    <h1 style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0">Free offline emergency map</h1>
     <div id="map"></div>
     <div id="center-dot" class="center-dot" hidden aria-hidden="true"></div>
     <div id="center-pin" class="center-pin" hidden aria-hidden="true">
