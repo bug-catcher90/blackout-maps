@@ -3,8 +3,132 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Blackout Maps</title>
-  <meta name="description" content="An offline map for when the network goes down: water, medical care, supplies, and a route to reach them.">
+  <title>Blackout Maps — free offline emergency maps</title>
+  <meta name="description" content="Free offline emergency maps for when the network goes down. Find water, medical care and supplies, and a route to them. No account and no charge.">
+  <link rel="canonical" href="https://blackoutmaps.com/">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Blackout Maps">
+  <meta property="og:locale" content="en">
+  <meta property="og:url" content="https://blackoutmaps.com/">
+  <meta property="og:title" content="Blackout Maps — free offline emergency maps">
+  <meta property="og:description" content="Free offline emergency maps for when the network goes down. Find water, medical care and supplies, and a route to them. No account and no charge.">
+  <meta property="og:image" content="https://blackoutmaps.com/og/home.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Free offline emergency maps">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Blackout Maps — free offline emergency maps">
+  <meta name="twitter:description" content="Free offline emergency maps for when the network goes down. Find water, medical care and supplies, and a route to them. No account and no charge.">
+  <meta name="twitter:image" content="https://blackoutmaps.com/og/home.png">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <meta name="theme-color" content="#090b09">
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://blackoutmaps.com/#organization",
+      "name": "Blackout Maps",
+      "url": "https://blackoutmaps.com/",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://blackoutmaps.com/apple-touch-icon.png"
+      },
+      "sameAs": [
+        "https://github.com/bug-catcher90/blackout-maps"
+      ]
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://blackoutmaps.com/#website",
+      "url": "https://blackoutmaps.com/",
+      "name": "Blackout Maps",
+      "description": "Free offline emergency maps for when the network goes down.",
+      "publisher": {
+        "@id": "https://blackoutmaps.com/#organization"
+      },
+      "inLanguage": "en"
+    },
+    {
+      "@type": [
+        "SoftwareApplication",
+        "MobileApplication"
+      ],
+      "@id": "https://blackoutmaps.com/#app",
+      "name": "Blackout Maps",
+      "applicationCategory": "NavigationApplication",
+      "operatingSystem": "Android, Web",
+      "url": "https://blackoutmaps.com/maps/",
+      "description": "Free offline emergency maps. Find water, medical care and supplies, and a route to them, without the network.",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "EUR"
+      },
+      "publisher": {
+        "@id": "https://blackoutmaps.com/#organization"
+      },
+      "isAccessibleForFree": true
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://blackoutmaps.com/#faq",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Does it work without a network?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "You need a network to download the app and the map. After that, the map, the search and the routes work on the phone with no network."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Does it use GPS?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. You set your position on the map. Motion sensors can keep an approximate position, those readings stay on the phone, and you can turn the sensors off."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is it free?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. The maps are free. There is no account and no charge. The app collects no data."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I install it today?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Android is ready. The iOS app is not in the App Store yet. The same map also opens in the browser."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Which places are included?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Portugal downloads on first launch. Other countries and states are added from Settings. They are listed in the public catalog."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What can I save?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "You can drop a pin, name it and save it on the phone. You can remove it later."
+          }
+        }
+      ]
+    }
+  ]
+}
+  </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500&display=swap" rel="stylesheet">
@@ -87,7 +211,7 @@
 
       <div class="centre">
         <img class="lockup" src="logo.png" alt="Blackout Maps">
-        <h1>An offline map for when the network goes down: water, medical care, supplies, and a route to reach them.</h1>
+        <h1>Free offline emergency maps for when the network goes down: water, medical care, supplies, and a route to reach them.</h1>
         <div class="downloads">
           <a class="store ios" href="#download">
             <svg class="mark" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M16.2 12.5c0-2.2 1.8-3.2 1.9-3.3-1-1.5-2.6-1.7-3.2-1.7-1.3-.2-2.6.8-3.3.8-.7 0-1.8-.8-3-.7-1.5.1-2.9.9-3.6 2.3-1.6 2.7-.4 6.7 1.1 8.9.7 1.1 1.6 2.3 2.8 2.2 1.1 0 1.5-.7 2.8-.7s1.7.7 2.9.7 1.9-1.1 2.6-2.2c.8-1.2 1.2-2.3 1.2-2.4s-2.3-.9-2.2-3.9zM14.2 6.5c.6-.8 1-1.8.9-2.9-1 .1-2.1.7-2.7 1.5-.6.7-1.1 1.8-.9 2.8 1 .1 2.1-.5 2.7-1.4z"></path></svg>
@@ -229,11 +353,11 @@
         </details>
         <details>
           <summary>Is it free?</summary>
-          <p>Yes. There is no account and no charge. The app collects no data.</p>
+          <p>Yes. The maps are free. There is no account and no charge. The app collects no data.</p>
         </details>
         <details>
           <summary>Can I install it today?</summary>
-          <p>Android is ready. The iOS app is not in the App Store yet.</p>
+          <p>Android is ready. The iOS app is not in the App Store yet. The same map also opens in the browser.</p>
         </details>
         <details>
           <summary>Which places are included?</summary>
@@ -248,7 +372,7 @@
 
     <section class="band cta" id="download">
       <h2>Get the map.</h2>
-      <p class="lead">Android is ready to install. iOS is still to come. Download it while you still have a network.</p>
+      <p class="lead">The map is free. Android is ready to install. iOS is still to come. You can also open it in the browser. Download it while you still have a network.</p>
       <div class="downloads">
         <p class="store ios">
           <svg class="mark" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M16.2 12.5c0-2.2 1.8-3.2 1.9-3.3-1-1.5-2.6-1.7-3.2-1.7-1.3-.2-2.6.8-3.3.8-.7 0-1.8-.8-3-.7-1.5.1-2.9.9-3.6 2.3-1.6 2.7-.4 6.7 1.1 8.9.7 1.1 1.6 2.3 2.8 2.2 1.1 0 1.5-.7 2.8-.7s1.7.7 2.9.7 1.9-1.1 2.6-2.2c.8-1.2 1.2-2.3 1.2-2.4s-2.3-.9-2.2-3.9zM14.2 6.5c.6-.8 1-1.8.9-2.9-1 .1-2.1.7-2.7 1.5-.6.7-1.1 1.8-.9 2.8 1 .1 2.1-.5 2.7-1.4z"></path></svg>

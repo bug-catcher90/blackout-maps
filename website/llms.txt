@@ -1,0 +1,55 @@
+# Blackout Maps
+
+> Free offline emergency maps for when the network goes down. Find water, medical care and supplies, and a route to reach them. No account and no charge. The maps work after they are downloaded. Guides, supply links and videos are extras.
+
+The maps do not use GPS. You set your position. Portugal is included on first launch. Other places are added from Settings.
+
+## Free maps
+
+- [Blackout Maps](https://blackoutmaps.com/): the site. The free offline maps are the product.
+- [Map in the browser](https://blackoutmaps.com/maps/): the same map, with no install.
+- Android is free. iOS is not in the App Store yet. There is no public Play Store URL on the site.
+
+## Guides
+
+Paid illustrated PDFs. The files are not public. Prices below are the shelf prices in euros. Three guides are 15% off. All eight are 50% off.
+
+- [All guides](https://blackoutmaps.com/guides.html)
+- [Power in a Blackout](https://blackoutmaps.com/guides/power-in-a-blackout.html): €9.80. What to do when the lights go out, and how to size backup power for your home: power banks, stations, generators and solar, with worked examples.
+- [Water When the Tap Stops](https://blackoutmaps.com/guides/water-when-the-tap-stops.html): €7.80. How much water to store, how to make it safe with boiling, bleach or a filter, and how to cope for a week when the tap stops.
+- [Food Without Power](https://blackoutmaps.com/guides/food-without-power.html): €7.40. What to eat first when the power goes, a no-cook pantry that keeps, and how to cook safely without electricity.
+- [The Go-Bag and Leaving Home](https://blackoutmaps.com/guides/the-go-bag-and-leaving-home.html): €7.80. When to stay and when to leave, what to grab in ten minutes, how to pack a go-bag and how to find your family when phones fail.
+- [First Aid When Help Is Slow](https://blackoutmaps.com/guides/first-aid-when-help-is-slow.html): €9.40. Illustrated emergency cards for CPR, bleeding, choking and burns, and how to care for someone for hours when help is slow.
+- [Staying Informed and in Touch](https://blackoutmaps.com/guides/staying-informed-and-in-touch.html): €8.20. Reliable news, family contact and calls for help when phones, internet and power fail: radios, walkie-talkies and a plan that needs no signal.
+- [Fire, Gas and a Safe Home](https://blackoutmaps.com/guides/fire-gas-and-a-safe-home.html): €7.00. What to do in a fire, gas leak or carbon monoxide alarm, and how to keep candles, heaters and batteries safe in an outage.
+- [Warm, Cool and Sheltered](https://blackoutmaps.com/guides/warm-cool-and-sheltered.html): €7.40. How to keep people safe in a cold or hot home without power, set up a warm room and a cool room, and shelter from storms and smoke.
+
+## Supplies
+
+Suggestions with Amazon links. Blackout Maps earns a commission. The price is Amazon's price.
+
+- [Supplies](https://blackoutmaps.com/buying-guide.html)
+
+## Videos
+
+Beginner lessons. Each one plays from YouTube only after a click.
+
+- [Videos](https://blackoutmaps.com/prep-academy.html)
+- [Power](https://blackoutmaps.com/prep-academy.html#power): Electricity, meters, a multimeter, power stations and charging.
+- [Heating](https://blackoutmaps.com/prep-academy.html#heating): Staying warm indoors, safe heat, blankets and layers.
+- [Food](https://blackoutmaps.com/prep-academy.html#food): Finding food, what to cook, cooking off-grid, and food that keeps.
+- [Building](https://blackoutmaps.com/prep-academy.html#building): Shelters, tents, tarps, knots and repairs.
+- [Water](https://blackoutmaps.com/prep-academy.html#water): Storing, filtering and treating drinking water.
+- [First aid](https://blackoutmaps.com/prep-academy.html#first-aid): A basic kit, bleeding, cuts, burns and sprains.
+- [Communication](https://blackoutmaps.com/prep-academy.html#communication): Two-way radios, a weather radio and a family plan.
+- [Light](https://blackoutmaps.com/prep-academy.html#light): Headlamps, flashlights and lanterns.
+- [Sanitation](https://blackoutmaps.com/prep-academy.html#sanitation): A toilet and washing when the taps are off.
+- [Go-bag](https://blackoutmaps.com/prep-academy.html#go-bag): What to pack, and how to pack it.
+- [Home](https://blackoutmaps.com/prep-academy.html#home): The first hours of a blackout, utilities and a small fire.
+
+## Also
+
+- [Privacy](https://blackoutmaps.com/privacy.html): no account, no payment for the maps, no data collection, no GPS.
+- [Terms](https://blackoutmaps.com/terms.html)
+- [Catalog](https://github.com/bug-catcher90/blackout-maps/blob/main/catalog/README.md)
+- [Source](https://github.com/bug-catcher90/blackout-maps)
