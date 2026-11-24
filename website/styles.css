@@ -924,6 +924,25 @@ h3 {
 }
 
 .guide-desc { margin: 0.85rem 0 0; color: var(--muted); }
+
+.guide-desc + .guide-desc { margin-top: 0.65rem; }
+
+.guide-inside-heading {
+  margin: 1.35rem 0 0.55rem;
+  font-size: clamp(1.15rem, 2vw, 1.45rem);
+}
+
+.guide-inside {
+  margin: 0;
+  padding-left: 1.2rem;
+  color: var(--muted);
+}
+
+.guide-inside li { margin: 0.4rem 0; }
+
+.guide-note { margin: 1rem 0 0; color: var(--muted); }
+
+.shop-starter { margin-top: 0.75rem; max-width: 42rem; }
 .guide-meta { margin: 1.15rem 0 0; }
 
 .guide-price {
