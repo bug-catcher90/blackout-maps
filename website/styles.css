@@ -541,6 +541,13 @@ h3 {
   object-fit: contain;
 }
 
+#guide .slot-more {
+  margin-top: 0.85rem;
+  max-width: 100%;
+  white-space: normal;
+  text-align: center;
+}
+
 .slots p { margin-top: 0.35rem; }
 
 .guide.shop { text-align: left; }
@@ -656,11 +663,19 @@ h3 {
   font-size: 1.05rem;
 }
 
-.products p {
+.products p,
+.products li {
   margin: 0;
   color: var(--muted);
   font-size: 0.95rem;
 }
+
+.products ul {
+  margin: 0;
+  padding-left: 1.15rem;
+}
+
+.products li + li { margin-top: 0.3rem; }
 
 .products .buy {
   display: flex;
@@ -942,12 +957,6 @@ h3 {
 
 .guide-note { margin: 1rem 0 0; color: var(--muted); }
 
-.shop-starter {
-  max-width: 42rem;
-  margin: 0.75rem auto 0;
-}
-
-.shop-starter .guide-buy { margin-top: 0.85rem; }
 .guide-meta { margin: 1.15rem 0 0; }
 
 .guide-price {
