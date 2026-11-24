@@ -104,7 +104,27 @@
     <section class="band book-page">
       <article class="guide-book">
         <img src="/images/covers/sanitation-and-hygiene.png" width="875" height="1241" alt="Cover of Sanitation and Hygiene">
-        <div>
+        <div class="guide-previews">
+          <figure>
+            <button type="button">
+              <img src="/images/previews/sanitation-and-hygiene-how.webp" width="1000" height="1419" alt="How to use this book: Now in red, Prepare in blue, and Reference in yellow." loading="lazy" decoding="async">
+            </button>
+            <figcaption>How to use this book</figcaption>
+          </figure>
+          <figure>
+            <button type="button">
+              <img src="/images/previews/sanitation-and-hygiene-a.webp" width="1000" height="1419" alt="The bleach card, with dilutions for cleaning and for drinking water." loading="lazy" decoding="async">
+            </button>
+            <figcaption>Bleach card</figcaption>
+          </figure>
+          <figure>
+            <button type="button">
+              <img src="/images/previews/sanitation-and-hygiene-b.webp" width="1000" height="1419" alt="The toilet card for when the sewers work, and when they do not." loading="lazy" decoding="async">
+            </button>
+            <figcaption>Toilet card</figcaption>
+          </figure>
+        </div>
+        <div class="guide-copy">
           <h1>Sanitation and Hygiene</h1>
           <p class="guide-meta">42-page PDF</p>
           <p class="guide-price">€7.40</p>
@@ -136,6 +156,15 @@
       <a href="/#questions">Questions</a>
     </nav>
   </footer>
+  <dialog class="preview-dialog">
+    <div class="preview-bar">
+      <button type="button" data-preview-close>Close</button>
+    </div>
+    <figure>
+      <img alt="" width="1000" height="1419">
+      <figcaption></figcaption>
+    </figure>
+  </dialog>
   <script src="/guides.js"></script>
 </body>
 </html>
