@@ -304,5 +304,30 @@
     return
   }
 
+  var preview = document.querySelector(".preview-dialog")
+  if (preview && typeof preview.showModal === "function") {
+    var previewImg = preview.querySelector("img")
+    var previewCaption = preview.querySelector("figcaption")
+    document.querySelectorAll(".guide-previews button").forEach(function (button) {
+      button.addEventListener("click", function () {
+        var source = button.querySelector("img")
+        if (!source) return
+        previewImg.src = source.src
+        previewImg.alt = source.alt
+        previewImg.width = source.naturalWidth || 1000
+        previewImg.height = source.naturalHeight || 1419
+        var caption = button.parentElement && button.parentElement.querySelector("figcaption")
+        previewCaption.textContent = caption ? caption.textContent : ""
+        preview.showModal()
+      })
+    })
+    preview.querySelector("[data-preview-close]").addEventListener("click", function () {
+      preview.close()
+    })
+    preview.addEventListener("click", function (event) {
+      if (event.target === preview) preview.close()
+    })
+  }
+
   paint()
 })()

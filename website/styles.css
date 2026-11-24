@@ -1216,6 +1216,18 @@ a.book-cell:hover h3,
   padding-top: 0;
 }
 
+.book-page .guide-book > img { grid-column: 1; grid-row: 1; }
+
+.book-page .guide-copy { grid-column: 2; grid-row: 1; }
+
+.book-page .guide-previews {
+  grid-column: 1 / -1;
+  grid-row: 2;
+  grid-template-columns: repeat(3, minmax(0, 14rem));
+  justify-content: start;
+  margin-top: 2rem;
+}
+
 .cart-panel {
   width: min(36rem, 100%);
   margin: 2rem auto 0;
@@ -1428,6 +1440,12 @@ a.book-cell:hover h3,
   .featured-title img,
   .guide-book > img { width: min(11rem, 52%); }
   .book-page .guide-book > img { width: min(16rem, 72%); }
+  .book-page .guide-book > img,
+  .book-page .guide-copy,
+  .book-page .guide-previews { grid-column: 1; }
+  .book-page .guide-book > img { grid-row: 1; }
+  .book-page .guide-previews { grid-row: 2; margin-top: 1.25rem; }
+  .book-page .guide-copy { grid-row: 3; }
 }
 
 @media (max-width: 640px) {
