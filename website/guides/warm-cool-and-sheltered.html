@@ -104,7 +104,27 @@
     <section class="band book-page">
       <article class="guide-book">
         <img src="/images/covers/warm-cool-and-sheltered.png" width="875" height="1241" alt="Cover of Warm, Cool and Sheltered">
-        <div>
+        <div class="guide-previews">
+          <figure>
+            <button type="button">
+              <img src="/images/previews/warm-cool-and-sheltered-how.webp" width="1000" height="1419" alt="How to use this book: Now in red, Prepare in blue, and Reference in yellow." loading="lazy" decoding="async">
+            </button>
+            <figcaption>How to use this book</figcaption>
+          </figure>
+          <figure>
+            <button type="button">
+              <img src="/images/previews/warm-cool-and-sheltered-a.webp" width="1000" height="1419" alt="The temperature card, from a room that is too cold to one that is too hot." loading="lazy" decoding="async">
+            </button>
+            <figcaption>Temperature card</figcaption>
+          </figure>
+          <figure>
+            <button type="button">
+              <img src="/images/previews/warm-cool-and-sheltered-b.webp" width="1000" height="1419" alt="A checklist for setting up one warm room." loading="lazy" decoding="async">
+            </button>
+            <figcaption>Warm room checklist</figcaption>
+          </figure>
+        </div>
+        <div class="guide-copy">
           <h1>Warm, Cool and Sheltered</h1>
           <p class="guide-meta">42-page PDF</p>
           <p class="guide-price">€7.40</p>
@@ -136,6 +156,15 @@
       <a href="/#questions">Questions</a>
     </nav>
   </footer>
+  <dialog class="preview-dialog">
+    <div class="preview-bar">
+      <button type="button" data-preview-close>Close</button>
+    </div>
+    <figure>
+      <img alt="" width="1000" height="1419">
+      <figcaption></figcaption>
+    </figure>
+  </dialog>
   <script src="/guides.js"></script>
 </body>
 </html>
