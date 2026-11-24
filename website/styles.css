@@ -942,7 +942,12 @@ h3 {
 
 .guide-note { margin: 1rem 0 0; color: var(--muted); }
 
-.shop-starter { margin-top: 0.75rem; max-width: 42rem; }
+.shop-starter {
+  max-width: 42rem;
+  margin: 0.75rem auto 0;
+}
+
+.shop-starter .guide-buy { margin-top: 0.85rem; }
 .guide-meta { margin: 1.15rem 0 0; }
 
 .guide-price {
