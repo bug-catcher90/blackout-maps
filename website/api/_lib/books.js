@@ -78,6 +78,24 @@ const BOOKS = [
     downloadName: "Warm-Cool-and-Sheltered.pdf",
     file: "08-warm-cool-and-sheltered.pdf",
   },
+  {
+    slug: "sanitation-and-hygiene",
+    title: "Sanitation and Hygiene",
+    priceId: "price_1UfLryAONDEQ32BLjb2HKutB",
+    unitAmount: 740,
+    currency: "eur",
+    downloadName: "Sanitation-and-Hygiene.pdf",
+    file: "09-sanitation-and-hygiene.pdf",
+  },
+  {
+    slug: "neighbours-and-community",
+    title: "Neighbours and Community",
+    priceId: "price_1UfLryAONDEQ32BLjOfHeHVj",
+    unitAmount: 740,
+    currency: "eur",
+    downloadName: "Neighbours-and-Community.pdf",
+    file: "10-neighbours-and-community.pdf",
+  },
 ]
 
 function bookBySlug(slug) {
