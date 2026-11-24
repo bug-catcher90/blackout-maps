@@ -90,6 +90,13 @@
   <body>
     <h1 style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0">Free offline emergency map</h1>
     <div id="map"></div>
+    <p class="attribution">
+      <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">© OpenStreetMap contributors</a>
+      <span aria-hidden="true">·</span>
+      <a href="https://protomaps.com" target="_blank" rel="noopener">Protomaps</a>
+      <span aria-hidden="true">·</span>
+      <a href="https://www.naturalearthdata.com/" target="_blank" rel="noopener">Natural Earth</a>
+    </p>
     <div id="center-dot" class="center-dot" hidden aria-hidden="true"></div>
     <div id="center-pin" class="center-pin" hidden aria-hidden="true">
       <svg viewBox="0 0 24 36" aria-hidden="true"><path d="M12 1.5a10 10 0 0 0-10 10c0 7.2 10 22.5 10 22.5S22 18.7 22 11.5A10 10 0 0 0 12 1.5z" fill="#c2410c" stroke="#fff" stroke-width="1.5"/><circle cx="12" cy="11.5" r="3.2" fill="#fff"/></svg>
@@ -282,6 +289,7 @@
         <p class="settings-label" id="legal-label">Legal</p>
         <a class="settings-link" id="privacy-link" href="/privacy.html"><span>Política de privacidade</span><span aria-hidden="true">›</span></a>
         <a class="settings-link" id="terms-link" href="/terms.html"><span>Termos de utilização</span><span aria-hidden="true">›</span></a>
+        <a class="settings-link" id="credits-link" href="https://github.com/bug-catcher90/blackout-maps/blob/main/CREDITS.md" target="_blank" rel="noopener"><span>Créditos e licenças</span><span aria-hidden="true">›</span></a>
       </div>
     </section>
 
@@ -323,6 +331,6 @@
     </nav>
 
     <script src="/maps/vendor/pmtiles.js"></script>
-    <script type="module" src="/maps/app.js?v=40"></script>
+    <script type="module" src="/maps/app.js?v=41"></script>
   </body>
 </html>

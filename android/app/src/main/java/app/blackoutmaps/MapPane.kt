@@ -71,12 +71,11 @@ fun MapPane(model: AppModel, modifier: Modifier = Modifier) {
             ready.uiSettings.isRotateGesturesEnabled = false
             ready.uiSettings.isTiltGesturesEnabled = false
             ready.uiSettings.isCompassEnabled = false
+            ready.uiSettings.isAttributionEnabled = false
             val density = context.resources.displayMetrics.density
             val edge = (8 * density).toInt()
-            val aboveBar = (112 * density).toInt()
-            ready.uiSettings.attributionGravity = Gravity.BOTTOM or Gravity.END
+            val aboveBar = (140 * density).toInt()
             ready.uiSettings.logoGravity = Gravity.BOTTOM or Gravity.START
-            ready.uiSettings.setAttributionMargins(edge, edge, edge, aboveBar)
             ready.uiSettings.setLogoMargins(edge, edge, edge, aboveBar)
             ready.setMinZoomPreference(0.0)
             ready.setMaxZoomPreference(18.0)
