@@ -8,7 +8,9 @@
     { slug: "first-aid-when-help-is-slow", title: "First Aid When Help Is Slow", cents: 940 },
     { slug: "staying-informed-and-in-touch", title: "Staying Informed and in Touch", cents: 820 },
     { slug: "fire-gas-and-a-safe-home", title: "Fire, Gas and a Safe Home", cents: 700 },
-    { slug: "warm-cool-and-sheltered", title: "Warm, Cool and Sheltered", cents: 740 }
+    { slug: "warm-cool-and-sheltered", title: "Warm, Cool and Sheltered", cents: 740 },
+    { slug: "sanitation-and-hygiene", title: "Sanitation and Hygiene", cents: 740 },
+    { slug: "neighbours-and-community", title: "Neighbours and Community", cents: 740 }
   ]
 
   function lookup(slug) {
