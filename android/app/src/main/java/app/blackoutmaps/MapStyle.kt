@@ -27,7 +27,7 @@ object MapStyle {
               "tiles": ["$tiles"],
               "minzoom": 0,
               "maxzoom": $maxZoom,
-              "attribution": "© OpenStreetMap © Protomaps"
+              "attribution": "© OpenStreetMap contributors · Protomaps"
             }
           },
           "layers": [

@@ -70,7 +70,7 @@ data class MapPackage(
 
 enum class Tab { Explore, Pins, Settings }
 
-enum class Sheet { Routes, Steps, Category, Maps, Import, Languages, Privacy, Terms }
+enum class Sheet { Routes, Steps, Category, Maps, Import, Languages, Privacy, Terms, Credits }
 
 data class CameraJump(
     val serial: Long,
