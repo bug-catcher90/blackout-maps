@@ -307,7 +307,6 @@
   var preview = document.querySelector(".preview-dialog")
   if (preview && typeof preview.showModal === "function") {
     var previewImg = preview.querySelector("img")
-    var previewCaption = preview.querySelector("figcaption")
     document.querySelectorAll(".guide-previews button").forEach(function (button) {
       button.addEventListener("click", function () {
         var source = button.querySelector("img")
@@ -316,8 +315,6 @@
         previewImg.alt = source.alt
         previewImg.width = source.naturalWidth || 1000
         previewImg.height = source.naturalHeight || 1419
-        var caption = button.parentElement && button.parentElement.querySelector("figcaption")
-        previewCaption.textContent = caption ? caption.textContent : ""
         preview.showModal()
       })
     })
