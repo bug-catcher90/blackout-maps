@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Videos — Blackout Maps</title>
-  <meta name="description" content="How to choose and run a power station, use a radio, filter water, and pick supplies.">
+  <meta name="description" content="A beginner library of practical videos: power, heat, food, water, first aid, and looking after a home.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500&display=swap" rel="stylesheet">
@@ -23,30 +23,1374 @@
     </nav>
   </header>
 
+  <svg class="vh" aria-hidden="true" focusable="false">
+    <symbol id="i-power" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" stroke-linecap="round" d="M13 3 5.5 13H11l-1 8 8.5-11H12L13 3z"/></symbol>
+    <symbol id="i-heating" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" stroke-linecap="round" d="M12 21c-3.1 0-5.2-2.1-5.2-5 0-2.2 1.5-3.9 2.4-5.4.4 1.3 1.1 2 1.5 2.4.2-2 1.5-4 3.1-6.1 0 2.2 1.1 3.3 1.8 4.2 1.1 1.3 1.6 2.6 1.6 4.3 0 3-2.2 5.6-5.2 5.6z"/></symbol>
+    <symbol id="i-food" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" d="M4.5 11h15a7.5 7.5 0 0 1-15 0zM8 11V7.5M12 11V5.5M16 11V7.5"/></symbol>
+    <symbol id="i-building" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" stroke-linecap="round" d="M3.5 11 12 4l8.5 7M6 10.5V20h12v-9.5"/></symbol>
+    <symbol id="i-water" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" d="M12 3.2s6 6.2 6 10.1a6 6 0 0 1-12 0c0-3.9 6-10.1 6-10.1z"/></symbol>
+    <symbol id="i-medical" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" d="M12 5v14M5 12h14"/></symbol>
+    <symbol id="i-radio" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" d="M5 13.2a7 7 0 0 1 14 0M8 13.2a4 4 0 0 1 8 0M12 16.4v3M9.2 19.5h5.6"/></symbol>
+    <symbol id="i-light" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" stroke-linecap="round" d="M9 18h6M10 21h4M12 3a6 6 0 0 0-3.2 11.1c.5.4.8 1 .8 1.6V17h4.8v-1.3c0-.6.3-1.2.8-1.6A6 6 0 0 0 12 3z"/></symbol>
+    <symbol id="i-clean" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" stroke-linecap="round" d="M8 10.2h8v7.2H8zM9.2 10.2V8.2A1.4 1.4 0 0 1 10.6 6.8h2.8A1.4 1.4 0 0 1 14.8 8.2v2"/></symbol>
+    <symbol id="i-bag" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" stroke-linecap="round" d="M6 8.2h12l-.8 11.2H6.8L6 8.2zM9 8.2V6.6A1.6 1.6 0 0 1 10.6 5h2.8A1.6 1.6 0 0 1 15 6.6v1.6"/></symbol>
+    <symbol id="i-home" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" stroke-linecap="round" d="M4 11.2 12 4.5l8 6.7M7.2 10.6V19h9.6v-8.4"/></symbol>
+  </svg>
+
   <main>
-    <section class="band">
+    <section class="band guide shop academy">
       <h1>Videos</h1>
-      <p class="lead">Practical lessons for a first outage. Choose and run a power station, use a radio, filter water, and pick the gear in each supply category.</p>
+      <p class="lead">Practical videos for someone starting from zero. Power, water, food, heat, a go-bag, and how to look after a home. No engineering.</p>
 
       <form class="res-search" role="search">
-        <label class="vh" for="res-q">Search topics</label>
-        <input id="res-q" type="search" placeholder="Search topics" autocomplete="off" enterkeyhint="search">
+        <label class="vh" for="res-q">Search videos</label>
+        <input id="res-q" type="search" placeholder="Search videos" autocomplete="off" enterkeyhint="search">
       </form>
 
-      <div class="res-layout">
-        <div class="res-main">
-          <div class="res-picks">
-            <label>Category
-              <select id="res-cat"></select>
-            </label>
-            <label>Topic
-              <select id="res-sub"></select>
-            </label>
+      <nav class="cat-row" aria-label="Categories">
+        <a href="#power"><svg class="ico"><use href="#i-power"/></svg>Power</a>
+        <a href="#heating"><svg class="ico"><use href="#i-heating"/></svg>Heating</a>
+        <a href="#food"><svg class="ico"><use href="#i-food"/></svg>Food</a>
+        <a href="#building"><svg class="ico"><use href="#i-building"/></svg>Building</a>
+        <a href="#water"><svg class="ico"><use href="#i-water"/></svg>Water</a>
+        <a href="#first-aid"><svg class="ico"><use href="#i-medical"/></svg>First aid</a>
+        <a href="#communication"><svg class="ico"><use href="#i-radio"/></svg>Communication</a>
+        <a href="#light"><svg class="ico"><use href="#i-light"/></svg>Light</a>
+        <a href="#sanitation"><svg class="ico"><use href="#i-clean"/></svg>Sanitation</a>
+        <a href="#go-bag"><svg class="ico"><use href="#i-bag"/></svg>Go-bag</a>
+        <a href="#home"><svg class="ico"><use href="#i-home"/></svg>Home</a>
+      </nav>
+
+      <p class="vid-empty" id="vid-empty" hidden>No videos.</p>
+
+      <section class="vid-cat" id="power">
+        <h2><svg class="ico" aria-hidden="true"><use href="#i-power"/></svg>Power</h2>
+        <p class="cat-lead">The words on a battery, how to measure what you use, and how to keep a phone and a small station running.</p>
+        <section class="vid-sub" id="power-electricity">
+          <h3>Electricity 101</h3>
+          <p class="cat-lead">Volts, amps, watts, watt-hours and milliamp-hours, in plain language.</p>
+          <div class="clip-grid">
+          <article class="clip" data-find="power electricity 101 volts, amps, and watts techquickie volts, amps, and watts explained">
+            <h4>Volts, amps, and watts</h4>
+            <button type="button" class="video-poster" data-yt="mvuHsu8S6v8" data-title="Volts, amps, and watts">
+              <img src="https://i.ytimg.com/vi/mvuHsu8S6v8/hqdefault.jpg" alt="" width="480" height="360" loading="lazy" decoding="async">
+              <span class="play" aria-hidden="true"></span>
+            </button>
+            <p>By <a href="https://www.youtube.com/@techquickie">Techquickie</a>.</p>
+          </article>
+          <article class="clip" data-find="power electricity 101 watts and watt-hours makerbrothers the first thing you need to know about solar: watts vs. watt-hours">
+            <h4>Watts and watt-hours</h4>
+            <button type="button" class="video-poster" data-yt="fJ3DUrl2Zoo" data-title="Watts and watt-hours">
+              <img src="https://i.ytimg.com/vi/fJ3DUrl2Zoo/hqdefault.jpg" alt="" width="480" height="360" loading="lazy" decoding="async">
+              <span class="play" aria-hidden="true"></span>
+            </button>
+            <p>By <a href="https://www.youtube.com/@MakerBrothers">MakerBrothers</a>.</p>
+          </article>
+          <article class="clip" data-find="power electricity 101 watt-hours and amp-hours the solar lab watt hours vs amp hours explained! - what&#x27;s the difference?">
+            <h4>Watt-hours and amp-hours</h4>
+            <button type="button" class="video-poster" data-yt="6BGFiqpgFAk" data-title="Watt-hours and amp-hours">
+              <img src="https://i.ytimg.com/vi/6BGFiqpgFAk/hqdefault.jpg" alt="" width="480" height="360" loading="lazy" decoding="async">
+              <span class="play" aria-hidden="true"></span>
+            </button>
+            <p>By <a href="https://www.youtube.com/@TheSolarLab">The Solar Lab</a>.</p>
+          </article>
+          <article class="clip" data-find="power electricity 101 what the mah number on a power bank means leftymaker power bank capacity is confusing. let me explain">
+            <h4>What the mAh number on a power bank means</h4>
+            <button type="button" class="video-poster" data-yt="u5HurgT3HNA" data-title="What the mAh number on a power bank means">
+              <img src="https://i.ytimg.com/vi/u5HurgT3HNA/hqdefault.jpg" alt="" width="480" height="360" loading="lazy" decoding="async">
+              <span class="play" aria-hidden="true"></span>
+            </button>
+            <p>By <a href="https://www.youtube.com/@LeftyMaker">LeftyMaker</a>.</p>
+          </article>
           </div>
-          <div id="res-videos"></div>
-        </div>
-        <nav class="res-side" id="res-side" aria-label="Categories"></nav>
-      </div>
+        </section>
+        <section class="vid-sub" id="power-meters">
+          <h3>Measuring what you use</h3>
+          <p class="cat-lead">A plug-in meter tells you what a fridge, a lamp or a router actually draws.</p>
+          <div class="clip-grid">
+          <article class="clip" data-find="power measuring what you use how to monitor electricity use at home this old house how to monitor electricity use | this old house">
+            <h4>How to monitor electricity use at home</h4>
+            <button type="button" class="video-poster" data-yt="D1jtcr2bXmI" data-title="How to monitor electricity use at home">
+              <img src="https://i.ytimg.com/vi/D1jtcr2bXmI/hqdefault.jpg" alt="" width="480" height="360" loading="lazy" decoding="async">
+              <span class="play" aria-hidden="true"></span>
+            </button>
+            <p>By <a href="https://www.youtube.com/@thisoldhouse">This Old House</a>.</p>
+          </article>
+          <article class="clip" data-find="power measuring what you use how to use a kill a watt meter sciremc how to use the killawatt ez meter">
+            <h4>How to use a Kill A Watt meter</h4>
+            <button type="button" class="video-poster" data-yt="7K2uBZKLOEg" data-title="How to use a Kill A Watt meter">
+              <img src="https://i.ytimg.com/vi/7K2uBZKLOEg/hqdefault.jpg" alt="" width="480" height="360" loading="lazy" decoding="async">
+              <span class="play" aria-hidden="true"></span>
+            </button>
+            <p>By <a href="https://www.youtube.com/@sciremc">sciremc</a>.</p>
+          </article>
+          <article class="clip" data-find="power measuring what you use how to use a plug-in energy monitor codemadublin plug-in energy monitor instructional video">
+            <h4>How to use a plug-in energy monitor</h4>
+            <button type="button" class="video-poster" data-yt="FCLWNahqtmQ" data-title="How to use a plug-in energy monitor">
+              <img src="https://i.ytimg.com/vi/FCLWNahqtmQ/hqdefault.jpg" alt="" width="480" height="360" loading="lazy" decoding="async">
+              <span class="play" aria-hidden="true"></span>
+            </button>
+            <p>By <a href="https://www.youtube.com/@CodemaDublin">CodemaDublin</a>.</p>
+          </article>
+          <article class="clip" data-find="power measuring what you use how to measure what an appliance uses everyday solar easily measure how much energy your appliances consume">
+            <h4>How to measure what an appliance uses</h4>
+            <button type="button" class="video-poster" data-yt="YdFth2RTwCc" data-title="How to measure what an appliance uses">
+              <img src="https://i.ytimg.com/vi/YdFth2RTwCc/hqdefault.jpg" alt="" width="480" height="360" loading="lazy" decoding="async">
+              <span class="play" aria-hidden="true"></span>
+            </button>
+            <p>By <a href="https://www.youtube.com/@everydaysolar">Everyday Solar</a>.</p>
+          </article>
+          </div>
+        </section>
+        <section class="vid-sub" id="power-tools">
+          <h3>Basic tools</h3>
+          <p class="cat-lead">A multimeter for voltage, batteries and a simple continuity check.</p>
+          <div class="clip-grid">
+          <article class="clip" data-find="power basic tools how to use a multimeter the home depot how to use a multimeter | the home depot">
+            <h4>How to use a multimeter</h4>
+            <button type="button" class="video-poster" data-yt="YdZfUEb9s-o" data-title="How to use a multimeter">
+              <img src="https://i.ytimg.com/vi/YdZfUEb9s-o/hqdefault.jpg" alt="" width="480" height="360" loading="lazy" decoding="async">
+              <span class="play" aria-hidden="true"></span>
+            </button>
+            <p>By <a href="https://www.youtube.com/@HomeDepot">The Home Depot</a>.</p>
+          </article>
+          <article class="clip" data-find="power basic tools how to use a multimeter, from lowe’s lowe&#x27;s home improvement how to use a multimeter | how to anything">
+            <h4>How to use a multimeter, from Lowe’s</h4>
+            <button type="button" class="video-poster" data-yt="StoCDKFPJKo" data-title="How to use a multimeter, from Lowe’s">
+              <img src="https://i.ytimg.com/vi/StoCDKFPJKo/hqdefault.jpg" alt="" width="480" height="360" loading="lazy" decoding="async">
+              <span class="play" aria-hidden="true"></span>
+            </button>
+            <p>By <a href="https://www.youtube.com/@lowes">Lowe&#x27;s Home Improvement</a>.</p>
+          </article>
+          <article class="clip" data-find="power basic tools how to test household batteries with a multimeter the fixer 2 how to test common household batteries with a multimeter">
+            <h4>How to test household batteries with a multimeter</h4>
+            <button type="button" class="video-poster" data-yt="CdUwAwgoHVM" data-title="How to test household batteries with a multimeter">
+              <img src="https://i.ytimg.com/vi/CdUwAwgoHVM/hqdefault.jpg" alt="" width="480" height="360" loading="lazy" decoding="async">
+              <span class="play" aria-hidden="true"></span>
+            </button>
+            <p>By <a href="https://www.youtube.com/@thefixerhomerepair2">The Fixer 2</a>.</p>
+          </article>
+          <article class="clip" data-find="power basic tools how to test continuity with a multimeter amre supply how to do a continuity test with a multimeter | repair and replace">
+            <h4>How to test continuity with a multimeter</h4>
+            <button type="button" class="video-poster" data-yt="iIQ14vTxVK0" data-title="How to test continuity with a multimeter">
+              <img src="https://i.ytimg.com/vi/iIQ14vTxVK0/hqdefault.jpg" alt="" width="480" height="360" loading="lazy" decoding="async">
+              <span class="play" aria-hidden="true"></span>
+            </button>
+            <p>By <a href="https://www.youtube.com/@AmreSupply">AMRE Supply</a>.</p>
+          </article>
+          </div>
+        </section>
+        <section class="vid-sub" id="power-stations">
+          <h3>Power stations</h3>
+          <p class="cat-lead">How to choose one, turn it on, and charge it.</p>
+          <div class="clip-grid">
+          <article class="clip" data-find="power power stations how to pick a portable power station the solar lab how to pick the right portable power station (for beginners)">
+            <h4>How to pick a portable power station</h4>
+            <button type="button" class="video-poster" data-yt="M86lpypvSSE" data-title="How to pick a portable power station">
+              <img src="https://i.ytimg.com/vi/M86lpypvSSE/hqdefault.jpg" alt="" width="480" height="360" loading="lazy" decoding="async">
+              <span class="play" aria-hidden="true"></span>
+            </button>
+            <p>By <a href="https://www.youtube.com/@TheSolarLab">The Solar Lab</a>.</p>
+          </article>
+          <article class="clip" data-find="power power stations how to choose a power station reewray outdoors how to pick the best portable power station for you *unsponsored*">
+            <h4>How to choose a power station</h4>
+            <button type="button" class="video-poster" data-yt="NWWI9DgT8qM" data-title="How to choose a power station">
+              <img src="https://i.ytimg.com/vi/NWWI9DgT8qM/hqdefault.jpg" alt="" width="480" height="360" loading="lazy" decoding="async">
+              <span class="play" aria-hidden="true"></span>
+            </button>
+            <p>By <a href="https://www.youtube.com/@ReeWrayOutdoors">ReeWray Outdoors</a>.</p>
+          </article>
+          <article class="clip" data-find="power power stations using a power station for the first time ecoflow support using river and river max for the first time">
+            <h4>Using a power station for the first time</h4>
+            <button type="button" class="video-poster" data-yt="sIvy00eeg2E" data-title="Using a power station for the first time">
+              <img src="https://i.ytimg.com/vi/sIvy00eeg2E/hqdefault.jpg" alt="" width="480" height="360" loading="lazy" decoding="async">
+              <span class="play" aria-hidden="true"></span>
+            </button>
+            <p>By <a href="https://www.youtube.com/@EcoFlowSupport">EcoFlow Support</a>.</p>
+          </article>
+          <article class="clip" data-find="power power stations how to charge a power station ecoflow delta 2 tutorials - how to charge">
+            <h4>How to charge a power station</h4>
+            <button type="button" class="video-poster" data-yt="g1O0zgCNZag" data-title="How to charge a power station">
+              <img src="https://i.ytimg.com/vi/g1O0zgCNZag/hqdefault.jpg" alt="" width="480" height="360" loading="lazy" decoding="async">
+              <span class="play" aria-hidden="true"></span>
+            </button>
+            <p>By <a href="https://www.youtube.com/@EcoFlowTech">EcoFlow</a>.</p>
+          </article>
+          <article class="clip" data-find="power power stations three ways to recharge a power station jackery 3 different ways to recharge jackery explorer 500">
+            <h4>Three ways to recharge a power station</h4>
+            <button type="button" class="video-poster" data-yt="b9nTtq3vBCo" data-title="Three ways to recharge a power station">
+              <img src="https://i.ytimg.com/vi/b9nTtq3vBCo/hqdefault.jpg" alt="" width="480" height="360" loading="lazy" decoding="async">
+              <span class="play" aria-hidden="true"></span>
+            </button>
+            <p>By <a href="https://www.youtube.com/@Jackeryusa">Jackery</a>.</p>
+          </article>
+          </div>
+        </section>
+        <section class="vid-sub" id="power-charging">
+          <h3>Charging</h3>
+          <p class="cat-lead">Power banks, and keeping a phone alive when the sockets are dead.</p>
+          <div class="clip-grid">
+          <article class="clip" data-find="power charging how to charge a phone from a power bank helpful diy how to use a portable power bank to charge your devices-tutorial">
+            <h4>How to charge a phone from a power bank</h4>
+            <button type="button" class="video-poster" data-yt="_PavHvvlUU8" data-title="How to charge a phone from a power bank">
+              <img src="https://i.ytimg.com/vi/_PavHvvlUU8/hqdefault.jpg" alt="" width="480" height="360" loading="lazy" decoding="async">
+              <span class="play" aria-hidden="true"></span>
+            </button>
+            <p>By <a href="https://www.youtube.com/@HelpfulDIY">Helpful DIY</a>.</p>
+          </article>
+          <article class="clip" data-find="power charging how a power bank works anker innovate &amp; educate how does a power bank work? a beginner&#x27;s guide">
+            <h4>How a power bank works</h4>
+            <button type="button" class="video-poster" data-yt="04b1qhUgPbc" data-title="How a power bank works">
+              <img src="https://i.ytimg.com/vi/04b1qhUgPbc/hqdefault.jpg" alt="" width="480" height="360" loading="lazy" decoding="async">
+              <span class="play" aria-hidden="true"></span>
+            </button>
+            <p>By <a href="https://www.youtube.com/@AnkerInnovateEducate">Anker Innovate &amp; Educate</a>.</p>
+          </article>
+          <article class="clip" data-find="power charging how to charge a phone when the grid is down city prepping how to charge a phone without electricity (grid down)">
+            <h4>How to charge a phone when the grid is down</h4>
+            <button type="button" class="video-poster" data-yt="Ms_m4AaNg3o" data-title="How to charge a phone when the grid is down">
+              <img src="https://i.ytimg.com/vi/Ms_m4AaNg3o/hqdefault.jpg" alt="" width="480" height="360" loading="lazy" decoding="async">
+              <span class="play" aria-hidden="true"></span>
+            </button>
+            <p>By <a href="https://www.youtube.com/@CityPrepping">City Prepping</a>.</p>
+          </article>
+          <article class="clip" data-find="power charging how to charge a phone while camping or in an outage northwoods discovery how to charge a cell phone in a power outage or when camping.">
+            <h4>How to charge a phone while camping or in an outage</h4>
+            <button type="button" class="video-poster" data-yt="e4xyc5iT0Ng" data-title="How to charge a phone while camping or in an outage">
+              <img src="https://i.ytimg.com/vi/e4xyc5iT0Ng/hqdefault.jpg" alt="" width="480" height="360" loading="lazy" decoding="async">
+              <span class="play" aria-hidden="true"></span>
+            </button>
+            <p>By <a href="https://www.youtube.com/@northwoodsdiscovery6962">northwoods discovery</a>.</p>
+          </article>
+          </div>
+        </section>
+      </section>
+      <section class="vid-cat" id="heating">
+        <h2><svg class="ico" aria-hidden="true"><use href="#i-heating"/></svg>Heating</h2>
+        <p class="cat-lead">Stay warm without making the air in the room dangerous.</p>
+        <section class="vid-sub" id="heating-indoors">
+          <h3>Staying warm indoors</h3>
+          <p class="cat-lead">One room, layers, and ways to hold the heat you already have.</p>
+          <div class="clip-grid">
+          <article class="clip" data-find="heating staying warm indoors how to keep warm in a winter power outage the provident prepper 6 lifesaving tips to keep warm during a winter power outage">
+            <h4>How to keep warm in a winter power outage</h4>
+            <button type="button" class="video-poster" data-yt="erq-QuCN0G0" data-title="How to keep warm in a winter power outage">
+              <img src="https://i.ytimg.com/vi/erq-QuCN0G0/hqdefault.jpg" alt="" width="480" height="360" loading="lazy" decoding="async">
+              <span class="play" aria-hidden="true"></span>
+            </button>
+            <p>By <a href="https://www.youtube.com/@TheProvidentPrepper">The Provident Prepper</a>.</p>
+          </article>
+          <article class="clip" data-find="heating staying warm indoors how to stay warm when the power is out city prepping how to survive a winter power outage and stay warm">
+            <h4>How to stay warm when the power is out</h4>
+            <button type="button" class="video-poster" data-yt="yriC49g5dHA" data-title="How to stay warm when the power is out">
+              <img src="https://i.ytimg.com/vi/yriC49g5dHA/hqdefault.jpg" alt="" width="480" height="360" loading="lazy" decoding="async">
+              <span class="play" aria-hidden="true"></span>
+            </button>
+            <p>By <a href="https://www.youtube.com/@CityPrepping">City Prepping</a>.</p>
+          </article>
+          <article class="clip" data-find="heating staying warm indoors how to keep one room warm in a blackout redwood protocol how to keep one room warm in a blackout">
+            <h4>How to keep one room warm in a blackout</h4>
+            <button type="button" class="video-poster" data-yt="CeHQ5aA_NJ8" data-title="How to keep one room warm in a blackout">
+              <img src="https://i.ytimg.com/vi/CeHQ5aA_NJ8/hqdefault.jpg" alt="" width="480" height="360" loading="lazy" decoding="async">
+              <span class="play" aria-hidden="true"></span>
+            </button>
+            <p>By <a href="https://www.youtube.com/@RedwoodProtocol">Redwood Protocol</a>.</p>
+          </article>
+          </div>
+        </section>
+        <section class="vid-sub" id="heating-safe-heat">
+          <h3>Safe heat</h3>
+          <p class="cat-lead">A heater can warm a room. A gas oven or a barbecue indoors can kill.</p>
+          <div class="clip-grid">
+          <article class="clip" data-find="heating safe heat do not heat your home with a gas oven centers for disease control and prevention (cdc) do not heat your home with gas oven">
+            <h4>Do not heat your home with a gas oven</h4>
+            <button type="button" class="video-poster" data-yt="Jx7KjSb76xA" data-title="Do not heat your home with a gas oven">
+              <img src="https://i.ytimg.com/vi/Jx7KjSb76xA/hqdefault.jpg" alt="" width="480" height="360" loading="lazy" decoding="async">
+              <span class="play" aria-hidden="true"></span>
+            </button>
+            <p>By <a href="https://www.youtube.com/@CDC">Centers for Disease Control and Prevention (CDC)</a>.</p>
+          </article>
+          <article class="clip" data-find="heating safe heat portable heater safety fema portable heater safety">
+            <h4>Portable heater safety</h4>
+            <button type="button" class="video-poster" data-yt="9AMQ1ASnmNU" data-title="Portable heater safety">
+              <img src="https://i.ytimg.com/vi/9AMQ1ASnmNU/hqdefault.jpg" alt="" width="480" height="360" loading="lazy" decoding="async">
+              <span class="play" aria-hidden="true"></span>
+            </button>
+            <p>By <a href="https://www.youtube.com/@FEMA">FEMA</a>.</p>
+          </article>
+          <article class="clip" data-find="heating safe heat space heater and carbon monoxide safety wtvm news leader 9 red cross shares crucial space heater safety tips ahead of cold snap">
+            <h4>Space heater and carbon monoxide safety</h4>
+            <button type="button" class="video-poster" data-yt="6OBth4vpgOQ" data-title="Space heater and carbon monoxide safety">
+              <img src="https://i.ytimg.com/vi/6OBth4vpgOQ/hqdefault.jpg" alt="" width="480" height="360" loading="lazy" decoding="async">
+              <span class="play" aria-hidden="true"></span>
+            </button>
+            <p>By <a href="https://www.youtube.com/@wtvmnewsleader">WTVM News Leader 9</a>.</p>
+          </article>
+          </div>
+        </section>
+        <section class="vid-sub" id="heating-bedding">
+          <h3>Blankets and layers</h3>
+          <p class="cat-lead">Foil blankets, sleeping bags, and the clothes you already own.</p>
+          <div class="clip-grid">
+          <article class="clip" data-find="heating blankets and layers how to use an emergency blanket motorcycle training concepts how to use an emergency blanket">
+            <h4>How to use an emergency blanket</h4>
+            <button type="button" class="video-poster" data-yt="ecd1krG_GbQ" data-title="How to use an emergency blanket">
+              <img src="https://i.ytimg.com/vi/ecd1krG_GbQ/hqdefault.jpg" alt="" width="480" height="360" loading="lazy" decoding="async">
+              <span class="play" aria-hidden="true"></span>
+            </button>
+            <p>By <a href="https://www.youtube.com/@MotorcycleTrainingConcepts">Motorcycle Training Concepts</a>.</p>
+          </article>
+          <article class="clip" data-find="heating blankets and layers how to use a survival blanket north american rescue - official channel how to use the nar survival blanket">
+            <h4>How to use a survival blanket</h4>
+            <button type="button" class="video-poster" data-yt="nmWGxvrw8CA" data-title="How to use a survival blanket">
+              <img src="https://i.ytimg.com/vi/nmWGxvrw8CA/hqdefault.jpg" alt="" width="480" height="360" loading="lazy" decoding="async">
+              <span class="play" aria-hidden="true"></span>
+            </button>
+            <p>By <a href="https://www.youtube.com/@Narescue01">North American Rescue - Official Channel</a>.</p>
+          </article>
+          <article class="clip" data-find="heating blankets and layers how sleeping bag temperature ratings work rei how do sleeping bag temperature ratings work? || rei">
+            <h4>How sleeping bag temperature ratings work</h4>
+            <button type="button" class="video-poster" data-yt="xciuMljlcZI" data-title="How sleeping bag temperature ratings work">
+              <img src="https://i.ytimg.com/vi/xciuMljlcZI/hqdefault.jpg" alt="" width="480" height="360" loading="lazy" decoding="async">
+              <span class="play" aria-hidden="true"></span>
+            </button>
+            <p>By <a href="https://www.youtube.com/@rei">REI</a>.</p>
+          </article>
+          <article class="clip" data-find="heating blankets and layers how to layer clothes to stay warm justin outdoors staying warm at camp | layering and clothing system for winter camping |">
+            <h4>How to layer clothes to stay warm</h4>
+            <button type="button" class="video-poster" data-yt="Agje8t2t3kE" data-title="How to layer clothes to stay warm">
+              <img src="https://i.ytimg.com/vi/Agje8t2t3kE/hqdefault.jpg" alt="" width="480" height="360" loading="lazy" decoding="async">
+              <span class="play" aria-hidden="true"></span>
+            </button>
+            <p>By <a href="https://www.youtube.com/@JustinOutdoors">Justin Outdoors</a>.</p>
+          </article>
+          </div>
+        </section>
+      </section>
+      <section class="vid-cat" id="food">
+        <h2><svg class="ico" aria-hidden="true"><use href="#i-food"/></svg>Food</h2>
+        <p class="cat-lead">What to eat, how to cook it without the mains, and food that can wait on a shelf.</p>
+        <section class="vid-sub" id="food-foraging">
+          <h3>Finding food outside</h3>
+          <p class="cat-lead">Learn the safety rules first. Do not eat a plant unless you are sure what it is.</p>
+          <div class="clip-grid">
+          <article class="clip" data-find="food finding food outside how to start foraging atomic shrimp how to get started foraging - practical guidance for absolute beginners">
+            <h4>How to start foraging</h4>
+            <button type="button" class="video-poster" data-yt="iHPW8Z323F0" data-title="How to start foraging">
+              <img src="https://i.ytimg.com/vi/iHPW8Z323F0/hqdefault.jpg" alt="" width="480" height="360" loading="lazy" decoding="async">
+              <span class="play" aria-hidden="true"></span>
+            </button>
+            <p>By <a href="https://www.youtube.com/@AtomicShrimp">Atomic Shrimp</a>.</p>
+          </article>
+          <article class="clip" data-find="food finding food outside safety and ethics before you forage urban greens top 10 rules of urban foraging ethics and safety">
+            <h4>Safety and ethics before you forage</h4>
+            <button type="button" class="video-poster" data-yt="IKDplJVnL1A" data-title="Safety and ethics before you forage">
+              <img src="https://i.ytimg.com/vi/IKDplJVnL1A/hqdefault.jpg" alt="" width="480" height="360" loading="lazy" decoding="async">
+              <span class="play" aria-hidden="true"></span>
+            </button>
+            <p>By <a href="https://www.youtube.com/@UrbanGreens-kam">Urban Greens</a>.</p>
+          </article>
+          <article class="clip" data-find="food finding food outside easy edible plants for a beginner robin greenfield 11 easy edible plants for beginner foragers- eating wild food">
+            <h4>Easy edible plants for a beginner</h4>
+            <button type="button" class="video-poster" data-yt="ew5yeWqsWY8" data-title="Easy edible plants for a beginner">
+              <img src="https://i.ytimg.com/vi/ew5yeWqsWY8/hqdefault.jpg" alt="" width="480" height="360" loading="lazy" decoding="async">
+              <span class="play" aria-hidden="true"></span>
+            </button>
+            <p>By <a href="https://www.youtube.com/@Robin.Greenfield">Robin Greenfield</a>.</p>
+          </article>
+          <article class="clip" data-find="food finding food outside five plants to start with uk wildcrafts new to foraging? start here! 5 plants for absolute beginners">
+            <h4>Five plants to start with</h4>
+            <button type="button" class="video-poster" data-yt="VdgP8ui9gr4" data-title="Five plants to start with">
+              <img src="https://i.ytimg.com/vi/VdgP8ui9gr4/hqdefault.jpg" alt="" width="480" height="360" loading="lazy" decoding="async">
+              <span class="play" aria-hidden="true"></span>
+            </button>
+            <p>By <a href="https://www.youtube.com/@UKWILDCRAFTS">UK Wildcrafts</a>.</p>
+          </article>
+          </div>
+        </section>
+        <section class="vid-sub" id="food-meals">
+          <h3>What to cook</h3>
+          <p class="cat-lead">Meals that do not need a fridge, and simple camp food.</p>
+          <div class="clip-grid">
+          <article class="clip" data-find="food what to cook no-cook foods for a power outage living on a dime to grow rich 50 no-cook foods in a power outage - cooking without power">
+            <h4>No-cook foods for a power outage</h4>
+            <button type="button" class="video-poster" data-yt="dUMGRjACAEM" data-title="No-cook foods for a power outage">
+              <img src="https://i.ytimg.com/vi/dUMGRjACAEM/hqdefault.jpg" alt="" width="480" height="360" loading="lazy" decoding="async">
+              <span class="play" aria-hidden="true"></span>
+            </button>
+            <p>By <a href="https://www.youtube.com/@LivingOnADime">Living On A Dime To Grow Rich</a>.</p>
+          </article>
+          <article class="clip" data-find="food what to cook pantry meals that do not need a fridge see mindy mom emergency meals from the pantry, no fridge required!">
+            <h4>Pantry meals that do not need a fridge</h4>
+            <button type="button" class="video-poster" data-yt="DWe3dJuz1j4" data-title="Pantry meals that do not need a fridge">
+              <img src="https://i.ytimg.com/vi/DWe3dJuz1j4/hqdefault.jpg" alt="" width="480" height="360" loading="lazy" decoding="async">
+              <span class="play" aria-hidden="true"></span>
+            </button>
+            <p>By <a href="https://www.youtube.com/@SeeMindyMom">See Mindy Mom</a>.</p>
+          </article>
+          <article class="clip" data-find="food what to cook easy one-pot camping dinners amanda outside 11 easy one pot (or pan) camping dinner ideas *camp stove cooking*">
+            <h4>Easy one-pot camping dinners</h4>
+            <button type="button" class="video-poster" data-yt="wIooZUuMIzM" data-title="Easy one-pot camping dinners">
+              <img src="https://i.ytimg.com/vi/wIooZUuMIzM/hqdefault.jpg" alt="" width="480" height="360" loading="lazy" decoding="async">
+              <span class="play" aria-hidden="true"></span>
+            </button>
+            <p>By <a href="https://www.youtube.com/@amanda.outside">Amanda Outside</a>.</p>
+          </article>
+          <article class="clip" data-find="food what to cook simple backpacking meals chris cage 5 easy backpacking meal recipes [5 ingredients or less]">
+            <h4>Simple backpacking meals</h4>
+            <button type="button" class="video-poster" data-yt="5mz0uW4qSsg" data-title="Simple backpacking meals">
+              <img src="https://i.ytimg.com/vi/5mz0uW4qSsg/hqdefault.jpg" alt="" width="480" height="360" loading="lazy" decoding="async">
+              <span class="play" aria-hidden="true"></span>
+            </button>
+            <p>By <a href="https://www.youtube.com/@chriscage">Chris Cage</a>.</p>
+          </article>
+          </div>
+        </section>
+        <section class="vid-sub" id="food-cooking">
+          <h3>Cooking off-grid</h3>
+          <p class="cat-lead">A camp stove, a freeze-dried pouch, and a way to heat water.</p>
+          <div class="clip-grid">
+          <article class="clip" data-find="food cooking off-grid how to light a camp stove rei how to light a camp stove! both canister and liquid fuel stoves">
+            <h4>How to light a camp stove</h4>
+            <button type="button" class="video-poster" data-yt="80KdQ6_ZGyY" data-title="How to light a camp stove">
+              <img src="https://i.ytimg.com/vi/80KdQ6_ZGyY/hqdefault.jpg" alt="" width="480" height="360" loading="lazy" decoding="async">
+              <span class="play" aria-hidden="true"></span>
+            </button>
+            <p>By <a href="https://www.youtube.com/@rei">REI</a>.</p>
+          </article>
+          <article class="clip" data-find="food cooking off-grid how to use a backpacking stove thenewhiker how to use a backpacking stove">
+            <h4>How to use a backpacking stove</h4>
+            <button type="button" class="video-poster" data-yt="GJqQ0Y6_woA" data-title="How to use a backpacking stove">
+              <img src="https://i.ytimg.com/vi/GJqQ0Y6_woA/hqdefault.jpg" alt="" width="480" height="360" loading="lazy" decoding="async">
+              <span class="play" aria-hidden="true"></span>
+            </button>
+            <p>By <a href="https://www.youtube.com/@thenewhiker4580">TheNewHiker</a>.</p>
+          </article>
+          <article class="clip" data-find="food cooking off-grid a guide to backpacking stoves outside the 101: a guide to backpacking stoves">
+            <h4>A guide to backpacking stoves</h4>
+            <button type="button" class="video-poster" data-yt="i5o27F8bJ-c" data-title="A guide to backpacking stoves">
+              <img src="https://i.ytimg.com/vi/i5o27F8bJ-c/hqdefault.jpg" alt="" width="480" height="360" loading="lazy" decoding="async">
+              <span class="play" aria-hidden="true"></span>
+            </button>
+            <p>By <a href="https://www.youtube.com/@OutsideOnline">Outside</a>.</p>
+          </article>
+          <article class="clip" data-find="food cooking off-grid how to cook with freeze-dried food the provident prepper food storage: how to cook a delicious meal with freeze-dried foods">
+            <h4>How to cook with freeze-dried food</h4>
+            <button type="button" class="video-poster" data-yt="9UsvAu_PtAI" data-title="How to cook with freeze-dried food">
+              <img src="https://i.ytimg.com/vi/9UsvAu_PtAI/hqdefault.jpg" alt="" width="480" height="360" loading="lazy" decoding="async">
+              <span class="play" aria-hidden="true"></span>
+            </button>
+            <p>By <a href="https://www.youtube.com/@TheProvidentPrepper">The Provident Prepper</a>.</p>
+          </article>
+          <article class="clip" data-find="food cooking off-grid how to heat water with sterno in a power cut scottslookingabout how to cook single servings with sterno during power failure 12oz of hot water in 6-8 minutes">
+            <h4>How to heat water with Sterno in a power cut</h4>
+            <button type="button" class="video-poster" data-yt="5wczGdsvdns" data-title="How to heat water with Sterno in a power cut">
+              <img src="https://i.ytimg.com/vi/5wczGdsvdns/hqdefault.jpg" alt="" width="480" height="360" loading="lazy" decoding="async">
+              <span class="play" aria-hidden="true"></span>
+            </button>
+            <p>By <a href="https://www.youtube.com/@Scottslookingabout">Scottslookingabout</a>.</p>
+          </article>
+          </div>
+        </section>
+        <section class="vid-sub" id="food-storage">
+          <h3>Food that keeps</h3>
+          <p class="cat-lead">Cans, freeze-dried meals, and a short supply you can actually eat.</p>
+          <div class="clip-grid">
+          <article class="clip" data-find="food food that keeps how to build a three-week food supply city prepping how to easily build a 3 week emergency food supply">
+            <h4>How to build a three-week food supply</h4>
+            <button type="button" class="video-poster" data-yt="5B47y9rH6eA" data-title="How to build a three-week food supply">
+              <img src="https://i.ytimg.com/vi/5B47y9rH6eA/hqdefault.jpg" alt="" width="480" height="360" loading="lazy" decoding="async">
+              <span class="play" aria-hidden="true"></span>
+            </button>
+            <p>By <a href="https://www.youtube.com/@CityPrepping">City Prepping</a>.</p>
+          </article>
+          <article class="clip" data-find="food food that keeps canned food for storage the grid-down kitchen canned food: the ultimate long term storage food for beginners">
+            <h4>Canned food for storage</h4>
+            <button type="button" class="video-poster" data-yt="VDMoLIW_i5s" data-title="Canned food for storage">
+              <img src="https://i.ytimg.com/vi/VDMoLIW_i5s/hqdefault.jpg" alt="" width="480" height="360" loading="lazy" decoding="async">
+              <span class="play" aria-hidden="true"></span>
+            </button>
+            <p>By <a href="https://www.youtube.com/@Grid-DownKitchen">The Grid-Down Kitchen</a>.</p>
+          </article>
+          <article class="clip" data-find="food food that keeps how to store home-canned food hobby farms store your home-canned food the right way">
+            <h4>How to store home-canned food</h4>
+            <button type="button" class="video-poster" data-yt="zEiq_Ry06Ec" data-title="How to store home-canned food">
+              <img src="https://i.ytimg.com/vi/zEiq_Ry06Ec/hqdefault.jpg" alt="" width="480" height="360" loading="lazy" decoding="async">
+              <span class="play" aria-hidden="true"></span>
+            </button>
+            <p>By <a href="https://www.youtube.com/@HobbyFarms">Hobby Farms</a>.</p>
+          </article>
+          <article class="clip" data-find="food food that keeps how to store freeze-dried food the freeze drying community how to store your freeze dried food -- food storage and organization tips and tricks">
+            <h4>How to store freeze-dried food</h4>
+            <button type="button" class="video-poster" data-yt="ODC7zt8gX8k" data-title="How to store freeze-dried food">
+              <img src="https://i.ytimg.com/vi/ODC7zt8gX8k/hqdefault.jpg" alt="" width="480" height="360" loading="lazy" decoding="async">
+              <span class="play" aria-hidden="true"></span>
+            </button>
+            <p>By <a href="https://www.youtube.com/@thefreezedryingcommunity">The Freeze Drying Community</a>.</p>
+          </article>
+          </div>
+        </section>
+      </section>
+      <section class="vid-cat" id="building">
+        <h2><svg class="ico" aria-hidden="true"><use href="#i-building"/></svg>Building</h2>
+        <p class="cat-lead">A shelter, a tent, a tarp, a few knots, and a repair you can do tonight.</p>
+        <section class="vid-sub" id="building-shelters">
+          <h3>Survival shelters</h3>
+          <p class="cat-lead">A quick shelter from what is around you, and the mistakes that make it worse.</p>
+          <div class="clip-grid">
+          <article class="clip" data-find="building survival shelters five simple survival shelters survival lilly 5 survival shelters everyone should know">
+            <h4>Five simple survival shelters</h4>
+            <button type="button" class="video-poster" data-yt="tzUpH0Zft5c" data-title="Five simple survival shelters">
+              <img src="https://i.ytimg.com/vi/tzUpH0Zft5c/hqdefault.jpg" alt="" width="480" height="360" loading="lazy" decoding="async">
+              <span class="play" aria-hidden="true"></span>
+            </button>
+            <p>By <a href="https://www.youtube.com/@SurvivalLilly">Survival Lilly</a>.</p>
+          </article>
+          <article class="clip" data-find="building survival shelters how to make a lean-to from natural materials bertram - craft and wilderness bushcraft:  how to make a lean-to shelter from only natural materials - survival shelter">
+            <h4>How to make a lean-to from natural materials</h4>
+            <button type="button" class="video-poster" data-yt="5ogRkQxQbJw" data-title="How to make a lean-to from natural materials">
+              <img src="https://i.ytimg.com/vi/5ogRkQxQbJw/hqdefault.jpg" alt="" width="480" height="360" loading="lazy" decoding="async">
+              <span class="play" aria-hidden="true"></span>
+            </button>
+            <p>By <a href="https://www.youtube.com/@BertramCraftAndWilderness">Bertram - Craft and Wilderness</a>.</p>
+          </article>
+          <article class="clip" data-find="building survival shelters how to build a debris shelter with no tools camp life bushcraft emergency debris shelter | no tools | survival shelter build | lost in the forest scenario">
+            <h4>How to build a debris shelter with no tools</h4>
+            <button type="button" class="video-poster" data-yt="aJ6V3u9TGYA" data-title="How to build a debris shelter with no tools">
+              <img src="https://i.ytimg.com/vi/aJ6V3u9TGYA/hqdefault.jpg" alt="" width="480" height="360" loading="lazy" decoding="async">
+              <span class="play" aria-hidden="true"></span>
+            </button>
+            <p>By <a href="https://www.youtube.com/@CampLifeBushcraft">Camp Life bushcraft</a>.</p>
+          </article>
+          <article class="clip" data-find="building survival shelters what not to do when you set up a shelter coalcracker bushcraft survival shelter no no&#x27;s: what not to do when setting up camp!">
+            <h4>What not to do when you set up a shelter</h4>
+            <button type="button" class="video-poster" data-yt="iAkGyPVOpx0" data-title="What not to do when you set up a shelter">
+              <img src="https://i.ytimg.com/vi/iAkGyPVOpx0/hqdefault.jpg" alt="" width="480" height="360" loading="lazy" decoding="async">
+              <span class="play" aria-hidden="true"></span>
+            </button>
+            <p>By <a href="https://www.youtube.com/@coalcracker">Coalcracker Bushcraft</a>.</p>
+          </article>
+          </div>
+        </section>
+        <section class="vid-sub" id="building-tents">
+          <h3>Tents</h3>
+          <p class="cat-lead">Pitch it, including when it is already raining.</p>
+          <div class="clip-grid">
+          <article class="clip" data-find="building tents how to set up a tent rei how to set up a tent">
+            <h4>How to set up a tent</h4>
+            <button type="button" class="video-poster" data-yt="ha43JNTtus4" data-title="How to set up a tent">
+              <img src="https://i.ytimg.com/vi/ha43JNTtus4/hqdefault.jpg" alt="" width="480" height="360" loading="lazy" decoding="async">
+              <span class="play" aria-hidden="true"></span>
+            </button>
+            <p>By <a href="https://www.youtube.com/@rei">REI</a>.</p>
+          </article>
+          <article class="clip" data-find="building tents how to pitch a tent go outdoors tv how to pitch a tent">
+            <h4>How to pitch a tent</h4>
+            <button type="button" class="video-poster" data-yt="Jtm51h9jGDo" data-title="How to pitch a tent">
+              <img src="https://i.ytimg.com/vi/Jtm51h9jGDo/hqdefault.jpg" alt="" width="480" height="360" loading="lazy" decoding="async">
+              <span class="play" aria-hidden="true"></span>
+            </button>
+            <p>By <a href="https://www.youtube.com/@GOOutdoorsTV">GO Outdoors TV</a>.</p>
+          </article>
+          <article class="clip" data-find="building tents how to set up a campsite rei how to set up a campsite || rei">
+            <h4>How to set up a campsite</h4>
+            <button type="button" class="video-poster" data-yt="LXSe3TsOJKM" data-title="How to set up a campsite">
+              <img src="https://i.ytimg.com/vi/LXSe3TsOJKM/hqdefault.jpg" alt="" width="480" height="360" loading="lazy" decoding="async">
+              <span class="play" aria-hidden="true"></span>
+            </button>
+            <p>By <a href="https://www.youtube.com/@rei">REI</a>.</p>
+          </article>
+          <article class="clip" data-find="building tents how to set up a tent in the rain project outbound setting up a tent in the rain">
+            <h4>How to set up a tent in the rain</h4>
+            <button type="button" class="video-poster" data-yt="PxpmDjB20tQ" data-title="How to set up a tent in the rain">
+              <img src="https://i.ytimg.com/vi/PxpmDjB20tQ/hqdefault.jpg" alt="" width="480" height="360" loading="lazy" decoding="async">
+              <span class="play" aria-hidden="true"></span>
+            </button>
+            <p>By <a href="https://www.youtube.com/@ProjectOutbound">Project Outbound</a>.</p>
+          </article>
+          </div>
+        </section>
+        <section class="vid-sub" id="building-tarps">
+          <h3>Tarps</h3>
+          <p class="cat-lead">A tarp over a line, and the knots that hold it.</p>
+          <div class="clip-grid">
+          <article class="clip" data-find="building tarps four ways to pitch a tarp rei 4 ways to set up an ultralight tarp shelter || rei">
+            <h4>Four ways to pitch a tarp</h4>
+            <button type="button" class="video-poster" data-yt="4M-f61tbWH4" data-title="Four ways to pitch a tarp">
+              <img src="https://i.ytimg.com/vi/4M-f61tbWH4/hqdefault.jpg" alt="" width="480" height="360" loading="lazy" decoding="async">
+              <span class="play" aria-hidden="true"></span>
+            </button>
+            <p>By <a href="https://www.youtube.com/@rei">REI</a>.</p>
+          </article>
+          <article class="clip" data-find="building tarps a tarp setup for beginners the bear essentials camping tarp setup for beginners!">
+            <h4>A tarp setup for beginners</h4>
+            <button type="button" class="video-poster" data-yt="XU4BOCX6eh4" data-title="A tarp setup for beginners">
+              <img src="https://i.ytimg.com/vi/XU4BOCX6eh4/hqdefault.jpg" alt="" width="480" height="360" loading="lazy" decoding="async">
+              <span class="play" aria-hidden="true"></span>
+            </button>
+            <p>By <a href="https://www.youtube.com/@TheBearEssentials">The Bear Essentials</a>.</p>
+          </article>
+          <article class="clip" data-find="building tarps tarp basics theoutdoorgearreview how to master a tarp - tarp basics 101">
+            <h4>Tarp basics</h4>
+            <button type="button" class="video-poster" data-yt="WjrwmemjRyk" data-title="Tarp basics">
+              <img src="https://i.ytimg.com/vi/WjrwmemjRyk/hqdefault.jpg" alt="" width="480" height="360" loading="lazy" decoding="async">
+              <span class="play" aria-hidden="true"></span>
+            </button>
+            <p>By <a href="https://www.youtube.com/@TheOutdoorGearReview">TheOutdoorGearReview</a>.</p>
+          </article>
+          <article class="clip" data-find="building tarps three knots for a tarp ridgeline jason&#x27;s knot channel 3 essential knots for easy ridgelines &amp; tarps | camping knots">
+            <h4>Three knots for a tarp ridgeline</h4>
+            <button type="button" class="video-poster" data-yt="KXk4KyIceqU" data-title="Three knots for a tarp ridgeline">
+              <img src="https://i.ytimg.com/vi/KXk4KyIceqU/hqdefault.jpg" alt="" width="480" height="360" loading="lazy" decoding="async">
+              <span class="play" aria-hidden="true"></span>
+            </button>
+            <p>By <a href="https://www.youtube.com/@JasonsKnotChannel">Jason&#x27;s Knot Channel</a>.</p>
+          </article>
+          </div>
+        </section>
+        <section class="vid-sub" id="building-knots">
+          <h3>Knots</h3>
+          <p class="cat-lead">A bowline, a taut-line hitch and a trucker’s hitch cover most camp jobs.</p>
+          <div class="clip-grid">
+          <article class="clip" data-find="building knots useful knots for the outdoors rei best knots for the outdoors || rei">
+            <h4>Useful knots for the outdoors</h4>
+            <button type="button" class="video-poster" data-yt="erHTpIUFA_g" data-title="Useful knots for the outdoors">
+              <img src="https://i.ytimg.com/vi/erHTpIUFA_g/hqdefault.jpg" alt="" width="480" height="360" loading="lazy" decoding="async">
+              <span class="play" aria-hidden="true"></span>
+            </button>
+            <p>By <a href="https://www.youtube.com/@rei">REI</a>.</p>
+          </article>
+          <article class="clip" data-find="building knots how to tie a bowline rei rock climbing: how to tie a bowline knot">
+            <h4>How to tie a bowline</h4>
+            <button type="button" class="video-poster" data-yt="CtrtpS2f8u8" data-title="How to tie a bowline">
+              <img src="https://i.ytimg.com/vi/CtrtpS2f8u8/hqdefault.jpg" alt="" width="480" height="360" loading="lazy" decoding="async">
+              <span class="play" aria-hidden="true"></span>
+            </button>
+            <p>By <a href="https://www.youtube.com/@rei">REI</a>.</p>
+          </article>
+          <article class="clip" data-find="building knots how to tie a taut-line hitch jason&#x27;s knot channel how to tie the taut line hitch knot in under 60 seconds!! | how to tie a hitch knot">
+            <h4>How to tie a taut-line hitch</h4>
+            <button type="button" class="video-poster" data-yt="8C__PJcI1LE" data-title="How to tie a taut-line hitch">
+              <img src="https://i.ytimg.com/vi/8C__PJcI1LE/hqdefault.jpg" alt="" width="480" height="360" loading="lazy" decoding="async">
+              <span class="play" aria-hidden="true"></span>
+            </button>
+            <p>By <a href="https://www.youtube.com/@JasonsKnotChannel">Jason&#x27;s Knot Channel</a>.</p>
+          </article>
+          <article class="clip" data-find="building knots how to tie a trucker’s hitch knotspedia how to tie a trucker&#x27;s hitch knot | essential knot for camping &amp; outdoors">
+            <h4>How to tie a trucker’s hitch</h4>
+            <button type="button" class="video-poster" data-yt="yUp3t-SbxIo" data-title="How to tie a trucker’s hitch">
+              <img src="https://i.ytimg.com/vi/yUp3t-SbxIo/hqdefault.jpg" alt="" width="480" height="360" loading="lazy" decoding="async">
+              <span class="play" aria-hidden="true"></span>
+            </button>
+            <p>By <a href="https://www.youtube.com/@Knotspedia">Knotspedia</a>.</p>
+          </article>
+          </div>
+        </section>
+        <section class="vid-sub" id="building-repairs">
+          <h3>Repairs</h3>
+          <p class="cat-lead">A broken window, a leaking roof, and a pipe that will not wait.</p>
+          <div class="clip-grid">
+          <article class="clip" data-find="building repairs how to board up a window before a storm the home depot how to board up a window before a storm">
+            <h4>How to board up a window before a storm</h4>
+            <button type="button" class="video-poster" data-yt="xfMh10Tzpyg" data-title="How to board up a window before a storm">
+              <img src="https://i.ytimg.com/vi/xfMh10Tzpyg/hqdefault.jpg" alt="" width="480" height="360" loading="lazy" decoding="async">
+              <span class="play" aria-hidden="true"></span>
+            </button>
+            <p>By <a href="https://www.youtube.com/@HomeDepot">The Home Depot</a>.</p>
+          </article>
+          <article class="clip" data-find="building repairs how to tarp a damaged roof lowe&#x27;s home improvement how to tarp a roof | severe weather guide">
+            <h4>How to tarp a damaged roof</h4>
+            <button type="button" class="video-poster" data-yt="vXWMj_TbDp4" data-title="How to tarp a damaged roof">
+              <img src="https://i.ytimg.com/vi/vXWMj_TbDp4/hqdefault.jpg" alt="" width="480" height="360" loading="lazy" decoding="async">
+              <span class="play" aria-hidden="true"></span>
+            </button>
+            <p>By <a href="https://www.youtube.com/@lowes">Lowe&#x27;s Home Improvement</a>.</p>
+          </article>
+          <article class="clip" data-find="building repairs how to shut off the water and drain the pipes allstate canada how to shut off your water and drain the pipes | the good to know series | allstate canada">
+            <h4>How to shut off the water and drain the pipes</h4>
+            <button type="button" class="video-poster" data-yt="u3aeRknUd1U" data-title="How to shut off the water and drain the pipes">
+              <img src="https://i.ytimg.com/vi/u3aeRknUd1U/hqdefault.jpg" alt="" width="480" height="360" loading="lazy" decoding="async">
+              <span class="play" aria-hidden="true"></span>
+            </button>
+            <p>By <a href="https://www.youtube.com/@allstatecanada">Allstate Canada</a>.</p>
+          </article>
+          <article class="clip" data-find="building repairs how to turn off the main water if a pipe bursts anthony plumbing, heating, cooling &amp; electric turning off main water shutoff valve if your pipes burst">
+            <h4>How to turn off the main water if a pipe bursts</h4>
+            <button type="button" class="video-poster" data-yt="jcIT85Zx-VU" data-title="How to turn off the main water if a pipe bursts">
+              <img src="https://i.ytimg.com/vi/jcIT85Zx-VU/hqdefault.jpg" alt="" width="480" height="360" loading="lazy" decoding="async">
+              <span class="play" aria-hidden="true"></span>
+            </button>
+            <p>By <a href="https://www.youtube.com/@AnthonyPHCE">Anthony Plumbing, Heating, Cooling &amp; Electric</a>.</p>
+          </article>
+          </div>
+        </section>
+      </section>
+      <section class="vid-cat" id="water">
+        <h2><svg class="ico" aria-hidden="true"><use href="#i-water"/></svg>Water</h2>
+        <p class="cat-lead">Store drinking water, then filter or treat more.</p>
+        <section class="vid-sub" id="water-storing">
+          <h3>Storing water</h3>
+          <p class="cat-lead">How much to keep, and the containers it can sit in.</p>
+          <div class="clip-grid">
+          <article class="clip" data-find="water storing water how much water to store alaskagranny how much water to store for emergencies- most important prepping item">
+            <h4>How much water to store</h4>
+            <button type="button" class="video-poster" data-yt="dQx-gJC9Hrc" data-title="How much water to store">
+              <img src="https://i.ytimg.com/vi/dQx-gJC9Hrc/hqdefault.jpg" alt="" width="480" height="360" loading="lazy" decoding="async">
+              <span class="play" aria-hidden="true"></span>
+            </button>
+            <p>By <a href="https://www.youtube.com/@AlaskaGranny">AlaskaGranny</a>.</p>
+          </article>
+          <article class="clip" data-find="water storing water three steps to store water the provident prepper 3 simple steps to store water for emergencies">
+            <h4>Three steps to store water</h4>
+            <button type="button" class="video-poster" data-yt="cCrDs3rf9EM" data-title="Three steps to store water">
+              <img src="https://i.ytimg.com/vi/cCrDs3rf9EM/hqdefault.jpg" alt="" width="480" height="360" loading="lazy" decoding="async">
+              <span class="play" aria-hidden="true"></span>
+            </button>
+            <p>By <a href="https://www.youtube.com/@TheProvidentPrepper">The Provident Prepper</a>.</p>
+          </article>
+          <article class="clip" data-find="water storing water water storage containers city prepping 8 best water storage options for emergencies">
+            <h4>Water storage containers</h4>
+            <button type="button" class="video-poster" data-yt="2bLHxpiZX7Q" data-title="Water storage containers">
+              <img src="https://i.ytimg.com/vi/2bLHxpiZX7Q/hqdefault.jpg" alt="" width="480" height="360" loading="lazy" decoding="async">
+              <span class="play" aria-hidden="true"></span>
+            </button>
+            <p>By <a href="https://www.youtube.com/@CityPrepping">City Prepping</a>.</p>
+          </article>
+          <article class="clip" data-find="water storing water mistakes people make storing water city prepping 3 mistakes preppers make when storing water">
+            <h4>Mistakes people make storing water</h4>
+            <button type="button" class="video-poster" data-yt="oX7Jls_1hso" data-title="Mistakes people make storing water">
+              <img src="https://i.ytimg.com/vi/oX7Jls_1hso/hqdefault.jpg" alt="" width="480" height="360" loading="lazy" decoding="async">
+              <span class="play" aria-hidden="true"></span>
+            </button>
+            <p>By <a href="https://www.youtube.com/@CityPrepping">City Prepping</a>.</p>
+          </article>
+          </div>
+        </section>
+        <section class="vid-sub" id="water-filtering">
+          <h3>Filtering</h3>
+          <p class="cat-lead">Straw filters and a squeeze filter, and how to keep them working.</p>
+          <div class="clip-grid">
+          <article class="clip" data-find="water filtering how to use a lifestraw lifestraw how to use your lifestraw personal water filter">
+            <h4>How to use a LifeStraw</h4>
+            <button type="button" class="video-poster" data-yt="av9Q7HWlVM4" data-title="How to use a LifeStraw">
+              <img src="https://i.ytimg.com/vi/av9Q7HWlVM4/hqdefault.jpg" alt="" width="480" height="360" loading="lazy" decoding="async">
+              <span class="play" aria-hidden="true"></span>
+            </button>
+            <p>By <a href="https://www.youtube.com/@lifestraw">LifeStraw</a>.</p>
+          </article>
+          <article class="clip" data-find="water filtering how to use a sawyer squeeze sawyerproducts sawyer squeeze filter">
+            <h4>How to use a Sawyer Squeeze</h4>
+            <button type="button" class="video-poster" data-yt="lKWQjlq-uYA" data-title="How to use a Sawyer Squeeze">
+              <img src="https://i.ytimg.com/vi/lKWQjlq-uYA/hqdefault.jpg" alt="" width="480" height="360" loading="lazy" decoding="async">
+              <span class="play" aria-hidden="true"></span>
+            </button>
+            <p>By <a href="https://www.youtube.com/@SawyerProducts">SawyerProducts</a>.</p>
+          </article>
+          <article class="clip" data-find="water filtering how to backwash a sawyer filter sawyerproducts sawyer filter backwashing tips and tricks">
+            <h4>How to backwash a Sawyer filter</h4>
+            <button type="button" class="video-poster" data-yt="0KeLHMUfEtY" data-title="How to backwash a Sawyer filter">
+              <img src="https://i.ytimg.com/vi/0KeLHMUfEtY/hqdefault.jpg" alt="" width="480" height="360" loading="lazy" decoding="async">
+              <span class="play" aria-hidden="true"></span>
+            </button>
+            <p>By <a href="https://www.youtube.com/@SawyerProducts">SawyerProducts</a>.</p>
+          </article>
+          <article class="clip" data-find="water filtering how to filter water in the backcountry rei how to filter water in the backcountry || rei">
+            <h4>How to filter water in the backcountry</h4>
+            <button type="button" class="video-poster" data-yt="Kb_6eXF8kVE" data-title="How to filter water in the backcountry">
+              <img src="https://i.ytimg.com/vi/Kb_6eXF8kVE/hqdefault.jpg" alt="" width="480" height="360" loading="lazy" decoding="async">
+              <span class="play" aria-hidden="true"></span>
+            </button>
+            <p>By <a href="https://www.youtube.com/@rei">REI</a>.</p>
+          </article>
+          </div>
+        </section>
+        <section class="vid-sub" id="water-treating">
+          <h3>Treating water</h3>
+          <p class="cat-lead">Boiling, bleach, and tablets. Read the label on anything you add to water.</p>
+          <div class="clip-grid">
+          <article class="clip" data-find="water treating water how to boil water so it is safe to drink tarrant county public health boil water notifications - how to properly boil water for safe drinking">
+            <h4>How to boil water so it is safe to drink</h4>
+            <button type="button" class="video-poster" data-yt="K5j12tvXeA0" data-title="How to boil water so it is safe to drink">
+              <img src="https://i.ytimg.com/vi/K5j12tvXeA0/hqdefault.jpg" alt="" width="480" height="360" loading="lazy" decoding="async">
+              <span class="play" aria-hidden="true"></span>
+            </button>
+            <p>By <a href="https://www.youtube.com/@tarrantcountypublichealth9541">Tarrant County Public Health</a>.</p>
+          </article>
+          <article class="clip" data-find="water treating water how to disinfect water with bleach clorox emergency preparedness: making water safe with clorox">
+            <h4>How to disinfect water with bleach</h4>
+            <button type="button" class="video-poster" data-yt="4I-o0azxc8g" data-title="How to disinfect water with bleach">
+              <img src="https://i.ytimg.com/vi/4I-o0azxc8g/hqdefault.jpg" alt="" width="480" height="360" loading="lazy" decoding="async">
+              <span class="play" aria-hidden="true"></span>
+            </button>
+            <p>By <a href="https://www.youtube.com/@clorox">Clorox</a>.</p>
+          </article>
+          <article class="clip" data-find="water treating water how to use purification tablets brownells, inc. potable aqua purification tablets">
+            <h4>How to use purification tablets</h4>
+            <button type="button" class="video-poster" data-yt="s0RHQrN1XMA" data-title="How to use purification tablets">
+              <img src="https://i.ytimg.com/vi/s0RHQrN1XMA/hqdefault.jpg" alt="" width="480" height="360" loading="lazy" decoding="async">
+              <span class="play" aria-hidden="true"></span>
+            </button>
+            <p>By <a href="https://www.youtube.com/@brownells">Brownells, Inc.</a>.</p>
+          </article>
+          <article class="clip" data-find="water treating water three ways to disinfect water corporals corner 3 simple ways to disinfect water">
+            <h4>Three ways to disinfect water</h4>
+            <button type="button" class="video-poster" data-yt="qENPPQZeiRE" data-title="Three ways to disinfect water">
+              <img src="https://i.ytimg.com/vi/qENPPQZeiRE/hqdefault.jpg" alt="" width="480" height="360" loading="lazy" decoding="async">
+              <span class="play" aria-hidden="true"></span>
+            </button>
+            <p>By <a href="https://www.youtube.com/@corporalscorner03">Corporals Corner</a>.</p>
+          </article>
+          </div>
+        </section>
+      </section>
+      <section class="vid-cat" id="first-aid">
+        <h2><svg class="ico" aria-hidden="true"><use href="#i-medical"/></svg>First aid</h2>
+        <p class="cat-lead">A kit, serious bleeding, and the small injuries that happen at home.</p>
+        <section class="vid-sub" id="first-aid-kit">
+          <h3>A basic kit</h3>
+          <p class="cat-lead">What belongs in the box, and how to find it in the dark.</p>
+          <div class="clip-grid">
+          <article class="clip" data-find="first aid a basic kit what to keep in a first aid kit ohio state wexner medical center what to keep in your first aid kit | ohio state medical center">
+            <h4>What to keep in a first aid kit</h4>
+            <button type="button" class="video-poster" data-yt="y7pvxxx4GB0" data-title="What to keep in a first aid kit">
+              <img src="https://i.ytimg.com/vi/y7pvxxx4GB0/hqdefault.jpg" alt="" width="480" height="360" loading="lazy" decoding="async">
+              <span class="play" aria-hidden="true"></span>
+            </button>
+            <p>By <a href="https://www.youtube.com/@OSUWexMed">Ohio State Wexner Medical Center</a>.</p>
+          </article>
+          <article class="clip" data-find="first aid a basic kit what is in a first aid kit, and how to use it st john ambulance how to use your first aid kit &amp; contents - first aid training - st john ambulance">
+            <h4>What is in a first aid kit, and how to use it</h4>
+            <button type="button" class="video-poster" data-yt="gn6xt1ca8A0" data-title="What is in a first aid kit, and how to use it">
+              <img src="https://i.ytimg.com/vi/gn6xt1ca8A0/hqdefault.jpg" alt="" width="480" height="360" loading="lazy" decoding="async">
+              <span class="play" aria-hidden="true"></span>
+            </button>
+            <p>By <a href="https://www.youtube.com/@stjohnambulanceorg">St John Ambulance</a>.</p>
+          </article>
+          <article class="clip" data-find="first aid a basic kit how to build a first aid kit cayuga county health department how to build a first aid kit">
+            <h4>How to build a first aid kit</h4>
+            <button type="button" class="video-poster" data-yt="EsWpTyFSTf4" data-title="How to build a first aid kit">
+              <img src="https://i.ytimg.com/vi/EsWpTyFSTf4/hqdefault.jpg" alt="" width="480" height="360" loading="lazy" decoding="async">
+              <span class="play" aria-hidden="true"></span>
+            </button>
+            <p>By <a href="https://www.youtube.com/@CayugaCountyHealth">Cayuga County Health Department</a>.</p>
+          </article>
+          <article class="clip" data-find="first aid a basic kit how to build a home first aid kit prepmedic how to build a home first aid kit">
+            <h4>How to build a home first aid kit</h4>
+            <button type="button" class="video-poster" data-yt="tH_X3oxl03E" data-title="How to build a home first aid kit">
+              <img src="https://i.ytimg.com/vi/tH_X3oxl03E/hqdefault.jpg" alt="" width="480" height="360" loading="lazy" decoding="async">
+              <span class="play" aria-hidden="true"></span>
+            </button>
+            <p>By <a href="https://www.youtube.com/@PrepMedic">PrepMedic</a>.</p>
+          </article>
+          </div>
+        </section>
+        <section class="vid-sub" id="first-aid-bleeding">
+          <h3>Bleeding</h3>
+          <p class="cat-lead">For bleeding that will not stop. Get help as soon as you can.</p>
+          <div class="clip-grid">
+          <article class="clip" data-find="first aid bleeding how to use direct pressure on severe bleeding american red cross how to use direct pressure to control life-threatening bleeding">
+            <h4>How to use direct pressure on severe bleeding</h4>
+            <button type="button" class="video-poster" data-yt="YJB3fI3T1oo" data-title="How to use direct pressure on severe bleeding">
+              <img src="https://i.ytimg.com/vi/YJB3fI3T1oo/hqdefault.jpg" alt="" width="480" height="360" loading="lazy" decoding="async">
+              <span class="play" aria-hidden="true"></span>
+            </button>
+            <p>By <a href="https://www.youtube.com/@redcross">American Red Cross</a>.</p>
+          </article>
+          <article class="clip" data-find="first aid bleeding how to use a tourniquet american red cross how to use a tourniquet to control life-threatening bleeding">
+            <h4>How to use a tourniquet</h4>
+            <button type="button" class="video-poster" data-yt="k98ilfQmUWw" data-title="How to use a tourniquet">
+              <img src="https://i.ytimg.com/vi/k98ilfQmUWw/hqdefault.jpg" alt="" width="480" height="360" loading="lazy" decoding="async">
+              <span class="play" aria-hidden="true"></span>
+            </button>
+            <p>By <a href="https://www.youtube.com/@redcross">American Red Cross</a>.</p>
+          </article>
+          <article class="clip" data-find="first aid bleeding how to treat severe bleeding st john ambulance how to treat severe bleeding - first aid training - st john ambulance">
+            <h4>How to treat severe bleeding</h4>
+            <button type="button" class="video-poster" data-yt="NxO5LvgqZe0" data-title="How to treat severe bleeding">
+              <img src="https://i.ytimg.com/vi/NxO5LvgqZe0/hqdefault.jpg" alt="" width="480" height="360" loading="lazy" decoding="async">
+              <span class="play" aria-hidden="true"></span>
+            </button>
+            <p>By <a href="https://www.youtube.com/@stjohnambulanceorg">St John Ambulance</a>.</p>
+          </article>
+          <article class="clip" data-find="first aid bleeding how to pack a wound and hold pressure seattle office of emergency management stop the bleed: pressure and wound packing">
+            <h4>How to pack a wound and hold pressure</h4>
+            <button type="button" class="video-poster" data-yt="pGHGLNKelEo" data-title="How to pack a wound and hold pressure">
+              <img src="https://i.ytimg.com/vi/pGHGLNKelEo/hqdefault.jpg" alt="" width="480" height="360" loading="lazy" decoding="async">
+              <span class="play" aria-hidden="true"></span>
+            </button>
+            <p>By <a href="https://www.youtube.com/@seattleofficeofemergencyma1942">Seattle Office of Emergency Management</a>.</p>
+          </article>
+          </div>
+        </section>
+        <section class="vid-sub" id="first-aid-injuries">
+          <h3>Cuts, burns and sprains</h3>
+          <p class="cat-lead">The injuries a home kit is actually for.</p>
+          <div class="clip-grid">
+          <article class="clip" data-find="first aid cuts, burns and sprains how to treat cuts and grazes st john ambulance how to treat cuts and grazes - first aid training - st john ambulance">
+            <h4>How to treat cuts and grazes</h4>
+            <button type="button" class="video-poster" data-yt="4e7evinsfm0" data-title="How to treat cuts and grazes">
+              <img src="https://i.ytimg.com/vi/4e7evinsfm0/hqdefault.jpg" alt="" width="480" height="360" loading="lazy" decoding="async">
+              <span class="play" aria-hidden="true"></span>
+            </button>
+            <p>By <a href="https://www.youtube.com/@stjohnambulanceorg">St John Ambulance</a>.</p>
+          </article>
+          <article class="clip" data-find="first aid cuts, burns and sprains how to help someone with a burn british red cross first aid | helping someone who has a burn | british red cross">
+            <h4>How to help someone with a burn</h4>
+            <button type="button" class="video-poster" data-yt="IOtnGl_9-qw" data-title="How to help someone with a burn">
+              <img src="https://i.ytimg.com/vi/IOtnGl_9-qw/hqdefault.jpg" alt="" width="480" height="360" loading="lazy" decoding="async">
+              <span class="play" aria-hidden="true"></span>
+            </button>
+            <p>By <a href="https://www.youtube.com/@britishredcross">British Red Cross</a>.</p>
+          </article>
+          <article class="clip" data-find="first aid cuts, burns and sprains how to bandage a sprain st john ambulance how to bandage a sprain - first aid training - st john ambulance">
+            <h4>How to bandage a sprain</h4>
+            <button type="button" class="video-poster" data-yt="0jps5SZlTdo" data-title="How to bandage a sprain">
+              <img src="https://i.ytimg.com/vi/0jps5SZlTdo/hqdefault.jpg" alt="" width="480" height="360" loading="lazy" decoding="async">
+              <span class="play" aria-hidden="true"></span>
+            </button>
+            <p>By <a href="https://www.youtube.com/@stjohnambulanceorg">St John Ambulance</a>.</p>
+          </article>
+          <article class="clip" data-find="first aid cuts, burns and sprains how to wrap a sprained ankle askdoctorjo wrapping a sprained ankle - ask doctor jo">
+            <h4>How to wrap a sprained ankle</h4>
+            <button type="button" class="video-poster" data-yt="BPbUH4rdKPo" data-title="How to wrap a sprained ankle">
+              <img src="https://i.ytimg.com/vi/BPbUH4rdKPo/hqdefault.jpg" alt="" width="480" height="360" loading="lazy" decoding="async">
+              <span class="play" aria-hidden="true"></span>
+            </button>
+            <p>By <a href="https://www.youtube.com/@AskDoctorJo">AskDoctorJo</a>.</p>
+          </article>
+          </div>
+        </section>
+      </section>
+      <section class="vid-cat" id="communication">
+        <h2><svg class="ico" aria-hidden="true"><use href="#i-radio"/></svg>Communication</h2>
+        <p class="cat-lead">A radio when the phone network is down, and a plan for finding each other.</p>
+        <section class="vid-sub" id="communication-radios">
+          <h3>Two-way radios</h3>
+          <p class="cat-lead">How to talk, and the difference between a family radio and GMRS.</p>
+          <div class="clip-grid">
+          <article class="clip" data-find="communication two-way radios the basics of talking on a two-way radio icom uk using a two way radio - the basics of communicating">
+            <h4>The basics of talking on a two-way radio</h4>
+            <button type="button" class="video-poster" data-yt="PaKtplesS4U" data-title="The basics of talking on a two-way radio">
+              <img src="https://i.ytimg.com/vi/PaKtplesS4U/hqdefault.jpg" alt="" width="480" height="360" loading="lazy" decoding="async">
+              <span class="play" aria-hidden="true"></span>
+            </button>
+            <p>By <a href="https://www.youtube.com/@Icom_UK">Icom UK</a>.</p>
+          </article>
+          <article class="clip" data-find="communication two-way radios frs and gmrs, compared bridgecom systems, inc frs vs gmrs: a radio service comparison guide">
+            <h4>FRS and GMRS, compared</h4>
+            <button type="button" class="video-poster" data-yt="cuqPawftFhQ" data-title="FRS and GMRS, compared">
+              <img src="https://i.ytimg.com/vi/cuqPawftFhQ/hqdefault.jpg" alt="" width="480" height="360" loading="lazy" decoding="async">
+              <span class="play" aria-hidden="true"></span>
+            </button>
+            <p>By <a href="https://www.youtube.com/@BridgeComSystemsInc">BridgeCom Systems, Inc</a>.</p>
+          </article>
+          <article class="clip" data-find="communication two-way radios a beginner’s guide to gmrs radios trail traveler the beginner&#x27;s guide to gmrs radios">
+            <h4>A beginner’s guide to GMRS radios</h4>
+            <button type="button" class="video-poster" data-yt="On1PGGkZeJk" data-title="A beginner’s guide to GMRS radios">
+              <img src="https://i.ytimg.com/vi/On1PGGkZeJk/hqdefault.jpg" alt="" width="480" height="360" loading="lazy" decoding="async">
+              <span class="play" aria-hidden="true"></span>
+            </button>
+            <p>By <a href="https://www.youtube.com/@TrailTraveler">Trail Traveler</a>.</p>
+          </article>
+          <article class="clip" data-find="communication two-way radios how to use a gmrs radio notarubicon productions how to use a gmrs radio - all the basics of gmrs radios explained">
+            <h4>How to use a GMRS radio</h4>
+            <button type="button" class="video-poster" data-yt="WUoUIVDAsQU" data-title="How to use a GMRS radio">
+              <img src="https://i.ytimg.com/vi/WUoUIVDAsQU/hqdefault.jpg" alt="" width="480" height="360" loading="lazy" decoding="async">
+              <span class="play" aria-hidden="true"></span>
+            </button>
+            <p>By <a href="https://www.youtube.com/@TheNotaRubicon">NotaRubicon Productions</a>.</p>
+          </article>
+          </div>
+        </section>
+        <section class="vid-sub" id="communication-weather">
+          <h3>Weather radio</h3>
+          <p class="cat-lead">A set that can wake you when a warning goes out.</p>
+          <div class="clip-grid">
+          <article class="clip" data-find="communication weather radio why a weather radio is worth having abc news a noaa weather radio could save your life">
+            <h4>Why a weather radio is worth having</h4>
+            <button type="button" class="video-poster" data-yt="8Ae2tNNqE0M" data-title="Why a weather radio is worth having">
+              <img src="https://i.ytimg.com/vi/8Ae2tNNqE0M/hqdefault.jpg" alt="" width="480" height="360" loading="lazy" decoding="async">
+              <span class="play" aria-hidden="true"></span>
+            </button>
+            <p>By <a href="https://www.youtube.com/@ABCNews">ABC News</a>.</p>
+          </article>
+          <article class="clip" data-find="communication weather radio how to set up a midland weather radio meteorologist mark setting up a midland noaa weather radio">
+            <h4>How to set up a Midland weather radio</h4>
+            <button type="button" class="video-poster" data-yt="a_SD-_Mi_o4" data-title="How to set up a Midland weather radio">
+              <img src="https://i.ytimg.com/vi/a_SD-_Mi_o4/hqdefault.jpg" alt="" width="480" height="360" loading="lazy" decoding="async">
+              <span class="play" aria-hidden="true"></span>
+            </button>
+            <p>By <a href="https://www.youtube.com/@meteorologistmark9628">Meteorologist Mark</a>.</p>
+          </article>
+          <article class="clip" data-find="communication weather radio how to program a midland wr120 midlandradiocorp wr120 weather radio programming video">
+            <h4>How to program a Midland WR120</h4>
+            <button type="button" class="video-poster" data-yt="dy9Ae8v2EV8" data-title="How to program a Midland WR120">
+              <img src="https://i.ytimg.com/vi/dy9Ae8v2EV8/hqdefault.jpg" alt="" width="480" height="360" loading="lazy" decoding="async">
+              <span class="play" aria-hidden="true"></span>
+            </button>
+            <p>By <a href="https://www.youtube.com/@MidlandRadioCorp">MidlandRadioCorp</a>.</p>
+          </article>
+          <article class="clip" data-find="communication weather radio programming a midland wr120, step by step buy two way radios how to program the midland wr-120 weather radio">
+            <h4>Programming a Midland WR120, step by step</h4>
+            <button type="button" class="video-poster" data-yt="h8Rb500f8rw" data-title="Programming a Midland WR120, step by step">
+              <img src="https://i.ytimg.com/vi/h8Rb500f8rw/hqdefault.jpg" alt="" width="480" height="360" loading="lazy" decoding="async">
+              <span class="play" aria-hidden="true"></span>
+            </button>
+            <p>By <a href="https://www.youtube.com/@BuyTwoWayRadios">Buy Two Way Radios</a>.</p>
+          </article>
+          </div>
+        </section>
+        <section class="vid-sub" id="communication-family">
+          <h3>A family plan</h3>
+          <p class="cat-lead">Where to meet, and what to do if the phones do not connect.</p>
+          <div class="clip-grid">
+          <article class="clip" data-find="communication a family plan a family communications plan and kit fema family communications plan and emergency kit">
+            <h4>A family communications plan and kit</h4>
+            <button type="button" class="video-poster" data-yt="LviZ4pZrqu8" data-title="A family communications plan and kit">
+              <img src="https://i.ytimg.com/vi/LviZ4pZrqu8/hqdefault.jpg" alt="" width="480" height="360" loading="lazy" decoding="async">
+              <span class="play" aria-hidden="true"></span>
+            </button>
+            <p>By <a href="https://www.youtube.com/@FEMA">FEMA</a>.</p>
+          </article>
+          <article class="clip" data-find="communication a family plan how to prepare a family emergency plan sikana english prepare a family emergency plan | disasters">
+            <h4>How to prepare a family emergency plan</h4>
+            <button type="button" class="video-poster" data-yt="kE3XAwR412I" data-title="How to prepare a family emergency plan">
+              <img src="https://i.ytimg.com/vi/kE3XAwR412I/hqdefault.jpg" alt="" width="480" height="360" loading="lazy" decoding="async">
+              <span class="play" aria-hidden="true"></span>
+            </button>
+            <p>By <a href="https://www.youtube.com/@SikanaEnglish">SIKANA English</a>.</p>
+          </article>
+          <article class="clip" data-find="communication a family plan a step-by-step family emergency plan the ready store family emergency preparedness plan - step-by-step guide 🚨 | be ready for anything">
+            <h4>A step-by-step family emergency plan</h4>
+            <button type="button" class="video-poster" data-yt="2aept04c-KE" data-title="A step-by-step family emergency plan">
+              <img src="https://i.ytimg.com/vi/2aept04c-KE/hqdefault.jpg" alt="" width="480" height="360" loading="lazy" decoding="async">
+              <span class="play" aria-hidden="true"></span>
+            </button>
+            <p>By <a href="https://www.youtube.com/@readystore">The Ready Store</a>.</p>
+          </article>
+          <article class="clip" data-find="communication a family plan what to do if you cannot reach each other ready before our family emergency plan. what if you cannot reach each other?  | 100-day survival series">
+            <h4>What to do if you cannot reach each other</h4>
+            <button type="button" class="video-poster" data-yt="hU_cLZlrd74" data-title="What to do if you cannot reach each other">
+              <img src="https://i.ytimg.com/vi/hU_cLZlrd74/hqdefault.jpg" alt="" width="480" height="360" loading="lazy" decoding="async">
+              <span class="play" aria-hidden="true"></span>
+            </button>
+            <p>By <a href="https://www.youtube.com/@ReadyBefore-1">Ready Before</a>.</p>
+          </article>
+          </div>
+        </section>
+      </section>
+      <section class="vid-cat" id="light">
+        <h2><svg class="ico" aria-hidden="true"><use href="#i-light"/></svg>Light</h2>
+        <p class="cat-lead">A light for your hands, and a light for the room.</p>
+        <section class="vid-sub" id="light-headlamps">
+          <h3>Flashlights and headlamps</h3>
+          <p class="cat-lead">What the lumen number means, and how to wear the light.</p>
+          <div class="clip-grid">
+          <article class="clip" data-find="light flashlights and headlamps what lumens mean when you choose a light wade media research how to choose a headlamp: lumens explained">
+            <h4>What lumens mean when you choose a light</h4>
+            <button type="button" class="video-poster" data-yt="_mXjMAOrQKc" data-title="What lumens mean when you choose a light">
+              <img src="https://i.ytimg.com/vi/_mXjMAOrQKc/hqdefault.jpg" alt="" width="480" height="360" loading="lazy" decoding="async">
+              <span class="play" aria-hidden="true"></span>
+            </button>
+            <p>By <a href="https://www.youtube.com/@wademediaresearch">Wade Media Research</a>.</p>
+          </article>
+          <article class="clip" data-find="light flashlights and headlamps how to choose a headlamp rei how to choose headlamps || rei">
+            <h4>How to choose a headlamp</h4>
+            <button type="button" class="video-poster" data-yt="Ooii3BzjuzE" data-title="How to choose a headlamp">
+              <img src="https://i.ytimg.com/vi/Ooii3BzjuzE/hqdefault.jpg" alt="" width="480" height="360" loading="lazy" decoding="async">
+              <span class="play" aria-hidden="true"></span>
+            </button>
+            <p>By <a href="https://www.youtube.com/@rei">REI</a>.</p>
+          </article>
+          <article class="clip" data-find="light flashlights and headlamps how to operate a headlamp black diamond equipment how to: operate your black diamond headlamp">
+            <h4>How to operate a headlamp</h4>
+            <button type="button" class="video-poster" data-yt="bvyyAPFbkFE" data-title="How to operate a headlamp">
+              <img src="https://i.ytimg.com/vi/bvyyAPFbkFE/hqdefault.jpg" alt="" width="480" height="360" loading="lazy" decoding="async">
+              <span class="play" aria-hidden="true"></span>
+            </button>
+            <p>By <a href="https://www.youtube.com/@BlackDiamondEquipmentLtd">Black Diamond Equipment</a>.</p>
+          </article>
+          <article class="clip" data-find="light flashlights and headlamps a headlamp comparison project farm best headlamp? let&#x27;s find out!">
+            <h4>A headlamp comparison</h4>
+            <button type="button" class="video-poster" data-yt="0HE-XEjuJec" data-title="A headlamp comparison">
+              <img src="https://i.ytimg.com/vi/0HE-XEjuJec/hqdefault.jpg" alt="" width="480" height="360" loading="lazy" decoding="async">
+              <span class="play" aria-hidden="true"></span>
+            </button>
+            <p>By <a href="https://www.youtube.com/@ProjectFarm">Project Farm</a>.</p>
+          </article>
+          </div>
+        </section>
+        <section class="vid-sub" id="light-lanterns">
+          <h3>Lanterns</h3>
+          <p class="cat-lead">A lantern that lights the table, not just the spot in front of you.</p>
+          <div class="clip-grid">
+          <article class="clip" data-find="light lanterns led, propane and liquid-fuel lanterns it&#x27;s me pauly c coleman lantern comparison: led vs. propane vs. naphtha">
+            <h4>LED, propane and liquid-fuel lanterns</h4>
+            <button type="button" class="video-poster" data-yt="TmwobU-vJrA" data-title="LED, propane and liquid-fuel lanterns">
+              <img src="https://i.ytimg.com/vi/TmwobU-vJrA/hqdefault.jpg" alt="" width="480" height="360" loading="lazy" decoding="async">
+              <span class="play" aria-hidden="true"></span>
+            </button>
+            <p>By <a href="https://www.youtube.com/@ItsMePaulyC">It&#x27;s Me Pauly C</a>.</p>
+          </article>
+          <article class="clip" data-find="light lanterns how to use a dual-fuel lantern colemanusa how to use your coleman premium dual fuel lantern and replace the mantles">
+            <h4>How to use a dual-fuel lantern</h4>
+            <button type="button" class="video-poster" data-yt="1xsuMNmy3Yc" data-title="How to use a dual-fuel lantern">
+              <img src="https://i.ytimg.com/vi/1xsuMNmy3Yc/hqdefault.jpg" alt="" width="480" height="360" loading="lazy" decoding="async">
+              <span class="play" aria-hidden="true"></span>
+            </button>
+            <p>By <a href="https://www.youtube.com/@Colemancampfire">ColemanUSA</a>.</p>
+          </article>
+          <article class="clip" data-find="light lanterns how to use a propane lantern creekwater cody c.w.c.: how to use a propane lantern">
+            <h4>How to use a propane lantern</h4>
+            <button type="button" class="video-poster" data-yt="UVpJcxUA9Jo" data-title="How to use a propane lantern">
+              <img src="https://i.ytimg.com/vi/UVpJcxUA9Jo/hqdefault.jpg" alt="" width="480" height="360" loading="lazy" decoding="async">
+              <span class="play" aria-hidden="true"></span>
+            </button>
+            <p>By <a href="https://www.youtube.com/@creekwatercody4856">CreekWater Cody</a>.</p>
+          </article>
+          </div>
+        </section>
+      </section>
+      <section class="vid-cat" id="sanitation">
+        <h2><svg class="ico" aria-hidden="true"><use href="#i-clean"/></svg>Sanitation</h2>
+        <p class="cat-lead">A toilet and a way to wash when the taps are off.</p>
+        <section class="vid-sub" id="sanitation-toilet">
+          <h3>A toilet without water</h3>
+          <p class="cat-lead">The bowl you already have, and a bucket if that will not do.</p>
+          <div class="clip-grid">
+          <article class="clip" data-find="sanitation a toilet without water what to do when you cannot flush ready uk can&#x27;t flush? survival toilet hack - here&#x27;s what to do when the water goes off!">
+            <h4>What to do when you cannot flush</h4>
+            <button type="button" class="video-poster" data-yt="C7zXUs6osig" data-title="What to do when you cannot flush">
+              <img src="https://i.ytimg.com/vi/C7zXUs6osig/hqdefault.jpg" alt="" width="480" height="360" loading="lazy" decoding="async">
+              <span class="play" aria-hidden="true"></span>
+            </button>
+            <p>By <a href="https://www.youtube.com/@ready_UK">Ready UK</a>.</p>
+          </article>
+          <article class="clip" data-find="sanitation a toilet without water how to use a toilet when the water is off sensible preparedness how to use your toilet when the water is off">
+            <h4>How to use a toilet when the water is off</h4>
+            <button type="button" class="video-poster" data-yt="20X73-7s1uw" data-title="How to use a toilet when the water is off">
+              <img src="https://i.ytimg.com/vi/20X73-7s1uw/hqdefault.jpg" alt="" width="480" height="360" loading="lazy" decoding="async">
+              <span class="play" aria-hidden="true"></span>
+            </button>
+            <p>By <a href="https://www.youtube.com/@SensiblePreparedness">Sensible Preparedness</a>.</p>
+          </article>
+          <article class="clip" data-find="sanitation a toilet without water how to turn a home toilet into an emergency toilet the provident prepper how to turn your home toilet into an emergency porta-potty">
+            <h4>How to turn a home toilet into an emergency toilet</h4>
+            <button type="button" class="video-poster" data-yt="ZrDXyMC4ZGs" data-title="How to turn a home toilet into an emergency toilet">
+              <img src="https://i.ytimg.com/vi/ZrDXyMC4ZGs/hqdefault.jpg" alt="" width="480" height="360" loading="lazy" decoding="async">
+              <span class="play" aria-hidden="true"></span>
+            </button>
+            <p>By <a href="https://www.youtube.com/@TheProvidentPrepper">The Provident Prepper</a>.</p>
+          </article>
+          <article class="clip" data-find="sanitation a toilet without water how to make a bucket toilet rated red how to make a diy bucket toilet">
+            <h4>How to make a bucket toilet</h4>
+            <button type="button" class="video-poster" data-yt="IIjBQAWPvg8" data-title="How to make a bucket toilet">
+              <img src="https://i.ytimg.com/vi/IIjBQAWPvg8/hqdefault.jpg" alt="" width="480" height="360" loading="lazy" decoding="async">
+              <span class="play" aria-hidden="true"></span>
+            </button>
+            <p>By <a href="https://www.youtube.com/@RatedRed">Rated Red</a>.</p>
+          </article>
+          </div>
+        </section>
+        <section class="vid-sub" id="sanitation-hygiene">
+          <h3>Washing</h3>
+          <p class="cat-lead">Hands, dishes, and staying clean on a small amount of water.</p>
+          <div class="clip-grid">
+          <article class="clip" data-find="sanitation washing how to wash your hands with soap and water world health organization (who) who: how to handwash? with soap and water">
+            <h4>How to wash your hands with soap and water</h4>
+            <button type="button" class="video-poster" data-yt="3PmVJQUCm4E" data-title="How to wash your hands with soap and water">
+              <img src="https://i.ytimg.com/vi/3PmVJQUCm4E/hqdefault.jpg" alt="" width="480" height="360" loading="lazy" decoding="async">
+              <span class="play" aria-hidden="true"></span>
+            </button>
+            <p>By <a href="https://www.youtube.com/@who">World Health Organization (WHO)</a>.</p>
+          </article>
+          <article class="clip" data-find="sanitation washing staying clean when the water is off calm before when the water is off: toilets, handwashing and staying clean at home">
+            <h4>Staying clean when the water is off</h4>
+            <button type="button" class="video-poster" data-yt="qDlrCg0F1R4" data-title="Staying clean when the water is off">
+              <img src="https://i.ytimg.com/vi/qDlrCg0F1R4/hqdefault.jpg" alt="" width="480" height="360" loading="lazy" decoding="async">
+              <span class="play" aria-hidden="true"></span>
+            </button>
+            <p>By <a href="https://www.youtube.com/@CalmBeforePrep">Calm Before</a>.</p>
+          </article>
+          <article class="clip" data-find="sanitation washing how to wash dishes with little water alaskagranny how to wash dishes with little or no water">
+            <h4>How to wash dishes with little water</h4>
+            <button type="button" class="video-poster" data-yt="AgCie4f48jQ" data-title="How to wash dishes with little water">
+              <img src="https://i.ytimg.com/vi/AgCie4f48jQ/hqdefault.jpg" alt="" width="480" height="360" loading="lazy" decoding="async">
+              <span class="play" aria-hidden="true"></span>
+            </button>
+            <p>By <a href="https://www.youtube.com/@AlaskaGranny">AlaskaGranny</a>.</p>
+          </article>
+          <article class="clip" data-find="sanitation washing how to stay clean while backpacking rei how to stay clean while backpacking! | miranda in the wild">
+            <h4>How to stay clean while backpacking</h4>
+            <button type="button" class="video-poster" data-yt="vLmpsEXwvE8" data-title="How to stay clean while backpacking">
+              <img src="https://i.ytimg.com/vi/vLmpsEXwvE8/hqdefault.jpg" alt="" width="480" height="360" loading="lazy" decoding="async">
+              <span class="play" aria-hidden="true"></span>
+            </button>
+            <p>By <a href="https://www.youtube.com/@rei">REI</a>.</p>
+          </article>
+          </div>
+        </section>
+      </section>
+      <section class="vid-cat" id="go-bag">
+        <h2><svg class="ico" aria-hidden="true"><use href="#i-bag"/></svg>Go-bag</h2>
+        <p class="cat-lead">What to pack if you have to leave, and how to pack it so you can carry it.</p>
+        <section class="vid-sub" id="go-bag-contents">
+          <h3>What to pack</h3>
+          <p class="cat-lead">The bag you grab when you have to leave the house.</p>
+          <div class="clip-grid">
+          <article class="clip" data-find="go-bag what to pack what the red cross says to keep in a go-bag abc4 utah red cross explains what to keep in a &quot;go bag&quot; in case of emergency">
+            <h4>What the Red Cross says to keep in a go-bag</h4>
+            <button type="button" class="video-poster" data-yt="wS0s8AG-7Vs" data-title="What the Red Cross says to keep in a go-bag">
+              <img src="https://i.ytimg.com/vi/wS0s8AG-7Vs/hqdefault.jpg" alt="" width="480" height="360" loading="lazy" decoding="async">
+              <span class="play" aria-hidden="true"></span>
+            </button>
+            <p>By <a href="https://www.youtube.com/@abc4utah">ABC4 Utah</a>.</p>
+          </article>
+          <article class="clip" data-find="go-bag what to pack what to pack if you have to evacuate 23abc news | kero what’s in your go-bag? the red cross shares what you need in case of evacuation">
+            <h4>What to pack if you have to evacuate</h4>
+            <button type="button" class="video-poster" data-yt="3hBmS-Nbsr8" data-title="What to pack if you have to evacuate">
+              <img src="https://i.ytimg.com/vi/3hBmS-Nbsr8/hqdefault.jpg" alt="" width="480" height="360" loading="lazy" decoding="async">
+              <span class="play" aria-hidden="true"></span>
+            </button>
+            <p>By <a href="https://www.youtube.com/@Turnto23KERO">23ABC News | KERO</a>.</p>
+          </article>
+          <article class="clip" data-find="go-bag what to pack go-bag basics for an evacuation simply prepared go bag basics: what to grab when you have to evacuate">
+            <h4>Go-bag basics for an evacuation</h4>
+            <button type="button" class="video-poster" data-yt="BxGaPsSXDSE" data-title="Go-bag basics for an evacuation">
+              <img src="https://i.ytimg.com/vi/BxGaPsSXDSE/hqdefault.jpg" alt="" width="480" height="360" loading="lazy" decoding="async">
+              <span class="play" aria-hidden="true"></span>
+            </button>
+            <p>By <a href="https://www.youtube.com/@Greathope350">Simply Prepared</a>.</p>
+          </article>
+          <article class="clip" data-find="go-bag what to pack how to build a bug-out bag city prepping how to build a bug out bag 2026">
+            <h4>How to build a bug-out bag</h4>
+            <button type="button" class="video-poster" data-yt="CvsJhNvDytU" data-title="How to build a bug-out bag">
+              <img src="https://i.ytimg.com/vi/CvsJhNvDytU/hqdefault.jpg" alt="" width="480" height="360" loading="lazy" decoding="async">
+              <span class="play" aria-hidden="true"></span>
+            </button>
+            <p>By <a href="https://www.youtube.com/@CityPrepping">City Prepping</a>.</p>
+          </article>
+          </div>
+        </section>
+        <section class="vid-sub" id="go-bag-packing">
+          <h3>How to pack it</h3>
+          <p class="cat-lead">Weight, pockets, and a bag you can still walk with.</p>
+          <div class="clip-grid">
+          <article class="clip" data-find="go-bag how to pack it how to pack a backpack outside how to pack your backpack the right way | outside">
+            <h4>How to pack a backpack</h4>
+            <button type="button" class="video-poster" data-yt="ruQdDdLB420" data-title="How to pack a backpack">
+              <img src="https://i.ytimg.com/vi/ruQdDdLB420/hqdefault.jpg" alt="" width="480" height="360" loading="lazy" decoding="async">
+              <span class="play" aria-hidden="true"></span>
+            </button>
+            <p>By <a href="https://www.youtube.com/@OutsideOnline">Outside</a>.</p>
+          </article>
+          <article class="clip" data-find="go-bag how to pack it how to pack a 72-hour bag doug barry 72 hour bag | how to make a bug out bag - part 1">
+            <h4>How to pack a 72-hour bag</h4>
+            <button type="button" class="video-poster" data-yt="j_e_jHMd8yM" data-title="How to pack a 72-hour bag">
+              <img src="https://i.ytimg.com/vi/j_e_jHMd8yM/hqdefault.jpg" alt="" width="480" height="360" loading="lazy" decoding="async">
+              <span class="play" aria-hidden="true"></span>
+            </button>
+            <p>By <a href="https://www.youtube.com/@DougBarry">Doug Barry</a>.</p>
+          </article>
+          <article class="clip" data-find="go-bag how to pack it how to pack a bug-out bag so it carries well live ready bug out bag packing | how to pack your bug out bag contents ergonomically">
+            <h4>How to pack a bug-out bag so it carries well</h4>
+            <button type="button" class="video-poster" data-yt="3PpDmBQ7JpQ" data-title="How to pack a bug-out bag so it carries well">
+              <img src="https://i.ytimg.com/vi/3PpDmBQ7JpQ/hqdefault.jpg" alt="" width="480" height="360" loading="lazy" decoding="async">
+              <span class="play" aria-hidden="true"></span>
+            </button>
+            <p>By <a href="https://www.youtube.com/@LiveReady">LIVE READY</a>.</p>
+          </article>
+          <article class="clip" data-find="go-bag how to pack it a 72-hour kit on different budgets pack travel hike emergency kit for all budgets | 72-hour go bag guide (2026)">
+            <h4>A 72-hour kit on different budgets</h4>
+            <button type="button" class="video-poster" data-yt="HmG18CCRtSw" data-title="A 72-hour kit on different budgets">
+              <img src="https://i.ytimg.com/vi/HmG18CCRtSw/hqdefault.jpg" alt="" width="480" height="360" loading="lazy" decoding="async">
+              <span class="play" aria-hidden="true"></span>
+            </button>
+            <p>By <a href="https://www.youtube.com/@packtravelhike">Pack Travel Hike</a>.</p>
+          </article>
+          </div>
+        </section>
+      </section>
+      <section class="vid-cat" id="home">
+        <h2><svg class="ico" aria-hidden="true"><use href="#i-home"/></svg>Home</h2>
+        <p class="cat-lead">The first hours of a blackout, and how to shut the utilities off.</p>
+        <section class="vid-sub" id="home-blackout">
+          <h3>The first hours</h3>
+          <p class="cat-lead">What to do while you still have some light and a calm head.</p>
+          <div class="clip-grid">
+          <article class="clip" data-find="home the first hours what to do during and after a power outage toronto hydro what to do during &amp; after a power outage">
+            <h4>What to do during and after a power outage</h4>
+            <button type="button" class="video-poster" data-yt="tWDPn9hOeYY" data-title="What to do during and after a power outage">
+              <img src="https://i.ytimg.com/vi/tWDPn9hOeYY/hqdefault.jpg" alt="" width="480" height="360" loading="lazy" decoding="async">
+              <span class="play" aria-hidden="true"></span>
+            </button>
+            <p>By <a href="https://www.youtube.com/@TorontoHydro">Toronto Hydro</a>.</p>
+          </article>
+          <article class="clip" data-find="home the first hours things people forget when the power goes out cleverjoe off grid 10 things people forget when the power goes out">
+            <h4>Things people forget when the power goes out</h4>
+            <button type="button" class="video-poster" data-yt="NdQ4xPSSvAA" data-title="Things people forget when the power goes out">
+              <img src="https://i.ytimg.com/vi/NdQ4xPSSvAA/hqdefault.jpg" alt="" width="480" height="360" loading="lazy" decoding="async">
+              <span class="play" aria-hidden="true"></span>
+            </button>
+            <p>By <a href="https://www.youtube.com/@cleverjoe">CleverJoe Off Grid</a>.</p>
+          </article>
+          <article class="clip" data-find="home the first hours how to get through the first three days cleverjoe off grid power outage? how to get through the first 3 days">
+            <h4>How to get through the first three days</h4>
+            <button type="button" class="video-poster" data-yt="VBS6NlTKd_E" data-title="How to get through the first three days">
+              <img src="https://i.ytimg.com/vi/VBS6NlTKd_E/hqdefault.jpg" alt="" width="480" height="360" loading="lazy" decoding="async">
+              <span class="play" aria-hidden="true"></span>
+            </button>
+            <p>By <a href="https://www.youtube.com/@cleverjoe">CleverJoe Off Grid</a>.</p>
+          </article>
+          </div>
+        </section>
+        <section class="vid-sub" id="home-utilities">
+          <h3>Utilities and a small fire</h3>
+          <p class="cat-lead">Know the shutoffs before you need them, and how to use an extinguisher.</p>
+          <div class="clip-grid">
+          <article class="clip" data-find="home utilities and a small fire how to shut off the utilities portland bureau of emergency management 16. how to shut off utilities">
+            <h4>How to shut off the utilities</h4>
+            <button type="button" class="video-poster" data-yt="CXA_-P1rHdU" data-title="How to shut off the utilities">
+              <img src="https://i.ytimg.com/vi/CXA_-P1rHdU/hqdefault.jpg" alt="" width="480" height="360" loading="lazy" decoding="async">
+              <span class="play" aria-hidden="true"></span>
+            </button>
+            <p>By <a href="https://www.youtube.com/@PortlandBEM">Portland Bureau of Emergency Management</a>.</p>
+          </article>
+          <article class="clip" data-find="home utilities and a small fire how to turn off power, water and gas mother daughter projects diy how to turn off power, water, gas, etc. in a home emergency">
+            <h4>How to turn off power, water and gas</h4>
+            <button type="button" class="video-poster" data-yt="EpCsYBMRkHw" data-title="How to turn off power, water and gas">
+              <img src="https://i.ytimg.com/vi/EpCsYBMRkHw/hqdefault.jpg" alt="" width="480" height="360" loading="lazy" decoding="async">
+              <span class="play" aria-hidden="true"></span>
+            </button>
+            <p>By <a href="https://www.youtube.com/@MotherDaughterProjectsDIY">Mother Daughter Projects DIY</a>.</p>
+          </article>
+          <article class="clip" data-find="home utilities and a small fire how to find and use a stop tap thames water how to find and use your inside stop tap">
+            <h4>How to find and use a stop tap</h4>
+            <button type="button" class="video-poster" data-yt="cUMup6v6blk" data-title="How to find and use a stop tap">
+              <img src="https://i.ytimg.com/vi/cUMup6v6blk/hqdefault.jpg" alt="" width="480" height="360" loading="lazy" decoding="async">
+              <span class="play" aria-hidden="true"></span>
+            </button>
+            <p>By <a href="https://www.youtube.com/@thameswaterofficial">Thames Water</a>.</p>
+          </article>
+          <article class="clip" data-find="home utilities and a small fire how to use a fire extinguisher san josé fire department how to use a fire extinguisher">
+            <h4>How to use a fire extinguisher</h4>
+            <button type="button" class="video-poster" data-yt="DQeAwADGi0M" data-title="How to use a fire extinguisher">
+              <img src="https://i.ytimg.com/vi/DQeAwADGi0M/hqdefault.jpg" alt="" width="480" height="360" loading="lazy" decoding="async">
+              <span class="play" aria-hidden="true"></span>
+            </button>
+            <p>By <a href="https://www.youtube.com/@SanJos%C3%A9FireDepartment">San José Fire Department</a>.</p>
+          </article>
+          <article class="clip" data-find="home utilities and a small fire how to use a portable fire extinguisher fire equipment manufacturers&#x27; association how to use a portable fire extinguisher training video">
+            <h4>How to use a portable fire extinguisher</h4>
+            <button type="button" class="video-poster" data-yt="BLjoWjCrDqg" data-title="How to use a portable fire extinguisher">
+              <img src="https://i.ytimg.com/vi/BLjoWjCrDqg/hqdefault.jpg" alt="" width="480" height="360" loading="lazy" decoding="async">
+              <span class="play" aria-hidden="true"></span>
+            </button>
+            <p>By <a href="https://www.youtube.com/@FireEquipManufAssoc">Fire Equipment Manufacturers&#x27; Association</a>.</p>
+          </article>
+          </div>
+        </section>
+      </section>
     </section>
   </main>
 
@@ -59,210 +1403,84 @@
       <a href="index.html#questions">Questions</a>
     </nav>
   </footer>
-
-  <script id="res-data" type="application/json">[{"id":"power-stations","title":"Power stations","subs":[{"id":"choosing","title":"Choosing a power station","videos":[{"id":"A1Opwrs1ef4","title":"How watt-hours and watts decide which power station to buy","creator":"ReeWray Outdoors","url":"https://www.youtube.com/@ReeWrayOutdoors"}]},{"id":"operating","title":"Operating a power station","videos":[{"id":"sIvy00eeg2E","title":"How to turn a power station on and use its outlets","creator":"EcoFlow Support","url":"https://www.youtube.com/@EcoFlowSupport"},{"id":"g1O0zgCNZag","title":"How to charge a power station from the wall, the sun, or a car","creator":"EcoFlow","url":"https://www.youtube.com/@EcoFlowTech"}]}]},{"id":"radios","title":"Radios","subs":[{"id":"using","title":"Radios","videos":[{"id":"WUoUIVDAsQU","title":"How to talk on a two-way radio","creator":"NotaRubicon Productions","url":"https://www.youtube.com/@TheNotaRubicon"},{"id":"On1PGGkZeJk","title":"What a family radio is for, and how to start","creator":"Trail Traveler","url":"https://www.youtube.com/@TrailTraveler"},{"id":"dy9Ae8v2EV8","title":"How to set a weather radio so an alert wakes you","creator":"Midland Radio","url":"https://www.youtube.com/@MidlandRadioCorp"},{"id":"l4DxwIHEXiQ","title":"How to tune a handheld radio to the local weather station","creator":"James Burnett","url":"https://www.youtube.com/@JamesBurnettNET"}]}]},{"id":"water","title":"Water","subs":[{"id":"filtering","title":"How to filter water","videos":[{"id":"av9Q7HWlVM4","title":"How to drink through a LifeStraw","creator":"LifeStraw","url":"https://www.youtube.com/@lifestraw"},{"id":"Kb_6eXF8kVE","title":"How to filter water from a stream or a lake","creator":"REI","url":"https://www.youtube.com/@rei"},{"id":"lKWQjlq-uYA","title":"How to use a squeeze water filter","creator":"Sawyer","url":"https://www.youtube.com/@SawyerProducts"},{"id":"sr4OuSFp5Fs","title":"How to clean a straw filter so it keeps working","creator":"Rob LifeStraw","url":"https://www.youtube.com/@roblifestraw2575"}]}]},{"id":"supplies","title":"What to buy","subs":[{"id":"drinking-water","title":"Drinking water","videos":[{"id":"9w0SHGIh9jM","title":"Which water filter to buy","creator":"Taylor the Nahamsha Hiker","url":"https://www.youtube.com/@TaylortheNahamshaHiker"}]},{"id":"light","title":"Light","videos":[{"id":"g8gNOUWsMoI","title":"How to choose a headlamp that lasts more than one night","creator":"Nitecore","url":"https://www.youtube.com/@NitecoreStore"},{"id":"0HE-XEjuJec","title":"How headlamps compare when you actually use them","creator":"Project Farm","url":"https://www.youtube.com/@ProjectFarm"}]},{"id":"medical","title":"Medical care","videos":[{"id":"y7pvxxx4GB0","title":"What to put in a first aid kit","creator":"Ohio State Wexner Medical Center","url":"https://www.youtube.com/@OSUWexMed"}]},{"id":"food","title":"Food","videos":[{"id":"FCDURxu2L3Y","title":"Which camp stove and fuel to buy","creator":"REI","url":"https://www.youtube.com/@rei"},{"id":"i5o27F8bJ-c","title":"How to pick a stove that boils water for a meal","creator":"Outside","url":"https://www.youtube.com/@OutsideOnline"}]},{"id":"power","title":"Power","videos":[{"id":"gknNrcu20Yo","title":"Which appliances a backup battery can keep running","creator":"Scott Link Media","url":"https://www.youtube.com/@scottlinkmedia"}]},{"id":"shelter","title":"Shelter","videos":[{"id":"4M-f61tbWH4","title":"How to pitch a tarp so the rain runs off","creator":"REI","url":"https://www.youtube.com/@rei"},{"id":"KKN7Ewht1DQ","title":"What to keep at home for cold, water, and a dead phone","creator":"American Red Cross","url":"https://www.youtube.com/@redcross"}]}]}]</script>
   <script>
     (function () {
-      var data = JSON.parse(document.getElementById("res-data").textContent);
-      var icons = {
-        "power-stations": '<path d="M13 2.5 4.8 13.2h6.4l-.8 8.3 8.8-12.2h-6.3L13 2.5z"/>',
-        radios: '<path d="M5 12.5a7 7 0 0 1 14 0"/><path d="M8 12.5a4 4 0 0 1 8 0"/><path d="M12 16.2v3.2"/><path d="M9 19.5h6"/>',
-        water: '<path d="M12 3.2c2.7 3.5 5 6.2 5 9.1a5 5 0 0 1-10 0c0-2.9 2.3-5.6 5-9.1z"/>',
-        supplies: '<path d="M6 8.2h12l-.8 11.2H6.8L6 8.2z"/><path d="M9 8.2V6.6A1.6 1.6 0 0 1 10.6 5h2.8A1.6 1.6 0 0 1 15 6.6v1.6"/>'
-      };
-
       var legacy = {
-        "drinking-water": ["water", "filtering"],
-        filtering: ["water", "filtering"],
-        energy: ["power-stations", "choosing"],
-        "power-stations": ["power-stations", "choosing"],
-        radios: ["radios", "using"],
-        light: ["supplies", "light"],
-        food: ["supplies", "food"],
-        shelter: ["supplies", "shelter"],
-        "medical-care": ["supplies", "medical"]
+        "power-stations": "power-stations",
+        energy: "power",
+        radios: "communication-radios",
+        filtering: "water-filtering",
+        water: "water",
+        light: "light",
+        food: "food",
+        shelter: "building",
+        "medical-care": "first-aid",
+        medical: "first-aid",
+        "drinking-water": "water-storing"
       };
 
-      var state = { cat: data[0].id, sub: data[0].subs[0].id, q: "" };
-      var qInput = document.getElementById("res-q");
-      var catPick = document.getElementById("res-cat");
-      var subPick = document.getElementById("res-sub");
-      var videos = document.getElementById("res-videos");
-      var side = document.getElementById("res-side");
-
-      function findCat(id) {
-        for (var i = 0; i < data.length; i++) if (data[i].id === id) return data[i];
-        return data[0];
-      }
-
-      function findSub(cat, id) {
-        for (var i = 0; i < cat.subs.length; i++) if (cat.subs[i].id === id) return cat.subs[i];
-        return cat.subs[0];
-      }
-
-      function esc(s) {
-        return String(s).replace(/[&<>"']/g, function (c) {
-          return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
-        });
-      }
-
-      function icon(name) {
-        return '<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" stroke-linecap="round">' + icons[name] + "</svg>";
-      }
-
-      function applyHash() {
+      function retarget() {
         var raw = (location.hash || "").replace(/^#/, "");
         if (!raw) return;
-        if (legacy[raw]) {
-          state.cat = legacy[raw][0];
-          state.sub = legacy[raw][1];
-          return;
-        }
-        var parts = raw.split("/");
-        var cat = findCat(parts[0]);
-        if (cat.id !== parts[0]) return;
-        var sub = findSub(cat, parts[1] || cat.subs[0].id);
-        state.cat = cat.id;
-        state.sub = sub.id;
+        var key = decodeURIComponent(raw.split("/")[0]);
+        var next = legacy[key];
+        if (next && ("#" + next) !== location.hash) location.replace("#" + next);
       }
 
-      function groups() {
-        var q = state.q.trim().toLowerCase();
-        var out = [];
-        if (!q) {
-          var cat = findCat(state.cat);
-          var sub = findSub(cat, state.sub);
-          out.push({ cat: cat, sub: sub, videos: sub.videos });
-          return out;
-        }
-        data.forEach(function (cat) {
-          cat.subs.forEach(function (sub) {
-            var topic = (cat.title + " " + sub.title).toLowerCase().indexOf(q) !== -1;
-            var list = sub.videos.filter(function (v) {
-              if (topic) return true;
-              return (v.title + " " + v.creator).toLowerCase().indexOf(q) !== -1;
-            });
-            if (list.length) out.push({ cat: cat, sub: sub, videos: list });
-          });
+      function mark() {
+        var hash = (location.hash || "").replace(/^#/, "");
+        var cats = [].slice.call(document.querySelectorAll(".vid-cat"));
+        var best = "";
+        cats.forEach(function (cat) {
+          if ((hash === cat.id || hash.indexOf(cat.id + "-") === 0) && cat.id.length > best.length) best = cat.id;
         });
-        return out;
+        if (!best) best = cats[0].id;
+        document.querySelectorAll(".cat-row a").forEach(function (link) {
+          if (link.getAttribute("href") === "#" + best) link.setAttribute("aria-current", "page");
+          else link.removeAttribute("aria-current");
+        });
       }
 
-      function clip(v) {
-        return '<article class="res-clip">' +
-          "<h3>" + esc(v.title) + "</h3>" +
-          '<div class="video"><iframe src="https://www.youtube-nocookie.com/embed/' + esc(v.id) + '" title="' + esc(v.title) + '" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy"></iframe></div>' +
-          "<p>By <a href=\"" + esc(v.url) + "\">" + esc(v.creator) + "</a>.</p>" +
-          "</article>";
-      }
-
-      function renderVideos() {
-        var list = groups();
-        if (!list.length) {
-          videos.innerHTML = '<p class="res-empty">No videos.</p>';
-          return;
-        }
-        videos.innerHTML = list.map(function (g) {
-          return '<section class="res-group">' +
-            '<p class="res-kicker">' + esc(g.cat.title) + "</p>" +
-            "<h2>" + esc(g.sub.title) + "</h2>" +
-            g.videos.map(clip).join("") +
-            "</section>";
-        }).join("");
-      }
-
-      function renderPicks() {
-        var cat = findCat(state.cat);
-        catPick.innerHTML = data.map(function (c) {
-          return '<option value="' + esc(c.id) + '"' + (c.id === cat.id ? " selected" : "") + ">" + esc(c.title) + "</option>";
-        }).join("");
-        subPick.innerHTML = cat.subs.map(function (s) {
-          return '<option value="' + esc(s.id) + '"' + (s.id === state.sub ? " selected" : "") + ">" + esc(s.title) + "</option>";
-        }).join("");
-      }
-
-      function renderSide() {
-        var open = findCat(state.cat).id;
-        side.innerHTML = data.map(function (cat) {
-          var opened = cat.id === open;
-          var subs = cat.subs.map(function (sub) {
-            var current = opened && sub.id === state.sub && !state.q.trim();
-            return '<button type="button" data-cat="' + esc(cat.id) + '" data-sub="' + esc(sub.id) + '"' +
-              (current ? ' aria-current="true"' : "") + ">" + esc(sub.title) + "</button>";
-          }).join("");
-          return '<div class="res-cat' + (opened ? " is-open" : "") + '">' +
-            '<button type="button" data-open="' + esc(cat.id) + '" aria-expanded="' + (opened ? "true" : "false") + '">' +
-            icon(cat.id) + "<span>" + esc(cat.title) + "</span></button>" +
-            '<div class="res-subs"' + (opened ? "" : " hidden") + ">" + subs + "</div></div>";
-        }).join("");
-      }
-
-      function render() {
-        document.querySelector(".band").classList.toggle("is-searching", state.q.trim().length > 0);
-        renderPicks();
-        renderSide();
-        renderVideos();
-      }
-
-      function choose(catId, subId) {
-        var cat = findCat(catId);
-        var sub = findSub(cat, subId || cat.subs[0].id);
-        state.cat = cat.id;
-        state.sub = sub.id;
-        state.q = "";
-        qInput.value = "";
-        if (location.hash) history.replaceState(null, "", location.pathname + location.search);
-        render();
-      }
-
-      qInput.addEventListener("input", function () {
-        state.q = qInput.value;
-        document.querySelector(".band").classList.toggle("is-searching", state.q.trim().length > 0);
-        renderVideos();
-        renderSide();
+      var input = document.getElementById("res-q");
+      var empty = document.getElementById("vid-empty");
+      input.addEventListener("input", function () {
+        var q = input.value.trim().toLowerCase();
+        var any = false;
+        document.querySelectorAll(".clip").forEach(function (clip) {
+          var show = !q || clip.getAttribute("data-find").indexOf(q) !== -1;
+          clip.hidden = !show;
+          if (show) any = true;
+        });
+        document.querySelectorAll(".vid-sub").forEach(function (sub) {
+          sub.hidden = !sub.querySelector(".clip:not([hidden])");
+        });
+        document.querySelectorAll(".vid-cat").forEach(function (cat) {
+          cat.hidden = !cat.querySelector(".vid-sub:not([hidden])");
+        });
+        empty.hidden = any || !q;
       });
+      document.querySelector(".res-search").addEventListener("submit", function (e) { e.preventDefault(); });
 
-      document.querySelector(".res-search").addEventListener("submit", function (e) {
-        e.preventDefault();
-      });
-
-      catPick.addEventListener("change", function () {
-        choose(catPick.value, findCat(catPick.value).subs[0].id);
-      });
-
-      subPick.addEventListener("change", function () {
-        choose(state.cat, subPick.value);
-      });
-
-      side.addEventListener("click", function (e) {
-        var openBtn = e.target.closest("[data-open]");
-        if (openBtn) {
-          var id = openBtn.getAttribute("data-open");
-          if (state.cat === id) {
-            var node = openBtn.closest(".res-cat");
-            var box = node.querySelector(".res-subs");
-            var willOpen = box.hasAttribute("hidden");
-            box.hidden = !willOpen;
-            node.classList.toggle("is-open", willOpen);
-            openBtn.setAttribute("aria-expanded", willOpen ? "true" : "false");
-            return;
-          }
-          choose(id, findCat(id).subs[0].id);
-          return;
-        }
-        var subBtn = e.target.closest("[data-sub]");
-        if (subBtn) choose(subBtn.getAttribute("data-cat"), subBtn.getAttribute("data-sub"));
+      document.querySelector(".academy").addEventListener("click", function (e) {
+        var btn = e.target.closest(".video-poster");
+        if (!btn) return;
+        var id = btn.getAttribute("data-yt");
+        if (!/^[A-Za-z0-9_-]{11}$/.test(id)) return;
+        var box = document.createElement("div");
+        box.className = "video";
+        var frame = document.createElement("iframe");
+        frame.src = "https://www.youtube-nocookie.com/embed/" + id + "?autoplay=1";
+        frame.title = btn.getAttribute("data-title") || "Video";
+        frame.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
+        frame.allowFullscreen = true;
+        box.appendChild(frame);
+        btn.replaceWith(box);
       });
 
       window.addEventListener("hashchange", function () {
-        applyHash();
-        state.q = "";
-        qInput.value = "";
-        render();
+        if (!retarget()) mark();
       });
-
-      applyHash();
-      render();
+      if (!retarget()) mark();
     })();
   </script>
   <script src="/guides.js"></script>
