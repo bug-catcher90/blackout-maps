@@ -161,12 +161,6 @@
       button.textContent = inCart ? "In the cart" : "Add to cart"
       button.setAttribute("aria-pressed", inCart ? "true" : "false")
     })
-    document.querySelectorAll("[data-add-set]").forEach(function (button) {
-      var set = button.getAttribute("data-add-set").split(",")
-      var allIn = set.every(function (slug) { return slugs.indexOf(slug) !== -1 })
-      button.textContent = allIn ? "In the cart" : "Add these four"
-      button.setAttribute("aria-pressed", allIn ? "true" : "false")
-    })
   }
 
   function line(title, amount, extra) {
@@ -297,19 +291,6 @@
       }
       slugs.push(slug)
       write(slugs)
-    })
-  })
-
-  document.querySelectorAll("[data-add-set]").forEach(function (button) {
-    button.addEventListener("click", function () {
-      var set = button.getAttribute("data-add-set").split(",").filter(lookup)
-      var slugs = read()
-      var missing = set.filter(function (slug) { return slugs.indexOf(slug) === -1 })
-      if (!missing.length) {
-        window.location.assign("/cart.html")
-        return
-      }
-      write(slugs.concat(missing))
     })
   })
 
