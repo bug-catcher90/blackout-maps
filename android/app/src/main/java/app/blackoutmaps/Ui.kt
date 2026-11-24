@@ -69,6 +69,7 @@ import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalLayoutDirection
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.TextStyle
@@ -137,7 +138,7 @@ fun BlackoutScreen(model: AppModel = viewModel()) {
                 lifecycle.removeObserver(observer)
             }
         }
-        val modal = model.sheet == Sheet.Steps || model.sheet == Sheet.Import || model.sheet == Sheet.Languages || model.sheet == Sheet.Privacy || model.sheet == Sheet.Terms
+        val modal = model.sheet == Sheet.Steps || model.sheet == Sheet.Import || model.sheet == Sheet.Languages || model.sheet == Sheet.Privacy || model.sheet == Sheet.Terms || model.sheet == Sheet.Credits
         BackHandler(modal || model.sheet == Sheet.Routes || model.categoryId != null || model.showResults || model.fixing || model.adding || model.correcting || model.navigating) {
             when {
                 modal -> model.closeSheet()
@@ -186,6 +187,8 @@ fun BlackoutScreen(model: AppModel = viewModel()) {
                         RecenterButton(model)
                     }
                 }
+                val panel = !model.navigating && (model.tab == Tab.Settings || (model.tab == Tab.Pins && !model.adding))
+                if (!panel) MapAttribution(Modifier.padding(start = 8.dp, end = 8.dp, bottom = 6.dp))
                 BottomStack(model)
             }
         }
@@ -193,6 +196,38 @@ fun BlackoutScreen(model: AppModel = viewModel()) {
     }
     }
 }
+
+@Composable
+private fun MapAttribution(modifier: Modifier) {
+    val ink = LocalInk.current
+    val uri = LocalUriHandler.current
+    val shape = RoundedCornerShape(10.dp)
+    Row(
+        modifier
+            .background(ink.bg.copy(alpha = 0.88f), shape)
+            .border(1.dp, ink.line, shape)
+            .padding(horizontal = 8.dp, vertical = 2.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        ATTRIBUTION.forEachIndexed { index, (label, url) ->
+            if (index > 0) Text(" · ", color = ink.muted, fontSize = 11.sp, fontFamily = FontFamily.Default)
+            Text(
+                label,
+                color = ink.ink,
+                fontSize = 11.sp,
+                fontFamily = FontFamily.Default,
+                maxLines = 1,
+                modifier = Modifier.clickable { uri.openUri(url) }
+            )
+        }
+    }
+}
+
+private val ATTRIBUTION = listOf(
+    "© OpenStreetMap contributors" to "https://www.openstreetmap.org/copyright",
+    "Protomaps" to "https://protomaps.com",
+    "Natural Earth" to "https://www.naturalearthdata.com/"
+)
 
 @Composable
 private fun TopChrome(model: AppModel, modifier: Modifier) {
@@ -751,6 +786,7 @@ private fun SettingsPanel(model: AppModel) {
         Section(model.t("legal")) {
             ChevronRow(model.t("privacy")) { model.sheet = Sheet.Privacy }
             ChevronRow(model.t("terms")) { model.sheet = Sheet.Terms }
+            ChevronRow(model.t("credits")) { model.sheet = Sheet.Credits }
         }
     }
 }
@@ -1267,6 +1303,7 @@ private fun Sheets(model: AppModel) {
                 }
                 Sheet.Privacy -> LegalPage(model.t("privacy"), model.t("privacy-body"), model.t("close")) { model.closeSheet() }
                 Sheet.Terms -> LegalPage(model.t("terms"), model.t("terms-body"), model.t("close")) { model.closeSheet() }
+                Sheet.Credits -> LegalPage(model.t("credits"), model.t("credits-body"), model.t("close")) { model.closeSheet() }
                 else -> Unit
             }
         }

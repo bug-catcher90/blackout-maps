@@ -1,4 +1,4 @@
-import { AttributionControl, Map, Marker, addProtocol } from "/maps/vendor/maplibre-gl.mjs"
+import { Map, Marker, addProtocol } from "/maps/vendor/maplibre-gl.mjs"
 import { circlePolygon, createPedestrianDeadReckoning, wedgePolygon } from "./estimator.js"
 import { advanceOnLine, findRoute, findRoutes, isMotorwayEdge, isTollEdge, maneuver, metersBetween, moveAlongRoad, openRoadGraph, sliceRoute, TRAVEL_KMH, tripMinutes } from "./route.js"
 import { nearestDoor, openAddressBook, parseDoorQuery, suggestAddresses } from "./addresses.js"
@@ -131,6 +131,7 @@ const stepLabel = document.querySelector("#step-label")
 const legalLabel = document.querySelector("#legal-label")
 const privacyLink = document.querySelector("#privacy-link")
 const termsLink = document.querySelector("#terms-link")
+const creditsLink = document.querySelector("#credits-link")
 const importSheet = document.querySelector("#sheet-import")
 const importTitle = document.querySelector("#import-title")
 const importClose = document.querySelector("#import-close")
@@ -720,7 +721,7 @@ function layoutMap() {
   if (!map) return
   const sheetEl = !pinSheet.hidden ? pinSheet : !placesSheet.hidden ? placesSheet : null
   const sheetH = sheetEl ? sheetEl.getBoundingClientRect().height : 0
-  const cardEl = !navCard.hidden ? navCard : !tripEl.hidden ? tripEl : !saveCard.hidden ? saveCard : !placeCard.hidden ? placeCard : null
+  const cardEl = !correctBar.hidden ? correctBar : !fixBar.hidden ? fixBar : !navCard.hidden ? navCard : !tripEl.hidden ? tripEl : !saveCard.hidden ? saveCard : !placeCard.hidden ? placeCard : null
   const cardH = cardEl ? cardEl.getBoundingClientRect().height : 0
   const lift = Math.max(sheetH, cardH)
   document.documentElement.style.setProperty("--lift", `${lift}px`)
@@ -2450,6 +2451,7 @@ function renderMaps() {
   legalLabel.textContent = t("Legal")
   privacyLink.querySelector("span").textContent = t("Política de privacidade")
   termsLink.querySelector("span").textContent = t("Termos de utilização")
+  creditsLink.querySelector("span").textContent = t("Créditos e licenças")
   importClose.setAttribute("aria-label", t("Fechar"))
   importSheet.setAttribute("aria-label", t("Importar mapas"))
 
@@ -2654,7 +2656,9 @@ async function bootMap(file) {
     pitchWithRotate: false,
   })
   map.touchZoomRotate.disableRotation()
-  map.addControl(new AttributionControl({ compact: true }), "bottom-right")
+  const relayout = new ResizeObserver(() => layoutMap())
+  relayout.observe(fixBar)
+  relayout.observe(correctBar)
   map.on("load", () => {
     addOverlay()
     mapReady = true
