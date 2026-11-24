@@ -44,7 +44,7 @@ async function couponId(stripe, percent) {
       id: id,
       percent_off: percent,
       duration: "forever",
-      name: percent === 50 ? "All eight guides" : "Three or more guides",
+      name: percent === 50 ? "All ten guides" : "Three or more guides",
     })
   } catch (error) {
     if (!error || error.code !== "resource_already_exists") throw error
