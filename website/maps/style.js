@@ -48,7 +48,7 @@ export function mapStyle(archiveUrl) {
         type: "vector",
         url: archiveUrl,
         attribution:
-          '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> © <a href="https://protomaps.com">Protomaps</a>',
+          '<a href="https://www.openstreetmap.org/copyright">© OpenStreetMap contributors</a> · <a href="https://protomaps.com">Protomaps</a>',
       },
     },
     layers: [
