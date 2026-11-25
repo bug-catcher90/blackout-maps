@@ -1,13 +1,21 @@
-import { fold } from "./search.js"
+import { fold, resultScore } from "./search.js"
 
 export const CATEGORIES = [
-  { id: 0, label: "Saúde", mark: "Saúde", color: "#0f6b4c" },
-  { id: 1, label: "Polícia", mark: "Polícia", color: "#1d4ed8" },
-  { id: 2, label: "Bombeiros", mark: "Bombeiros", color: "#dc2626" },
-  { id: 3, label: "Gasolina", mark: "Gasolina", color: "#7c3aed" },
-  { id: 4, label: "Supermercados", mark: "Supermercado", color: "#b45309" },
-  { id: 5, label: "Restaurantes", mark: "Restaurante", color: "#be185d" },
+  { id: 0, label: "Health", unnamed: "Health facility", color: "#0f6b4c" },
+  { id: 1, label: "Police", unnamed: "Police station", color: "#1d4ed8" },
+  { id: 2, label: "Fire", unnamed: "Fire station", color: "#dc2626" },
+  { id: 3, label: "Fuel", unnamed: "Fuel station", color: "#7c3aed" },
+  { id: 4, label: "Supermarkets", unnamed: "Supermarket", color: "#b45309" },
+  { id: 5, label: "Restaurants", unnamed: "Restaurant", color: "#be185d" },
 ]
+
+// Packages built before unnamed places were stored with an empty name carry these
+// placeholders instead; readers treat them as unnamed so apps can label them in the user's language.
+const LEGACY_PLACEHOLDERS = ["Saúde", "Polícia", "Bombeiros", "Gasolina", "Supermercado", "Restaurante"]
+
+export function isPlaceholderName(category, name) {
+  return !name || name === LEGACY_PLACEHOLDERS[category]
+}
 
 function pad(bytes) {
   const extra = (4 - (bytes.length % 4)) % 4
@@ -47,12 +55,12 @@ export function buildPlaceBook(rows) {
     .filter((row) => row.category >= 0 && row.category < CATEGORIES.length && Number.isFinite(row.lat) && Number.isFinite(row.lon))
     .map((row) => ({
       category: row.category,
-      name: row.name || CATEGORIES[row.category].mark,
+      name: row.name || "",
       address: row.address || "",
       lat: Math.round(row.lat * 1e6),
       lon: Math.round(row.lon * 1e6),
     }))
-    .sort((a, b) => a.category - b.category || a.lat - b.lat || a.lon - b.lon || a.name.localeCompare(b.name, "pt"))
+    .sort((a, b) => a.category - b.category || a.lat - b.lat || a.lon - b.lon || (a.name < b.name ? -1 : a.name > b.name ? 1 : 0))
   const names = []
   const addrs = []
   let nameBytes = 0
@@ -180,7 +188,8 @@ export function openPlaceBook(buffer) {
   const names = new Array(count)
   const addrs = new Array(count)
   for (let i = 0; i < count; i += 1) {
-    names[i] = decoder.decode(nameBlob.subarray(nameOff[i], nameOff[i] + nameLen[i]))
+    const name = decoder.decode(nameBlob.subarray(nameOff[i], nameOff[i] + nameLen[i]))
+    names[i] = isPlaceholderName(category[i], name) ? "" : name
     addrs[i] = decoder.decode(addrBlob.subarray(addrOff[i], addrOff[i] + addrLen[i]))
   }
   return { count, category, lat, lon, names, addrs, lat0, lon0, latN, lonN, step, cellHead, cellIds }
@@ -225,13 +234,15 @@ export function placesInView(book, west, south, east, north, category = -1, limi
 }
 
 const PIN_ZOOM = 6.2
+// Words that mark the main service of its kind, so it wins a pin over a small one nearby.
+// Folded, matched anywhere in the name; covers the languages of the countries in the catalog.
 const SERVICE_WORDS = [
-  ["hospital", "urgencia", "inem", "centro hospitalar"],
-  ["comando", "esquadra", "psp"],
-  ["bombeiro"],
-  ["galp", "repsol", "bp", "prio", "cepsa", "shell"],
-  ["continente", "pingo doce", "lidl", "auchan", "intermarche", "aldi"],
-  ["restaurante"],
+  ["hospital", "urgenc", "emergenc", "inem", "krankenhaus", "klinikum", "hopital", "ospedale", "ziekenhuis", "szpital", "sairaala", "haigla", "slimnica", "ligonine", "a&e"],
+  ["police", "polic", "polizei", "politie", "polizia", "carabinieri", "gendarmerie", "guardia civil", "esquadra", "psp", "gnr", "policja", "poliisi", "politsei", "policija"],
+  ["fire", "bombeiro", "bomberos", "pompier", "feuerwehr", "brandweer", "vigili del fuoco", "pompieri", "straz", "paloasema", "paasteamet", "ugunsdzes", "ugniagesi"],
+  ["shell", "bp", "esso", "total", "repsol", "cepsa", "galp", "prio", "eni", "agip", "aral", "orlen", "neste", "circle k", "texaco", "q8", "lukoil"],
+  ["tesco", "sainsbury", "asda", "morrisons", "lidl", "aldi", "carrefour", "leclerc", "auchan", "intermarche", "rewe", "edeka", "kaufland", "albert heijn", "jumbo", "delhaize", "colruyt", "mercadona", "continente", "pingo doce", "coop", "conad", "esselunga", "biedronka", "rimi", "maxima", "prisma", "k-citymarket", "s-market"],
+  ["restaurant", "restaurante", "ristorante", "restauracja", "ravintola", "trattoria", "brasserie"],
 ]
 
 function metersBetweenPlaces(lat1, lon1, lat2, lon2) {
@@ -285,7 +296,7 @@ export function serviceIcons(items, zoom) {
   return shown
 }
 
-export function searchServices(book, query, limit = 6) {
+export function searchServices(book, query, limit = 6, origin = null) {
   const parts = fold(query).split(/\s+/).filter((part) => part.length > 1)
   if (!book || parts.length === 0) return []
   if (!book.keys) {
@@ -295,19 +306,20 @@ export function searchServices(book, query, limit = 6) {
   const hits = []
   for (let i = 0; i < book.count; i += 1) {
     const key = book.keys[i]
-    if (!parts.every((part) => key.includes(part))) continue
-    hits.push({
+    if (!key || !parts.every((part) => key.includes(part))) continue
+    const hit = {
       service: true,
       category: book.category[i],
       name: book.names[i],
       address: book.addrs[i],
       lat: book.lat[i] / 1e6,
       lon: book.lon[i] / 1e6,
-      rank: key.startsWith(parts[0]) ? 0 : 1,
-    })
+    }
+    hit.score = resultScore(hit, query, origin)
+    hits.push(hit)
   }
-  hits.sort((a, b) => a.rank - b.rank || a.name.length - b.name.length || a.name.localeCompare(b.name, "pt"))
-  return hits.slice(0, limit)
+  hits.sort((a, b) => a.score - b.score || a.name.length - b.name.length || a.name.localeCompare(b.name))
+  return hits.slice(0, limit).map(({ score, ...hit }) => hit)
 }
 
 export function categoryIcon(kind) {

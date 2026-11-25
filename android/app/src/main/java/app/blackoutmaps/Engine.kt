@@ -24,6 +24,7 @@ class Engine(private val assets: AssetManager) {
     private var runtime: V8Runtime? = null
     private val buffers = HashMap<String, V8ValueArrayBuffer>()
     @Volatile private var closed = false
+    @Volatile var unnamed: (JSONObject) -> String = { "" }
 
     fun <T> onEngine(block: () -> T): T {
         if (closed) error("closed")
@@ -99,9 +100,10 @@ class Engine(private val assets: AssetManager) {
         val objectJson = JSONObject(text.ifBlank { "{}" })
         val named = objectJson.optJSONObject("named")
         val door = objectJson.optJSONObject("door")
+        val namedText = named?.optString("name").orEmpty().ifEmpty { named?.let(unnamed).orEmpty() }
         when {
-            named != null && named.optString("name").isNotEmpty() -> Look(
-                named.optString("name"),
+            named != null && namedText.isNotEmpty() -> Look(
+                namedText,
                 named.optString("address"),
                 true
             )
@@ -261,7 +263,7 @@ class Engine(private val assets: AssetManager) {
 
     private fun place(row: JSONObject?): Place? {
         if (row == null) return null
-        val name = row.optString("name")
+        val name = row.optString("name").ifEmpty { unnamed(row) }
         if (name.isEmpty() || !row.has("lat") || !row.has("lon")) return null
         val lat = row.optDouble("lat")
         val lon = row.optDouble("lon")

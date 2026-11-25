@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="pt">
+<html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-    <meta name="apple-mobile-web-app-title" content="Posição" />
+    <meta name="apple-mobile-web-app-title" content="Blackout Maps" />
     <meta name="theme-color" content="#fffcf8" />
     <title>Free offline map — Blackout Maps</title>
     <meta name="description" content="Open the free Blackout Maps emergency map in the browser. Find water, medical care and supplies, and a route to them, without the network.">
@@ -108,18 +108,18 @@
           <circle cx="11" cy="11" r="6.25" fill="none" stroke="currentColor" stroke-width="1.8" />
           <path d="M15.6 15.6 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
         </svg>
-        <input id="query" type="text" placeholder="Pesquisar" aria-label="Pesquisar" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" />
-        <button type="button" id="clear" class="clear" hidden aria-label="Limpar">×</button>
+        <input id="query" type="text" placeholder="Search" aria-label="Search" data-i18n-placeholder data-i18n-label autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" />
+        <button type="button" id="clear" class="clear" hidden aria-label="Clear" data-i18n-label>×</button>
       </div>
       <div id="categories" class="categories" hidden></div>
-      <p id="status" class="status" hidden>A guardar mapa</p>
+      <p id="status" class="status" hidden></p>
       <ul id="results" class="results" hidden></ul>
     </div>
 
     <div id="tools" class="tools">
       <div class="compass-row">
       <p id="maps-prompt" class="position-prompt" hidden></p>
-      <button type="button" id="maps-btn" aria-label="Mapas">
+      <button type="button" id="maps-btn" aria-label="Maps" data-i18n-label>
         <svg viewBox="0 0 24 24" aria-hidden="true">
           <path d="M8.2 3.2 3.2 5.1v15.7l5-1.8 7.6 1.8 5-1.8V3.2l-5 1.9-7.6-1.9Z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" />
           <path d="M8.2 3.2v15.8M15.8 5.1v15.7" fill="none" stroke="currentColor" stroke-width="1.6" />
@@ -128,7 +128,7 @@
       </div>
       <div class="compass-row">
       <p id="position-prompt" class="position-prompt" hidden></p>
-      <button type="button" id="fix-btn" aria-label="Posição" aria-pressed="false">
+      <button type="button" id="fix-btn" aria-label="Position" data-i18n-label aria-pressed="false">
         <svg viewBox="0 0 24 24" aria-hidden="true">
           <circle cx="12" cy="12" r="8" fill="none" stroke="currentColor" stroke-width="1.6" />
           <path d="M12 4.7 14.3 12 12 10.5 9.7 12Z" fill="#c2410c" />
@@ -152,26 +152,26 @@
       </div>
       <div class="nav-copy">
         <p id="nav-distance"></p>
-        <p id="nav-step">Siga em frente</p>
+        <p id="nav-step"></p>
       </div>
     </section>
 
-    <button type="button" id="recenter" class="recenter" hidden>Recentrar</button>
+    <button type="button" id="recenter" class="recenter" hidden data-i18n>Recenter</button>
 
     <section id="trip" class="trip" hidden>
       <div class="trip-head">
-        <h2 id="trip-title">A pé</h2>
-        <button type="button" id="trip-close" aria-label="Fechar">×</button>
+        <h2 id="trip-title">On foot</h2>
+        <button type="button" id="trip-close" aria-label="Close" data-i18n-label>×</button>
       </div>
-      <div class="modes" role="group" aria-label="Modo">
-        <button type="button" data-mode="walk" aria-pressed="true" aria-label="A pé">
+      <div class="modes" role="group" aria-label="Mode" data-i18n-label>
+        <button type="button" data-mode="walk" aria-pressed="true" aria-label="On foot" data-i18n-label>
           <span class="mode-time"></span>
           <svg viewBox="0 0 24 24" aria-hidden="true">
             <circle cx="14" cy="4.8" r="1.5" fill="currentColor" />
             <path d="M13.2 8.2 10.6 14.2l-2.2 1.2M13.2 8.2 16.4 12.2 18.6 18M10.6 14.2 12 19.5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" />
           </svg>
         </button>
-        <button type="button" data-mode="car" aria-pressed="false" aria-label="De carro">
+        <button type="button" data-mode="car" aria-pressed="false" aria-label="By car" data-i18n-label>
           <span class="mode-time"></span>
           <svg viewBox="0 0 24 24" aria-hidden="true">
             <path d="M5 15.5 6.4 10h11.2L19 15.5M5 15.5h14V18H5Z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" />
@@ -179,7 +179,7 @@
             <circle cx="16" cy="18" r="1.3" fill="currentColor" />
           </svg>
         </button>
-        <button type="button" data-mode="bicycle" aria-pressed="false" aria-label="De bicicleta">
+        <button type="button" data-mode="bicycle" aria-pressed="false" aria-label="By bicycle" data-i18n-label>
           <span class="mode-time"></span>
           <svg viewBox="0 0 24 24" aria-hidden="true">
             <circle cx="6.5" cy="16" r="3" fill="none" stroke="currentColor" stroke-width="1.6" />
@@ -194,14 +194,14 @@
       <p id="trip-coords" class="trip-meta"></p>
       <div id="route-cards" class="route-cards" hidden></div>
       <div class="trip-actions">
-        <button type="button" id="start" disabled>Iniciar</button>
-        <button type="button" id="routes-btn">Direções</button>
+        <button type="button" id="start" disabled data-i18n>Start</button>
+        <button type="button" id="routes-btn" data-i18n>Directions</button>
       </div>
       <ul id="route-list" class="results" hidden></ul>
     </section>
 
     <section id="nav-card" class="nav-card" hidden>
-      <button type="button" id="nav-overview" aria-label="Ver percurso">
+      <button type="button" id="nav-overview" aria-label="See route" data-i18n-label>
         <svg viewBox="0 0 24 24" aria-hidden="true">
           <path d="M12 21 V11.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
           <path d="M12 12.5 6.2 5.2M12 12.5 17.8 5.2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
@@ -212,13 +212,13 @@
         <p id="nav-time"></p>
         <p id="nav-meta"></p>
       </div>
-      <button type="button" id="nav-exit">Sair</button>
-      <button type="button" id="nav-correct">Corrigir posição</button>
+      <button type="button" id="nav-exit" data-i18n>Exit</button>
+      <button type="button" id="nav-correct" data-i18n>Correct position</button>
     </section>
 
     <section id="correct-bar" class="correct-bar" hidden>
-      <button type="button" id="correct-cancel">Cancelar</button>
-      <button type="button" id="correct-ok">Confirmar</button>
+      <button type="button" id="correct-cancel" data-i18n>Cancel</button>
+      <button type="button" id="correct-ok" data-i18n>Confirm</button>
     </section>
 
     <section id="fix-bar" class="fix-bar" hidden>
@@ -226,15 +226,15 @@
       <p id="fix-address" class="result-detail" hidden></p>
       <p id="fix-coords" class="result-detail"></p>
       <div class="fix-actions">
-        <button type="button" id="fix-cancel">Cancelar</button>
-        <button type="button" id="fix-ok">Confirmar</button>
+        <button type="button" id="fix-cancel" data-i18n>Cancel</button>
+        <button type="button" id="fix-ok" data-i18n>Confirm</button>
       </div>
     </section>
 
-    <section id="sheet-places" class="sheet" hidden aria-label="Lugares">
+    <section id="sheet-places" class="sheet" hidden aria-label="Places" data-i18n-label>
       <div class="sheet-head">
         <h2 id="places-title"></h2>
-        <button type="button" id="places-close" aria-label="Fechar">×</button>
+        <button type="button" id="places-close" aria-label="Close" data-i18n-label>×</button>
       </div>
       <ul id="places-list" class="results"></ul>
     </section>
@@ -242,8 +242,8 @@
     <section id="place-card" class="card" hidden>
       <p id="place-name"></p>
       <div class="actions">
-        <button type="button" id="save-pin">Guardar</button>
-        <button type="button" id="go-dir">Direções</button>
+        <button type="button" id="save-pin" data-i18n>Save</button>
+        <button type="button" id="go-dir" data-i18n>Directions</button>
       </div>
     </section>
 
@@ -251,86 +251,86 @@
       <p id="save-name" hidden></p>
       <p id="save-address" class="result-detail" hidden></p>
       <p id="save-coords" class="result-detail"></p>
-      <button type="button" id="save-place" disabled>Guardar</button>
+      <button type="button" id="save-place" disabled data-i18n>Save</button>
     </section>
 
-    <section id="sheet-pin" class="sheet" hidden aria-label="Posição">
+    <section id="sheet-pin" class="sheet" hidden aria-label="Position" data-i18n-label>
       <ul id="pin-results" class="results" hidden></ul>
-      <button type="button" id="anchor" disabled>Fixar posição</button>
+      <button type="button" id="anchor" disabled data-i18n>Set position</button>
     </section>
 
-    <section id="panel-pins" class="panel" hidden aria-label="Pins">
+    <section id="panel-pins" class="panel" hidden aria-label="Pins" data-i18n-label>
       <ul id="pin-list" class="list"></ul>
-      <button type="button" id="add-pin">Adicionar</button>
+      <button type="button" id="add-pin" data-i18n>Add</button>
     </section>
 
-    <section id="panel-settings" class="panel" hidden aria-label="Definições">
+    <section id="panel-settings" class="panel" hidden aria-label="Settings" data-i18n-label>
       <div class="settings-block">
-        <p class="settings-label" id="maps-label">Mapas</p>
+        <p class="settings-label" id="maps-label" data-i18n>Maps</p>
         <div id="installed-maps"></div>
         <button type="button" id="import-maps" class="settings-link">
-          <span id="import-maps-label">Importar mapas</span>
+          <span id="import-maps-label" data-i18n>Import maps</span>
           <span aria-hidden="true">›</span>
         </button>
       </div>
       <div class="settings-block">
-        <p class="settings-label" id="sensors-heading">Sensores</p>
+        <p class="settings-label" id="sensors-heading" data-i18n>Sensors</p>
         <label class="toggle">
-          <span id="sensors-label">Sensores</span>
+          <span id="sensors-label" data-i18n>Sensors</span>
           <input id="sensors" type="checkbox" />
         </label>
         <label class="step">
-          <span id="step-label">Passo base</span>
+          <span id="step-label" data-i18n>Base step</span>
           <input id="step" type="range" min="0.4" max="1.2" step="0.05" value="0.7" />
-          <span id="step-value">0,70 m</span>
+          <span id="step-value">0.70 m</span>
         </label>
       </div>
       <div class="settings-block">
-        <p class="settings-label" id="legal-label">Legal</p>
-        <a class="settings-link" id="privacy-link" href="/privacy.html"><span>Política de privacidade</span><span aria-hidden="true">›</span></a>
-        <a class="settings-link" id="terms-link" href="/terms.html"><span>Termos de utilização</span><span aria-hidden="true">›</span></a>
-        <a class="settings-link" id="credits-link" href="https://github.com/bug-catcher90/blackout-maps/blob/main/CREDITS.md" target="_blank" rel="noopener"><span>Créditos e licenças</span><span aria-hidden="true">›</span></a>
+        <p class="settings-label" id="legal-label" data-i18n>Legal</p>
+        <a class="settings-link" id="privacy-link" href="/privacy.html"><span data-i18n>Privacy policy</span><span aria-hidden="true">›</span></a>
+        <a class="settings-link" id="terms-link" href="/terms.html"><span data-i18n>Terms of use</span><span aria-hidden="true">›</span></a>
+        <a class="settings-link" id="credits-link" href="https://github.com/bug-catcher90/blackout-maps/blob/main/CREDITS.md" target="_blank" rel="noopener"><span data-i18n>Credits and licences</span><span aria-hidden="true">›</span></a>
       </div>
     </section>
 
-    <section id="sheet-import" class="panel import" hidden aria-label="Importar mapas">
+    <section id="sheet-import" class="panel import" hidden aria-label="Import maps" data-i18n-label>
       <div class="sheet-head">
-        <h2 id="import-title">Importar mapas</h2>
-        <button type="button" id="import-close" aria-label="Fechar">×</button>
+        <h2 id="import-title" data-i18n>Import maps</h2>
+        <button type="button" id="import-close" aria-label="Close" data-i18n-label>×</button>
       </div>
       <p id="import-note" class="hint" hidden></p>
       <div id="catalog-list"></div>
     </section>
 
-    <nav class="tabbar" aria-label="Secções">
-      <a class="home" href="/" aria-label="Home">
+    <nav class="tabbar" aria-label="Sections" data-i18n-label>
+      <a class="home" href="/" aria-label="Home" data-i18n-label>
         <svg viewBox="0 0 24 24" aria-hidden="true">
           <path d="M4 11.2 12 4.5l8 6.7V20a1 1 0 0 1-1 1h-5v-6H10v6H5a1 1 0 0 1-1-1Z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" />
         </svg>
       </a>
-      <button type="button" data-tab="explorar" aria-current="page">
+      <button type="button" data-tab="explore" aria-current="page">
         <svg viewBox="0 0 24 24" aria-hidden="true">
           <path d="M12 21s6-5.2 6-10a6 6 0 0 0-12 0c0 4.8 6 10 6 10Z" fill="none" stroke="currentColor" stroke-width="1.7" />
           <circle cx="12" cy="11" r="2" fill="currentColor" />
         </svg>
-        Explorar
+        <span data-i18n>Explore</span>
       </button>
       <button type="button" data-tab="pins">
         <svg viewBox="0 0 24 24" aria-hidden="true">
           <path d="M7 4.5h10a1 1 0 0 1 1 1V20l-6-3.2L6 20V5.5a1 1 0 0 1 1-1Z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" />
         </svg>
-        Pins
+        <span data-i18n>Pins</span>
       </button>
-      <button type="button" data-tab="definicoes">
+      <button type="button" data-tab="settings">
         <svg viewBox="0 0 24 24" aria-hidden="true">
           <circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="1.7" />
           <path d="M12 3.5v2.2M12 18.3v2.2M3.5 12h2.2M18.3 12h2.2M5.8 5.8l1.6 1.6M16.6 16.6l1.6 1.6M18.2 5.8l-1.6 1.6M7.4 16.6l-1.6 1.6" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" />
         </svg>
-        Definições
+        <span data-i18n>Settings</span>
       </button>
     </nav>
 
     <script src="/maps/vendor/pmtiles.js"></script>
-    <script type="module" src="/maps/app.js?v=42"></script>
+    <script type="module" src="/maps/app.js?v=43"></script>
   </body>
 </html>
