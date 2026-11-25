@@ -221,7 +221,7 @@ async function collectHits(book, query) {
       if (hits.length >= 400) break
     }
   }
-  if (parsed.number) hits.sort((a, b) => a.score - b.score || a.name.localeCompare(b.name, "pt"))
+  if (parsed.number) hits.sort((a, b) => a.score - b.score || a.name.localeCompare(b.name))
   return { parsed, hits }
 }
 
@@ -234,7 +234,7 @@ export async function searchAddresses(book, query, limit = 6) {
 function byAnchor(hits, anchor) {
   return [...hits].sort((a, b) => {
     const distance = metersBetween(anchor.lat, anchor.lon, a.lat, a.lon) - metersBetween(anchor.lat, anchor.lon, b.lat, b.lon)
-    return distance || a.name.localeCompare(b.name, "pt")
+    return distance || a.name.localeCompare(b.name)
   })
 }
 
@@ -327,7 +327,7 @@ async function suggestStreets(book, query, limit, anchor) {
       distance: anchor ? metersBetween(anchor.lat, anchor.lon, door.lat, door.lon) : 0,
     })
   }
-  if (anchor) hits.sort((a, b) => a.distance - b.distance || a.name.localeCompare(b.name, "pt"))
+  if (anchor) hits.sort((a, b) => a.distance - b.distance || a.name.localeCompare(b.name))
   return hits.slice(0, limit).map(publicHit)
 }
 

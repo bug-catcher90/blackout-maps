@@ -507,17 +507,17 @@ final class AppModel {
 
     private func boot() async {
         do { try engine.start() } catch {
-            noteSave("map", label: "mapa", amount: nil, failed: true)
+            noteSave("map", label: "map", amount: nil, failed: true)
             return
         }
         do {
             let base = try BaseFiles.prepare()
             await waitGlyphs()
             map.load(archive: base.map, glyphs: glyphs.base)
-            try await openPack(RemotePack(key: "roads", url: base.roads, file: "roads.bin", gzip: false, bytes: nil, label: "estradas"), base.roads)
-            try await openPack(RemotePack(key: "buildings", url: base.buildings, file: "buildings.bin", gzip: false, bytes: nil, label: "edifícios"), base.buildings)
+            try await openPack(RemotePack(key: "roads", url: base.roads, file: "roads.bin", gzip: false, bytes: nil, label: "roads"), base.roads)
+            try await openPack(RemotePack(key: "buildings", url: base.buildings, file: "buildings.bin", gzip: false, bytes: nil, label: "buildings"), base.buildings)
         } catch {
-            noteSave("map", label: "mapa", amount: nil, failed: true)
+            noteSave("map", label: "map", amount: nil, failed: true)
             return
         }
         let saved = activePackageId.flatMap { id in packages.first { $0.id == id } }
@@ -891,7 +891,9 @@ final class AppModel {
         }
     }
 
-    private func noteSave(_ key: String, label: String, amount: String?, failed: Bool) {
+    // The catalog's label is free text; the asset key names the layer in every language.
+    private func noteSave(_ key: String, label _: String, amount: String?, failed: Bool) {
+        let label = key
         statusParts[key] = (label, amount, failed)
         let text = failed ? t("save-failed", L10n.label(label, language)) : saveText(label, amount)
         note(key, text)

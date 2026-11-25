@@ -28,6 +28,56 @@
     }
     return lo;
   }
+  var WORD_BREAK = /[\s,.;:'\u2019"()\/&+-]+/;
+  function words(text) {
+    return text.split(WORD_BREAK).filter(Boolean);
+  }
+  var TIER = { exact: 0, prefix: 0.4, words: 1, inside: 1.6, other: 2 };
+  function matchTier(name, query) {
+    const nameWords = words(fold(name || ""));
+    const queryWords = words(fold(query || ""));
+    if (!nameWords.length || !queryWords.length) return TIER.other;
+    const n = nameWords.join(" ");
+    const q = queryWords.join(" ");
+    if (n === q) return TIER.exact;
+    if (n.startsWith(q) || queryWords.every((part) => nameWords.includes(part))) return TIER.prefix;
+    if (queryWords.every((part) => nameWords.some((word) => word.startsWith(part)))) return TIER.words;
+    if (queryWords.every((part) => n.includes(part))) return TIER.inside;
+    return TIER.other;
+  }
+  function kmBetween(lat1, lon1, lat2, lon2) {
+    const p1 = lat1 * Math.PI / 180;
+    const p2 = lat2 * Math.PI / 180;
+    const dp = p2 - p1;
+    const dl = (lon2 - lon1) * Math.PI / 180;
+    const h = Math.sin(dp / 2) ** 2 + Math.cos(p1) * Math.cos(p2) * Math.sin(dl / 2) ** 2;
+    return 2 * 6371 * Math.asin(Math.min(1, Math.sqrt(h)));
+  }
+  function resultScore(item, query, origin) {
+    let tier = matchTier(item.name, query);
+    const comma = item.name ? item.name.indexOf(", ") : -1;
+    if (comma > 0) tier = Math.min(tier, matchTier(item.name.slice(0, comma), query));
+    if (typeof item.city === "string") tier = Math.min(tier, TIER.words);
+    if (!origin || !Number.isFinite(item.lat) || !Number.isFinite(item.lon)) return tier;
+    return tier + Math.log10(1 + kmBetween(origin.lat, origin.lon, item.lat, item.lon));
+  }
+  function rankResults(items, query, origin, limit = 12) {
+    const scored = items.map((item, index) => ({ item, index, score: resultScore(item, query, origin) }));
+    scored.sort(
+      (a, b) => a.score - b.score || (a.item.rank ?? 9) - (b.item.rank ?? 9) || (a.item.name || "").length - (b.item.name || "").length || a.index - b.index
+    );
+    const kept = [];
+    for (const { item } of scored) {
+      const key = fold(item.name || "");
+      const twin = kept.some(
+        (other) => fold(other.name || "") === key && Number.isFinite(item.lat) && Number.isFinite(other.lat) && kmBetween(item.lat, item.lon, other.lat, other.lon) < 0.3
+      );
+      if (twin) continue;
+      kept.push(item);
+      if (kept.length >= limit) break;
+    }
+    return kept;
+  }
   function searchNames(items, query, limit) {
     const q = fold(query);
     if (q.length < 2) return [];
@@ -37,7 +87,7 @@
       if (!items[i].key.startsWith(q)) break;
       pool.push(items[i]);
     }
-    pool.sort((a, b) => a.rank - b.rank || a.name.localeCompare(b.name, "pt"));
+    pool.sort((a, b) => a.rank - b.rank || a.name.localeCompare(b.name));
     return pool.slice(0, limit);
   }
 
@@ -278,13 +328,13 @@
         if (hits.length >= 400) break;
       }
     }
-    if (parsed.number) hits.sort((a, b) => a.score - b.score || a.name.localeCompare(b.name, "pt"));
+    if (parsed.number) hits.sort((a, b) => a.score - b.score || a.name.localeCompare(b.name));
     return { parsed, hits };
   }
   function byAnchor(hits, anchor) {
     return [...hits].sort((a, b) => {
       const distance = metersBetween(anchor.lat, anchor.lon, a.lat, a.lon) - metersBetween(anchor.lat, anchor.lon, b.lat, b.lon);
-      return distance || a.name.localeCompare(b.name, "pt");
+      return distance || a.name.localeCompare(b.name);
     });
   }
   async function streetPoint(book, street, parsed, anchor) {
@@ -374,7 +424,7 @@
         distance: anchor ? metersBetween(anchor.lat, anchor.lon, door.lat, door.lon) : 0
       });
     }
-    if (anchor) hits.sort((a, b) => a.distance - b.distance || a.name.localeCompare(b.name, "pt"));
+    if (anchor) hits.sort((a, b) => a.distance - b.distance || a.name.localeCompare(b.name));
     return hits.slice(0, limit).map(publicHit);
   }
   async function suggestAddresses(book, query, limit = 8, anchor = null) {
@@ -850,13 +900,17 @@
 
   // offline-gps/public/places.js
   var CATEGORIES = [
-    { id: 0, label: "Sa\xFAde", mark: "Sa\xFAde", color: "#0f6b4c" },
-    { id: 1, label: "Pol\xEDcia", mark: "Pol\xEDcia", color: "#1d4ed8" },
-    { id: 2, label: "Bombeiros", mark: "Bombeiros", color: "#dc2626" },
-    { id: 3, label: "Gasolina", mark: "Gasolina", color: "#7c3aed" },
-    { id: 4, label: "Supermercados", mark: "Supermercado", color: "#b45309" },
-    { id: 5, label: "Restaurantes", mark: "Restaurante", color: "#be185d" }
+    { id: 0, label: "Health", unnamed: "Health facility", color: "#0f6b4c" },
+    { id: 1, label: "Police", unnamed: "Police station", color: "#1d4ed8" },
+    { id: 2, label: "Fire", unnamed: "Fire station", color: "#dc2626" },
+    { id: 3, label: "Fuel", unnamed: "Fuel station", color: "#7c3aed" },
+    { id: 4, label: "Supermarkets", unnamed: "Supermarket", color: "#b45309" },
+    { id: 5, label: "Restaurants", unnamed: "Restaurant", color: "#be185d" }
   ];
+  var LEGACY_PLACEHOLDERS = ["Sa\xFAde", "Pol\xEDcia", "Bombeiros", "Gasolina", "Supermercado", "Restaurante"];
+  function isPlaceholderName(category, name) {
+    return !name || name === LEGACY_PLACEHOLDERS[category];
+  }
   function align2(offset) {
     return offset + 3 & ~3;
   }
@@ -902,7 +956,8 @@
     const names = new Array(count);
     const addrs = new Array(count);
     for (let i = 0; i < count; i += 1) {
-      names[i] = decoder2.decode(nameBlob.subarray(nameOff[i], nameOff[i] + nameLen[i]));
+      const name = decoder2.decode(nameBlob.subarray(nameOff[i], nameOff[i] + nameLen[i]));
+      names[i] = isPlaceholderName(category[i], name) ? "" : name;
       addrs[i] = decoder2.decode(addrBlob.subarray(addrOff[i], addrOff[i] + addrLen[i]));
     }
     return { count, category, lat, lon, names, addrs, lat0, lon0, latN, lonN, step, cellHead, cellIds };
@@ -944,7 +999,7 @@
     }
     return { counts, items };
   }
-  function searchServices(book, query, limit = 6) {
+  function searchServices(book, query, limit = 6, origin = null) {
     const parts = fold(query).split(/\s+/).filter((part) => part.length > 1);
     if (!book || parts.length === 0) return [];
     if (!book.keys) {
@@ -954,19 +1009,20 @@
     const hits = [];
     for (let i = 0; i < book.count; i += 1) {
       const key = book.keys[i];
-      if (!parts.every((part) => key.includes(part))) continue;
-      hits.push({
+      if (!key || !parts.every((part) => key.includes(part))) continue;
+      const hit = {
         service: true,
         category: book.category[i],
         name: book.names[i],
         address: book.addrs[i],
         lat: book.lat[i] / 1e6,
-        lon: book.lon[i] / 1e6,
-        rank: key.startsWith(parts[0]) ? 0 : 1
-      });
+        lon: book.lon[i] / 1e6
+      };
+      hit.score = resultScore(hit, query, origin);
+      hits.push(hit);
     }
-    hits.sort((a, b) => a.rank - b.rank || a.name.length - b.name.length || a.name.localeCompare(b.name, "pt"));
-    return hits.slice(0, limit);
+    hits.sort((a, b) => a.score - b.score || a.name.length - b.name.length || a.name.localeCompare(b.name));
+    return hits.slice(0, limit).map(({ score, ...hit }) => hit);
   }
 
   // offline-gps/public/route.js
@@ -1170,11 +1226,12 @@
     const abs = Math.abs(delta);
     const right = delta > 0;
     if (abs < 20) return null;
-    if (abs >= 160) return { turn: "uturn", text: "Inverta a marcha" };
-    if (abs >= 120) return right ? { turn: "sharp-right", text: "Vire acentuadamente \xE0 direita" } : { turn: "sharp-left", text: "Vire acentuadamente \xE0 esquerda" };
-    if (abs >= 50) return right ? { turn: "right", text: "Vire \xE0 direita" } : { turn: "left", text: "Vire \xE0 esquerda" };
-    return right ? { turn: "slight-right", text: "Vire ligeiramente \xE0 direita" } : { turn: "slight-left", text: "Vire ligeiramente \xE0 esquerda" };
+    if (abs >= 160) return "uturn";
+    if (abs >= 120) return right ? "sharp-right" : "sharp-left";
+    if (abs >= 50) return right ? "right" : "left";
+    return right ? "slight-right" : "slight-left";
   }
+
   function alongPoint(coordinates, meters2) {
     let walked = 0;
     for (let index = 1; index < coordinates.length; index += 1) {
@@ -1232,14 +1289,14 @@
     }
     return steps >= 3 && Math.abs(cumulative) >= 55 && Math.abs(cumulative) <= 300;
   }
-  function maneuverAt(coordinates, meters2, turn, text) {
+  function maneuverAt(coordinates, meters2, turn) {
     const spot = alongPoint(coordinates, Math.min(routeSamples(coordinates).meters, meters2 + 15));
-    return { turn, text, meters: meters2, lat: spot.lat, lon: spot.lon };
+    return { turn, meters: meters2, lat: spot.lat, lon: spot.lon };
   }
   function maneuver(coordinates) {
     const { samples, meters: meters2 } = routeSamples(coordinates);
-    if (!samples.length) return maneuverAt(coordinates, 0, "straight", "Siga em frente");
-    if (samples.length === 1) return maneuverAt(coordinates, meters2, "straight", "Siga em frente");
+    if (!samples.length) return maneuverAt(coordinates, 0, "straight");
+    if (samples.length === 1) return maneuverAt(coordinates, meters2, "straight");
     let base = samples[0].head;
     for (let i = 1; i < samples.length; i += 1) {
       const delta = turnDelta(base, samples[i].head);
@@ -1247,12 +1304,12 @@
         base = samples[i].head;
         continue;
       }
-      if (roundaboutAt(samples, i, base)) return maneuverAt(coordinates, samples[i].at, "roundabout", "Entre na rotunda");
+      if (roundaboutAt(samples, i, base)) return maneuverAt(coordinates, samples[i].at, "roundabout");
       const kind = classifyTurn(delta);
-      if (kind) return maneuverAt(coordinates, samples[i].at, kind.turn, kind.text);
+      if (kind) return maneuverAt(coordinates, samples[i].at, kind);
       base = samples[i].head;
     }
-    return maneuverAt(coordinates, meters2, "straight", "Siga em frente");
+    return maneuverAt(coordinates, meters2, "straight");
   }
   function directionsList(coordinates) {
     const steps = [];
@@ -2393,12 +2450,13 @@
 
   // offline-gps/public/water.js
   var WATER_TYPES = [
-    { id: 0, label: "Bebedouro" },
-    { id: 1, label: "Fonte" },
-    { id: 2, label: "Vau" },
-    { id: 3, label: "A\xE7ude" },
-    { id: 4, label: "Acesso" }
+    { id: 0, label: "drinking-water" },
+    { id: 1, label: "spring" },
+    { id: 2, label: "ford" },
+    { id: 3, label: "weir" },
+    { id: 4, label: "access" }
   ];
+  var LEGACY_WATER_PLACEHOLDERS = ["Bebedouro", "Fonte", "Vau", "A\xE7ude", "Acesso"];
   function align3(offset) {
     return offset + 3 & ~3;
   }
@@ -2566,9 +2624,10 @@
   var decoder = new TextDecoder();
   function featureName(book, id) {
     const cached = book.names[id];
-    if (cached) return cached;
+    if (cached !== void 0) return cached;
     const start = book.nameOff[id];
-    const name = decoder.decode(book.nameBlob.subarray(start, start + book.nameLen[id]));
+    const raw = decoder.decode(book.nameBlob.subarray(start, start + book.nameLen[id]));
+    const name = raw === LEGACY_WATER_PLACEHOLDERS[book.type[id]] ? "" : raw;
     book.names[id] = name;
     return name;
   }
@@ -2677,12 +2736,12 @@
   }
   var PIN_ZOOM = 6.2;
   var SERVICE_WORDS = [
-    ["hospital", "urgencia", "inem", "centro hospitalar"],
-    ["comando", "esquadra", "psp"],
-    ["bombeiro"],
-    ["galp", "repsol", "bp", "prio", "cepsa", "shell"],
-    ["continente", "pingo doce", "lidl", "auchan", "intermarche", "aldi"],
-    ["restaurante"]
+    ["hospital", "urgenc", "emergenc", "inem", "krankenhaus", "klinikum", "hopital", "ospedale", "ziekenhuis", "szpital", "sairaala", "haigla", "slimnica", "ligonine", "a&e"],
+    ["police", "polic", "polizei", "politie", "polizia", "carabinieri", "gendarmerie", "guardia civil", "esquadra", "psp", "gnr", "policja", "poliisi", "politsei", "policija"],
+    ["fire", "bombeiro", "bomberos", "pompier", "feuerwehr", "brandweer", "vigili del fuoco", "pompieri", "straz", "paloasema", "paasteamet", "ugunsdzes", "ugniagesi"],
+    ["shell", "bp", "esso", "total", "repsol", "cepsa", "galp", "prio", "eni", "agip", "aral", "orlen", "neste", "circle k", "texaco", "q8", "lukoil"],
+    ["tesco", "sainsbury", "asda", "morrisons", "lidl", "aldi", "carrefour", "leclerc", "auchan", "intermarche", "rewe", "edeka", "kaufland", "albert heijn", "jumbo", "delhaize", "colruyt", "mercadona", "continente", "pingo doce", "coop", "conad", "esselunga", "biedronka", "rimi", "maxima", "prisma", "k-citymarket", "s-market"],
+    ["restaurant", "restaurante", "ristorante", "restauracja", "ravintola", "trattoria", "brasserie"]
   ];
   function pinBudget(zoom) {
     if (zoom < PIN_ZOOM - 0.05) return { limit: 0, spacing: Infinity };
@@ -2797,7 +2856,6 @@
   }, warn() {
   }, info() {
   } };
-  var GENERIC = /* @__PURE__ */ new Set(["rua", "avenida", "travessa", "largo", "praca", "estrada", "caminho", "alameda", "beco"]);
   var state = {
     graph: null,
     addresses: null,
@@ -2863,9 +2921,10 @@
       const view = placesInView(state.places, lon - 4e-4, lat - 4e-4, lon + 4e-4, lat + 4e-4, -1, 20);
       for (const place of view.items) {
         const meters2 = metersBetween2(lat, lon, place.lat, place.lon);
-        if (meters2 <= 20 && place.name) {
+        if (meters2 <= 20) {
           found.push({
             name: place.name,
+            category: place.category,
             meters: meters2,
             address: place.address || "",
             lat: place.lat,
@@ -2878,9 +2937,10 @@
       const view = waterInView(state.water, lon - 4e-4, lat - 4e-4, lon + 4e-4, lat + 4e-4, zoom || 16);
       for (const place of view.list) {
         const meters2 = metersBetween2(lat, lon, place.lat, place.lon);
-        if (meters2 <= 20 && place.name) {
+        if (meters2 <= 20) {
           found.push({
             name: place.name,
+            typeLabel: place.typeLabel,
             meters: meters2,
             address: place.typeLabel || "",
             lat: place.lat,
@@ -2949,17 +3009,12 @@
       const anchor = Number.isFinite(lat) && Number.isFinite(lon) ? { lat, lon } : null;
       const door = parseDoorQuery(query, state.addresses ? state.addresses.cityKeys : /* @__PURE__ */ new Set());
       const addresses = state.addresses ? await suggestAddresses(state.addresses, query, 8, anchor) : [];
-      let services = state.places ? searchServices(state.places, query, 6) : [];
-      if (anchor) {
-        services.sort(
-          (a, b) => metersBetween2(anchor.lat, anchor.lon, a.lat, a.lon) - metersBetween2(anchor.lat, anchor.lon, b.lat, b.lon) || a.rank - b.rank
-        );
-      }
-      const places = state.geoPlaces.length ? searchNames(state.geoPlaces, query, 4).filter((place) => !GENERIC.has(fold(place.name))) : [];
-      const streets = !addresses.length && state.geoStreets.length ? searchNames(state.geoStreets, query, 4) : [];
+      const services = state.places ? searchServices(state.places, query, 8, anchor) : [];
+      const places = state.geoPlaces.length ? searchNames(state.geoPlaces, query, 6) : [];
+      const streets = !addresses.length && state.geoStreets.length ? searchNames(state.geoStreets, query, 6) : [];
       return JSON.stringify({
         waiting: !state.addresses && (door.number || fold(query).length >= 2),
-        items: [...services, ...addresses, ...places, ...streets]
+        items: rankResults([...services, ...addresses, ...places, ...streets], query, anchor)
       });
     },
     async inspect(lat, lon, zoom) {
@@ -2985,15 +3040,15 @@
         const noToll = state.graph ? findRoute(state.graph, from, to, null, "car", Infinity, (edge) => !isTollEdge(state.graph, edge)) : null;
         const noMotorway = state.graph ? findRoute(state.graph, from, to, null, "car", Infinity, (edge) => !isMotorwayEdge(state.graph, edge)) : null;
         const routes2 = [];
-        if (fastest) routes2.push(slim(fastest, "car", "Mais r\xE1pido"));
-        if (noToll && !sameRoute(fastest, noToll)) routes2.push(slim(noToll, "toll", "Sem portagens"));
+        if (fastest) routes2.push(slim(fastest, "car", "fastest"));
+        if (noToll && !sameRoute(fastest, noToll)) routes2.push(slim(noToll, "toll", "no-tolls"));
         if (noMotorway && !sameRoute(fastest, noMotorway) && !sameRoute(noToll, noMotorway)) {
-          routes2.push(slim(noMotorway, "local", "Sem autoestradas"));
+          routes2.push(slim(noMotorway, "local", "no-motorways"));
         }
         return JSON.stringify(routes2);
       }
       const style = mode === "walk" ? "walk" : "bicycle";
-      const routes = findRoutes(state.graph, from, to, mode).slice(0, 2).map((route, index) => slim(route, index === 0 ? style : `${style}-alt`, index === 0 ? "Mais curto" : "Alternativa"));
+      const routes = findRoutes(state.graph, from, to, mode).slice(0, 2).map((route, index) => slim(route, index === 0 ? style : `${style}-alt`, index === 0 ? "shortest" : "alternative"));
       return JSON.stringify(routes);
     },
     setNavigation(active, routeJSON) {
@@ -3023,7 +3078,6 @@
       const seconds = Number.isFinite(state.route.seconds) ? state.route.seconds * ratio : null;
       return JSON.stringify({
         turn: step.turn,
-        text: step.text,
         meters: step.meters,
         street: streetAt2(step.lat, step.lon),
         remaining: rest.meters,

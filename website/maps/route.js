@@ -248,16 +248,10 @@ function classifyTurn(delta) {
   const abs = Math.abs(delta)
   const right = delta > 0
   if (abs < 20) return null
-  if (abs >= 160) return { turn: "uturn", text: "Inverta a marcha" }
-  if (abs >= 120) return right
-    ? { turn: "sharp-right", text: "Vire acentuadamente à direita" }
-    : { turn: "sharp-left", text: "Vire acentuadamente à esquerda" }
-  if (abs >= 50) return right
-    ? { turn: "right", text: "Vire à direita" }
-    : { turn: "left", text: "Vire à esquerda" }
-  return right
-    ? { turn: "slight-right", text: "Vire ligeiramente à direita" }
-    : { turn: "slight-left", text: "Vire ligeiramente à esquerda" }
+  if (abs >= 160) return "uturn"
+  if (abs >= 120) return right ? "sharp-right" : "sharp-left"
+  if (abs >= 50) return right ? "right" : "left"
+  return right ? "slight-right" : "slight-left"
 }
 
 function alongPoint(coordinates, meters) {
@@ -320,15 +314,15 @@ function roundaboutAt(samples, index, base) {
   return steps >= 3 && Math.abs(cumulative) >= 55 && Math.abs(cumulative) <= 300
 }
 
-function maneuverAt(coordinates, meters, turn, text) {
+function maneuverAt(coordinates, meters, turn) {
   const spot = alongPoint(coordinates, Math.min(routeSamples(coordinates).meters, meters + 15))
-  return { turn, text, meters, lat: spot.lat, lon: spot.lon }
+  return { turn, meters, lat: spot.lat, lon: spot.lon }
 }
 
 export function maneuver(coordinates) {
   const { samples, meters } = routeSamples(coordinates)
-  if (!samples.length) return maneuverAt(coordinates, 0, "straight", "Siga em frente")
-  if (samples.length === 1) return maneuverAt(coordinates, meters, "straight", "Siga em frente")
+  if (!samples.length) return maneuverAt(coordinates, 0, "straight")
+  if (samples.length === 1) return maneuverAt(coordinates, meters, "straight")
   let base = samples[0].head
   for (let i = 1; i < samples.length; i += 1) {
     const delta = turnDelta(base, samples[i].head)
@@ -336,16 +330,12 @@ export function maneuver(coordinates) {
       base = samples[i].head
       continue
     }
-    if (roundaboutAt(samples, i, base)) return maneuverAt(coordinates, samples[i].at, "roundabout", "Entre na rotunda")
+    if (roundaboutAt(samples, i, base)) return maneuverAt(coordinates, samples[i].at, "roundabout")
     const kind = classifyTurn(delta)
-    if (kind) return maneuverAt(coordinates, samples[i].at, kind.turn, kind.text)
+    if (kind) return maneuverAt(coordinates, samples[i].at, kind)
     base = samples[i].head
   }
-  return maneuverAt(coordinates, meters, "straight", "Siga em frente")
-}
-
-export function nextInstruction(coordinates) {
-  return maneuver(coordinates).text
+  return maneuverAt(coordinates, meters, "straight")
 }
 
 function edgeKey(a, b) {

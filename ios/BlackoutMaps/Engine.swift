@@ -42,7 +42,7 @@ final class Engine: @unchecked Sendable {
             if started { return }
             guard let context = JSContext() else { throw EngineError("js") }
             context.exceptionHandler = { _, value in
-                NSLog("Mapa Portugal JS %@", value?.toString() ?? "")
+                NSLog("Blackout Maps JS %@", value?.toString() ?? "")
             }
             guard let poly = source("polyfill"), let engine = source("engine") else { throw EngineError("motor") }
             context.evaluateScript(poly)
@@ -262,7 +262,9 @@ final class Engine: @unchecked Sendable {
     }
 
     private static func place(_ row: [String: Any]?) -> Place? {
-        guard let row, let name = row["name"] as? String, let lat = double(row["lat"]), let lon = double(row["lon"]) else { return nil }
+        guard let row, let lat = double(row["lat"]), let lon = double(row["lon"]) else { return nil }
+        let name = L10n.placeName(row, L10n.code())
+        guard !name.isEmpty else { return nil }
         let address = (row["address"] as? String) ?? (row["typeLabel"] as? String) ?? ""
         let city = row["city"] as? String ?? ""
         let detail = !address.isEmpty ? address : city
