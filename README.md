@@ -62,7 +62,7 @@ ios/              iOS app (Xcode, Swift)
   BlackoutMaps/Resources/   shared map assets; Android also packages this folder
 catalog/          downloadable map packages, one JSON file and one folder of parts per package
 scripts/maps/     build scripts for the packages; scripts/validate-catalog.mjs checks them
-docs/             docs/country-maps.md, the package specification
+docs/             docs/country-maps.md, the package specification; docs/android-beta.md, beta signups
 ```
 
 ## Getting started
