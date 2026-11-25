@@ -94,8 +94,11 @@ def extract(pbf, regions, work):
         poly = os.path.join(work, f"{region['slug']}.geojson")
         text = json.dumps({"type": "Feature", "properties": {}, "geometry": mapping(region["shape"])})
         region["pbf"] = os.path.join(work, f"{region['slug']}.osm.pbf")
-        if os.path.exists(region["pbf"]) and os.path.exists(poly) and open(poly).read() == text:
+        done = region["pbf"] + ".done"
+        if os.path.exists(done) and os.path.exists(poly) and open(poly).read() == text:
             continue
+        if os.path.exists(done):
+            os.remove(done)
         with open(poly, "w") as handle:
             handle.write(text)
         extracts.append({"output": os.path.basename(region["pbf"]), "polygon": {"file_name": poly, "file_type": "geojson"}})
@@ -105,6 +108,8 @@ def extract(pbf, regions, work):
         with open(config, "w") as handle:
             json.dump({"directory": work, "extracts": extracts[start:start + EXTRACT_BATCH]}, handle)
         run("osmium", "extract", "-O", "-s", "smart", "-c", config, pbf)
+        for item in extracts[start:start + EXTRACT_BATCH]:
+            open(os.path.join(work, item["output"] + ".done"), "w").close()
     for region in regions:
         region["bytes"] = os.path.getsize(region["pbf"])
 

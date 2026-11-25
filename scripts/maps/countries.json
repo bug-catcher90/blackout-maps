@@ -457,14 +457,6 @@
     }
   },
   {
-    "id": "netherlands-central",
-    "name": "Netherlands · Central",
-    "flag": "🇳🇱",
-    "geofabrik": "europe/netherlands",
-    "region": "regions/netherlands/central.geojson",
-    "country": "netherlands"
-  },
-  {
     "id": "northern-ireland",
     "name": "Northern Ireland",
     "flag": "🇬🇧",
