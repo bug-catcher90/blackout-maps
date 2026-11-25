@@ -1,0 +1,173 @@
+{
+  "id": "spain-spain-south-west",
+  "name": "Spain · Spain South-West",
+  "flag": "🇪🇸",
+  "autoload": false,
+  "country": "spain",
+  "view": [
+    -4.576,
+    39.726,
+    5.1
+  ],
+  "files": [
+    {
+      "key": "places",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/spain-spain-south-west/places.bin.gz",
+      "file": "places.bin",
+      "gzip": true,
+      "bytes": 3845020,
+      "label": "lugares"
+    },
+    {
+      "key": "water",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/spain-spain-south-west/water.bin.gz",
+      "file": "water.bin",
+      "gzip": true,
+      "bytes": 1892272,
+      "label": "água"
+    },
+    {
+      "key": "addresses",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/spain-spain-south-west/addresses.bin.gz",
+      "file": "addresses.bin",
+      "gzip": true,
+      "bytes": 13596859,
+      "label": "moradas"
+    },
+    {
+      "key": "geo",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/spain-spain-south-west/geo.json.gz",
+      "file": "geo.json",
+      "gzip": true,
+      "bytes": 13497905,
+      "label": "geo"
+    }
+  ],
+  "assets": [
+    {
+      "key": "places",
+      "file": "places.bin",
+      "gzip": true,
+      "bytes": 3845020,
+      "sha256": "9650dfd08db8b6eaacaf07d3d8491611364dd384fe345b9e40a71dae22a08578",
+      "label": "lugares",
+      "parts": [
+        {
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/spain-spain-south-west/places.bin.gz",
+          "bytes": 1170135,
+          "sha256": "875a1df7e7ff8651f17a4039f7e04bf39b1c29d2533383c648757efb8bec8590"
+        }
+      ]
+    },
+    {
+      "key": "water",
+      "file": "water.bin",
+      "gzip": true,
+      "bytes": 1892272,
+      "sha256": "b8d1ccd3ac6a1b64f24fa701dc3a4164f9c36a679e1b8b48d1823a0c26a9f02c",
+      "label": "água",
+      "parts": [
+        {
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/spain-spain-south-west/water.bin.gz",
+          "bytes": 458162,
+          "sha256": "0613f7cde5190d48a10d909b28d7cff13127b0cf51c47a3151d31117d2b5e703"
+        }
+      ]
+    },
+    {
+      "key": "addresses",
+      "file": "addresses.bin",
+      "gzip": true,
+      "bytes": 13596859,
+      "sha256": "15f9e16febc64f90f6c571aff20a2dfa6a515813354b6e0c5ad3ef3519b22932",
+      "label": "moradas",
+      "parts": [
+        {
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/spain-spain-south-west/addresses.bin.gz",
+          "bytes": 5603138,
+          "sha256": "def7ac6f5b37facdb6ef99c4b72c8a7dd7e2882bf0d09ae784f80e1a2e4feb1f"
+        }
+      ]
+    },
+    {
+      "key": "geo",
+      "file": "geo.json",
+      "gzip": true,
+      "bytes": 13497905,
+      "sha256": "b9ee9075ca77df7bf85129405557f28743d6d2c776460503ef39e1bd6fecc0ed",
+      "label": "geo",
+      "parts": [
+        {
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/spain-spain-south-west/geo.json.gz",
+          "bytes": 4680704,
+          "sha256": "5ebf32472adccb8978d1bc955f931815976e069a1557c14fde1c6347f000bf3b"
+        }
+      ]
+    },
+    {
+      "key": "roads",
+      "file": "roads.bin",
+      "gzip": true,
+      "bytes": 173841848,
+      "sha256": "1855fc431a37b76c9c2071c064f6958a2f5d615d45b039b612f4dcb24b9c6fed",
+      "label": "estradas",
+      "parts": [
+        {
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/spain-spain-south-west/roads.bin.gz.000",
+          "bytes": 45000000,
+          "sha256": "96552b8faade450779c456ba8e4d2993e581c90c6321350a8acfba2ad7316ff4"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/spain-spain-south-west/roads.bin.gz.001",
+          "bytes": 29202686,
+          "sha256": "35582681d557203d05d92b40adb1b4175fc89a7911d5bed633241a917f667523"
+        }
+      ]
+    },
+    {
+      "key": "buildings",
+      "file": "buildings.bin",
+      "gzip": true,
+      "bytes": 82495756,
+      "sha256": "f99ee34e8581147bc4febb2248b6ecdb9724742e2cef64b6167144be8eebed9b",
+      "label": "edifícios",
+      "parts": [
+        {
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/spain-spain-south-west/buildings.bin.gz",
+          "bytes": 32332140,
+          "sha256": "319db51c7eddf321891a44635379030657a60d444cb6574f44eb0de749828d6e"
+        }
+      ]
+    },
+    {
+      "key": "map",
+      "file": "map.pmtiles",
+      "gzip": false,
+      "bytes": 112328671,
+      "sha256": "50c9a573eba53bceac8038c711a3292ceb3e7b627733fa207a83f4e0a9b807be",
+      "label": "mapa",
+      "parts": [
+        {
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/spain-spain-south-west/map.pmtiles.000",
+          "bytes": 45000000,
+          "sha256": "232a7a0f08094953b70672b8c05b77956f7acee7b5e65597f6ec0e62962c3fed"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/spain-spain-south-west/map.pmtiles.001",
+          "bytes": 45000000,
+          "sha256": "13881e1f4e9370ba7ca6f4091a1339e7152838777e6563a666a88835fc6ca13a"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/spain-spain-south-west/map.pmtiles.002",
+          "bytes": 22328671,
+          "sha256": "01b7170457c7a97012cf0c3370031cb01ff9db8ae5aa65abc893d00c727345a5"
+        }
+      ]
+    }
+  ],
+  "source": {
+    "osm": "https://download.geofabrik.de/europe/spain-latest.osm.pbf",
+    "osmTimestamp": null,
+    "basemap": "https://build.protomaps.com/20261125.pmtiles"
+  }
+}
