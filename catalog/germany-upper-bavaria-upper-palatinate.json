@@ -12,7 +12,7 @@
   "files": [
     {
       "key": "places",
-      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/germany-upper-bavaria-upper-palatinate/places.bin.gz",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/germany-upper-bavaria-upper-palatinate/places.bin.gz",
       "file": "places.bin",
       "gzip": true,
       "bytes": 2116224,
@@ -20,7 +20,7 @@
     },
     {
       "key": "water",
-      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/germany-upper-bavaria-upper-palatinate/water.bin.gz",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/germany-upper-bavaria-upper-palatinate/water.bin.gz",
       "file": "water.bin",
       "gzip": true,
       "bytes": 462880,
@@ -28,7 +28,7 @@
     },
     {
       "key": "addresses",
-      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/germany-upper-bavaria-upper-palatinate/addresses.bin.gz",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/germany-upper-bavaria-upper-palatinate/addresses.bin.gz",
       "file": "addresses.bin",
       "gzip": true,
       "bytes": 34378650,
@@ -36,7 +36,7 @@
     },
     {
       "key": "geo",
-      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/germany-upper-bavaria-upper-palatinate/geo.json.gz",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/germany-upper-bavaria-upper-palatinate/geo.json.gz",
       "file": "geo.json",
       "gzip": true,
       "bytes": 4767379,
@@ -53,7 +53,7 @@
       "label": "lugares",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/germany-upper-bavaria-upper-palatinate/places.bin.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/germany-upper-bavaria-upper-palatinate/places.bin.gz",
           "bytes": 695939,
           "sha256": "651afa8455d1c35a56a518a591162948112aae051637ca08ef8607eebf994db2"
         }
@@ -68,7 +68,7 @@
       "label": "água",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/germany-upper-bavaria-upper-palatinate/water.bin.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/germany-upper-bavaria-upper-palatinate/water.bin.gz",
           "bytes": 146680,
           "sha256": "c4be44390ed4731fe68f215cb4ec7a7f1ced6a591b7fe9b368885905240b4f53"
         }
@@ -83,7 +83,7 @@
       "label": "moradas",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/germany-upper-bavaria-upper-palatinate/addresses.bin.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/germany-upper-bavaria-upper-palatinate/addresses.bin.gz",
           "bytes": 13713712,
           "sha256": "0a110e75df1bbfda98399f6aa2439d7ed4f7686195445b3383a5b9151fbdc817"
         }
@@ -98,7 +98,7 @@
       "label": "geo",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/germany-upper-bavaria-upper-palatinate/geo.json.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/germany-upper-bavaria-upper-palatinate/geo.json.gz",
           "bytes": 1726788,
           "sha256": "72e7b9e74dd718773da56c5717190b2073b504144080d13c7bfec4f2bc5b42c5"
         }
@@ -113,12 +113,12 @@
       "label": "estradas",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/germany-upper-bavaria-upper-palatinate/roads.bin.gz.000",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/germany-upper-bavaria-upper-palatinate/roads.bin.gz.000",
           "bytes": 45000000,
           "sha256": "41a625a661823b1f035fafdc3aaffa576f87c585b4f9f31fd6080d2c4fd01024"
         },
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/germany-upper-bavaria-upper-palatinate/roads.bin.gz.001",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/germany-upper-bavaria-upper-palatinate/roads.bin.gz.001",
           "bytes": 1488977,
           "sha256": "b0b6078d390b8daf26b58bf596a0599f142a56a336aa22e9e439741197bd7c12"
         }
@@ -133,7 +133,7 @@
       "label": "edifícios",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/germany-upper-bavaria-upper-palatinate/buildings.bin.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/germany-upper-bavaria-upper-palatinate/buildings.bin.gz",
           "bytes": 39410565,
           "sha256": "aae991000602e7c4d789fb49b20fb68c92d009ac2762b20a8ed415f50b2f5099"
         }
@@ -148,12 +148,12 @@
       "label": "mapa",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/germany-upper-bavaria-upper-palatinate/map.pmtiles.000",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/germany-upper-bavaria-upper-palatinate/map.pmtiles.000",
           "bytes": 45000000,
           "sha256": "324df98db325857ab2246d35b6f38309cd7776c1ad6c97b41df24be43a61ddc0"
         },
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/germany-upper-bavaria-upper-palatinate/map.pmtiles.001",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/germany-upper-bavaria-upper-palatinate/map.pmtiles.001",
           "bytes": 33721854,
           "sha256": "2d3678d9cb61e7216b99f1acdfca16bd27ba1464a6a40336f458efe691072668"
         }

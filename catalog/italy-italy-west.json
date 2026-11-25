@@ -12,7 +12,7 @@
   "files": [
     {
       "key": "places",
-      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/italy-italy-west/places.bin.gz",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/italy-italy-west/places.bin.gz",
       "file": "places.bin",
       "gzip": true,
       "bytes": 2389780,
@@ -20,7 +20,7 @@
     },
     {
       "key": "water",
-      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/italy-italy-west/water.bin.gz",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/italy-italy-west/water.bin.gz",
       "file": "water.bin",
       "gzip": true,
       "bytes": 2039492,
@@ -28,7 +28,7 @@
     },
     {
       "key": "addresses",
-      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/italy-italy-west/addresses.bin.gz",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/italy-italy-west/addresses.bin.gz",
       "file": "addresses.bin",
       "gzip": true,
       "bytes": 18169781,
@@ -36,7 +36,7 @@
     },
     {
       "key": "geo",
-      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/italy-italy-west/geo.json.gz",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/italy-italy-west/geo.json.gz",
       "file": "geo.json",
       "gzip": true,
       "bytes": 8182272,
@@ -53,7 +53,7 @@
       "label": "lugares",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/italy-italy-west/places.bin.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/italy-italy-west/places.bin.gz",
           "bytes": 788224,
           "sha256": "9bc34634d5efdd9de13a3414a48e3f3bbb912e2ad0ddcd3f4d368142a65ac104"
         }
@@ -68,7 +68,7 @@
       "label": "água",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/italy-italy-west/water.bin.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/italy-italy-west/water.bin.gz",
           "bytes": 535173,
           "sha256": "18e7006db0c1355a8c6abc5191df2c580edadd055c0ebcb5c96d57ef77a08991"
         }
@@ -83,7 +83,7 @@
       "label": "moradas",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/italy-italy-west/addresses.bin.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/italy-italy-west/addresses.bin.gz",
           "bytes": 7973874,
           "sha256": "481ac8a77c950dd90b990bf355337377dd2abd0e4ce2db95239a8e520d548776"
         }
@@ -98,7 +98,7 @@
       "label": "geo",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/italy-italy-west/geo.json.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/italy-italy-west/geo.json.gz",
           "bytes": 2977543,
           "sha256": "b89c865190ca3521f9cea026cf94e5584f5c133ad502c360a49e67e9b37f46dc"
         }
@@ -113,12 +113,12 @@
       "label": "estradas",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/italy-italy-west/roads.bin.gz.000",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/italy-italy-west/roads.bin.gz.000",
           "bytes": 45000000,
           "sha256": "7bde7849e5242db9b639846f473647e7a32f70a4981d5b67164dbd208bd5803d"
         },
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/italy-italy-west/roads.bin.gz.001",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/italy-italy-west/roads.bin.gz.001",
           "bytes": 23101206,
           "sha256": "8382a60a8a61d50617bc2f6cc6c7cf1495423aa584585793cc74aff88ec991cf"
         }
@@ -133,12 +133,12 @@
       "label": "edifícios",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/italy-italy-west/buildings.bin.gz.000",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/italy-italy-west/buildings.bin.gz.000",
           "bytes": 45000000,
           "sha256": "5f32633d8dbfde1435fd81c9ca235b453d851b742539efe70cf755dd9ca562b9"
         },
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/italy-italy-west/buildings.bin.gz.001",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/italy-italy-west/buildings.bin.gz.001",
           "bytes": 6130106,
           "sha256": "c7945cc944322f5fa99b0494812278085bac73f15393a74465712bf7471b6f14"
         }
@@ -153,17 +153,17 @@
       "label": "mapa",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/italy-italy-west/map.pmtiles.000",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/italy-italy-west/map.pmtiles.000",
           "bytes": 45000000,
           "sha256": "5f3c207286cd34207b7af937c79df7c206f292dbf4b1a481d9be42549d100122"
         },
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/italy-italy-west/map.pmtiles.001",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/italy-italy-west/map.pmtiles.001",
           "bytes": 45000000,
           "sha256": "9366dd1844d71ba593181a42a3772a6d460a442d2ca79e30481c11c4db0237d3"
         },
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/italy-italy-west/map.pmtiles.002",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/italy-italy-west/map.pmtiles.002",
           "bytes": 21937642,
           "sha256": "4426cfa97c8385b2dbfab8f6297596ac4ed2620613594cf252c865384f38e0d7"
         }

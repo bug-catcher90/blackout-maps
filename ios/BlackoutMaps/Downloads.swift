@@ -78,14 +78,37 @@ enum Catalog {
         try? JSONEncoder().encode(package).write(to: url)
     }
 
+    // The packages live in bug-catcher90/blackout-maps-data. index.json lists them
+    // all; the contents API is the fallback when the index cannot be read.
+    private static let indexURL = URL(string: "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/index.json")!
+    private static let indexFormat = 1
+
+    private static func indexed() async -> [MapPackage]? {
+        var request = URLRequest(url: indexURL)
+        request.cachePolicy = .reloadRevalidatingCacheData
+        guard let result = try? await URLSession.shared.data(for: request),
+              (result.1 as? HTTPURLResponse)?.statusCode == 200,
+              let index = try? JSONSerialization.jsonObject(with: result.0) as? [String: Any],
+              index["format"] as? Int == indexFormat,
+              let entries = index["packages"] as? [[String: Any]] else { return nil }
+        let decoder = JSONDecoder()
+        return entries.compactMap { entry in
+            guard let body = try? JSONSerialization.data(withJSONObject: entry),
+                  let package = try? decoder.decode(MapPackage.self, from: body),
+                  listed(package) else { return nil }
+            return package
+        }.sorted { $0.name.localizedCompare($1.name) == .orderedAscending }
+    }
+
     static func remote() async throws -> [MapPackage] {
-        var request = URLRequest(url: URL(string: "https://api.github.com/repos/bug-catcher90/blackout-maps/contents/catalog")!)
+        if let packages = await indexed() { return packages }
+        var request = URLRequest(url: URL(string: "https://api.github.com/repos/bug-catcher90/blackout-maps-data/contents/catalog")!)
         request.setValue("application/vnd.github+json", forHTTPHeaderField: "Accept")
         let (data, response) = try await URLSession.shared.data(for: request)
         guard (response as? HTTPURLResponse)?.statusCode == 200 else { throw EngineError("catalog") }
         let entries = try JSONDecoder().decode([Entry].self, from: data)
         var packages: [MapPackage] = []
-        for entry in entries where entry.type == "file" && entry.name.hasSuffix(".json") {
+        for entry in entries where entry.type == "file" && entry.name.hasSuffix(".json") && entry.name != "index.json" {
             guard let fileURL = entry.downloadURL else { continue }
             let (body, fileResponse) = try await URLSession.shared.data(from: fileURL)
             guard (fileResponse as? HTTPURLResponse)?.statusCode == 200 else { continue }

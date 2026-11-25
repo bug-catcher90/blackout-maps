@@ -12,7 +12,7 @@
   "files": [
     {
       "key": "places",
-      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/germany-schleswig-holstein-hamburg-thuringia/places.bin.gz",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/germany-schleswig-holstein-hamburg-thuringia/places.bin.gz",
       "file": "places.bin",
       "gzip": true,
       "bytes": 2642812,
@@ -20,7 +20,7 @@
     },
     {
       "key": "water",
-      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/germany-schleswig-holstein-hamburg-thuringia/water.bin.gz",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/germany-schleswig-holstein-hamburg-thuringia/water.bin.gz",
       "file": "water.bin",
       "gzip": true,
       "bytes": 501288,
@@ -28,7 +28,7 @@
     },
     {
       "key": "addresses",
-      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/germany-schleswig-holstein-hamburg-thuringia/addresses.bin.gz",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/germany-schleswig-holstein-hamburg-thuringia/addresses.bin.gz",
       "file": "addresses.bin",
       "gzip": true,
       "bytes": 45674580,
@@ -36,7 +36,7 @@
     },
     {
       "key": "geo",
-      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/germany-schleswig-holstein-hamburg-thuringia/geo.json.gz",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/germany-schleswig-holstein-hamburg-thuringia/geo.json.gz",
       "file": "geo.json",
       "gzip": true,
       "bytes": 5066442,
@@ -53,7 +53,7 @@
       "label": "lugares",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/germany-schleswig-holstein-hamburg-thuringia/places.bin.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/germany-schleswig-holstein-hamburg-thuringia/places.bin.gz",
           "bytes": 822869,
           "sha256": "d4c3b7ad61ff5de1dcb3a63bedd2e6e85aba1e50281e75f1a0ff48ec2fb0f1e3"
         }
@@ -68,7 +68,7 @@
       "label": "água",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/germany-schleswig-holstein-hamburg-thuringia/water.bin.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/germany-schleswig-holstein-hamburg-thuringia/water.bin.gz",
           "bytes": 106863,
           "sha256": "6e2720e3193056138808824c7827a87815d32f50ca75341b4e173722c2effda0"
         }
@@ -83,7 +83,7 @@
       "label": "moradas",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/germany-schleswig-holstein-hamburg-thuringia/addresses.bin.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/germany-schleswig-holstein-hamburg-thuringia/addresses.bin.gz",
           "bytes": 17841089,
           "sha256": "7ef18d97c1661bdb437d96795ceeb6a4529497f20f2c6a81a03166ae0e82ae30"
         }
@@ -98,7 +98,7 @@
       "label": "geo",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/germany-schleswig-holstein-hamburg-thuringia/geo.json.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/germany-schleswig-holstein-hamburg-thuringia/geo.json.gz",
           "bytes": 1927701,
           "sha256": "552dbf9f7e2b8f472e52a4b04f415b8eb68011cca5b7bc2ef027f2096505091e"
         }
@@ -113,12 +113,12 @@
       "label": "estradas",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/germany-schleswig-holstein-hamburg-thuringia/roads.bin.gz.000",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/germany-schleswig-holstein-hamburg-thuringia/roads.bin.gz.000",
           "bytes": 45000000,
           "sha256": "0de7a8fd82850cea8150053a9530b439852d04617bfb2f0b2dcedd7f71804dfe"
         },
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/germany-schleswig-holstein-hamburg-thuringia/roads.bin.gz.001",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/germany-schleswig-holstein-hamburg-thuringia/roads.bin.gz.001",
           "bytes": 3274941,
           "sha256": "5ba1f0f56125dac1087ce1f934594fa0a455402984773af439f7ff9c467b2265"
         }
@@ -133,12 +133,12 @@
       "label": "edifícios",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/germany-schleswig-holstein-hamburg-thuringia/buildings.bin.gz.000",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/germany-schleswig-holstein-hamburg-thuringia/buildings.bin.gz.000",
           "bytes": 45000000,
           "sha256": "d084c0b872e595a0637752d348a9acd8bc2d9b3bc73db0f83ba3d075dd21ef06"
         },
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/germany-schleswig-holstein-hamburg-thuringia/buildings.bin.gz.001",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/germany-schleswig-holstein-hamburg-thuringia/buildings.bin.gz.001",
           "bytes": 4813452,
           "sha256": "6cc0e8e59489c4fee7876eb4772bc07aa6937d78773269748015636c3ad97f67"
         }
@@ -153,12 +153,12 @@
       "label": "mapa",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/germany-schleswig-holstein-hamburg-thuringia/map.pmtiles.000",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/germany-schleswig-holstein-hamburg-thuringia/map.pmtiles.000",
           "bytes": 45000000,
           "sha256": "ce7fc18b14924d5473ca8698ca930e914924398332e03e161b5858e8500e30a7"
         },
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/germany-schleswig-holstein-hamburg-thuringia/map.pmtiles.001",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/germany-schleswig-holstein-hamburg-thuringia/map.pmtiles.001",
           "bytes": 43335866,
           "sha256": "73a20d6b39cdd0271636d78629b446369866db67a237248a45075c77fe57fa34"
         }

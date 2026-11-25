@@ -12,7 +12,7 @@
   "files": [
     {
       "key": "places",
-      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/germany-brandenburg-berlin/places.bin.gz",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/germany-brandenburg-berlin/places.bin.gz",
       "file": "places.bin",
       "gzip": true,
       "bytes": 2128776,
@@ -20,7 +20,7 @@
     },
     {
       "key": "water",
-      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/germany-brandenburg-berlin/water.bin.gz",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/germany-brandenburg-berlin/water.bin.gz",
       "file": "water.bin",
       "gzip": true,
       "bytes": 361732,
@@ -28,7 +28,7 @@
     },
     {
       "key": "addresses",
-      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/germany-brandenburg-berlin/addresses.bin.gz",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/germany-brandenburg-berlin/addresses.bin.gz",
       "file": "addresses.bin",
       "gzip": true,
       "bytes": 34604848,
@@ -36,7 +36,7 @@
     },
     {
       "key": "geo",
-      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/germany-brandenburg-berlin/geo.json.gz",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/germany-brandenburg-berlin/geo.json.gz",
       "file": "geo.json",
       "gzip": true,
       "bytes": 3270010,
@@ -44,7 +44,7 @@
     },
     {
       "key": "roads",
-      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/germany-brandenburg-berlin/roads.bin.gz",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/germany-brandenburg-berlin/roads.bin.gz",
       "file": "roads.bin",
       "gzip": true,
       "bytes": 94998832,
@@ -61,7 +61,7 @@
       "label": "lugares",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/germany-brandenburg-berlin/places.bin.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/germany-brandenburg-berlin/places.bin.gz",
           "bytes": 688162,
           "sha256": "1bb5979d64da01e4cbb609936670803d6c121b4278bc2c1aa77bfb3ffb3bc011"
         }
@@ -76,7 +76,7 @@
       "label": "água",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/germany-brandenburg-berlin/water.bin.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/germany-brandenburg-berlin/water.bin.gz",
           "bytes": 89550,
           "sha256": "92a0808cc8b2fcb5cd8930ceb1ecc82227be6645aed9afab232a70599be3c641"
         }
@@ -91,7 +91,7 @@
       "label": "moradas",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/germany-brandenburg-berlin/addresses.bin.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/germany-brandenburg-berlin/addresses.bin.gz",
           "bytes": 13857518,
           "sha256": "8eba7121fcdbd6519f5ed5615ae6cdc43186b7ac29da2bbd44c9ff9810b92283"
         }
@@ -106,7 +106,7 @@
       "label": "geo",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/germany-brandenburg-berlin/geo.json.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/germany-brandenburg-berlin/geo.json.gz",
           "bytes": 1179280,
           "sha256": "4788c51ca9971f0658fc748bcc09087c3e268db7abd6ac19c10945bd01897609"
         }
@@ -121,7 +121,7 @@
       "label": "estradas",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/germany-brandenburg-berlin/roads.bin.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/germany-brandenburg-berlin/roads.bin.gz",
           "bytes": 37773061,
           "sha256": "c0e9acb90119e8e7e461608ac0205e3dbac0d8319a32ece5ff592f339929489b"
         }
@@ -136,7 +136,7 @@
       "label": "edifícios",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/germany-brandenburg-berlin/buildings.bin.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/germany-brandenburg-berlin/buildings.bin.gz",
           "bytes": 38888261,
           "sha256": "d99abd6ce3b0322a1adad9f3c2c013c58114a199fb7bd72bf75f7aed8d933973"
         }
@@ -151,12 +151,12 @@
       "label": "mapa",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/germany-brandenburg-berlin/map.pmtiles.000",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/germany-brandenburg-berlin/map.pmtiles.000",
           "bytes": 45000000,
           "sha256": "f61452b1c33b98b430b42048aca121d6ffa713dd4dc8b408aeeddae6e48fe39b"
         },
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/germany-brandenburg-berlin/map.pmtiles.001",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/germany-brandenburg-berlin/map.pmtiles.001",
           "bytes": 14318400,
           "sha256": "8bd139b61943b5cfa6b0edead3a887359857630ed95e6f7c35047be870e68567"
         }

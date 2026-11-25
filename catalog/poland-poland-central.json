@@ -12,7 +12,7 @@
   "files": [
     {
       "key": "places",
-      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/poland-poland-central/places.bin.gz",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/poland-poland-central/places.bin.gz",
       "file": "places.bin",
       "gzip": true,
       "bytes": 2330704,
@@ -20,7 +20,7 @@
     },
     {
       "key": "water",
-      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/poland-poland-central/water.bin.gz",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/poland-poland-central/water.bin.gz",
       "file": "water.bin",
       "gzip": true,
       "bytes": 464084,
@@ -28,7 +28,7 @@
     },
     {
       "key": "addresses",
-      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/poland-poland-central/addresses.bin.gz",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/poland-poland-central/addresses.bin.gz",
       "file": "addresses.bin",
       "gzip": true,
       "bytes": 50288818,
@@ -36,7 +36,7 @@
     },
     {
       "key": "geo",
-      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/poland-poland-central/geo.json.gz",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/poland-poland-central/geo.json.gz",
       "file": "geo.json",
       "gzip": true,
       "bytes": 4330002,
@@ -53,7 +53,7 @@
       "label": "lugares",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/poland-poland-central/places.bin.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/poland-poland-central/places.bin.gz",
           "bytes": 728710,
           "sha256": "88a9db0429b7350eb29a0274de09f8ddbdcbb693de196524624eaa7cecc05098"
         }
@@ -68,7 +68,7 @@
       "label": "água",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/poland-poland-central/water.bin.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/poland-poland-central/water.bin.gz",
           "bytes": 113999,
           "sha256": "4281f8409e9938f3df32757e032fae08bf983d82229287ccf35dcd2b92a2e7b4"
         }
@@ -83,7 +83,7 @@
       "label": "moradas",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/poland-poland-central/addresses.bin.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/poland-poland-central/addresses.bin.gz",
           "bytes": 21354502,
           "sha256": "9840478c4e0dfc50b6aa9b6a773bc133cdf1766c03b250716b3a1b885a4a4d23"
         }
@@ -98,7 +98,7 @@
       "label": "geo",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/poland-poland-central/geo.json.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/poland-poland-central/geo.json.gz",
           "bytes": 1574647,
           "sha256": "26cdecd7f0ec59249b36165eff23158a02ef94cc15fdfe363c76180143248eb4"
         }
@@ -113,12 +113,12 @@
       "label": "estradas",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/poland-poland-central/roads.bin.gz.000",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/poland-poland-central/roads.bin.gz.000",
           "bytes": 45000000,
           "sha256": "58817e6e48311a4d27a0b61a445160fad93f09fa327d46cc91ee83db302b0ff0"
         },
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/poland-poland-central/roads.bin.gz.001",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/poland-poland-central/roads.bin.gz.001",
           "bytes": 9954089,
           "sha256": "4825272f98a649ee93b1cbc5f0f78f1a56146c8f20f6a59439cbe9e52a89ad67"
         }
@@ -133,12 +133,12 @@
       "label": "edifícios",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/poland-poland-central/buildings.bin.gz.000",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/poland-poland-central/buildings.bin.gz.000",
           "bytes": 45000000,
           "sha256": "f0d7b68f7f9dbeaa6670883903e8384d1d808b0f56faba7f5ee7170b60ab69f5"
         },
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/poland-poland-central/buildings.bin.gz.001",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/poland-poland-central/buildings.bin.gz.001",
           "bytes": 22288441,
           "sha256": "9ba276a69757158eb82e3636048c0b1013e885ed4255ac33df1f1190b503d002"
         }
@@ -153,17 +153,17 @@
       "label": "mapa",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/poland-poland-central/map.pmtiles.000",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/poland-poland-central/map.pmtiles.000",
           "bytes": 45000000,
           "sha256": "cd4ef2e842c36f646dfdd9cf703cf406b68c7665487617fcef0570871cadce98"
         },
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/poland-poland-central/map.pmtiles.001",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/poland-poland-central/map.pmtiles.001",
           "bytes": 45000000,
           "sha256": "bdc73fb52b0ef05442b43649c9148abcab09a7a4ea9b40e84d9e93f58835e1de"
         },
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/poland-poland-central/map.pmtiles.002",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/poland-poland-central/map.pmtiles.002",
           "bytes": 8868054,
           "sha256": "f391f3514748325c86a5594f185ab8e8de650accc4f1a375e1e560176fe32459"
         }

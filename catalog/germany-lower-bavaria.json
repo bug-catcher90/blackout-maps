@@ -12,7 +12,7 @@
   "files": [
     {
       "key": "places",
-      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/germany-lower-bavaria/places.bin.gz",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/germany-lower-bavaria/places.bin.gz",
       "file": "places.bin",
       "gzip": true,
       "bytes": 506144,
@@ -20,7 +20,7 @@
     },
     {
       "key": "water",
-      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/germany-lower-bavaria/water.bin.gz",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/germany-lower-bavaria/water.bin.gz",
       "file": "water.bin",
       "gzip": true,
       "bytes": 159840,
@@ -28,7 +28,7 @@
     },
     {
       "key": "addresses",
-      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/germany-lower-bavaria/addresses.bin.gz",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/germany-lower-bavaria/addresses.bin.gz",
       "file": "addresses.bin",
       "gzip": true,
       "bytes": 6706379,
@@ -36,7 +36,7 @@
     },
     {
       "key": "geo",
-      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/germany-lower-bavaria/geo.json.gz",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/germany-lower-bavaria/geo.json.gz",
       "file": "geo.json",
       "gzip": true,
       "bytes": 1671976,
@@ -44,7 +44,7 @@
     },
     {
       "key": "roads",
-      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/germany-lower-bavaria/roads.bin.gz",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/germany-lower-bavaria/roads.bin.gz",
       "file": "roads.bin",
       "gzip": true,
       "bytes": 27879008,
@@ -61,7 +61,7 @@
       "label": "lugares",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/germany-lower-bavaria/places.bin.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/germany-lower-bavaria/places.bin.gz",
           "bytes": 171466,
           "sha256": "5670d48c4b95909e1fb589bcd377f344244b9ea21dab2b3810076f45b3cbdbc2"
         }
@@ -76,7 +76,7 @@
       "label": "água",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/germany-lower-bavaria/water.bin.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/germany-lower-bavaria/water.bin.gz",
           "bytes": 49097,
           "sha256": "58df80023426dd677a411992b082a5d5cfaaeb0f07ae81b2fd46e3714cf16a7b"
         }
@@ -91,7 +91,7 @@
       "label": "moradas",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/germany-lower-bavaria/addresses.bin.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/germany-lower-bavaria/addresses.bin.gz",
           "bytes": 2658606,
           "sha256": "88a2e6943ca1ec37d4da4bde83c5fdd64189072acc5fcebe347e62c5a5d10f7f"
         }
@@ -106,7 +106,7 @@
       "label": "geo",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/germany-lower-bavaria/geo.json.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/germany-lower-bavaria/geo.json.gz",
           "bytes": 594247,
           "sha256": "de2e5b9bcf781a34fd003ca60de4c076e9213f2b205a77e8be8dbe0ad5b9f57f"
         }
@@ -121,7 +121,7 @@
       "label": "estradas",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/germany-lower-bavaria/roads.bin.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/germany-lower-bavaria/roads.bin.gz",
           "bytes": 13027410,
           "sha256": "b4fc08fd89390f3addb58b154b3b88c0fb256d90c0a4fa644366e32d4483afe3"
         }
@@ -136,7 +136,7 @@
       "label": "edifícios",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/germany-lower-bavaria/buildings.bin.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/germany-lower-bavaria/buildings.bin.gz",
           "bytes": 12969129,
           "sha256": "ff0e049c590c60296f46ffd7acf1991c78f6d64d32a303529d26cc4e3f0c1c38"
         }
@@ -151,7 +151,7 @@
       "label": "mapa",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/germany-lower-bavaria/map.pmtiles",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/germany-lower-bavaria/map.pmtiles",
           "bytes": 29503510,
           "sha256": "88d65734a4f5b7d720d53a668f493a47686a8995d6c7cd0a1486e57f2cf01bf5"
         }

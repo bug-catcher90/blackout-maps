@@ -12,7 +12,7 @@
   "files": [
     {
       "key": "places",
-      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/netherlands-north-holland-utrecht/places.bin.gz",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/netherlands-north-holland-utrecht/places.bin.gz",
       "file": "places.bin",
       "gzip": true,
       "bytes": 910708,
@@ -20,7 +20,7 @@
     },
     {
       "key": "water",
-      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/netherlands-north-holland-utrecht/water.bin.gz",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/netherlands-north-holland-utrecht/water.bin.gz",
       "file": "water.bin",
       "gzip": true,
       "bytes": 259924,
@@ -28,7 +28,7 @@
     },
     {
       "key": "addresses",
-      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/netherlands-north-holland-utrecht/addresses.bin.gz",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/netherlands-north-holland-utrecht/addresses.bin.gz",
       "file": "addresses.bin",
       "gzip": true,
       "bytes": 47131597,
@@ -36,7 +36,7 @@
     },
     {
       "key": "geo",
-      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/netherlands-north-holland-utrecht/geo.json.gz",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/netherlands-north-holland-utrecht/geo.json.gz",
       "file": "geo.json",
       "gzip": true,
       "bytes": 2394617,
@@ -44,7 +44,7 @@
     },
     {
       "key": "roads",
-      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/netherlands-north-holland-utrecht/roads.bin.gz",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/netherlands-north-holland-utrecht/roads.bin.gz",
       "file": "roads.bin",
       "gzip": true,
       "bytes": 68150252,
@@ -61,7 +61,7 @@
       "label": "lugares",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/netherlands-north-holland-utrecht/places.bin.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/netherlands-north-holland-utrecht/places.bin.gz",
           "bytes": 332694,
           "sha256": "eb90d0414014096b80beacc09e24d50a29d1505b580bec7eaafd27edcdb1282a"
         }
@@ -76,7 +76,7 @@
       "label": "água",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/netherlands-north-holland-utrecht/water.bin.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/netherlands-north-holland-utrecht/water.bin.gz",
           "bytes": 93495,
           "sha256": "c9735d78c86f6a33acca547fc6c053ad3f83e1fa71274f59857436bab079cac6"
         }
@@ -91,7 +91,7 @@
       "label": "moradas",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/netherlands-north-holland-utrecht/addresses.bin.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/netherlands-north-holland-utrecht/addresses.bin.gz",
           "bytes": 18598258,
           "sha256": "9a54db37d462455bcee6768292c0cda3902e8adb54cb82c2dadb219adac978d4"
         }
@@ -106,7 +106,7 @@
       "label": "geo",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/netherlands-north-holland-utrecht/geo.json.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/netherlands-north-holland-utrecht/geo.json.gz",
           "bytes": 873414,
           "sha256": "63a35f22bdb36881f52e35eaac620c99757f5431275498f0854efe94d5874657"
         }
@@ -121,7 +121,7 @@
       "label": "estradas",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/netherlands-north-holland-utrecht/roads.bin.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/netherlands-north-holland-utrecht/roads.bin.gz",
           "bytes": 26259288,
           "sha256": "ad68f14565f3255eac27fe93ca120ca32b14f4a1f3e5407515b0ee5b8ec6a383"
         }
@@ -136,7 +136,7 @@
       "label": "edifícios",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/netherlands-north-holland-utrecht/buildings.bin.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/netherlands-north-holland-utrecht/buildings.bin.gz",
           "bytes": 39291454,
           "sha256": "635fcd2c40068a0e6b4847f0a294513357fecc73621b3eeda1b474e6f6f67fc3"
         }
@@ -151,7 +151,7 @@
       "label": "mapa",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/netherlands-north-holland-utrecht/map.pmtiles",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/netherlands-north-holland-utrecht/map.pmtiles",
           "bytes": 41772297,
           "sha256": "f1a9b5f44eb092e48597d92f22f456ccf5b01b5f79095b50cbcf9e2b1c1c2370"
         }

@@ -12,7 +12,7 @@
   "files": [
     {
       "key": "places",
-      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/france-nouvelle-aquitaine-north-east/places.bin.gz",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/france-nouvelle-aquitaine-north-east/places.bin.gz",
       "file": "places.bin",
       "gzip": true,
       "bytes": 557980,
@@ -20,7 +20,7 @@
     },
     {
       "key": "water",
-      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/france-nouvelle-aquitaine-north-east/water.bin.gz",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/france-nouvelle-aquitaine-north-east/water.bin.gz",
       "file": "water.bin",
       "gzip": true,
       "bytes": 377948,
@@ -28,7 +28,7 @@
     },
     {
       "key": "addresses",
-      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/france-nouvelle-aquitaine-north-east/addresses.bin.gz",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/france-nouvelle-aquitaine-north-east/addresses.bin.gz",
       "file": "addresses.bin",
       "gzip": true,
       "bytes": 5131220,
@@ -36,7 +36,7 @@
     },
     {
       "key": "geo",
-      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/france-nouvelle-aquitaine-north-east/geo.json.gz",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/france-nouvelle-aquitaine-north-east/geo.json.gz",
       "file": "geo.json",
       "gzip": true,
       "bytes": 7918102,
@@ -44,7 +44,7 @@
     },
     {
       "key": "roads",
-      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/france-nouvelle-aquitaine-north-east/roads.bin.gz",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/france-nouvelle-aquitaine-north-east/roads.bin.gz",
       "file": "roads.bin",
       "gzip": true,
       "bytes": 66167536,
@@ -61,7 +61,7 @@
       "label": "lugares",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/france-nouvelle-aquitaine-north-east/places.bin.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/france-nouvelle-aquitaine-north-east/places.bin.gz",
           "bytes": 174576,
           "sha256": "99401fe1c6ac4f9aca1115acb13ee739f50ac266f98f766f596fbbadcb93718e"
         }
@@ -76,7 +76,7 @@
       "label": "água",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/france-nouvelle-aquitaine-north-east/water.bin.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/france-nouvelle-aquitaine-north-east/water.bin.gz",
           "bytes": 113101,
           "sha256": "bfac67b6ef3ea6e13c434f26c2210d30f3d5022f78e92be425b41b427102e9df"
         }
@@ -91,7 +91,7 @@
       "label": "moradas",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/france-nouvelle-aquitaine-north-east/addresses.bin.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/france-nouvelle-aquitaine-north-east/addresses.bin.gz",
           "bytes": 2371013,
           "sha256": "42e32473dc316f285dbdff50d2085780d2930fa5d3d3ead12755ad8b3b7e6219"
         }
@@ -106,7 +106,7 @@
       "label": "geo",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/france-nouvelle-aquitaine-north-east/geo.json.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/france-nouvelle-aquitaine-north-east/geo.json.gz",
           "bytes": 2835578,
           "sha256": "81582beb4e72375b21b97c262a97f616af5331a8e4be0af2c2f3a80e778fbded"
         }
@@ -121,7 +121,7 @@
       "label": "estradas",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/france-nouvelle-aquitaine-north-east/roads.bin.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/france-nouvelle-aquitaine-north-east/roads.bin.gz",
           "bytes": 33313748,
           "sha256": "636d87052844433ede89c1ca59d3c4e12fef5e61f4e77dabf2e0ee6ace56db37"
         }
@@ -136,7 +136,7 @@
       "label": "edifícios",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/france-nouvelle-aquitaine-north-east/buildings.bin.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/france-nouvelle-aquitaine-north-east/buildings.bin.gz",
           "bytes": 42944337,
           "sha256": "75a6873e918315e5b1b3e0334ac56677d2103f18c86e13e0e68b0b74185fc225"
         }
@@ -151,12 +151,12 @@
       "label": "mapa",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/france-nouvelle-aquitaine-north-east/map.pmtiles.000",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/france-nouvelle-aquitaine-north-east/map.pmtiles.000",
           "bytes": 45000000,
           "sha256": "27165e01c055d6cd12ee486d95d2f4905413a7aa1b981297c0153faab1729d1c"
         },
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/france-nouvelle-aquitaine-north-east/map.pmtiles.001",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/france-nouvelle-aquitaine-north-east/map.pmtiles.001",
           "bytes": 33902778,
           "sha256": "1c9ba6bfd03786fba9fb93e2f6c48bec21951f32d924df4fa5a025fb0f14d839"
         }

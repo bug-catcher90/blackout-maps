@@ -11,7 +11,7 @@
   "files": [
     {
       "key": "places",
-      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/scotland/places.bin.gz",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/scotland/places.bin.gz",
       "file": "places.bin",
       "gzip": true,
       "bytes": 1773368,
@@ -19,7 +19,7 @@
     },
     {
       "key": "water",
-      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/scotland/water.bin.gz",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/scotland/water.bin.gz",
       "file": "water.bin",
       "gzip": true,
       "bytes": 1073064,
@@ -27,7 +27,7 @@
     },
     {
       "key": "addresses",
-      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/scotland/addresses.bin.gz",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/scotland/addresses.bin.gz",
       "file": "addresses.bin",
       "gzip": true,
       "bytes": 12216398,
@@ -35,7 +35,7 @@
     },
     {
       "key": "geo",
-      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/scotland/geo.json.gz",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/scotland/geo.json.gz",
       "file": "geo.json",
       "gzip": true,
       "bytes": 4548026,
@@ -52,7 +52,7 @@
       "label": "lugares",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/scotland/places.bin.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/scotland/places.bin.gz",
           "bytes": 472411,
           "sha256": "71470607835e8680cd379ade8723088cc6a0ca74f98fd20e835a307ad559f094"
         }
@@ -67,7 +67,7 @@
       "label": "água",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/scotland/water.bin.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/scotland/water.bin.gz",
           "bytes": 225172,
           "sha256": "34dedea01fbe908f10f079fd0dbbac5533c38dcabac2fbcef4f41ab6b96f7841"
         }
@@ -82,7 +82,7 @@
       "label": "moradas",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/scotland/addresses.bin.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/scotland/addresses.bin.gz",
           "bytes": 4754514,
           "sha256": "bd6e0ca138e8c1a40c5c4702995cc379e9881210f19588b88010a99f1adbdf60"
         }
@@ -97,7 +97,7 @@
       "label": "geo",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/scotland/geo.json.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/scotland/geo.json.gz",
           "bytes": 1654166,
           "sha256": "840d43f31b3e95fa9681ca1dbff8ad6c142be1d7fef3236eed47badf03a39758"
         }
@@ -112,12 +112,12 @@
       "label": "estradas",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/scotland/roads.bin.gz.000",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/scotland/roads.bin.gz.000",
           "bytes": 45000000,
           "sha256": "6d2579eccb8fdb7dc8efbfe18ab8d917cc81a0ce3a1be953ad74133a7b6977bf"
         },
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/scotland/roads.bin.gz.001",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/scotland/roads.bin.gz.001",
           "bytes": 4254766,
           "sha256": "c0e43c76a7e65754c49960225238f512766802945c105a7ea7357d8543795875"
         }
@@ -132,7 +132,7 @@
       "label": "edifícios",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/scotland/buildings.bin.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/scotland/buildings.bin.gz",
           "bytes": 34681413,
           "sha256": "595bb839102bb0b198df3eea72b42d9fe29447b3955fc2589255077f8f4eb005"
         }
@@ -147,17 +147,17 @@
       "label": "mapa",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/scotland/map.pmtiles.000",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/scotland/map.pmtiles.000",
           "bytes": 45000000,
           "sha256": "6d8f42ff533c743b920293b86446dae85114031d80d5aabfcb552d27c645231e"
         },
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/scotland/map.pmtiles.001",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/scotland/map.pmtiles.001",
           "bytes": 45000000,
           "sha256": "e32b6f8c424830dbbe67d3d5c8c8af4a708cc277d1fe13b041496002dadefd1a"
         },
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/scotland/map.pmtiles.002",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/scotland/map.pmtiles.002",
           "bytes": 37950296,
           "sha256": "a44bb1578d2a106f83c6279a7944f2668683c3e043fa229c6e92944832d8e3ac"
         }

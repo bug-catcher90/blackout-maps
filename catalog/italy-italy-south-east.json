@@ -12,7 +12,7 @@
   "files": [
     {
       "key": "places",
-      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/italy-italy-south-east/places.bin.gz",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/italy-italy-south-east/places.bin.gz",
       "file": "places.bin",
       "gzip": true,
       "bytes": 2370628,
@@ -20,7 +20,7 @@
     },
     {
       "key": "water",
-      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/italy-italy-south-east/water.bin.gz",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/italy-italy-south-east/water.bin.gz",
       "file": "water.bin",
       "gzip": true,
       "bytes": 1293368,
@@ -28,7 +28,7 @@
     },
     {
       "key": "addresses",
-      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/italy-italy-south-east/addresses.bin.gz",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/italy-italy-south-east/addresses.bin.gz",
       "file": "addresses.bin",
       "gzip": true,
       "bytes": 5978306,
@@ -36,7 +36,7 @@
     },
     {
       "key": "geo",
-      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/italy-italy-south-east/geo.json.gz",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/italy-italy-south-east/geo.json.gz",
       "file": "geo.json",
       "gzip": true,
       "bytes": 9144311,
@@ -53,7 +53,7 @@
       "label": "lugares",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/italy-italy-south-east/places.bin.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/italy-italy-south-east/places.bin.gz",
           "bytes": 739368,
           "sha256": "e624fc3f447be4aaede8752a6a37b57b43983e1100cfd3e2108aeebd19b2cf55"
         }
@@ -68,7 +68,7 @@
       "label": "água",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/italy-italy-south-east/water.bin.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/italy-italy-south-east/water.bin.gz",
           "bytes": 313220,
           "sha256": "a949dfab1f8ecfc7037c509ad7dca1af19cc02cc0b2dc4af3c65cbc62ec053f5"
         }
@@ -83,7 +83,7 @@
       "label": "moradas",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/italy-italy-south-east/addresses.bin.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/italy-italy-south-east/addresses.bin.gz",
           "bytes": 2593404,
           "sha256": "658389e13438c1538a5bd58c09c25315a8ba517a152eea4ffaf93487af7edede"
         }
@@ -98,7 +98,7 @@
       "label": "geo",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/italy-italy-south-east/geo.json.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/italy-italy-south-east/geo.json.gz",
           "bytes": 3173532,
           "sha256": "2d2f0952e61169cd8848a89ddb668a5a4e36908fa9578bf0506ecbadd7e068c9"
         }
@@ -113,12 +113,12 @@
       "label": "estradas",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/italy-italy-south-east/roads.bin.gz.000",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/italy-italy-south-east/roads.bin.gz.000",
           "bytes": 45000000,
           "sha256": "8961a3d5f78b1100f016cff5021317508e5626dc4a1506af4e9ed981fcb5b84a"
         },
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/italy-italy-south-east/roads.bin.gz.001",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/italy-italy-south-east/roads.bin.gz.001",
           "bytes": 27745852,
           "sha256": "5c9f62f9858bc1fd06eeabb6efb04a0fb4dbeb3cb9be402a8a73cf29dc0a9367"
         }
@@ -133,12 +133,12 @@
       "label": "edifícios",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/italy-italy-south-east/buildings.bin.gz.000",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/italy-italy-south-east/buildings.bin.gz.000",
           "bytes": 45000000,
           "sha256": "8b5f3f88426f8904d8ffa45e45bf312cd5f29d3d38c019aa60b25a39ea9e431b"
         },
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/italy-italy-south-east/buildings.bin.gz.001",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/italy-italy-south-east/buildings.bin.gz.001",
           "bytes": 3527672,
           "sha256": "d45de37221ecafddd5d9535508de031e6d5c21b2f54c99a8fe136cdf7d2b30d1"
         }
@@ -153,17 +153,17 @@
       "label": "mapa",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/italy-italy-south-east/map.pmtiles.000",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/italy-italy-south-east/map.pmtiles.000",
           "bytes": 45000000,
           "sha256": "366b32c1c5078b0357f51c8df374eec10cc6e63d7166b5fa0dd7c083cc030462"
         },
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/italy-italy-south-east/map.pmtiles.001",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/italy-italy-south-east/map.pmtiles.001",
           "bytes": 45000000,
           "sha256": "c58afd1b86654d5f16b843f0d65440231617b6f0eb9f207a554b217d6895b027"
         },
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/italy-italy-south-east/map.pmtiles.002",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/italy-italy-south-east/map.pmtiles.002",
           "bytes": 11722571,
           "sha256": "b64e61a7a08b7c14e44aaf2f8e82320033c76547dc88f1987dd8321b5df8e70c"
         }

@@ -12,7 +12,7 @@
   "files": [
     {
       "key": "places",
-      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/england-north/places.bin.gz",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/england-north/places.bin.gz",
       "file": "places.bin",
       "gzip": true,
       "bytes": 1698648,
@@ -20,7 +20,7 @@
     },
     {
       "key": "water",
-      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/england-north/water.bin.gz",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/england-north/water.bin.gz",
       "file": "water.bin",
       "gzip": true,
       "bytes": 677608,
@@ -28,7 +28,7 @@
     },
     {
       "key": "addresses",
-      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/england-north/addresses.bin.gz",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/england-north/addresses.bin.gz",
       "file": "addresses.bin",
       "gzip": true,
       "bytes": 12198950,
@@ -36,7 +36,7 @@
     },
     {
       "key": "geo",
-      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/england-north/geo.json.gz",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/england-north/geo.json.gz",
       "file": "geo.json",
       "gzip": true,
       "bytes": 5479451,
@@ -53,7 +53,7 @@
       "label": "lugares",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/england-north/places.bin.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/england-north/places.bin.gz",
           "bytes": 531986,
           "sha256": "ceea9d0acb4e8c3032a7b2dcc734c7512b271619ef9a31c4e86063ca22ba641a"
         }
@@ -68,7 +68,7 @@
       "label": "água",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/england-north/water.bin.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/england-north/water.bin.gz",
           "bytes": 123907,
           "sha256": "a3f1a27085bdef1517a755d775ccd863b022607d2573123ed011de67377ad9e2"
         }
@@ -83,7 +83,7 @@
       "label": "moradas",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/england-north/addresses.bin.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/england-north/addresses.bin.gz",
           "bytes": 4573264,
           "sha256": "12c6e8fa3ca048a77069be596a1d0935acefb643d7fd740a5ffe1c7e68f24ed3"
         }
@@ -98,7 +98,7 @@
       "label": "geo",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/england-north/geo.json.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/england-north/geo.json.gz",
           "bytes": 1972938,
           "sha256": "f862a920346c11458d3d82b91e27558ed2673394aabd1b6af6658429c6aeadcd"
         }
@@ -113,12 +113,12 @@
       "label": "estradas",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/england-north/roads.bin.gz.000",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/england-north/roads.bin.gz.000",
           "bytes": 45000000,
           "sha256": "88466775b445a9642b6a88c3b6966f2a1e40e9ed48c780ec06714d843ecc3033"
         },
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/england-north/roads.bin.gz.001",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/england-north/roads.bin.gz.001",
           "bytes": 1571554,
           "sha256": "2804bab33af08ec4d9fd9ec3f8d93caf4643c27abab0a49eba528d52420ef24b"
         }
@@ -133,7 +133,7 @@
       "label": "edifícios",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/england-north/buildings.bin.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/england-north/buildings.bin.gz",
           "bytes": 26663894,
           "sha256": "9d3a975cd88cd0f45e3b9ce744b13decb0655fe1b3c8c701fa8ab781fd2f61f9"
         }
@@ -148,12 +148,12 @@
       "label": "mapa",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/england-north/map.pmtiles.000",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/england-north/map.pmtiles.000",
           "bytes": 45000000,
           "sha256": "bd8100267597a70ccef1a49f048aacd64fd95ae2db8f98bccc5b861909590ee4"
         },
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/england-north/map.pmtiles.001",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/england-north/map.pmtiles.001",
           "bytes": 29605786,
           "sha256": "dcaf6d32afb398bbcb623ea1955ba5eff2f62d59b27e685d7a3f272eda617675"
         }

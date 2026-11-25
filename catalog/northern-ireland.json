@@ -11,7 +11,7 @@
   "files": [
     {
       "key": "places",
-      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/northern-ireland/places.bin.gz",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/northern-ireland/places.bin.gz",
       "file": "places.bin",
       "gzip": true,
       "bytes": 383560,
@@ -19,7 +19,7 @@
     },
     {
       "key": "water",
-      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/northern-ireland/water.bin.gz",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/northern-ireland/water.bin.gz",
       "file": "water.bin",
       "gzip": true,
       "bytes": 233940,
@@ -27,7 +27,7 @@
     },
     {
       "key": "addresses",
-      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/northern-ireland/addresses.bin.gz",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/northern-ireland/addresses.bin.gz",
       "file": "addresses.bin",
       "gzip": true,
       "bytes": 2840434,
@@ -35,7 +35,7 @@
     },
     {
       "key": "geo",
-      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/northern-ireland/geo.json.gz",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/northern-ireland/geo.json.gz",
       "file": "geo.json",
       "gzip": true,
       "bytes": 1521400,
@@ -43,7 +43,7 @@
     },
     {
       "key": "roads",
-      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/northern-ireland/roads.bin.gz",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/northern-ireland/roads.bin.gz",
       "file": "roads.bin",
       "gzip": true,
       "bytes": 38207176,
@@ -60,7 +60,7 @@
       "label": "lugares",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/northern-ireland/places.bin.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/northern-ireland/places.bin.gz",
           "bytes": 124246,
           "sha256": "ed5c8d4843dd291ba8362ac9915a51edba191c7969fa9f2c1c9ba94658436198"
         }
@@ -75,7 +75,7 @@
       "label": "água",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/northern-ireland/water.bin.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/northern-ireland/water.bin.gz",
           "bytes": 32831,
           "sha256": "0e5dee2148cf8be8868597dfb1748462a028dcbbf17720bb1397eb19785ef78a"
         }
@@ -90,7 +90,7 @@
       "label": "moradas",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/northern-ireland/addresses.bin.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/northern-ireland/addresses.bin.gz",
           "bytes": 1098242,
           "sha256": "4d0f47fe720710b23c19875ab6f23512e672504b3a51db407a385eeda0828274"
         }
@@ -105,7 +105,7 @@
       "label": "geo",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/northern-ireland/geo.json.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/northern-ireland/geo.json.gz",
           "bytes": 532343,
           "sha256": "7bfbadc5dfc62676a8b4402d9a5b920996bfe79c112792af3d94f17185cbda65"
         }
@@ -120,7 +120,7 @@
       "label": "estradas",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/northern-ireland/roads.bin.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/northern-ireland/roads.bin.gz",
           "bytes": 16997684,
           "sha256": "cb737bf7e191ab70cceabe50bf3bb7ba64f80bdffbca94c5ce699c45a03254e4"
         }
@@ -135,7 +135,7 @@
       "label": "edifícios",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/northern-ireland/buildings.bin.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/northern-ireland/buildings.bin.gz",
           "bytes": 14704155,
           "sha256": "eb52b3b765c812d86427e547749a4eb61b453334ce2360ea69b5459d939d7ec0"
         }
@@ -150,7 +150,7 @@
       "label": "mapa",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/northern-ireland/map.pmtiles",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/northern-ireland/map.pmtiles",
           "bytes": 31329818,
           "sha256": "69d4a6eb5ddca311183e8b1d5e26188e2eee07c76b5350227576de0f8443a3af"
         }

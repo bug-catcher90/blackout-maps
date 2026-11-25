@@ -12,7 +12,7 @@
   "files": [
     {
       "key": "places",
-      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/italy-apulia/places.bin.gz",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/italy-apulia/places.bin.gz",
       "file": "places.bin",
       "gzip": true,
       "bytes": 764236,
@@ -20,7 +20,7 @@
     },
     {
       "key": "water",
-      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/italy-apulia/water.bin.gz",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/italy-apulia/water.bin.gz",
       "file": "water.bin",
       "gzip": true,
       "bytes": 197212,
@@ -28,7 +28,7 @@
     },
     {
       "key": "addresses",
-      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/italy-apulia/addresses.bin.gz",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/italy-apulia/addresses.bin.gz",
       "file": "addresses.bin",
       "gzip": true,
       "bytes": 1064740,
@@ -36,7 +36,7 @@
     },
     {
       "key": "geo",
-      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/italy-apulia/geo.json.gz",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/italy-apulia/geo.json.gz",
       "file": "geo.json",
       "gzip": true,
       "bytes": 3416686,
@@ -44,7 +44,7 @@
     },
     {
       "key": "roads",
-      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/italy-apulia/roads.bin.gz",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/italy-apulia/roads.bin.gz",
       "file": "roads.bin",
       "gzip": true,
       "bytes": 41104460,
@@ -61,7 +61,7 @@
       "label": "lugares",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/italy-apulia/places.bin.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/italy-apulia/places.bin.gz",
           "bytes": 255400,
           "sha256": "7f2e44f80aed5fdbd0291b0ab5b69389ad5ec54b36a8c40b6e12788fbc8eec1f"
         }
@@ -76,7 +76,7 @@
       "label": "água",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/italy-apulia/water.bin.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/italy-apulia/water.bin.gz",
           "bytes": 36681,
           "sha256": "bf11219e7ff8cbd3f56c3f6d9309d20f9e043a7c7a5a2fc0c79f2cf961d3617a"
         }
@@ -91,7 +91,7 @@
       "label": "moradas",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/italy-apulia/addresses.bin.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/italy-apulia/addresses.bin.gz",
           "bytes": 477734,
           "sha256": "49282f88ce70906674f63f1cae5838fed77e8827b846cff0212b9abf1faa2dcf"
         }
@@ -106,7 +106,7 @@
       "label": "geo",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/italy-apulia/geo.json.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/italy-apulia/geo.json.gz",
           "bytes": 1140804,
           "sha256": "68e42b423ec63c18a234b37a3770d2c902e8b5cc9ca87ba9f22ba3895ce76324"
         }
@@ -121,7 +121,7 @@
       "label": "estradas",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/italy-apulia/roads.bin.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/italy-apulia/roads.bin.gz",
           "bytes": 17295965,
           "sha256": "42a778be292f6f88afc3f70d01cd51c01bc81c14b89048192435d48eec649e08"
         }
@@ -136,7 +136,7 @@
       "label": "edifícios",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/italy-apulia/buildings.bin.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/italy-apulia/buildings.bin.gz",
           "bytes": 33094561,
           "sha256": "5d78ec462f802bafab3479e80f22f40cff0c281802ab0281cd758a626e318610"
         }
@@ -151,7 +151,7 @@
       "label": "mapa",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/italy-apulia/map.pmtiles",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/italy-apulia/map.pmtiles",
           "bytes": 30924639,
           "sha256": "22cc5ec47e0ca9411727e14d982dfc386d7af7cf2ce8d70225274d440635c0de"
         }

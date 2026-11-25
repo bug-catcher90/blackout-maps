@@ -241,7 +241,11 @@ object Store {
 }
 
 object Catalog {
-    private const val CONTENTS = "https://api.github.com/repos/bug-catcher90/blackout-maps/contents/catalog"
+    // The packages live in bug-catcher90/blackout-maps-data. index.json lists them
+    // all; the contents API is the fallback when the index cannot be read.
+    private const val INDEX = "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/index.json"
+    private const val INDEX_FORMAT = 1
+    private const val CONTENTS = "https://api.github.com/repos/bug-catcher90/blackout-maps-data/contents/catalog"
 
     fun load(context: Context, assets: AssetManager): List<MapPackage> {
         val byId = linkedMapOf<String, MapPackage>()
@@ -260,12 +264,22 @@ object Catalog {
     }
 
     fun remote(): List<MapPackage> {
+        try {
+            val index = JSONObject(get(INDEX))
+            val list = index.optJSONArray("packages")
+            if (index.optInt("format") == INDEX_FORMAT && list != null) {
+                return (0 until list.length())
+                    .mapNotNull { list.optJSONObject(it)?.let { entry -> parse(entry.toString()) } }
+                    .sortedBy { it.name }
+            }
+        } catch (_: Exception) {
+        }
         val body = get(CONTENTS)
         val entries = org.json.JSONArray(body)
         val packages = mutableListOf<MapPackage>()
         for (index in 0 until entries.length()) {
             val entry = entries.optJSONObject(index) ?: continue
-            if (entry.optString("type") != "file" || !entry.optString("name").endsWith(".json")) continue
+            if (entry.optString("type") != "file" || !entry.optString("name").endsWith(".json") || entry.optString("name") == "index.json") continue
             val url = entry.optString("download_url")
             if (url.isEmpty()) continue
             parse(get(url))?.let { packages.add(it) }

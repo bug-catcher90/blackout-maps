@@ -12,7 +12,7 @@
   "files": [
     {
       "key": "places",
-      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/poland-masovian-voivodeship/places.bin.gz",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/poland-masovian-voivodeship/places.bin.gz",
       "file": "places.bin",
       "gzip": true,
       "bytes": 1525520,
@@ -20,7 +20,7 @@
     },
     {
       "key": "water",
-      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/poland-masovian-voivodeship/water.bin.gz",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/poland-masovian-voivodeship/water.bin.gz",
       "file": "water.bin",
       "gzip": true,
       "bytes": 192352,
@@ -28,7 +28,7 @@
     },
     {
       "key": "addresses",
-      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/poland-masovian-voivodeship/addresses.bin.gz",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/poland-masovian-voivodeship/addresses.bin.gz",
       "file": "addresses.bin",
       "gzip": true,
       "bytes": 34582075,
@@ -36,7 +36,7 @@
     },
     {
       "key": "geo",
-      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/poland-masovian-voivodeship/geo.json.gz",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/poland-masovian-voivodeship/geo.json.gz",
       "file": "geo.json",
       "gzip": true,
       "bytes": 2719700,
@@ -44,7 +44,7 @@
     },
     {
       "key": "roads",
-      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/poland-masovian-voivodeship/roads.bin.gz",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/poland-masovian-voivodeship/roads.bin.gz",
       "file": "roads.bin",
       "gzip": true,
       "bytes": 88163948,
@@ -61,7 +61,7 @@
       "label": "lugares",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/poland-masovian-voivodeship/places.bin.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/poland-masovian-voivodeship/places.bin.gz",
           "bytes": 484386,
           "sha256": "bb3b912baadc5c38e6aa5fce37e22a5570a03ef1d4aafd6186bc852b2767ae32"
         }
@@ -76,7 +76,7 @@
       "label": "água",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/poland-masovian-voivodeship/water.bin.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/poland-masovian-voivodeship/water.bin.gz",
           "bytes": 38393,
           "sha256": "db367efc7677c913ee4230ee2683644d2e219025f2b79e3f7a22fbc4c50af6db"
         }
@@ -91,7 +91,7 @@
       "label": "moradas",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/poland-masovian-voivodeship/addresses.bin.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/poland-masovian-voivodeship/addresses.bin.gz",
           "bytes": 14394323,
           "sha256": "cd153e76937b9d8384c29ee07cca64be64ef603f521b0283228ecf63829390d7"
         }
@@ -106,7 +106,7 @@
       "label": "geo",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/poland-masovian-voivodeship/geo.json.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/poland-masovian-voivodeship/geo.json.gz",
           "bytes": 983598,
           "sha256": "1f26786e6247834989bf20e808e5caa1bb268676f43426c34329461babd73030"
         }
@@ -121,7 +121,7 @@
       "label": "estradas",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/poland-masovian-voivodeship/roads.bin.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/poland-masovian-voivodeship/roads.bin.gz",
           "bytes": 34834514,
           "sha256": "085a534bdf98496e0b8337ed96f1ad243c1e0c67b687b3aafeb30de73ac34246"
         }
@@ -136,12 +136,12 @@
       "label": "edifícios",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/poland-masovian-voivodeship/buildings.bin.gz.000",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/poland-masovian-voivodeship/buildings.bin.gz.000",
           "bytes": 45000000,
           "sha256": "e39584cbd4d714f363d846a242099c5f97101cc196d7fa022eda6c583f4c2b16"
         },
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/poland-masovian-voivodeship/buildings.bin.gz.001",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/poland-masovian-voivodeship/buildings.bin.gz.001",
           "bytes": 383423,
           "sha256": "624540662f6692c7059ca04fbf69bed68e0cabe1070ad9ec04b23ccf50df1ff9"
         }
@@ -156,12 +156,12 @@
       "label": "mapa",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/poland-masovian-voivodeship/map.pmtiles.000",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/poland-masovian-voivodeship/map.pmtiles.000",
           "bytes": 45000000,
           "sha256": "8026312005ca0a81ecefca06cfea73648538e216fd0659251ab249dc0b69a0a8"
         },
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/poland-masovian-voivodeship/map.pmtiles.001",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/poland-masovian-voivodeship/map.pmtiles.001",
           "bytes": 18074188,
           "sha256": "dbe966dd5978260a5e3fd848e578dea6e1d76756d481a02346c9bab7f89f92b2"
         }
