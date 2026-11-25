@@ -47,7 +47,6 @@ class AppModel(application: Application) : AndroidViewModel(application) {
     private var lookJob: Job? = null
     private var navJob: Job? = null
     @Volatile private var tileServer: TileServer? = null
-    private var baseDir: File? = null
     private var roadsFrom = ""
     private var buildingsFrom = ""
 
@@ -115,7 +114,7 @@ class AppModel(application: Application) : AndroidViewModel(application) {
     var sheet by mutableStateOf<Sheet?>(null)
     var serverPort by mutableIntStateOf(0)
     var maxZoom by mutableIntStateOf(14)
-    var basemapKey by mutableStateOf("portugal")
+    var basemapKey by mutableStateOf(NO_BASEMAP)
     var styleStamp by mutableIntStateOf(0)
     var overlay by mutableIntStateOf(0)
     var markersJson by mutableStateOf(MapJson.EMPTY)
@@ -591,7 +590,7 @@ class AppModel(application: Application) : AndroidViewModel(application) {
         prefs.edit().putBoolean("blackout-maps-prompt", true).apply()
         if (first) {
             showCountryColors = false
-            if (pendingPack.isEmpty()) pendingPack = activePackageId ?: "portugal"
+            if (pendingPack.isEmpty()) pendingPack = activePackageId.orEmpty()
         }
         if (!revealCountry()) holdCompass = false
     }
@@ -635,7 +634,7 @@ class AppModel(application: Application) : AndroidViewModel(application) {
     private fun refreshCountryColors() {
         viewModelScope.launch(Dispatchers.IO) {
             val raw = countryTemplate ?: app.assets.open("countries.geojson").bufferedReader().use { it.readText() }.also { countryTemplate = it }
-            val loaded = packages.flatMap { listOfNotNull(it.id, it.country) }.toSet() + "portugal"
+            val loaded = packages.flatMap { listOfNotNull(it.id, it.country) }.toSet()
             val root = JSONObject(raw)
             val features = root.getJSONArray("features")
             for (index in 0 until features.length()) {
@@ -682,13 +681,10 @@ class AppModel(application: Application) : AndroidViewModel(application) {
         try {
             onMain { saving("map") }
             val base = Store.prepare(app, app.assets)
-            baseDir = base
-            val archive = Pmtiles(File(base, "portugal.pmtiles"))
             val world = Pmtiles(File(base, "world.pmtiles"))
-            val server = TileServer(archive, world, app.assets)
+            val server = TileServer(null, world, app.assets)
             tileServer = server
             onMain {
-                maxZoom = archive.maxZoom
                 serverPort = server.port
                 showStatus = false
             }
@@ -701,7 +697,8 @@ class AppModel(application: Application) : AndroidViewModel(application) {
         }
         val pkg = packages.firstOrNull { it.id == activePackageId } ?: packages.firstOrNull { it.autoload }
         if (pkg == null) {
-            openBundled(null)
+            dropMissingBasemap(null)
+            refreshCountryColors()
             return
         }
         val ready = pkg.files.all { present(pkg, it) }
@@ -717,41 +714,17 @@ class AppModel(application: Application) : AndroidViewModel(application) {
         refreshCountryColors()
     }
 
-    private fun openBundled(pkg: MapPackage?) {
-        val base = baseDir ?: return
+    private fun dropMissingBasemap(pkg: MapPackage?) {
         val keys = pkg?.files?.map { it.key }?.toSet() ?: emptySet()
-        try {
-            if ("map" !in keys && basemapKey != "portugal") {
-                val next = Pmtiles(File(base, "portugal.pmtiles"))
-                tileServer?.use(next)
-                onMain {
-                    maxZoom = next.maxZoom
-                    basemapKey = "portugal"
-                }
-            }
-            if ("roads" !in keys && roadsFrom != "base") {
-                engine.openBuffer(File(base, "roads.bin"), "openRoads")
-                roadsFrom = "base"
-                onMain {
-                    roadsReady = true
-                    if (showTrip || navigating) recompute(false)
-                    refreshViewport()
-                }
-            }
-            if ("buildings" !in keys && buildingsFrom != "base") {
-                engine.openBuffer(File(base, "buildings.bin"), "openBuildings")
-                buildingsFrom = "base"
-                onMain { refreshViewport() }
-            }
-        } catch (error: Exception) {
-            Log.e(TAG, "base", error)
-            onMain { fail("map") }
+        if ("map" !in keys && basemapKey != NO_BASEMAP) {
+            tileServer?.use(null)
+            onMain { basemapKey = NO_BASEMAP }
         }
     }
 
     private fun activate(pkg: MapPackage, download: Boolean, picked: Boolean = false) {
         var failed = false
-        openBundled(pkg)
+        dropMissingBasemap(pkg)
         for (pack in pkg.files) {
             val dest = Store.file(app, pkg.id, pack.file)
             try {
@@ -1162,5 +1135,6 @@ class AppModel(application: Application) : AndroidViewModel(application) {
 
     companion object {
         private const val TAG = "BlackoutMaps"
+        const val NO_BASEMAP = "none"
     }
 }

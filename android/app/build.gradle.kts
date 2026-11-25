@@ -64,6 +64,11 @@ android {
 
     androidResources {
         noCompress += listOf("pmtiles", "gz", "pbf", "bin")
+        // The iOS resources keep Portugal built in (base/, catalog/); Android downloads it like every other package.
+        ignoreAssetsPatterns += listOf(
+            "!.svn", "!.git", "!.ds_store", "!*.scc", ".*", "<dir>_*", "!CVS", "!thumbs.db", "!picasa.ini", "!*~",
+            "<dir>base", "<dir>catalog"
+        )
     }
 
     packaging {

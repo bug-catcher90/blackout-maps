@@ -36,45 +36,15 @@ object Store {
         replace(tmp, dest)
     }
 
-    fun inflateAsset(assets: AssetManager, name: String, dest: File, bytes: Long) {
-        if (dest.length() == bytes) return
-        dest.parentFile?.mkdirs()
-        val tmp = File(dest.parentFile, dest.name + ".part")
-        assets.open(name).use { raw ->
-            GZIPInputStream(raw).use { input -> tmp.outputStream().use { input.copyTo(it, 1 shl 20) } }
-        }
-        if (tmp.length() != bytes) {
-            tmp.delete()
-            error("short")
-        }
-        replace(tmp, dest)
-    }
-
     fun prepare(context: Context, assets: AssetManager): File {
         val base = directory(context, "base")
-        copyAsset(assets, "base/portugal.pmtiles", File(base, "portugal.pmtiles"))
-        copyAsset(assets, "base/world.pmtiles", File(base, "world.pmtiles"))
-        // aapt unpacks a .gz asset and drops the extension, so the APK may already hold the raw file.
-        copyOrInflate(assets, "base/roads.bin", "base/roads.bin.gz", File(base, "roads.bin"), 170_238_576)
-        copyOrInflate(assets, "base/buildings.bin", "base/buildings.bin.gz", File(base, "buildings.bin"), 79_915_812)
-        return base
-    }
-
-    private fun copyOrInflate(assets: AssetManager, plain: String, gzip: String, dest: File, bytes: Long) {
-        if (dest.length() == bytes) return
-        if (assetExists(assets, plain)) {
-            copyAsset(assets, plain, dest)
-            if (dest.length() == bytes) return
-            dest.delete()
+        copyAsset(assets, "world.pmtiles", File(base, "world.pmtiles"))
+        // Earlier releases unpacked Portugal here; Portugal now downloads like any other package.
+        listOf("portugal.pmtiles", "roads.bin", "buildings.bin").forEach { name ->
+            File(base, name).delete()
+            File(base, "$name.part").delete()
         }
-        inflateAsset(assets, gzip, dest, bytes)
-    }
-
-    private fun assetExists(assets: AssetManager, name: String) = try {
-        assets.open(name).close()
-        true
-    } catch (_: Exception) {
-        false
+        return base
     }
 
     fun present(pack: RemotePack, dest: File): Boolean {

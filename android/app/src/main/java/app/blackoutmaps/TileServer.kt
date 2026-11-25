@@ -7,7 +7,7 @@ import java.net.Socket
 import java.net.URLDecoder
 import java.util.concurrent.Executors
 
-class TileServer(@Volatile private var archive: Pmtiles, private val world: Pmtiles, private val assets: AssetManager) {
+class TileServer(@Volatile private var archive: Pmtiles?, private val world: Pmtiles, private val assets: AssetManager) {
     private val socket = ServerSocket()
     private val pool = Executors.newFixedThreadPool(4)
     val port: Int
@@ -27,16 +27,16 @@ class TileServer(@Volatile private var archive: Pmtiles, private val world: Pmti
         }, "blackout-tiles").apply { isDaemon = true }.start()
     }
 
-    fun use(next: Pmtiles) {
+    fun use(next: Pmtiles?) {
         val previous = archive
         archive = next
-        if (previous !== next) previous.close()
+        if (previous !== next) previous?.close()
     }
 
     fun close() {
         runCatching { socket.close() }
         pool.shutdownNow()
-        archive.close()
+        archive?.close()
         world.close()
     }
 
@@ -77,7 +77,7 @@ class TileServer(@Volatile private var archive: Pmtiles, private val world: Pmti
             val z = parts[2].toIntOrNull() ?: return null
             val x = parts[3].toIntOrNull() ?: return null
             val y = parts[4].substringBefore('.').substringBefore('@').toIntOrNull() ?: return null
-            return runCatching { archive.tile(z, x, y) }.getOrNull()
+            return runCatching { archive?.tile(z, x, y) }.getOrNull()
         }
         if (parts.firstOrNull() == "countries.geojson") {
             return try {
