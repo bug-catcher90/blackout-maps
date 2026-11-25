@@ -103,7 +103,7 @@ object Store {
         return digest.digest().joinToString("") { "%02x".format(it) }
     }
 
-    // Split files (docs/country-maps.md): each part is resumed with a Range
+    // Split files (SPEC.md in bug-catcher90/blackout-maps-data): each part is resumed with a Range
     // request and checked against its SHA-256, then the parts are joined and
     // unpacked into dest, and the whole file is checked too.
     private fun fetchParts(pack: RemotePack, dest: File, onProgress: (Long, Long) -> Unit) {

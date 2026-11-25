@@ -692,7 +692,7 @@ function concatenated(files) {
   })
 }
 
-// A file split into parts (docs/country-maps.md): every part is checked
+// A file split into parts (SPEC.md in bug-catcher90/blackout-maps-data): every part is checked
 // against its SHA-256, then the parts are joined and unpacked into spec.file.
 async function loadPartedFile(packageId, spec, onProgress) {
   const dir = await packageDir(packageId)
