@@ -89,10 +89,10 @@ enum Catalog {
         guard let result = try? await URLSession.shared.data(for: request),
               (result.1 as? HTTPURLResponse)?.statusCode == 200,
               let index = try? JSONSerialization.jsonObject(with: result.0) as? [String: Any],
-              index["format"] as? Int == indexFormat,
+              (index["format"] as? Int) == indexFormat,
               let entries = index["packages"] as? [[String: Any]] else { return nil }
         let decoder = JSONDecoder()
-        return entries.compactMap { entry in
+        return entries.compactMap { entry -> MapPackage? in
             guard let body = try? JSONSerialization.data(withJSONObject: entry),
                   let package = try? decoder.decode(MapPackage.self, from: body),
                   listed(package) else { return nil }
