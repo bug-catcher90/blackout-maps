@@ -27,6 +27,7 @@ from shapely.ops import unary_union
 HERE = os.path.dirname(os.path.abspath(__file__))
 LIMIT_BYTES = int(os.environ.get("REGION_LIMIT_MB", "420")) * 1_000_000
 LEVELS = ["4", "5", "6", "7", "8"]
+EXTRACT_BATCH = int(os.environ.get("EXTRACT_BATCH", "2"))
 
 
 def slug(text):
@@ -65,7 +66,7 @@ def admin_areas(pbf, work):
 
 
 def extract(pbf, regions, work):
-    """Cuts every region out of pbf in one osmium pass; sets region["pbf"] and region["bytes"]."""
+    """Cuts the regions out of pbf, EXTRACT_BATCH per osmium pass; sets region["pbf"] and region["bytes"]."""
     extracts = []
     for region in regions:
         poly = os.path.join(work, f"{region['slug']}.geojson")
@@ -73,10 +74,12 @@ def extract(pbf, regions, work):
             json.dump({"type": "Feature", "properties": {}, "geometry": mapping(region["shape"])}, handle)
         region["pbf"] = os.path.join(work, f"{region['slug']}.osm.pbf")
         extracts.append({"output": os.path.basename(region["pbf"]), "polygon": {"file_name": poly, "file_type": "geojson"}})
-    config = os.path.join(work, "extracts.json")
-    with open(config, "w") as handle:
-        json.dump({"directory": work, "extracts": extracts}, handle)
-    run("osmium", "extract", "-O", "-s", "smart", "-c", config, pbf)
+    # osmium's smart strategy keeps id sets per output; four outputs of England needed 14 GB.
+    for start in range(0, len(extracts), EXTRACT_BATCH):
+        config = os.path.join(work, "extracts.json")
+        with open(config, "w") as handle:
+            json.dump({"directory": work, "extracts": extracts[start:start + EXTRACT_BATCH]}, handle)
+        run("osmium", "extract", "-O", "-s", "smart", "-c", config, pbf)
     for region in regions:
         region["bytes"] = os.path.getsize(region["pbf"])
 
