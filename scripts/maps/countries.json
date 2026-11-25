@@ -34,6 +34,46 @@
     }
   },
   {
+    "id": "england-central-1",
+    "name": "England · Midlands & East of England",
+    "flag": "🏴󠁧󠁢󠁥󠁮󠁧󠁿",
+    "geofabrik": "europe/united-kingdom/england",
+    "region": "regions/england/central-1.geojson",
+    "country": "england"
+  },
+  {
+    "id": "england-central-2",
+    "name": "England · Manchester, Liverpool, Leeds, Sheffield & Nottingham",
+    "flag": "🏴󠁧󠁢󠁥󠁮󠁧󠁿",
+    "geofabrik": "europe/united-kingdom/england",
+    "region": "regions/england/central-2.geojson",
+    "country": "england"
+  },
+  {
+    "id": "england-north",
+    "name": "England · North (Newcastle, Yorkshire, Lancashire, Cumbria)",
+    "flag": "🏴󠁧󠁢󠁥󠁮󠁧󠁿",
+    "geofabrik": "europe/united-kingdom/england",
+    "region": "regions/england/north.geojson",
+    "country": "england"
+  },
+  {
+    "id": "england-south-east",
+    "name": "England · London & South East",
+    "flag": "🏴󠁧󠁢󠁥󠁮󠁧󠁿",
+    "geofabrik": "europe/united-kingdom/england",
+    "region": "regions/england/south-east.geojson",
+    "country": "england"
+  },
+  {
+    "id": "england-south-west",
+    "name": "England · South West, Hampshire & Oxfordshire",
+    "flag": "🏴󠁧󠁢󠁥󠁮󠁧󠁿",
+    "geofabrik": "europe/united-kingdom/england",
+    "region": "regions/england/south-west.geojson",
+    "country": "england"
+  },
+  {
     "id": "estonia",
     "name": "Estonia",
     "flag": "🇪🇪",
@@ -415,6 +455,14 @@
     "split": {
       "fromLevel": 4
     }
+  },
+  {
+    "id": "netherlands-central",
+    "name": "Netherlands · Central",
+    "flag": "🇳🇱",
+    "geofabrik": "europe/netherlands",
+    "region": "regions/netherlands/central.geojson",
+    "country": "netherlands"
   },
   {
     "id": "northern-ireland",
