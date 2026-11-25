@@ -47,6 +47,9 @@ class AppModel(application: Application) : AndroidViewModel(application) {
     private var lookJob: Job? = null
     private var navJob: Job? = null
     @Volatile private var tileServer: TileServer? = null
+    private var baseDir: File? = null
+    private var roadsFrom = ""
+    private var buildingsFrom = ""
 
     var tab by mutableStateOf(Tab.Explore)
     var language by mutableStateOf("en")
@@ -107,6 +110,7 @@ class AppModel(application: Application) : AndroidViewModel(application) {
     var sheet by mutableStateOf<Sheet?>(null)
     var serverPort by mutableIntStateOf(0)
     var maxZoom by mutableIntStateOf(14)
+    var basemapKey by mutableStateOf("portugal")
     var styleStamp by mutableIntStateOf(0)
     var overlay by mutableIntStateOf(0)
     var markersJson by mutableStateOf(MapJson.EMPTY)
@@ -620,13 +624,13 @@ class AppModel(application: Application) : AndroidViewModel(application) {
         "lithuania" -> doubleArrayOf(55.3, 23.9, 6.6)
         "finland" -> doubleArrayOf(64.5, 26.5, 4.8)
         "poland" -> doubleArrayOf(52.1, 19.4, 5.7)
-        else -> null
+        else -> packages.firstOrNull { it.id == id }?.view?.let { doubleArrayOf(it[1], it[0], it[2]) }
     }
 
     private fun refreshCountryColors() {
         viewModelScope.launch(Dispatchers.IO) {
             val raw = countryTemplate ?: app.assets.open("countries.geojson").bufferedReader().use { it.readText() }.also { countryTemplate = it }
-            val loaded = packages.map { it.id }.toSet() + "portugal"
+            val loaded = packages.flatMap { listOfNotNull(it.id, it.country) }.toSet() + "portugal"
             val root = JSONObject(raw)
             val features = root.getJSONArray("features")
             for (index in 0 until features.length()) {
@@ -673,6 +677,7 @@ class AppModel(application: Application) : AndroidViewModel(application) {
         try {
             onMain { saving("mapa") }
             val base = Store.prepare(app, app.assets)
+            baseDir = base
             val archive = Pmtiles(File(base, "portugal.pmtiles"))
             val world = Pmtiles(File(base, "world.pmtiles"))
             val server = TileServer(archive, world, app.assets)
@@ -684,19 +689,16 @@ class AppModel(application: Application) : AndroidViewModel(application) {
             }
             engine.start()
             onMain { engineReady = true }
-            engine.openBuffer(File(base, "roads.bin"), "openRoads")
-            onMain {
-                roadsReady = true
-                if (showTrip || navigating) recompute(false)
-            }
-            engine.openBuffer(File(base, "buildings.bin"), "openBuildings")
-            onMain { refreshViewport() }
         } catch (error: Exception) {
             Log.e(TAG, "boot", error)
             onMain { fail("mapa") }
             return
         }
-        val pkg = packages.firstOrNull { it.id == activePackageId } ?: packages.firstOrNull { it.autoload } ?: return
+        val pkg = packages.firstOrNull { it.id == activePackageId } ?: packages.firstOrNull { it.autoload }
+        if (pkg == null) {
+            openBundled(null)
+            return
+        }
         val ready = pkg.files.all { present(pkg, it) }
         onMain {
             downloading = !ready
@@ -710,14 +712,54 @@ class AppModel(application: Application) : AndroidViewModel(application) {
         refreshCountryColors()
     }
 
+    private fun openBundled(pkg: MapPackage?) {
+        val base = baseDir ?: return
+        val keys = pkg?.files?.map { it.key }?.toSet() ?: emptySet()
+        try {
+            if ("map" !in keys && basemapKey != "portugal") {
+                val next = Pmtiles(File(base, "portugal.pmtiles"))
+                tileServer?.use(next)
+                onMain {
+                    maxZoom = next.maxZoom
+                    basemapKey = "portugal"
+                }
+            }
+            if ("roads" !in keys && roadsFrom != "base") {
+                engine.openBuffer(File(base, "roads.bin"), "openRoads")
+                roadsFrom = "base"
+                onMain {
+                    roadsReady = true
+                    if (showTrip || navigating) recompute(false)
+                    refreshViewport()
+                }
+            }
+            if ("buildings" !in keys && buildingsFrom != "base") {
+                engine.openBuffer(File(base, "buildings.bin"), "openBuildings")
+                buildingsFrom = "base"
+                onMain { refreshViewport() }
+            }
+        } catch (error: Exception) {
+            Log.e(TAG, "base", error)
+            onMain { fail("mapa") }
+        }
+    }
+
     private fun activate(pkg: MapPackage, download: Boolean, picked: Boolean = false) {
         var failed = false
+        openBundled(pkg)
         for (pack in pkg.files) {
             val dest = Store.file(app, pkg.id, pack.file)
             try {
                 if (download && !present(pkg, pack)) {
                     onMain { saving(pack.label) }
-                    Store.fetch(pack, dest)
+                    var shown = -1L
+                    Store.fetch(pack, dest) { got, total ->
+                        val percent = if (total > 0) got * 100 / total else -1L
+                        if (percent != shown) {
+                            shown = percent
+                            onMain { saving(pack.label, percent.toInt()) }
+                        }
+                    }
                 }
                 if (!dest.exists()) {
                     failed = true
@@ -748,7 +790,10 @@ class AppModel(application: Application) : AndroidViewModel(application) {
     private fun openPack(pack: RemotePack, file: File) {
         when (pack.key) {
             "roads" -> {
+                val from = file.absolutePath + ":" + file.length()
+                if (roadsFrom == from) return
                 engine.openBuffer(file, "openRoads")
+                roadsFrom = from
                 onMain {
                     roadsReady = true
                     if (showTrip || navigating) recompute(false)
@@ -756,8 +801,22 @@ class AppModel(application: Application) : AndroidViewModel(application) {
                 }
             }
             "buildings" -> {
+                val from = file.absolutePath + ":" + file.length()
+                if (buildingsFrom == from) return
                 engine.openBuffer(file, "openBuildings")
+                buildingsFrom = from
                 onMain { refreshViewport() }
+            }
+            "map" -> {
+                val key = "${file.parentFile?.name ?: "pack"}-${file.length()}"
+                if (basemapKey == key) return
+                val next = Pmtiles(file)
+                val server = tileServer ?: return next.close()
+                server.use(next)
+                onMain {
+                    maxZoom = next.maxZoom
+                    basemapKey = key
+                }
             }
             "places" -> {
                 engine.openBuffer(file, "openPlaces")
@@ -773,10 +832,7 @@ class AppModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-    private fun present(pkg: MapPackage, pack: RemotePack): Boolean {
-        val file = Store.file(app, pkg.id, pack.file)
-        return if (pack.bytes != null) file.length() == pack.bytes else file.length() > 0
-    }
+    private fun present(pkg: MapPackage, pack: RemotePack) = Store.present(pack, Store.file(app, pkg.id, pack.file))
 
     private fun chooseDestination(place: Place) {
         if (navigating || correcting) return
@@ -1000,8 +1056,9 @@ class AppModel(application: Application) : AndroidViewModel(application) {
         overlay += 1
     }
 
-    private fun saving(label: String) {
-        status = t("saving", strings.label(language, label))
+    private fun saving(label: String, percent: Int = -1) {
+        val text = t("saving", strings.label(language, label))
+        status = if (percent in 0..100) "$text $percent%" else text
         showStatus = true
     }
 

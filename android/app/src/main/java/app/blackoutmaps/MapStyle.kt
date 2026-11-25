@@ -1,9 +1,26 @@
 package app.blackoutmaps
 
 object MapStyle {
-    fun json(port: Int, maxZoom: Int): String {
+    private val landuse = listOf(
+        "park" to "#d9e8c8", "garden" to "#d9e8c8", "playground" to "#d9e8c8", "recreation_ground" to "#d9e8c8",
+        "golf_course" to "#d9e8c8", "nature_reserve" to "#dbe7cc", "national_park" to "#dbe7cc", "cemetery" to "#dce2d3",
+        "hospital" to "#f1e0dc", "school" to "#efe7d6", "university" to "#efe7d6", "college" to "#efe7d6",
+        "industrial" to "#e8e3db", "railway" to "#e8e3db", "military" to "#e8e3db", "beach" to "#f3ebd2", "sand" to "#f3ebd2"
+    )
+    private val landcover = listOf("forest" to "#d6e4c6", "grassland" to "#e2ebd2", "scrub" to "#dde6cc", "farmland" to "#ecedd8")
+
+    private fun match(pairs: List<Pair<String, String>>, fallback: String) =
+        "[\"match\", [\"get\", \"kind\"], " + pairs.joinToString(", ") { "\"${it.first}\", \"${it.second}\"" } + ", \"$fallback\"]"
+
+    private fun kinds(pairs: List<Pair<String, String>>) = pairs.joinToString(", ") { "\"${it.first}\"" }
+
+    fun json(port: Int, maxZoom: Int, key: String): String {
         val glyphs = "http://127.0.0.1:$port/glyphs/{fontstack}/{range}.pbf"
-        val tiles = "http://127.0.0.1:$port/tiles/{z}/{x}/{y}.mvt"
+        val tiles = "http://127.0.0.1:$port/tiles/$key/{z}/{x}/{y}.mvt"
+        val landuseKinds = kinds(landuse)
+        val landuseColor = match(landuse, "#e8e3db")
+        val landcoverKinds = kinds(landcover)
+        val landcoverColor = match(landcover, "#ecedd8")
         val countries = "http://127.0.0.1:$port/countries.geojson"
         return """
         {
@@ -41,8 +58,11 @@ object MapStyle {
             {"id": "world-places", "type": "symbol", "source": "world", "source-layer": "places", "layout": {"text-font": ["Noto Sans Regular"], "text-field": ["get", "name"], "text-size": ["interpolate", ["linear"], ["zoom"], 2, 11, 5, 13, 8, 16], "text-max-width": 8}, "paint": {"text-color": "#1c1916", "text-halo-color": "#ffffff", "text-halo-width": 1.5}},
             {"id": "world-country", "type": "symbol", "source": "world", "source-layer": "country_labels", "maxzoom": 6, "layout": {"text-font": ["Noto Sans Regular"], "text-field": ["get", "name"], "text-size": ["interpolate", ["linear"], ["zoom"], 1, 11, 4, 15], "text-max-width": 8}, "paint": {"text-color": "#6a645b", "text-halo-color": "#f4f0e6", "text-halo-width": 1.2}},
             {"id": "earth", "type": "fill", "source": "protomaps", "source-layer": "earth", "minzoom": 6, "paint": {"fill-color": "#f4f0e6"}},
+            {"id": "landcover", "type": "fill", "source": "protomaps", "source-layer": "landcover", "minzoom": 6, "maxzoom": 10, "filter": ["in", "kind", $landcoverKinds], "paint": {"fill-color": $landcoverColor, "fill-opacity": 0.6}},
+            {"id": "landuse", "type": "fill", "source": "protomaps", "source-layer": "landuse", "minzoom": 10, "filter": ["in", "kind", $landuseKinds], "paint": {"fill-color": $landuseColor, "fill-opacity": ["interpolate", ["linear"], ["zoom"], 10, 0.5, 13, 0.85]}},
             {"id": "water", "type": "fill", "source": "protomaps", "source-layer": "water", "minzoom": 6, "filter": ["==", "${'$'}type", "Polygon"], "paint": {"fill-color": "#c5d5e0"}},
             {"id": "boundary", "type": "line", "source": "protomaps", "source-layer": "boundaries", "minzoom": 6, "filter": ["==", "kind", "country"], "paint": {"line-color": "#c4b8a4", "line-width": ["interpolate", ["linear"], ["zoom"], 3, 0.6, 8, 1.4], "line-dasharray": [2, 1.2]}},
+            {"id": "buildings", "type": "fill", "source": "protomaps", "source-layer": "buildings", "minzoom": 14, "paint": {"fill-color": "#e4ddd0", "fill-outline-color": "#d3cabb"}},
             {"id": "minor-casing", "type": "line", "source": "protomaps", "source-layer": "roads", "minzoom": 12, "filter": ["==", "kind", "minor_road"], "layout": {"line-cap": "round", "line-join": "round"}, "paint": {"line-color": "#d5cec2", "line-width": ["interpolate", ["linear"], ["zoom"], 12, 0.4, 14, 3.2, 17, 14]}},
             {"id": "minor", "type": "line", "source": "protomaps", "source-layer": "roads", "minzoom": 12, "filter": ["==", "kind", "minor_road"], "layout": {"line-cap": "round", "line-join": "round"}, "paint": {"line-color": "#ffffff", "line-width": ["interpolate", ["linear"], ["zoom"], 12, 0.2, 14, 1.8, 17, 10]}},
             {"id": "major-casing", "type": "line", "source": "protomaps", "source-layer": "roads", "minzoom": 7, "filter": ["==", "kind", "major_road"], "layout": {"line-cap": "round", "line-join": "round"}, "paint": {"line-color": "#d5cec2", "line-width": ["interpolate", ["linear"], ["zoom"], 7, 0.5, 12, 3, 17, 16]}},
