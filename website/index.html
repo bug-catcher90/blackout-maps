@@ -220,12 +220,15 @@
               <span class="store-meta">Coming</span>
             </span>
           </a>
-          <a class="store android" href="#download">
-            <svg class="mark" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M7.1 8.6h9.8v7.2c0 .7-.6 1.3-1.3 1.3h-.7v2.2a1.1 1.1 0 0 1-2.2 0V17H11.3v2.3a1.1 1.1 0 0 1-2.2 0V17h-.7c-.7 0-1.3-.6-1.3-1.3V8.6z"></path><path fill="currentColor" d="M8.2 8.4a4 4 0 0 1 7.6 0H8.2z"></path><circle cx="9.4" cy="7.2" r="0.8" fill="#111"></circle><circle cx="14.6" cy="7.2" r="0.8" fill="#111"></circle><path fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" d="M8.2 4.2 9.4 6.1M15.8 4.2 14.6 6.1"></path></svg>
-            <span class="store-copy">
-              <span class="store-name">Download for Android</span>
-            </span>
-          </a>
+          <span class="store-beta">
+            <button type="button" class="store android" data-beta-open aria-haspopup="dialog">
+              <svg class="mark" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M7.1 8.6h9.8v7.2c0 .7-.6 1.3-1.3 1.3h-.7v2.2a1.1 1.1 0 0 1-2.2 0V17H11.3v2.3a1.1 1.1 0 0 1-2.2 0V17h-.7c-.7 0-1.3-.6-1.3-1.3V8.6z"></path><path fill="currentColor" d="M8.2 8.4a4 4 0 0 1 7.6 0H8.2z"></path><circle cx="9.4" cy="7.2" r="0.8" fill="#111"></circle><circle cx="14.6" cy="7.2" r="0.8" fill="#111"></circle><path fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" d="M8.2 4.2 9.4 6.1M15.8 4.2 14.6 6.1"></path></svg>
+              <span class="store-copy">
+                <span class="store-name">Download for Android</span>
+              </span>
+            </button>
+            <span class="beta-tag">Beta</span>
+          </span>
           <a class="store browser" href="maps/">
             <svg class="mark" viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5" width="17" height="14" rx="2" fill="none" stroke="currentColor" stroke-width="1.6"></rect><path d="M3.5 9h17" fill="none" stroke="currentColor" stroke-width="1.6"></path></svg>
             <span class="store-copy">
@@ -381,12 +384,15 @@
             <span class="store-meta">Coming</span>
           </span>
         </p>
-        <p class="store android">
-          <svg class="mark" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M7.1 8.6h9.8v7.2c0 .7-.6 1.3-1.3 1.3h-.7v2.2a1.1 1.1 0 0 1-2.2 0V17H11.3v2.3a1.1 1.1 0 0 1-2.2 0V17h-.7c-.7 0-1.3-.6-1.3-1.3V8.6z"></path><path fill="currentColor" d="M8.2 8.4a4 4 0 0 1 7.6 0H8.2z"></path><circle cx="9.4" cy="7.2" r="0.8" fill="#111"></circle><circle cx="14.6" cy="7.2" r="0.8" fill="#111"></circle><path fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" d="M8.2 4.2 9.4 6.1M15.8 4.2 14.6 6.1"></path></svg>
-          <span class="store-copy">
-            <span class="store-name">Download for Android</span>
-          </span>
-        </p>
+        <span class="store-beta">
+          <button type="button" class="store android" data-beta-open aria-haspopup="dialog">
+            <svg class="mark" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M7.1 8.6h9.8v7.2c0 .7-.6 1.3-1.3 1.3h-.7v2.2a1.1 1.1 0 0 1-2.2 0V17H11.3v2.3a1.1 1.1 0 0 1-2.2 0V17h-.7c-.7 0-1.3-.6-1.3-1.3V8.6z"></path><path fill="currentColor" d="M8.2 8.4a4 4 0 0 1 7.6 0H8.2z"></path><circle cx="9.4" cy="7.2" r="0.8" fill="#111"></circle><circle cx="14.6" cy="7.2" r="0.8" fill="#111"></circle><path fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" d="M8.2 4.2 9.4 6.1M15.8 4.2 14.6 6.1"></path></svg>
+            <span class="store-copy">
+              <span class="store-name">Download for Android</span>
+            </span>
+          </button>
+          <span class="beta-tag">Beta</span>
+        </span>
         <a class="store browser" href="maps/">
           <svg class="mark" viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5" width="17" height="14" rx="2" fill="none" stroke="currentColor" stroke-width="1.6"></rect><path d="M3.5 9h17" fill="none" stroke="currentColor" stroke-width="1.6"></path></svg>
           <span class="store-copy">
@@ -542,7 +548,31 @@
       <a href="#questions">Questions</a>
     </nav>
   </footer>
+  <dialog class="beta-dialog" aria-labelledby="beta-title" data-beta>
+    <button type="button" class="beta-close" data-beta-close aria-label="Close">&times;</button>
+    <div data-beta-step="form">
+      <h2 id="beta-title">Join the Android beta</h2>
+      <p>Leave your email and we'll add you to the test on Google Play.</p>
+      <form class="beta-form" data-beta-form novalidate>
+        <label for="beta-email">Email</label>
+        <input id="beta-email" name="email" type="email" inputmode="email" autocomplete="email" maxlength="254" required placeholder="you@example.com">
+        <div class="beta-hp" aria-hidden="true">
+          <label for="beta-website">Website</label>
+          <input id="beta-website" name="website" type="text" tabindex="-1" autocomplete="off">
+        </div>
+        <p class="beta-error" data-beta-error role="alert"></p>
+        <button type="submit" class="beta-submit">Join the beta</button>
+      </form>
+    </div>
+    <div data-beta-step="done" hidden>
+      <h2 tabindex="-1" data-beta-done-title>You're on the list</h2>
+      <p>Open the beta on Google Play to install the app.</p>
+      <a class="beta-submit beta-play" href="https://play.google.com/apps/testing/app.blackoutmaps" target="_blank" rel="noopener">Open Google Play</a>
+      <p class="beta-note">We add testers by hand, so access can take a while. If the link doesn't work yet, try it again later with the Google account for this email.</p>
+    </div>
+  </dialog>
 <script src="/guides.js"></script>
+<script src="/beta.js" defer></script>
 <script>
 (function () {
   var track = document.querySelector("[data-reel]");

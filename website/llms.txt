@@ -8,7 +8,7 @@ The maps do not use GPS. You set your position. Portugal is included on first la
 
 - [Blackout Maps](https://blackoutmaps.com/): the site. The free offline maps are the product.
 - [Map in the browser](https://blackoutmaps.com/maps/): the same map, with no install.
-- Android is free. iOS is not in the App Store yet. There is no public Play Store URL on the site.
+- Android is free and in beta: people leave an email on the site to join the test on Google Play. iOS is not in the App Store yet.
 
 ## Guides
 
