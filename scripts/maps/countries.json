@@ -185,6 +185,54 @@
     }
   },
   {
+    "id": "poland-masovian-voivodeship",
+    "name": "Poland · Masovian Voivodeship",
+    "flag": "🇵🇱",
+    "geofabrik": "europe/poland",
+    "region": "regions/poland/masovian-voivodeship.geojson",
+    "country": "poland"
+  },
+  {
+    "id": "poland-poland-central",
+    "name": "Poland · Poland Central",
+    "flag": "🇵🇱",
+    "geofabrik": "europe/poland",
+    "region": "regions/poland/poland-central.geojson",
+    "country": "poland"
+  },
+  {
+    "id": "poland-poland-east-1",
+    "name": "Poland · Poland East 1",
+    "flag": "🇵🇱",
+    "geofabrik": "europe/poland",
+    "region": "regions/poland/poland-east-1.geojson",
+    "country": "poland"
+  },
+  {
+    "id": "poland-poland-east-2",
+    "name": "Poland · Poland East 2",
+    "flag": "🇵🇱",
+    "geofabrik": "europe/poland",
+    "region": "regions/poland/poland-east-2.geojson",
+    "country": "poland"
+  },
+  {
+    "id": "poland-poland-west-1",
+    "name": "Poland · Poland West 1",
+    "flag": "🇵🇱",
+    "geofabrik": "europe/poland",
+    "region": "regions/poland/poland-west-1.geojson",
+    "country": "poland"
+  },
+  {
+    "id": "poland-poland-west-2",
+    "name": "Poland · Poland West 2",
+    "flag": "🇵🇱",
+    "geofabrik": "europe/poland",
+    "region": "regions/poland/poland-west-2.geojson",
+    "country": "poland"
+  },
+  {
     "id": "portugal",
     "name": "Portugal",
     "flag": "🇵🇹",
