@@ -1,5 +1,7 @@
 package app.blackoutmaps
 
+import org.maplibre.android.style.sources.TileSet
+
 object MapStyle {
     private val landuse = listOf(
         "park" to "#d9e8c8", "garden" to "#d9e8c8", "playground" to "#d9e8c8", "recreation_ground" to "#d9e8c8",
@@ -14,9 +16,20 @@ object MapStyle {
 
     private fun kinds(pairs: List<Pair<String, String>>) = pairs.joinToString(", ") { "\"${it.first}\"" }
 
+    const val BASEMAP = "protomaps"
+    private const val BASEMAP_ATTRIBUTION = "© OpenStreetMap contributors · Protomaps"
+
+    private fun tiles(port: Int, key: String) = "http://127.0.0.1:$port/tiles/$key/{z}/{x}/{y}.mvt"
+
+    fun basemap(port: Int, maxZoom: Int, key: String) = TileSet("2.2.0", tiles(port, key)).apply {
+        setMinZoom(0f)
+        setMaxZoom(maxZoom.toFloat())
+        attribution = BASEMAP_ATTRIBUTION
+    }
+
     fun json(port: Int, maxZoom: Int, key: String): String {
         val glyphs = "http://127.0.0.1:$port/glyphs/{fontstack}/{range}.pbf"
-        val tiles = "http://127.0.0.1:$port/tiles/$key/{z}/{x}/{y}.mvt"
+        val tiles = tiles(port, key)
         val landuseKinds = kinds(landuse)
         val landuseColor = match(landuse, "#e8e3db")
         val landcoverKinds = kinds(landcover)
@@ -39,12 +52,12 @@ object MapStyle {
               "type": "geojson",
               "data": "$countries"
             },
-            "protomaps": {
+            "$BASEMAP": {
               "type": "vector",
               "tiles": ["$tiles"],
               "minzoom": 0,
               "maxzoom": $maxZoom,
-              "attribution": "© OpenStreetMap contributors · Protomaps"
+              "attribution": "$BASEMAP_ATTRIBUTION"
             }
           },
           "layers": [

@@ -30,6 +30,7 @@ import org.maplibre.android.style.layers.Property
 import org.maplibre.android.style.layers.PropertyFactory
 import org.maplibre.android.style.layers.SymbolLayer
 import org.maplibre.android.style.sources.GeoJsonSource
+import org.maplibre.android.style.sources.VectorSource
 import org.maplibre.geojson.Point
 
 @Composable
@@ -118,12 +119,19 @@ fun MapPane(model: AppModel, modifier: Modifier = Modifier) {
         }
     }
 
-    LaunchedEffect(map, model.serverPort, model.maxZoom, model.basemapKey) {
+    // Switching country swaps only the basemap source. Reloading the whole style while the
+    // first one is still loading leaves every symbol layer (labels and POI icons) blank.
+    var basemap by remember { mutableStateOf("") }
+
+    LaunchedEffect(map, model.serverPort) {
         val ready = map ?: return@LaunchedEffect
         val port = model.serverPort
         if (port == 0) return@LaunchedEffect
-        ready.setStyle(Style.Builder().fromJson(MapStyle.json(port, model.maxZoom, model.basemapKey))) { loaded ->
+        val key = model.basemapKey
+        val maxZoom = model.maxZoom
+        ready.setStyle(Style.Builder().fromJson(MapStyle.json(port, maxZoom, key))) { loaded ->
             addOverlays(loaded, context.resources.displayMetrics.density)
+            basemap = "$key@$maxZoom"
             if (style != null) {
                 style = loaded
                 model.noteStyle()
@@ -144,6 +152,14 @@ fun MapPane(model: AppModel, modifier: Modifier = Modifier) {
             style = loaded
             model.noteStyle()
         }
+    }
+
+    LaunchedEffect(style, model.basemapKey, model.maxZoom) {
+        val loaded = style ?: return@LaunchedEffect
+        val wanted = "${model.basemapKey}@${model.maxZoom}"
+        if (basemap.isEmpty() || basemap == wanted) return@LaunchedEffect
+        swapBasemap(loaded, model.serverPort, model.maxZoom, model.basemapKey)
+        basemap = wanted
     }
 
     LaunchedEffect(model.jump?.serial, map) {
@@ -190,6 +206,25 @@ fun MapPane(model: AppModel, modifier: Modifier = Modifier) {
         runCatching { loaded.getSourceAs<GeoJsonSource>("routes")?.setGeoJson(model.routesJson) }
         runCatching { loaded.getSourceAs<GeoJsonSource>("user")?.setGeoJson(model.userJson) }
         runCatching { loaded.getSourceAs<GeoJsonSource>("dest")?.setGeoJson(model.destJson) }
+    }
+}
+
+private fun swapBasemap(style: Style, port: Int, maxZoom: Int, key: String) {
+    val order = style.layers.map { it.id }
+    val own = style.layers.filter { layer ->
+        when (layer) {
+            is FillLayer -> layer.sourceId
+            is LineLayer -> layer.sourceId
+            is SymbolLayer -> layer.sourceId
+            else -> null
+        } == MapStyle.BASEMAP
+    }
+    own.forEach { style.removeLayer(it) }
+    style.removeSource(MapStyle.BASEMAP)
+    style.addSource(VectorSource(MapStyle.BASEMAP, MapStyle.basemap(port, maxZoom, key)))
+    for (layer in own) {
+        val above = order.subList(order.indexOf(layer.id) + 1, order.size).firstOrNull { style.getLayer(it) != null }
+        if (above != null) style.addLayerBelow(layer, above) else style.addLayer(layer)
     }
 }
 
