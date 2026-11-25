@@ -457,6 +457,54 @@
     }
   },
   {
+    "id": "netherlands-drenthe-frisia-groningen",
+    "name": "Netherlands · Drenthe, Frisia & Groningen",
+    "flag": "🇳🇱",
+    "geofabrik": "europe/netherlands",
+    "region": "regions/netherlands/drenthe-frisia-groningen.geojson",
+    "country": "netherlands"
+  },
+  {
+    "id": "netherlands-flevoland-overijssel",
+    "name": "Netherlands · Flevoland & Overijssel",
+    "flag": "🇳🇱",
+    "geofabrik": "europe/netherlands",
+    "region": "regions/netherlands/flevoland-overijssel.geojson",
+    "country": "netherlands"
+  },
+  {
+    "id": "netherlands-limburg-gelderland",
+    "name": "Netherlands · Limburg & Gelderland",
+    "flag": "🇳🇱",
+    "geofabrik": "europe/netherlands",
+    "region": "regions/netherlands/limburg-gelderland.geojson",
+    "country": "netherlands"
+  },
+  {
+    "id": "netherlands-north-brabant",
+    "name": "Netherlands · North Brabant",
+    "flag": "🇳🇱",
+    "geofabrik": "europe/netherlands",
+    "region": "regions/netherlands/north-brabant.geojson",
+    "country": "netherlands"
+  },
+  {
+    "id": "netherlands-north-holland-utrecht",
+    "name": "Netherlands · North Holland & Utrecht",
+    "flag": "🇳🇱",
+    "geofabrik": "europe/netherlands",
+    "region": "regions/netherlands/north-holland-utrecht.geojson",
+    "country": "netherlands"
+  },
+  {
+    "id": "netherlands-zeeland-south-holland",
+    "name": "Netherlands · Zeeland & South Holland",
+    "flag": "🇳🇱",
+    "geofabrik": "europe/netherlands",
+    "region": "regions/netherlands/zeeland-south-holland.geojson",
+    "country": "netherlands"
+  },
+  {
     "id": "northern-ireland",
     "name": "Northern Ireland",
     "flag": "🇬🇧",
