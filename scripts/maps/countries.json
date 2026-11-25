@@ -50,7 +50,7 @@
   },
   {
     "id": "finland-finland-north-east",
-    "name": "Finland · Finland North-East",
+    "name": "Finland · North & East",
     "flag": "🇫🇮",
     "geofabrik": "europe/finland",
     "region": "regions/finland/finland-north-east.geojson",
@@ -58,7 +58,7 @@
   },
   {
     "id": "finland-finland-south-west",
-    "name": "Finland · Finland South-West",
+    "name": "Finland · South & West",
     "flag": "🇫🇮",
     "geofabrik": "europe/finland",
     "region": "regions/finland/finland-south-west.geojson",
@@ -72,6 +72,134 @@
     "split": {
       "fromLevel": 4
     }
+  },
+  {
+    "id": "france-auvergne-rhone-alpes-east",
+    "name": "France · Auvergne-Rhône-Alpes East (Isère, Savoie, Ain)",
+    "flag": "🇫🇷",
+    "geofabrik": "europe/france",
+    "region": "regions/france/auvergne-rhone-alpes-east.geojson",
+    "country": "france"
+  },
+  {
+    "id": "france-auvergne-rhone-alpes-west",
+    "name": "France · Auvergne-Rhône-Alpes West (Lyon, Auvergne)",
+    "flag": "🇫🇷",
+    "geofabrik": "europe/france",
+    "region": "regions/france/auvergne-rhone-alpes-west.geojson",
+    "country": "france"
+  },
+  {
+    "id": "france-bourgogne-franche-comte",
+    "name": "France · Bourgogne – Franche-Comté",
+    "flag": "🇫🇷",
+    "geofabrik": "europe/france",
+    "region": "regions/france/bourgogne-franche-comte.geojson",
+    "country": "france"
+  },
+  {
+    "id": "france-brittany",
+    "name": "France · Brittany",
+    "flag": "🇫🇷",
+    "geofabrik": "europe/france",
+    "region": "regions/france/brittany.geojson",
+    "country": "france"
+  },
+  {
+    "id": "france-centre-val-de-loire",
+    "name": "France · Centre-Val de Loire",
+    "flag": "🇫🇷",
+    "geofabrik": "europe/france",
+    "region": "regions/france/centre-val-de-loire.geojson",
+    "country": "france"
+  },
+  {
+    "id": "france-corsica",
+    "name": "France · Corsica",
+    "flag": "🇫🇷",
+    "geofabrik": "europe/france",
+    "region": "regions/france/corsica.geojson",
+    "country": "france"
+  },
+  {
+    "id": "france-great-east",
+    "name": "France · Great East",
+    "flag": "🇫🇷",
+    "geofabrik": "europe/france",
+    "region": "regions/france/great-east.geojson",
+    "country": "france"
+  },
+  {
+    "id": "france-hauts-de-france",
+    "name": "France · Hauts-de-France",
+    "flag": "🇫🇷",
+    "geofabrik": "europe/france",
+    "region": "regions/france/hauts-de-france.geojson",
+    "country": "france"
+  },
+  {
+    "id": "france-ile-de-france",
+    "name": "France · Ile-de-France",
+    "flag": "🇫🇷",
+    "geofabrik": "europe/france",
+    "region": "regions/france/ile-de-france.geojson",
+    "country": "france"
+  },
+  {
+    "id": "france-normandy",
+    "name": "France · Normandy",
+    "flag": "🇫🇷",
+    "geofabrik": "europe/france",
+    "region": "regions/france/normandy.geojson",
+    "country": "france"
+  },
+  {
+    "id": "france-nouvelle-aquitaine-north-east",
+    "name": "France · Nouvelle-Aquitaine North-East (Limousin, Dordogne)",
+    "flag": "🇫🇷",
+    "geofabrik": "europe/france",
+    "region": "regions/france/nouvelle-aquitaine-north-east.geojson",
+    "country": "france"
+  },
+  {
+    "id": "france-nouvelle-aquitaine-south-west",
+    "name": "France · Nouvelle-Aquitaine South-West (Bordeaux, Poitou)",
+    "flag": "🇫🇷",
+    "geofabrik": "europe/france",
+    "region": "regions/france/nouvelle-aquitaine-south-west.geojson",
+    "country": "france"
+  },
+  {
+    "id": "france-occitania-east",
+    "name": "France · Occitania East (Montpellier, Nîmes)",
+    "flag": "🇫🇷",
+    "geofabrik": "europe/france",
+    "region": "regions/france/occitania-east.geojson",
+    "country": "france"
+  },
+  {
+    "id": "france-occitania-west",
+    "name": "France · Occitania West (Toulouse, Perpignan)",
+    "flag": "🇫🇷",
+    "geofabrik": "europe/france",
+    "region": "regions/france/occitania-west.geojson",
+    "country": "france"
+  },
+  {
+    "id": "france-pays-de-la-loire",
+    "name": "France · Pays de la Loire",
+    "flag": "🇫🇷",
+    "geofabrik": "europe/france",
+    "region": "regions/france/pays-de-la-loire.geojson",
+    "country": "france"
+  },
+  {
+    "id": "france-provence-alpes-cote-d-azur",
+    "name": "France · Provence-Alpes-Côte d'Azur",
+    "flag": "🇫🇷",
+    "geofabrik": "europe/france",
+    "region": "regions/france/provence-alpes-cote-d-azur.geojson",
+    "country": "france"
   },
   {
     "id": "germany",
@@ -109,7 +237,7 @@
   },
   {
     "id": "italy-italy-central",
-    "name": "Italy · Italy Central",
+    "name": "Italy · Lazio, Abruzzo, Marche & Friuli-Venezia Giulia",
     "flag": "🇮🇹",
     "geofabrik": "europe/italy",
     "region": "regions/italy/italy-central.geojson",
@@ -117,7 +245,7 @@
   },
   {
     "id": "italy-italy-north",
-    "name": "Italy · Italy North",
+    "name": "Italy · Veneto, Trentino-Alto Adige & Umbria",
     "flag": "🇮🇹",
     "geofabrik": "europe/italy",
     "region": "regions/italy/italy-north.geojson",
@@ -125,7 +253,7 @@
   },
   {
     "id": "italy-italy-south-east",
-    "name": "Italy · Italy South-East",
+    "name": "Italy · Campania, Calabria, Sicily, Basilicata & Molise",
     "flag": "🇮🇹",
     "geofabrik": "europe/italy",
     "region": "regions/italy/italy-south-east.geojson",
@@ -133,7 +261,7 @@
   },
   {
     "id": "italy-italy-west",
-    "name": "Italy · Italy West",
+    "name": "Italy · Piedmont, Liguria, Aosta Valley & Sardinia",
     "flag": "🇮🇹",
     "geofabrik": "europe/italy",
     "region": "regions/italy/italy-west.geojson",
@@ -186,7 +314,7 @@
   },
   {
     "id": "poland-masovian-voivodeship",
-    "name": "Poland · Masovian Voivodeship",
+    "name": "Poland · Masovia",
     "flag": "🇵🇱",
     "geofabrik": "europe/poland",
     "region": "regions/poland/masovian-voivodeship.geojson",
@@ -194,7 +322,7 @@
   },
   {
     "id": "poland-poland-central",
-    "name": "Poland · Poland Central",
+    "name": "Poland · Łódź, Silesia & Kuyavia-Pomerania",
     "flag": "🇵🇱",
     "geofabrik": "europe/poland",
     "region": "regions/poland/poland-central.geojson",
@@ -202,7 +330,7 @@
   },
   {
     "id": "poland-poland-east-1",
-    "name": "Poland · Poland East 1",
+    "name": "Poland · Lesser Poland, Holy Cross & Warmia-Masuria",
     "flag": "🇵🇱",
     "geofabrik": "europe/poland",
     "region": "regions/poland/poland-east-1.geojson",
@@ -210,7 +338,7 @@
   },
   {
     "id": "poland-poland-east-2",
-    "name": "Poland · Poland East 2",
+    "name": "Poland · Lublin, Subcarpathia & Podlaskie",
     "flag": "🇵🇱",
     "geofabrik": "europe/poland",
     "region": "regions/poland/poland-east-2.geojson",
@@ -218,7 +346,7 @@
   },
   {
     "id": "poland-poland-west-1",
-    "name": "Poland · Poland West 1",
+    "name": "Poland · Lower Silesia, Lubusz & West Pomerania",
     "flag": "🇵🇱",
     "geofabrik": "europe/poland",
     "region": "regions/poland/poland-west-1.geojson",
@@ -226,7 +354,7 @@
   },
   {
     "id": "poland-poland-west-2",
-    "name": "Poland · Poland West 2",
+    "name": "Poland · Greater Poland, Pomerania & Opole",
     "flag": "🇵🇱",
     "geofabrik": "europe/poland",
     "region": "regions/poland/poland-west-2.geojson",
@@ -275,7 +403,7 @@
   },
   {
     "id": "spain-spain-central",
-    "name": "Spain · Spain Central",
+    "name": "Spain · Aragon, Basque Country, Castile-La Mancha, Murcia, Navarre & La Rioja",
     "flag": "🇪🇸",
     "geofabrik": "europe/spain",
     "region": "regions/spain/spain-central.geojson",
@@ -283,7 +411,7 @@
   },
   {
     "id": "spain-spain-north-west",
-    "name": "Spain · Spain North-West",
+    "name": "Spain · Galicia, Asturias, Castile and León & Extremadura",
     "flag": "🇪🇸",
     "geofabrik": "europe/spain",
     "region": "regions/spain/spain-north-west.geojson",
@@ -291,7 +419,7 @@
   },
   {
     "id": "spain-spain-south-west",
-    "name": "Spain · Spain South-West",
+    "name": "Spain · Andalusia, Madrid & Cantabria",
     "flag": "🇪🇸",
     "geofabrik": "europe/spain",
     "region": "regions/spain/spain-south-west.geojson",
