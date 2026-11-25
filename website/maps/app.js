@@ -8,7 +8,7 @@ import { buildingsInView, openBuildingBook } from "./buildings.js"
 import { fold, preparePlaces, prepareStreets, searchNames } from "./search.js"
 import { mapStyle } from "./style.js"
 import { createBrowserSensors } from "./sensors.js"
-import { loadAddressFile, loadBuildingFile, loadCatalog, loadMapFile, loadPackFile, loadPlaceFile, loadRoadFile, loadWaterFile } from "./storage.js"
+import { loadAddressFile, loadBuildingFile, loadCatalog, loadMapFile, loadPackFile, loadPlaceFile, loadRoadFile, loadWaterFile, packFiles } from "./storage.js"
 import { t } from "./i18n.js"
 
 const STATE_KEY = "posicao-v1"
@@ -38,6 +38,7 @@ const COUNTRY_VIEW = {
 const PACKAGE_KEY = "blackout-package"
 const PACKAGES_KEY = "blackout-packages"
 const PORTUGAL = { id: "portugal", name: "Portugal", flag: "🇵🇹", files: [] }
+const BASE_KEYS = ["map", "roads", "buildings"]
 
 const statusEl = document.querySelector("#status")
 const anchorBtn = document.querySelector("#anchor")
@@ -150,6 +151,10 @@ const clockFormat = new Intl.DateTimeFormat("pt-PT", { hour: "2-digit", minute: 
 const MODE_TITLE = { walk: "A pé", car: "De carro", bicycle: "De bicicleta" }
 const NAV_ZOOM = 17
 let countryToken = 0
+let tileProtocol = null
+let basemapKey = ""
+let roadsId = ""
+let buildingsId = ""
 let activePackageId = "portugal"
 let downloadingId = ""
 let catalog = []
@@ -2375,6 +2380,9 @@ function readPackages() {
 function rememberPackage(pack) {
   const list = readPackages().filter((item) => item.id !== pack.id)
   const stored = { id: pack.id, name: pack.name, flag: pack.flag, files: pack.files || [] }
+  if (pack.country) stored.country = pack.country
+  if (Array.isArray(pack.view)) stored.view = pack.view
+  if (Array.isArray(pack.assets)) stored.assets = pack.assets
   if (pack.id === "portugal") list.unshift(stored)
   else list.push(stored)
   localStorage.setItem(PACKAGES_KEY, JSON.stringify(list))
@@ -2386,11 +2394,45 @@ function ensurePortugal() {
   activePackageId = localStorage.getItem(PACKAGE_KEY) || "portugal"
 }
 
-function startPortugal() {
-  loadGeo().catch((error) => console.error(error))
-  loadPlaces().catch((error) => console.error(error))
-  loadWater().catch((error) => console.error(error))
-  loadAddresses().catch(() => {})
+function packSpec(pack, key) {
+  return packFiles(pack).find((file) => file && file.key === key)
+}
+
+function portugalPack() {
+  return readPackages().find((item) => item.id === "portugal") || PORTUGAL
+}
+
+async function loadCountryData(pack, token) {
+  const files = {}
+  for (const file of packFiles(pack)) {
+    if (BASE_KEYS.includes(file.key)) continue
+    if (token !== countryToken) return
+    files[file.key] = await loadPackFile(pack.id, file)
+  }
+  if (token !== countryToken) return
+  await applyCountry(files, token)
+}
+
+async function loadPackage(pack, token) {
+  const tasks = [loadBasemap(pack, token), loadRoadsFor(pack, token).then(() => loadBuildingsFor(pack, token))]
+  if (pack.id === "portugal") tasks.push(loadPlaces(), loadWater(), loadAddresses(), loadGeo())
+  else tasks.push(loadCountryData(pack, token))
+  const results = await Promise.allSettled(tasks)
+  const failed = results.find((result) => result.status === "rejected")
+  if (failed) throw failed.reason
+}
+
+async function refreshActivePack() {
+  const active = readPackages().find((item) => item.id === activePackageId)
+  if (!active) return
+  const packs = await loadCatalog()
+  const fresh = packs.find((item) => item.id === active.id)
+  if (!fresh) return
+  const stamp = (file) => `${file.key}:${file.sha256 || file.url}:${file.bytes}`
+  const known = new Set(packFiles(active).map(stamp))
+  const changed = packFiles(fresh).some((file) => !known.has(stamp(file)))
+  rememberPackage(fresh)
+  if (changed && activePackageId === fresh.id && !downloadingId) await usePackage(fresh)
 }
 
 function packState(pack) {
@@ -2529,16 +2571,7 @@ async function usePackage(pack) {
   catalogNote = ""
   renderMaps()
   try {
-    if (pack.id === "portugal") await Promise.all([loadPlaces(), loadWater(), loadAddresses(), loadGeo()])
-    else {
-      const files = {}
-      for (const file of pack.files || []) {
-        if (token !== countryToken) return
-        files[file.key] = await loadPackFile(pack.id, file)
-      }
-      if (token !== countryToken) return
-      await applyCountry(files, token)
-    }
+    await loadPackage(pack, token)
     if (token !== countryToken) return
     activePackageId = pack.id
     localStorage.setItem(PACKAGE_KEY, pack.id)
@@ -2553,7 +2586,7 @@ async function usePackage(pack) {
     if (pack.id !== "portugal") {
       downloadingId = ""
       renderMaps()
-      await usePackage(readPackages().find((item) => item.id === "portugal") || PORTUGAL)
+      await usePackage(portugalPack())
       return
     }
   } finally {
@@ -2584,7 +2617,7 @@ function hideCountryColors() {
 
 function revealCountry() {
   if (!importSheet.hidden || !pendingPack || !map) return false
-  const view = COUNTRY_VIEW[pendingPack]
+  const view = COUNTRY_VIEW[pendingPack] || readPackages().find((item) => item.id === pendingPack)?.view
   pendingPack = ""
   if (!view) return false
   holdCompass = true
@@ -2616,7 +2649,7 @@ async function paintCountries() {
     countries = await response.json()
   }
   if (!map?.getSource("countries")) return
-  const loaded = new Set(readPackages().map((item) => item.id))
+  const loaded = new Set(readPackages().flatMap((item) => [item.id, item.country]))
   loaded.add("portugal")
   let changed = false
   for (const feature of countries.features) {
@@ -2635,18 +2668,73 @@ function applyEurope() {
   map.fitBounds(EUROPE, { padding: 0, animate: false })
 }
 
-async function bootMap(file) {
-  const { Protocol, PMTiles, FileSource } = globalThis.pmtiles
-  const source = new FileSource(file)
-  source.getKey = () => "portugal.pmtiles"
-  const protocol = new Protocol()
-  const archive = new PMTiles(source)
-  protocol.add(archive)
-  addProtocol("pmtiles", protocol.tile)
+async function loadBasemap(pack, token) {
+  const spec = packSpec(pack, "map")
+  const key = spec ? `${pack.id}.pmtiles` : "portugal.pmtiles"
+  if (basemapKey === key) return
+  mapStatus = "A guardar mapa"
+  showStatus()
+  const progress = (got, length) => {
+    if (length) mapStatus = `A guardar mapa ${Math.min(100, Math.round((got / length) * 100))}%`
+    else mapStatus = `A guardar mapa ${Math.round(got / 1e6)} MB`
+    showStatus()
+  }
+  try {
+    const file = spec ? await loadPackFile(pack.id, spec, progress) : await loadMapFile(progress)
+    if (token !== countryToken) {
+      mapStatus = ""
+      showStatus()
+      return
+    }
+    showBasemap(file, key)
+  } catch (error) {
+    console.error(error)
+    if (error.code === "opfs") mapStatus = "Este browser não guarda o mapa"
+    else if (error.code === "offline" || error.name === "TypeError") mapStatus = "Mapa em falta"
+    else mapStatus = "Não foi possível guardar o mapa"
+    showStatus()
+    throw error
+  }
+}
 
+function showBasemap(file, key) {
+  const { Protocol, PMTiles, FileSource } = globalThis.pmtiles
+  if (!tileProtocol) {
+    tileProtocol = new Protocol()
+    addProtocol("pmtiles", tileProtocol.tile)
+  }
+  const source = new FileSource(file)
+  source.getKey = () => key
+  tileProtocol.add(new PMTiles(source))
+  basemapKey = key
+  const url = `pmtiles://${key}`
+  if (!map) {
+    bootMap(url)
+    return
+  }
+  const swap = () => {
+    if (basemapKey !== key) return
+    const layers = map.getStyle().layers
+    const order = layers.map((layer) => layer.id)
+    const own = layers.filter((layer) => layer.source === "protomaps")
+    for (const layer of own) map.removeLayer(layer.id)
+    map.removeSource("protomaps")
+    map.addSource("protomaps", mapStyle(url).sources.protomaps)
+    for (const layer of own) {
+      const before = order.slice(order.indexOf(layer.id) + 1).find((id) => map.getLayer(id))
+      map.addLayer(layer, before)
+    }
+    mapStatus = ""
+    showStatus()
+  }
+  if (mapReady) swap()
+  else map.once("load", swap)
+}
+
+function bootMap(url) {
   map = new Map({
     container: "map",
-    style: mapStyle("pmtiles://portugal.pmtiles"),
+    style: mapStyle(url),
     center: [8, 54],
     zoom: 3.2,
     maxZoom: 18,
@@ -2756,22 +2844,27 @@ async function loadAddresses() {
   }
 }
 
-async function loadBuildings() {
+async function loadBuildingsFor(pack, token) {
+  const spec = packSpec(pack, "buildings")
+  const id = spec ? pack.id : "portugal"
+  if (buildingsId === id) return
   buildingStatus = "A guardar edifícios"
   showStatus()
-  try {
-    const file = await loadBuildingFile((got) => {
-      buildingStatus = `A guardar edifícios ${Math.round(got / 1e6)} MB`
-      showStatus()
-    })
-    buildingBook = openBuildingBook(await file.arrayBuffer())
-    attachBuildings()
-    buildingStatus = ""
+  const progress = (got) => {
+    buildingStatus = `A guardar edifícios ${Math.round(got / 1e6)} MB`
     showStatus()
+  }
+  try {
+    const file = spec ? await loadPackFile(pack.id, spec, progress) : await loadBuildingFile(progress)
+    if (token !== countryToken) return
+    const book = openBuildingBook(await file.arrayBuffer())
+    if (token !== countryToken) return
+    buildingBook = book
+    buildingsId = id
+    attachBuildings()
     refreshPois()
     if (!tripEl.hidden || navigating || showingDirections) showTrip()
-  } catch (error) {
-    console.error(error)
+  } finally {
     buildingStatus = ""
     showStatus()
   }
@@ -2824,23 +2917,27 @@ async function loadPlaces() {
   }
 }
 
-async function loadRoads() {
+async function loadRoadsFor(pack, token) {
+  const spec = packSpec(pack, "roads")
+  const id = spec ? pack.id : "portugal"
+  if (roadsId === id) return
   roadStatus = "A guardar estradas"
   showStatus()
+  const progress = (got) => {
+    roadStatus = `A guardar estradas ${Math.round(got / 1e6)} MB`
+    showStatus()
+  }
   try {
-    const file = await loadRoadFile((got) => {
-      roadStatus = `A guardar estradas ${Math.round(got / 1e6)} MB`
-      showStatus()
-    })
-    const buffer = await file.arrayBuffer()
-    graph = openRoadGraph(buffer)
+    const file = spec ? await loadPackFile(pack.id, spec, progress) : await loadRoadFile(progress)
+    if (token !== countryToken) return
+    const next = openRoadGraph(await file.arrayBuffer())
+    if (token !== countryToken) return
+    graph = next
+    roadsId = id
     attachBuildings()
     estimator.snap()
-    roadStatus = ""
-    showStatus()
     if (!tripEl.hidden || navigating) showTrip()
-  } catch (error) {
-    console.error(error)
+  } finally {
     roadStatus = ""
     showStatus()
   }
@@ -2853,32 +2950,15 @@ async function main() {
   renderMaps()
   setSensors(true, { quiet: true }).catch(() => {})
   if ("serviceWorker" in navigator) navigator.serviceWorker.register("/maps/sw.js").catch(() => {})
-  mapStatus = "A guardar mapa"
-  showStatus()
   const saved = readPackages().find((item) => item.id === activePackageId)
-  if (saved && saved.id !== "portugal" && (saved.files || []).some((file) => file.key === "places")) {
-    usePackage(saved).catch((error) => console.error(error))
+  if (saved && saved.id !== "portugal" && packFiles(saved).some((file) => file.key === "places")) {
+    await usePackage(saved).catch((error) => console.error(error))
   } else {
     activePackageId = "portugal"
     localStorage.setItem(PACKAGE_KEY, "portugal")
-    startPortugal()
+    await loadPackage(portugalPack(), countryToken).catch((error) => console.error(error))
   }
-  loadRoads().catch((error) => console.error(error))
-  loadBuildings().catch((error) => console.error(error))
-  try {
-    const file = await loadMapFile((got, length) => {
-      if (length) mapStatus = `A guardar mapa ${Math.min(100, Math.round((got / length) * 100))}%`
-      else mapStatus = `A guardar mapa ${Math.round(got / 1e6)} MB`
-      showStatus()
-    })
-    await bootMap(file)
-  } catch (error) {
-    console.error(error)
-    if (error.code === "opfs") mapStatus = "Este browser não guarda o mapa"
-    else if (error.code === "offline" || error.name === "TypeError") mapStatus = "Mapa em falta"
-    else mapStatus = "Não foi possível guardar o mapa"
-    showStatus()
-  }
+  refreshActivePack().catch((error) => console.error(error))
 }
 
 main()

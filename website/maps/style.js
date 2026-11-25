@@ -24,6 +24,31 @@ function casing(id, filter, widthStops, minzoom) {
   return roadLayer(id, filter, "#d5cec2", widthStops, minzoom)
 }
 
+const LANDUSE = {
+  park: "#d9e8c8",
+  garden: "#d9e8c8",
+  playground: "#d9e8c8",
+  recreation_ground: "#d9e8c8",
+  golf_course: "#d9e8c8",
+  nature_reserve: "#dbe7cc",
+  national_park: "#dbe7cc",
+  cemetery: "#dce2d3",
+  hospital: "#f1e0dc",
+  school: "#efe7d6",
+  university: "#efe7d6",
+  college: "#efe7d6",
+  industrial: "#e8e3db",
+  railway: "#e8e3db",
+  military: "#e8e3db",
+  beach: "#f3ebd2",
+  sand: "#f3ebd2",
+}
+
+const LANDCOVER = { forest: "#d6e4c6", grassland: "#e2ebd2", scrub: "#dde6cc", farmland: "#ecedd8" }
+
+const LANDUSE_COLOR = ["match", ["get", "kind"], ...Object.entries(LANDUSE).flat(), "#e8e3db"]
+const LANDCOVER_COLOR = ["match", ["get", "kind"], ...Object.entries(LANDCOVER).flat(), "#ecedd8"]
+
 const placeLabel = {
   "text-font": font,
   "text-field": ["coalesce", ["get", "name:pt"], ["get", "name"]],
@@ -144,6 +169,25 @@ export function mapStyle(archiveUrl) {
         paint: { "fill-color": "#f4f0e6" },
       },
       {
+        id: "landcover",
+        type: "fill",
+        source: "protomaps",
+        "source-layer": "landcover",
+        minzoom: 6,
+        maxzoom: 10,
+        filter: ["in", "kind", ...Object.keys(LANDCOVER)],
+        paint: { "fill-color": LANDCOVER_COLOR, "fill-opacity": 0.6 },
+      },
+      {
+        id: "landuse",
+        type: "fill",
+        source: "protomaps",
+        "source-layer": "landuse",
+        minzoom: 10,
+        filter: ["in", "kind", ...Object.keys(LANDUSE)],
+        paint: { "fill-color": LANDUSE_COLOR, "fill-opacity": ["interpolate", ["linear"], ["zoom"], 10, 0.5, 13, 0.85] },
+      },
+      {
         id: "water",
         type: "fill",
         source: "protomaps",
@@ -160,6 +204,14 @@ export function mapStyle(archiveUrl) {
         minzoom: 6,
         filter: ["==", "kind", "country"],
         paint: { "line-color": "#c4b8a4", "line-width": lineWidth([3, 0.6, 8, 1.4]), "line-dasharray": [2, 1.2] },
+      },
+      {
+        id: "buildings",
+        type: "fill",
+        source: "protomaps",
+        "source-layer": "buildings",
+        minzoom: 14,
+        paint: { "fill-color": "#e4ddd0", "fill-outline-color": "#d3cabb" },
       },
       casing("minor-casing", ["==", "kind", "minor_road"], [12, 0.4, 14, 3.2, 17, 14], 12),
       roadLayer("minor", ["==", "kind", "minor_road"], "#ffffff", [12, 0.2, 14, 1.8, 17, 10], 12),
