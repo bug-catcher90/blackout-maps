@@ -1,6 +1,3 @@
 .vercel
 .env*
 node_modules
-# Paid PDFs stay out of git. This negation puts them in the deployment so the
-# download function can read them. vercel.json answers /api/_files with 404.
-!api/_files/*.pdf

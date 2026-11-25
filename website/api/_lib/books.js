@@ -1,5 +1,4 @@
-const fs = require("fs")
-const path = require("path")
+const { get } = require("@vercel/blob")
 
 const SITE = "https://blackoutmaps.com"
 
@@ -193,17 +192,13 @@ function paidBooks(session) {
   return books
 }
 
-function guideFile(book) {
-  const root = path.join(process.cwd(), "api", "_files")
-  const file = path.join(root, book.file)
-  if (path.dirname(file) !== root) return null
-  return fs.existsSync(file) ? file : null
-}
-
-function readGuide(book) {
-  const file = guideFile(book)
-  if (!file) return null
-  return fs.readFileSync(file)
+// PDFs live under guides/ in the private Blob store. Call only after the Stripe
+// session is verified, and never hand the blob URL to the client.
+async function readGuide(book) {
+  if (!book || !/^[0-9a-z-]+\.pdf$/.test(book.file)) return null
+  const result = await get("guides/" + book.file, { access: "private" })
+  if (!result || result.statusCode !== 200) return null
+  return result
 }
 
 module.exports = {
