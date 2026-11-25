@@ -49,6 +49,22 @@
     }
   },
   {
+    "id": "finland-finland-north-east",
+    "name": "Finland · Finland North-East",
+    "flag": "🇫🇮",
+    "geofabrik": "europe/finland",
+    "region": "regions/finland/finland-north-east.geojson",
+    "country": "finland"
+  },
+  {
+    "id": "finland-finland-south-west",
+    "name": "Finland · Finland South-West",
+    "flag": "🇫🇮",
+    "geofabrik": "europe/finland",
+    "region": "regions/finland/finland-south-west.geojson",
+    "country": "finland"
+  },
+  {
     "id": "france",
     "name": "France",
     "flag": "🇫🇷",
@@ -74,6 +90,62 @@
     "split": {
       "fromLevel": 4
     }
+  },
+  {
+    "id": "italy-apulia",
+    "name": "Italy · Apulia",
+    "flag": "🇮🇹",
+    "geofabrik": "europe/italy",
+    "region": "regions/italy/apulia.geojson",
+    "country": "italy"
+  },
+  {
+    "id": "italy-emilia-romagna-tuscany",
+    "name": "Italy · Emilia-Romagna & Tuscany",
+    "flag": "🇮🇹",
+    "geofabrik": "europe/italy",
+    "region": "regions/italy/emilia-romagna-tuscany.geojson",
+    "country": "italy"
+  },
+  {
+    "id": "italy-italy-central",
+    "name": "Italy · Italy Central",
+    "flag": "🇮🇹",
+    "geofabrik": "europe/italy",
+    "region": "regions/italy/italy-central.geojson",
+    "country": "italy"
+  },
+  {
+    "id": "italy-italy-north",
+    "name": "Italy · Italy North",
+    "flag": "🇮🇹",
+    "geofabrik": "europe/italy",
+    "region": "regions/italy/italy-north.geojson",
+    "country": "italy"
+  },
+  {
+    "id": "italy-italy-south-east",
+    "name": "Italy · Italy South-East",
+    "flag": "🇮🇹",
+    "geofabrik": "europe/italy",
+    "region": "regions/italy/italy-south-east.geojson",
+    "country": "italy"
+  },
+  {
+    "id": "italy-italy-west",
+    "name": "Italy · Italy West",
+    "flag": "🇮🇹",
+    "geofabrik": "europe/italy",
+    "region": "regions/italy/italy-west.geojson",
+    "country": "italy"
+  },
+  {
+    "id": "italy-lombardy",
+    "name": "Italy · Lombardy",
+    "flag": "🇮🇹",
+    "geofabrik": "europe/italy",
+    "region": "regions/italy/lombardy.geojson",
+    "country": "italy"
   },
   {
     "id": "latvia",
@@ -144,6 +216,46 @@
     "split": {
       "fromLevel": 4
     }
+  },
+  {
+    "id": "spain-balearic-islands",
+    "name": "Spain · Balearic Islands",
+    "flag": "🇪🇸",
+    "geofabrik": "europe/spain",
+    "region": "regions/spain/balearic-islands.geojson",
+    "country": "spain"
+  },
+  {
+    "id": "spain-spain-central",
+    "name": "Spain · Spain Central",
+    "flag": "🇪🇸",
+    "geofabrik": "europe/spain",
+    "region": "regions/spain/spain-central.geojson",
+    "country": "spain"
+  },
+  {
+    "id": "spain-spain-north-west",
+    "name": "Spain · Spain North-West",
+    "flag": "🇪🇸",
+    "geofabrik": "europe/spain",
+    "region": "regions/spain/spain-north-west.geojson",
+    "country": "spain"
+  },
+  {
+    "id": "spain-spain-south-west",
+    "name": "Spain · Spain South-West",
+    "flag": "🇪🇸",
+    "geofabrik": "europe/spain",
+    "region": "regions/spain/spain-south-west.geojson",
+    "country": "spain"
+  },
+  {
+    "id": "spain-valencian-community-catalonia",
+    "name": "Spain · Valencian Community & Catalonia",
+    "flag": "🇪🇸",
+    "geofabrik": "europe/spain",
+    "region": "regions/spain/valencian-community-catalonia.geojson",
+    "country": "spain"
   },
   {
     "id": "wales",
