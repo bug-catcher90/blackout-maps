@@ -114,7 +114,10 @@ def group(parent, children):
             continue
         geom = unary_union([m["shape"] for m in members])
         names = [m["name"] for m in members]
-        label = " & ".join(names) if len(names) <= 2 else f"{parent['name']} {direction(parent['shape'], geom)}"
+        if len(names) <= 5:
+            label = ", ".join(names[:-1]) + " & " + names[-1]
+        else:
+            label = f"{parent['name']} {direction(parent['shape'], geom)}"
         out.append({"name": label, "shape": geom, "bytes": sum(m["bytes"] for m in members), "members": members})
     seen = {}
     for region in out:
