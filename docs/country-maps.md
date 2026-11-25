@@ -1,0 +1,125 @@
+# Country map packages
+
+A package is everything the apps need to work offline in one country or region: the basemap, the road graph for routing, building outlines, services, water, addresses and name search. This page is the contract between the build scripts, the validator and the three apps. [CONTRIBUTING.md](../CONTRIBUTING.md#add-a-country-or-a-region) has the step-by-step for adding one.
+
+`node scripts/validate-catalog.mjs` checks every rule on this page. A package that fails it is not ready.
+
+## Layout
+
+| Path | What it is |
+| --- | --- |
+| `catalog/<id>.json` | The package entry. The apps list every `*.json` in `catalog/` through the GitHub contents API. |
+| `catalog/<id>/` | The package's data parts, nothing else. |
+| `scripts/maps/countries.json` | How each package is built: name, flag, Geofabrik extract, optional region polygon. |
+| `scripts/maps/regions/` | Region polygons for packages that cover part of an extract. |
+
+`<id>` is lowercase words joined by hyphens: `wales`, `northern-ireland`, `germany-oberbayern`.
+
+## Size limits
+
+Two limits decide how a package is cut:
+
+- **Parts of at most 45 MB.** Every file is gzip-compressed (the basemap is not) and split into parts of at most 45,000,000 bytes. GitHub warns about files over 50 MB and rejects files over 100 MB.
+- **Roads plus buildings under 450 MB unpacked.** Both apps hold the road graph and the buildings in memory at the same time; Portugal's pair is 250 MB. A country over the limit is published as regions instead (see [Regions](#regions)).
+
+## The JSON
+
+```json
+{
+  "id": "wales",
+  "name": "Wales",
+  "flag": "🏴󠁧󠁢󠁷󠁬󠁳󠁿",
+  "autoload": false,
+  "view": [-4.416, 52.403, 6.6],
+  "files": [ ... ],
+  "assets": [
+    {
+      "key": "roads",
+      "file": "roads.bin",
+      "gzip": true,
+      "bytes": 60512345,
+      "sha256": "<SHA-256 of roads.bin>",
+      "label": "estradas",
+      "parts": [
+        { "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/wales/roads.bin.gz.000", "bytes": 45000000, "sha256": "<SHA-256 of the part>" },
+        { "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/wales/roads.bin.gz.001", "bytes": 1234567, "sha256": "<SHA-256 of the part>" }
+      ]
+    }
+  ],
+  "source": { "osm": "https://download.geofabrik.de/europe/united-kingdom/wales-latest.osm.pbf", "osmTimestamp": "2026-11-24T21:21:24Z", "basemap": "https://build.protomaps.com/20261125.pmtiles" }
+}
+```
+
+| Field | Rule |
+| --- | --- |
+| `id` | Same as the file name. |
+| `name`, `flag` | Shown in the import list. A region is named `<Country> · <Region>` and uses the country's flag. |
+| `autoload` | `true` only for Portugal, which loads on first launch. |
+| `country` | For a region, the id of its country in `website/maps/countries.geojson`, so the import map colours that country. |
+| `view` | `[longitude, latitude, zoom]` the map moves to after the package is chosen. |
+| `assets` | Every file of the package, one entry per key below. This is the list current apps read. |
+| `files` | Compatibility list for the 1.0 apps, which read only single-URL files. It copies the single-part `places`, `water`, `addresses`, `geo` and `roads` assets; `make-catalog.mjs` writes it. Leave out anything that has more than one part. |
+| `builtIn` | Portugal only: `map`, `roads` and `buildings` ship inside the Android and iOS apps, and the web app loads them from `ios/BlackoutMaps/Resources/base/`. |
+| `source` | Where the data came from, for the next rebuild. |
+
+### Assets
+
+| `key` | `file` | `gzip` | `label` | Format |
+| --- | --- | --- | --- | --- |
+| `places` | `places.bin` | true | `lugares` | `POI1`, services |
+| `water` | `water.bin` | true | `água` | `WTR1`, water points |
+| `addresses` | `addresses.bin` | true | `moradas` | `ADR1`, streets and doors |
+| `geo` | `geo.json` | true | `geo` | name search |
+| `roads` | `roads.bin` | true | `estradas` | `RDG1`, road graph |
+| `buildings` | `buildings.bin` | true | `edifícios` | `BLD1`, building outlines |
+| `map` | `map.pmtiles` | false | `mapa` | PMTiles v3 vector basemap |
+
+- `bytes` and `sha256` describe the file after unpacking.
+- `parts` concatenated in order are the packed file: the gzip stream, or the PMTiles archive itself when `gzip` is false. A file of one part keeps its plain name (`places.bin.gz`); a file of several adds `.000`, `.001`, and so on.
+- Each part has its own `bytes` and `sha256`. Part URLs are `https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/<id>/<part>`, which answers with `Access-Control-Allow-Origin: *` and honours `Range`. jsDelivr is not an option: it refuses files over 20 MB.
+- The `label` is a Portuguese word the apps translate in their status line.
+
+### How the apps download a file
+
+1. Download each part to `<file>.<NNN>.part`. An interrupted part resumes with `Range: bytes=<saved>-`; a server that answers 200 instead of 206 restarts it.
+2. Check each part's size and SHA-256. A part that fails is deleted and the download stops with an error; the next attempt starts again from that part. Parts already checked are not fetched again.
+3. Stream the parts in order through gunzip (when `gzip` is true) into `file`, check `bytes` (and, on Android, `sha256`), then delete the parts.
+4. A file whose saved size and SHA-256 match the entry is not downloaded again. A rebuilt package changes `sha256`, so the apps fetch only the files that changed.
+
+## Data formats
+
+All binary formats are little-endian. The readers are in `website/maps/` (`places.js`, `water.js`, `addresses.js`, `route.js`, `buildings.js`); Android and iOS run the same code from `ios/BlackoutMaps/Resources/engine.js`.
+
+**`POI1` places.** Services in six categories, all required: `0` health (hospital, clinic, doctors, pharmacy, dentist), `1` police, `2` fire station, `3` fuel, `4` supermarkets and food shops, `5` restaurants and cafés. Each record has a category, name, address, latitude and longitude, plus a grid index over the records' own bounding box.
+
+**`WTR1` water.** Points and lines in five types: `0` drinking water, `1` spring, `2` ford, `3` weir or dam, `4` water point, well or tap. The header grid (`lat0`, `lon0`, `latN`, `lonN`, `step`) must cover every record.
+
+**`ADR1` addresses.** City names, door numbers and streets sorted by search key, then one 18-byte record per door: number, city, postcode, latitude and longitude (microdegrees). The coordinates are the nearest-door grid; a file without them is not ready.
+
+**`geo.json`.** `{"p": [[name, lat, lon, rank]], "s": [[name, lat, lon]]}`: places (rank `0` city, `1` town, `2` suburb, `3` village or smaller) and one point per street name.
+
+**`RDG1` roads.** 64-byte header (node, edge, shape-point and grid-cell counts, grid origin, size and a step of 0.01°), then nodes, edges sorted by source node, shape points between junctions and an edge grid. Access bits: `1` walk, `2` bike, `4` car. Class in the low three bits: `0` motorway, `1` trunk, `2` primary, `3` secondary, `4` tertiary, `5` residential, unclassified and service, `6` footway, path, steps and pedestrian, `7` cycleway; `+8` link, `+16` toll. One-way roads keep a walk-only reverse edge. `highway=track` is left out, as in Portugal's graph.
+
+**`BLD1` buildings.** Outer rings of building polygons as delta-encoded points, with a grid whose origin, size and step are in the header and cover the package's buildings. The readers take the grid from the header, so it can be any size; `build-buildings.mjs` starts at 0.05° and widens the step until there are at most 4 million cells.
+
+**`map.pmtiles`.** A [Protomaps basemap](https://docs.protomaps.com/basemaps/layers) cut from a planet build to the package's polygon, zoom 0–14, with the layers `earth`, `water`, `landuse`, `landcover`, `roads`, `buildings`, `places` and `boundaries`. `slim-basemap.mjs` keeps only what `website/maps/style.js` and Android's `MapStyle.kt` draw: the properties `kind`, `kind_detail`, `name` and `ref`; urban landuse (parks, hospitals, schools, industrial, cemeteries, beaches and similar) but not forest or farmland; buildings at zoom 14; and the road classes and places each zoom shows. It drops points of interest (the packages have their own) and name translations. The validator requires `earth`, `water`, `landuse`, `roads`, `buildings` and `places` to be present in the tiles.
+
+## What the validator checks
+
+For every `catalog/*.json`:
+
+- The fields above, every required key, sizes, labels, SHA-256s and https URLs.
+- Every part exists in `catalog/<id>/`, has the stated size and SHA-256, and is at most 45 MB. Nothing else is in `catalog/<id>/`, so old data versions do not stay in the working tree.
+- Roads plus buildings are under 450 MB unpacked.
+- `files` only copies single-part `assets`.
+- The unpacked files open with the apps' own readers. All six service categories have entries; there are water points, streets and doors, search names, walkable and drivable roads, and a building grid that finds its buildings; the basemap is vector, reaches zoom 14 and holds the required layers; and services, roads and buildings lie inside the basemap bounds.
+
+`--shallow` checks the JSON only, `--remote` also checks every part URL for its size and CORS header, and `--download` fetches parts that are not in the working tree.
+
+## Regions
+
+When a country's OpenStreetMap extract is too large for the memory limit, `scripts/maps/make-regions.py <country> <extract.osm.pbf>` cuts it along OpenStreetMap administrative boundaries. It starts at the level in the country's `split.fromLevel` (`4`, or `5` for England), goes one level deeper wherever an area is still over the limit, and groups small neighbouring areas back together. The polygons it writes to `scripts/maps/regions/<country>/` are buffered by about 1 km, so roads that cross a region border stay connected inside each package. It also adds one `countries.json` entry per region, with `country` set. The country's own entry keeps `split` and is not built.
+
+## Building
+
+`scripts/maps/build-country.sh <id> [work-dir]` rebuilds one package from the newest Protomaps planet build and Geofabrik extract. It needs `osmium-tool`, `pmtiles`, Node 20 or newer, `pigz` and `curl`. It writes the parts to `catalog/<id>/`, deletes whatever was there before, writes `catalog/<id>.json` and runs the validator. See the script header for its environment variables.

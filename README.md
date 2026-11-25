@@ -22,7 +22,7 @@ The screenshots are from the iOS app.
 - **Routes.** On foot, by bicycle or by car, with alternatives such as no tolls or no motorways, turn-by-turn directions and the full list of steps.
 - **Position without GPS.** You set your position on the map, and the phone's motion sensors keep an approximate position from your steps. You can turn the sensors off and change the step length.
 - **Pins.** Save a place, name it and remove it later.
-- **Map packages.** Portugal downloads on first launch. Belgium, England, Estonia, Finland, France, Germany, Italy, Latvia, Lithuania, the Netherlands, Northern Ireland, Poland, Scotland, Spain and Wales can be added from Settings.
+- **Map packages.** Portugal downloads on first launch. Estonia, Latvia, Lithuania, Northern Ireland, Scotland and Wales can be added from Settings, and so can the regions of Belgium, England, Finland, France, Germany, Italy, the Netherlands, Poland and Spain. Every package has the same layers: a basemap with roads, buildings, landuse and labels, plus services, water, addresses, name search and routing.
 - **Languages.** The Android app is in English, Portuguese, French, Spanish, German, Arabic, Japanese, Chinese and Russian. The web app is in Portuguese, English, Spanish, French, German and Italian.
 - **Privacy.** No login, no tracking, no analytics. Sensor readings stay on the phone.
 
@@ -30,8 +30,10 @@ The screenshots are from the iOS app.
 
 Everything the map needs is stored on the device, and nothing is sent anywhere.
 
-- **Web app.** A service worker caches the app. The basemap (about 89 MB), roads, buildings and data packages are saved in the browser's private storage (OPFS) on first use. After that, the map opens and routes with no network. Add it to your home screen for the best results. Motion sensors and offline storage need HTTPS.
-- **Android and iOS.** The world map, the Portugal basemap, roads and buildings ship inside the app. Places, water, addresses and name search for each country download from this repository's [`catalog/`](catalog/) and stay on the phone.
+- **Web app.** A service worker caches the app. The basemap, roads, buildings and data of the chosen package are saved in the browser's private storage (OPFS) on first use. After that, the map opens and routes with no network. Add it to your home screen for the best results. Motion sensors and offline storage need HTTPS.
+- **Android and iOS.** The world map and Portugal's basemap, roads and buildings ship inside the app. Every other package downloads from this repository's [`catalog/`](catalog/) and stays on the phone.
+
+Packages are split into parts of 45 MB or less. The apps check each part's SHA-256, resume an interrupted download where it stopped and join the parts on the device.
 
 The network is needed only to download a country.
 
@@ -43,7 +45,7 @@ The network is needed only to download a country.
 | Basemap | [Protomaps](https://protomaps.com) vector tiles built from [OpenStreetMap](https://www.openstreetmap.org), in a single [PMTiles](https://github.com/protomaps/PMTiles) archive |
 | World overview | [Natural Earth](https://www.naturalearthdata.com/) vector tiles (PMTiles) |
 | Search, routing, positioning | Plain JavaScript modules in `website/maps/`. Android runs the same engine in V8 through [Javet](https://github.com/caoccao/Javet); iOS runs it in JavaScriptCore (`ios/BlackoutMaps/Resources/engine.js`) |
-| Data packages | Compact binary files (`POI1`, `WTR1`, `ADR1`) and gzip JSON, described in [catalog/README.md](catalog/README.md) |
+| Data packages | A Protomaps basemap plus compact binary files (`POI1`, `WTR1`, `ADR1`, `RDG1`, `BLD1`) and gzip JSON, built from OpenStreetMap by `scripts/maps/` and described in [docs/country-maps.md](docs/country-maps.md) |
 | Web app | Static HTML, CSS and ES modules, no build step, plus a service worker |
 | Android | Kotlin, Jetpack Compose, minimum Android 8.0 (API 26) |
 | iOS | Swift, SwiftUI, iOS 18 |
@@ -58,7 +60,9 @@ website/          blackoutmaps.com (deployed on Vercel with root directory "webs
 android/          Android app (Gradle, Kotlin, Compose)
 ios/              iOS app (Xcode, Swift)
   BlackoutMaps/Resources/   shared map assets; Android also packages this folder
-catalog/          downloadable map packages, one JSON file and one folder per country
+catalog/          downloadable map packages, one JSON file and one folder of parts per package
+scripts/maps/     build scripts for the packages; scripts/validate-catalog.mjs checks them
+docs/             docs/country-maps.md, the package specification
 ```
 
 ## Getting started
@@ -103,9 +107,9 @@ The apps show "© OpenStreetMap contributors · Protomaps · Natural Earth" on t
 
 ## Contributing
 
-Contributions are welcome, especially updated service data and new countries.
+Contributions are welcome, especially updated service data and new countries. [CONTRIBUTING.md](CONTRIBUTING.md) has the details.
 
-- **Add a country or a state:** follow [catalog/README.md](catalog/README.md). Each file stays under 100 MB.
+- **Add a country or a region:** follow [CONTRIBUTING.md](CONTRIBUTING.md#add-a-country-or-a-region). The build script makes every layer, and `node scripts/validate-catalog.mjs` fails when one is missing.
 - **Report a problem with the map data:** wrong or missing places usually come from OpenStreetMap. Fix them at [openstreetmap.org](https://www.openstreetmap.org/fixthemap) so everyone benefits, then open an issue here to refresh the package.
 - **Code changes:** open a pull request with a short description and, for anything visible, a screenshot of the web app and, where it applies, of Android or iOS. Test on a phone-width screen in light and dark mode.
 
@@ -115,6 +119,6 @@ Never commit secrets, signing keys or the paid guide PDFs.
 
 The source code is released under the [MIT License](LICENSE).
 
-The map data in this repository (the `catalog/` packages and the `.pmtiles`, `.bin.gz` and `geo.json.gz` files) is derived from OpenStreetMap and is available under the [ODbL 1.0](https://opendatacommons.org/licenses/odbl/1-0/). Natural Earth data is public domain.
+The map data in this repository (the `catalog/` packages and their parts, and the `.pmtiles`, `.bin.gz` and `geo.json.gz` files) is derived from OpenStreetMap and is available under the [ODbL 1.0](https://opendatacommons.org/licenses/odbl/1-0/). Natural Earth data is public domain.
 
 The paid guides, guide pages and images, product photos, embedded videos, and the Blackout Maps name and logo are not covered by the MIT License. See [CREDITS.md](CREDITS.md#content-that-is-not-open).

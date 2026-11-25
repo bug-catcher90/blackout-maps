@@ -1,0 +1,154 @@
+[
+  {
+    "id": "belgium",
+    "name": "Belgium",
+    "flag": "🇧🇪",
+    "geofabrik": "europe/belgium",
+    "split": {
+      "fromLevel": 4
+    }
+  },
+  {
+    "id": "belgium-brussels-capital-wallonia",
+    "name": "Belgium · Brussels-Capital & Wallonia",
+    "flag": "🇧🇪",
+    "geofabrik": "europe/belgium",
+    "region": "regions/belgium/brussels-capital-wallonia.geojson",
+    "country": "belgium"
+  },
+  {
+    "id": "belgium-flanders",
+    "name": "Belgium · Flanders",
+    "flag": "🇧🇪",
+    "geofabrik": "europe/belgium",
+    "region": "regions/belgium/flanders.geojson",
+    "country": "belgium"
+  },
+  {
+    "id": "england",
+    "name": "England",
+    "flag": "🏴󠁧󠁢󠁥󠁮󠁧󠁿",
+    "geofabrik": "europe/united-kingdom/england",
+    "split": {
+      "fromLevel": 5
+    }
+  },
+  {
+    "id": "estonia",
+    "name": "Estonia",
+    "flag": "🇪🇪",
+    "geofabrik": "europe/estonia"
+  },
+  {
+    "id": "finland",
+    "name": "Finland",
+    "flag": "🇫🇮",
+    "geofabrik": "europe/finland",
+    "split": {
+      "fromLevel": 4
+    }
+  },
+  {
+    "id": "france",
+    "name": "France",
+    "flag": "🇫🇷",
+    "geofabrik": "europe/france",
+    "split": {
+      "fromLevel": 4
+    }
+  },
+  {
+    "id": "germany",
+    "name": "Germany",
+    "flag": "🇩🇪",
+    "geofabrik": "europe/germany",
+    "split": {
+      "fromLevel": 4
+    }
+  },
+  {
+    "id": "italy",
+    "name": "Italy",
+    "flag": "🇮🇹",
+    "geofabrik": "europe/italy",
+    "split": {
+      "fromLevel": 4
+    }
+  },
+  {
+    "id": "latvia",
+    "name": "Latvia",
+    "flag": "🇱🇻",
+    "geofabrik": "europe/latvia"
+  },
+  {
+    "id": "lithuania",
+    "name": "Lithuania",
+    "flag": "🇱🇹",
+    "geofabrik": "europe/lithuania"
+  },
+  {
+    "id": "netherlands",
+    "name": "Netherlands",
+    "flag": "🇳🇱",
+    "geofabrik": "europe/netherlands",
+    "split": {
+      "fromLevel": 4
+    }
+  },
+  {
+    "id": "northern-ireland",
+    "name": "Northern Ireland",
+    "flag": "🇬🇧",
+    "geofabrik": "europe/ireland-and-northern-ireland",
+    "region": "regions/northern-ireland.geojson"
+  },
+  {
+    "id": "poland",
+    "name": "Poland",
+    "flag": "🇵🇱",
+    "geofabrik": "europe/poland",
+    "split": {
+      "fromLevel": 4
+    }
+  },
+  {
+    "id": "portugal",
+    "name": "Portugal",
+    "flag": "🇵🇹",
+    "geofabrik": "europe/portugal",
+    "autoload": true,
+    "keep": [
+      "places",
+      "water",
+      "addresses",
+      "geo"
+    ],
+    "builtIn": [
+      "map",
+      "roads",
+      "buildings"
+    ]
+  },
+  {
+    "id": "scotland",
+    "name": "Scotland",
+    "flag": "🏴󠁧󠁢󠁳󠁣󠁴󠁿",
+    "geofabrik": "europe/united-kingdom/scotland"
+  },
+  {
+    "id": "spain",
+    "name": "Spain",
+    "flag": "🇪🇸",
+    "geofabrik": "europe/spain",
+    "split": {
+      "fromLevel": 4
+    }
+  },
+  {
+    "id": "wales",
+    "name": "Wales",
+    "flag": "🏴󠁧󠁢󠁷󠁬󠁳󠁿",
+    "geofabrik": "europe/united-kingdom/wales"
+  }
+]

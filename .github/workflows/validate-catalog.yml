@@ -1,0 +1,58 @@
+name: Validate map packages
+
+on:
+  pull_request:
+    paths:
+      - "catalog/**"
+      - "scripts/**"
+      - "website/maps/places.js"
+      - "website/maps/water.js"
+      - "website/maps/addresses.js"
+      - "website/maps/route.js"
+      - "website/maps/buildings.js"
+      - ".github/workflows/validate-catalog.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      # The catalog holds gigabytes of map data, so check out only the code and
+      # the JSON entries, then fetch the parts of the packages this PR changes.
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+          filter: blob:none
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /scripts/
+            /website/maps/*.js
+            /website/package.json
+            /catalog/*.json
+            /catalog/README.md
+            /docs/
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Check every entry
+        run: node --no-warnings scripts/validate-catalog.mjs --shallow
+
+      - name: Check changed packages in full
+        run: |
+          ids=$(git diff --name-only HEAD^1 HEAD -- catalog | sed -n 's#^catalog/\([^/]*\)\(\.json\|/.*\)$#\1#p' | sort -u)
+          if git diff --name-only HEAD^1 HEAD | grep -qv '^catalog/'; then
+            # Scripts or readers changed: re-check the smallest package end to end.
+            ids="$ids northern-ireland"
+          fi
+          entries=""
+          for id in $(echo $ids | tr ' ' '\n' | sort -u); do
+            [ -f "catalog/$id.json" ] || continue
+            git sparse-checkout add "/catalog/$id/"
+            entries="$entries catalog/$id.json"
+          done
+          [ -z "$entries" ] || node --no-warnings scripts/validate-catalog.mjs $entries

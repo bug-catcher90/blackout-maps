@@ -118,12 +118,17 @@ fun MapPane(model: AppModel, modifier: Modifier = Modifier) {
         }
     }
 
-    LaunchedEffect(map, model.serverPort, model.maxZoom) {
+    LaunchedEffect(map, model.serverPort, model.maxZoom, model.basemapKey) {
         val ready = map ?: return@LaunchedEffect
         val port = model.serverPort
         if (port == 0) return@LaunchedEffect
-        ready.setStyle(Style.Builder().fromJson(MapStyle.json(port, model.maxZoom))) { loaded ->
+        ready.setStyle(Style.Builder().fromJson(MapStyle.json(port, model.maxZoom, model.basemapKey))) { loaded ->
             addOverlays(loaded, context.resources.displayMetrics.density)
+            if (style != null) {
+                style = loaded
+                model.noteStyle()
+                return@setStyle
+            }
             val europe = LatLngBounds.Builder()
                 .include(LatLng(34.0, -25.0))
                 .include(LatLng(71.0, 40.0))

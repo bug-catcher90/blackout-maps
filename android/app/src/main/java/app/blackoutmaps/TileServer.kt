@@ -7,7 +7,7 @@ import java.net.Socket
 import java.net.URLDecoder
 import java.util.concurrent.Executors
 
-class TileServer(private val archive: Pmtiles, private val world: Pmtiles, private val assets: AssetManager) {
+class TileServer(@Volatile private var archive: Pmtiles, private val world: Pmtiles, private val assets: AssetManager) {
     private val socket = ServerSocket()
     private val pool = Executors.newFixedThreadPool(4)
     val port: Int
@@ -25,6 +25,12 @@ class TileServer(private val archive: Pmtiles, private val world: Pmtiles, priva
                 }
             }
         }, "blackout-tiles").apply { isDaemon = true }.start()
+    }
+
+    fun use(next: Pmtiles) {
+        val previous = archive
+        archive = next
+        if (previous !== next) previous.close()
     }
 
     fun close() {
@@ -67,11 +73,11 @@ class TileServer(private val archive: Pmtiles, private val world: Pmtiles, priva
 
     private fun body(path: String): ByteArray? {
         val parts = path.split('/').filter { it.isNotEmpty() }
-        if (parts.firstOrNull() == "tiles" && parts.size == 4) {
-            val z = parts[1].toIntOrNull() ?: return null
-            val x = parts[2].toIntOrNull() ?: return null
-            val y = parts[3].substringBefore('.').substringBefore('@').toIntOrNull() ?: return null
-            return archive.tile(z, x, y)
+        if (parts.firstOrNull() == "tiles" && parts.size == 5) {
+            val z = parts[2].toIntOrNull() ?: return null
+            val x = parts[3].toIntOrNull() ?: return null
+            val y = parts[4].substringBefore('.').substringBefore('@').toIntOrNull() ?: return null
+            return runCatching { archive.tile(z, x, y) }.getOrNull()
         }
         if (parts.firstOrNull() == "countries.geojson") {
             return try {
