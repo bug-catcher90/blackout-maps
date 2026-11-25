@@ -86,7 +86,13 @@
     "privacy-body": "Blackout Maps has no account, no payment and collects no data. It does not use GPS. Sensors stay on the phone.",
     "terms-body": "Use Blackout Maps with no account and no payment. We collect no data and do not use GPS. Sensors stay on the phone.",
     "credits": "Credits and licences",
-    "credits-body": "Map data © OpenStreetMap contributors, available under the Open Database License (ODbL).\nopenstreetmap.org/copyright\n\nBasemap tiles: Protomaps (built from OpenStreetMap data).\nWorld map: Natural Earth (public domain).\nMap engine: MapLibre Native (BSD 2-Clause).\nJavaScript engine: Javet, V8 (Apache 2.0, BSD 3-Clause).\nFont: Noto Sans (SIL Open Font License 1.1).\nAndroid libraries: Android Jetpack, Kotlin (Apache 2.0).\n\nThe app's code is free software under the MIT License. Full list:\ngithub.com/bug-catcher90/blackout-maps/blob/main/CREDITS.md"
+    "credits-body": "Map data © OpenStreetMap contributors, available under the Open Database License (ODbL).\nopenstreetmap.org/copyright\n\nBasemap tiles: Protomaps (built from OpenStreetMap data).\nWorld map: Natural Earth (public domain).\nMap engine: MapLibre Native (BSD 2-Clause).\nJavaScript engine: Javet, V8 (Apache 2.0, BSD 3-Clause).\nFont: Noto Sans (SIL Open Font License 1.1).\nAndroid libraries: Android Jetpack, Kotlin (Apache 2.0).\n\nThe app's code is free software under the MIT License. Full list:\ngithub.com/bug-catcher90/blackout-maps/blob/main/CREDITS.md",
+    "health-unnamed": "Health facility",
+    "police-unnamed": "Police station",
+    "fire-unnamed": "Fire station",
+    "fuel-unnamed": "Fuel station",
+    "supermarket-unnamed": "Supermarket",
+    "restaurant-unnamed": "Restaurant"
   },
   "pt": {
     "search": "Pesquisar",
@@ -175,7 +181,13 @@
     "privacy-body": "O Blackout Maps não tem conta, não tem pagamento e não recolhe dados. Não usa GPS. Os sensores ficam no telemóvel.",
     "terms-body": "Usa o Blackout Maps sem conta e sem pagamento. Não recolhemos dados e não usamos GPS. Os sensores ficam no telemóvel.",
     "credits": "Créditos e licenças",
-    "credits-body": "Dados do mapa © contribuidores do OpenStreetMap, disponíveis sob a Open Database License (ODbL).\nopenstreetmap.org/copyright\n\nMosaicos do mapa base: Protomaps (feitos com dados do OpenStreetMap).\nMapa do mundo: Natural Earth (domínio público).\nMotor do mapa: MapLibre Native (BSD 2-Clause).\nMotor de JavaScript: Javet, V8 (Apache 2.0, BSD 3-Clause).\nTipo de letra: Noto Sans (SIL Open Font License 1.1).\nBibliotecas Android: Android Jetpack, Kotlin (Apache 2.0).\n\nO código da app é software livre sob a licença MIT. Lista completa:\ngithub.com/bug-catcher90/blackout-maps/blob/main/CREDITS.md"
+    "credits-body": "Dados do mapa © contribuidores do OpenStreetMap, disponíveis sob a Open Database License (ODbL).\nopenstreetmap.org/copyright\n\nMosaicos do mapa base: Protomaps (feitos com dados do OpenStreetMap).\nMapa do mundo: Natural Earth (domínio público).\nMotor do mapa: MapLibre Native (BSD 2-Clause).\nMotor de JavaScript: Javet, V8 (Apache 2.0, BSD 3-Clause).\nTipo de letra: Noto Sans (SIL Open Font License 1.1).\nBibliotecas Android: Android Jetpack, Kotlin (Apache 2.0).\n\nO código da app é software livre sob a licença MIT. Lista completa:\ngithub.com/bug-catcher90/blackout-maps/blob/main/CREDITS.md",
+    "health-unnamed": "Unidade de saúde",
+    "police-unnamed": "Esquadra de polícia",
+    "fire-unnamed": "Quartel de bombeiros",
+    "fuel-unnamed": "Posto de combustível",
+    "supermarket-unnamed": "Supermercado",
+    "restaurant-unnamed": "Restaurante"
   },
   "fr": {
     "search": "Rechercher",
@@ -264,7 +276,13 @@
     "privacy-body": "Blackout Maps n’a pas de compte, pas de paiement et ne collecte pas de données. Il n’utilise pas le GPS. Les capteurs restent sur le téléphone.",
     "terms-body": "Utilisez Blackout Maps sans compte et sans paiement. Nous ne collectons pas de données et n’utilisons pas le GPS. Les capteurs restent sur le téléphone.",
     "credits": "Crédits et licences",
-    "credits-body": "Données cartographiques © contributeurs OpenStreetMap, disponibles sous la licence Open Database License (ODbL).\nopenstreetmap.org/copyright\n\nTuiles du fond de carte: Protomaps (créées à partir des données OpenStreetMap).\nCarte du monde: Natural Earth (domaine public).\nMoteur de carte: MapLibre Native (BSD 2-Clause).\nMoteur JavaScript: Javet, V8 (Apache 2.0, BSD 3-Clause).\nPolice: Noto Sans (SIL Open Font License 1.1).\nBibliothèques Android: Android Jetpack, Kotlin (Apache 2.0).\n\nLe code de l’application est un logiciel libre sous licence MIT. Liste complète :\ngithub.com/bug-catcher90/blackout-maps/blob/main/CREDITS.md"
+    "credits-body": "Données cartographiques © contributeurs OpenStreetMap, disponibles sous la licence Open Database License (ODbL).\nopenstreetmap.org/copyright\n\nTuiles du fond de carte: Protomaps (créées à partir des données OpenStreetMap).\nCarte du monde: Natural Earth (domaine public).\nMoteur de carte: MapLibre Native (BSD 2-Clause).\nMoteur JavaScript: Javet, V8 (Apache 2.0, BSD 3-Clause).\nPolice: Noto Sans (SIL Open Font License 1.1).\nBibliothèques Android: Android Jetpack, Kotlin (Apache 2.0).\n\nLe code de l’application est un logiciel libre sous licence MIT. Liste complète :\ngithub.com/bug-catcher90/blackout-maps/blob/main/CREDITS.md",
+    "health-unnamed": "Établissement de santé",
+    "police-unnamed": "Poste de police",
+    "fire-unnamed": "Caserne de pompiers",
+    "fuel-unnamed": "Station-service",
+    "supermarket-unnamed": "Supermarché",
+    "restaurant-unnamed": "Restaurant"
   },
   "es": {
     "search": "Buscar",
@@ -353,7 +371,13 @@
     "privacy-body": "Blackout Maps no tiene cuenta, no tiene pago y no recoge datos. No usa GPS. Los sensores se quedan en el teléfono.",
     "terms-body": "Usa Blackout Maps sin cuenta y sin pago. No recogemos datos y no usamos GPS. Los sensores se quedan en el teléfono.",
     "credits": "Créditos y licencias",
-    "credits-body": "Datos del mapa © colaboradores de OpenStreetMap, disponibles bajo la Open Database License (ODbL).\nopenstreetmap.org/copyright\n\nTeselas del mapa base: Protomaps (creadas con datos de OpenStreetMap).\nMapa del mundo: Natural Earth (dominio público).\nMotor del mapa: MapLibre Native (BSD 2-Clause).\nMotor de JavaScript: Javet, V8 (Apache 2.0, BSD 3-Clause).\nFuente: Noto Sans (SIL Open Font License 1.1).\nBibliotecas de Android: Android Jetpack, Kotlin (Apache 2.0).\n\nEl código de la app es software libre bajo la licencia MIT. Lista completa:\ngithub.com/bug-catcher90/blackout-maps/blob/main/CREDITS.md"
+    "credits-body": "Datos del mapa © colaboradores de OpenStreetMap, disponibles bajo la Open Database License (ODbL).\nopenstreetmap.org/copyright\n\nTeselas del mapa base: Protomaps (creadas con datos de OpenStreetMap).\nMapa del mundo: Natural Earth (dominio público).\nMotor del mapa: MapLibre Native (BSD 2-Clause).\nMotor de JavaScript: Javet, V8 (Apache 2.0, BSD 3-Clause).\nFuente: Noto Sans (SIL Open Font License 1.1).\nBibliotecas de Android: Android Jetpack, Kotlin (Apache 2.0).\n\nEl código de la app es software libre bajo la licencia MIT. Lista completa:\ngithub.com/bug-catcher90/blackout-maps/blob/main/CREDITS.md",
+    "health-unnamed": "Centro de salud",
+    "police-unnamed": "Comisaría",
+    "fire-unnamed": "Parque de bomberos",
+    "fuel-unnamed": "Gasolinera",
+    "supermarket-unnamed": "Supermercado",
+    "restaurant-unnamed": "Restaurante"
   },
   "de": {
     "search": "Suchen",
@@ -442,7 +466,13 @@
     "privacy-body": "Blackout Maps hat kein Konto, keine Zahlung und sammelt keine Daten. Es nutzt kein GPS. Die Sensoren bleiben auf dem Telefon.",
     "terms-body": "Nutzen Sie Blackout Maps ohne Konto und ohne Zahlung. Wir sammeln keine Daten und nutzen kein GPS. Die Sensoren bleiben auf dem Telefon.",
     "credits": "Quellen und Lizenzen",
-    "credits-body": "Kartendaten © OpenStreetMap-Mitwirkende, verfügbar unter der Open Database License (ODbL).\nopenstreetmap.org/copyright\n\nGrundkarten-Kacheln: Protomaps (erstellt aus OpenStreetMap-Daten).\nWeltkarte: Natural Earth (gemeinfrei).\nKarten-Engine: MapLibre Native (BSD 2-Clause).\nJavaScript-Engine: Javet, V8 (Apache 2.0, BSD 3-Clause).\nSchrift: Noto Sans (SIL Open Font License 1.1).\nAndroid-Bibliotheken: Android Jetpack, Kotlin (Apache 2.0).\n\nDer Code der App ist freie Software unter der MIT-Lizenz. Vollständige Liste:\ngithub.com/bug-catcher90/blackout-maps/blob/main/CREDITS.md"
+    "credits-body": "Kartendaten © OpenStreetMap-Mitwirkende, verfügbar unter der Open Database License (ODbL).\nopenstreetmap.org/copyright\n\nGrundkarten-Kacheln: Protomaps (erstellt aus OpenStreetMap-Daten).\nWeltkarte: Natural Earth (gemeinfrei).\nKarten-Engine: MapLibre Native (BSD 2-Clause).\nJavaScript-Engine: Javet, V8 (Apache 2.0, BSD 3-Clause).\nSchrift: Noto Sans (SIL Open Font License 1.1).\nAndroid-Bibliotheken: Android Jetpack, Kotlin (Apache 2.0).\n\nDer Code der App ist freie Software unter der MIT-Lizenz. Vollständige Liste:\ngithub.com/bug-catcher90/blackout-maps/blob/main/CREDITS.md",
+    "health-unnamed": "Gesundheitseinrichtung",
+    "police-unnamed": "Polizeiwache",
+    "fire-unnamed": "Feuerwache",
+    "fuel-unnamed": "Tankstelle",
+    "supermarket-unnamed": "Supermarkt",
+    "restaurant-unnamed": "Restaurant"
   },
   "ar": {
     "search": "بحث",
@@ -531,7 +561,13 @@
     "privacy-body": "Blackout Maps بلا حساب وبلا دفع ولا يجمع بيانات. لا يستخدم GPS. تبقى المستشعرات على الهاتف.",
     "terms-body": "استخدم Blackout Maps بلا حساب وبلا دفع. لا نجمع بيانات ولا نستخدم GPS. تبقى المستشعرات على الهاتف.",
     "credits": "المصادر والتراخيص",
-    "credits-body": "بيانات الخريطة © مساهمو OpenStreetMap، متاحة بموجب ترخيص Open Database License (ODbL).\nopenstreetmap.org/copyright\n\nبلاطات الخريطة الأساسية: Protomaps (مبنية من بيانات OpenStreetMap).\nخريطة العالم: Natural Earth (ملكية عامة).\nمحرك الخريطة: MapLibre Native (BSD 2-Clause).\nمحرك JavaScript: Javet, V8 (Apache 2.0, BSD 3-Clause).\nالخط: Noto Sans (SIL Open Font License 1.1).\nمكتبات Android: Android Jetpack, Kotlin (Apache 2.0).\n\nشيفرة التطبيق برمجيات حرة بموجب ترخيص MIT. القائمة الكاملة:\ngithub.com/bug-catcher90/blackout-maps/blob/main/CREDITS.md"
+    "credits-body": "بيانات الخريطة © مساهمو OpenStreetMap، متاحة بموجب ترخيص Open Database License (ODbL).\nopenstreetmap.org/copyright\n\nبلاطات الخريطة الأساسية: Protomaps (مبنية من بيانات OpenStreetMap).\nخريطة العالم: Natural Earth (ملكية عامة).\nمحرك الخريطة: MapLibre Native (BSD 2-Clause).\nمحرك JavaScript: Javet, V8 (Apache 2.0, BSD 3-Clause).\nالخط: Noto Sans (SIL Open Font License 1.1).\nمكتبات Android: Android Jetpack, Kotlin (Apache 2.0).\n\nشيفرة التطبيق برمجيات حرة بموجب ترخيص MIT. القائمة الكاملة:\ngithub.com/bug-catcher90/blackout-maps/blob/main/CREDITS.md",
+    "health-unnamed": "منشأة صحية",
+    "police-unnamed": "مركز شرطة",
+    "fire-unnamed": "محطة إطفاء",
+    "fuel-unnamed": "محطة وقود",
+    "supermarket-unnamed": "سوبرماركت",
+    "restaurant-unnamed": "مطعم"
   },
   "ja": {
     "search": "検索",
@@ -620,7 +656,13 @@
     "privacy-body": "Blackout Maps にはアカウントも支払いもなく、データも集めません。GPS は使いません。センサーは端末内に残ります。",
     "terms-body": "Blackout Maps はアカウントなし、支払いなしで使います。データは集めず、GPS は使いません。センサーは端末内に残ります。",
     "credits": "クレジットとライセンス",
-    "credits-body": "地図データ © OpenStreetMap 協力者。Open Database License (ODbL) で提供されています。\nopenstreetmap.org/copyright\n\nベースマップのタイル: Protomaps (OpenStreetMap のデータから作成).\n世界地図: Natural Earth (パブリックドメイン).\n地図エンジン: MapLibre Native (BSD 2-Clause).\nJavaScript エンジン: Javet, V8 (Apache 2.0, BSD 3-Clause).\nフォント: Noto Sans (SIL Open Font License 1.1).\nAndroid ライブラリ: Android Jetpack, Kotlin (Apache 2.0).\n\nアプリのコードは MIT ライセンスの自由ソフトウェアです。全一覧:\ngithub.com/bug-catcher90/blackout-maps/blob/main/CREDITS.md"
+    "credits-body": "地図データ © OpenStreetMap 協力者。Open Database License (ODbL) で提供されています。\nopenstreetmap.org/copyright\n\nベースマップのタイル: Protomaps (OpenStreetMap のデータから作成).\n世界地図: Natural Earth (パブリックドメイン).\n地図エンジン: MapLibre Native (BSD 2-Clause).\nJavaScript エンジン: Javet, V8 (Apache 2.0, BSD 3-Clause).\nフォント: Noto Sans (SIL Open Font License 1.1).\nAndroid ライブラリ: Android Jetpack, Kotlin (Apache 2.0).\n\nアプリのコードは MIT ライセンスの自由ソフトウェアです。全一覧:\ngithub.com/bug-catcher90/blackout-maps/blob/main/CREDITS.md",
+    "health-unnamed": "医療施設",
+    "police-unnamed": "警察署",
+    "fire-unnamed": "消防署",
+    "fuel-unnamed": "ガソリンスタンド",
+    "supermarket-unnamed": "スーパーマーケット",
+    "restaurant-unnamed": "レストラン"
   },
   "zh": {
     "search": "搜索",
@@ -709,7 +751,13 @@
     "privacy-body": "Blackout Maps 没有账户，没有付款，也不收集数据。不使用 GPS。传感器留在手机上。",
     "terms-body": "使用 Blackout Maps 无需账户、无需付款。我们不收集数据，也不使用 GPS。传感器留在手机上。",
     "credits": "致谢与许可",
-    "credits-body": "地图数据 © OpenStreetMap 贡献者，依据 Open Database License (ODbL) 提供。\nopenstreetmap.org/copyright\n\n底图瓦片: Protomaps (基于 OpenStreetMap 数据制作).\n世界地图: Natural Earth (公有领域).\n地图引擎: MapLibre Native (BSD 2-Clause).\nJavaScript 引擎: Javet, V8 (Apache 2.0, BSD 3-Clause).\n字体: Noto Sans (SIL Open Font License 1.1).\nAndroid 库: Android Jetpack, Kotlin (Apache 2.0).\n\n本应用的代码是采用 MIT 许可证的自由软件。完整列表：\ngithub.com/bug-catcher90/blackout-maps/blob/main/CREDITS.md"
+    "credits-body": "地图数据 © OpenStreetMap 贡献者，依据 Open Database License (ODbL) 提供。\nopenstreetmap.org/copyright\n\n底图瓦片: Protomaps (基于 OpenStreetMap 数据制作).\n世界地图: Natural Earth (公有领域).\n地图引擎: MapLibre Native (BSD 2-Clause).\nJavaScript 引擎: Javet, V8 (Apache 2.0, BSD 3-Clause).\n字体: Noto Sans (SIL Open Font License 1.1).\nAndroid 库: Android Jetpack, Kotlin (Apache 2.0).\n\n本应用的代码是采用 MIT 许可证的自由软件。完整列表：\ngithub.com/bug-catcher90/blackout-maps/blob/main/CREDITS.md",
+    "health-unnamed": "医疗机构",
+    "police-unnamed": "派出所",
+    "fire-unnamed": "消防站",
+    "fuel-unnamed": "加油站",
+    "supermarket-unnamed": "超市",
+    "restaurant-unnamed": "餐厅"
   },
   "ru": {
     "search": "Поиск",
@@ -798,6 +846,12 @@
     "privacy-body": "В Blackout Maps нет аккаунта, нет оплаты и нет сбора данных. GPS не используется. Датчики остаются на телефоне.",
     "terms-body": "Пользуйтесь Blackout Maps без аккаунта и без оплаты. Мы не собираем данные и не используем GPS. Датчики остаются на телефоне.",
     "credits": "Источники и лицензии",
-    "credits-body": "Картографические данные © участники OpenStreetMap, доступны по лицензии Open Database License (ODbL).\nopenstreetmap.org/copyright\n\nТайлы базовой карты: Protomaps (созданы из данных OpenStreetMap).\nКарта мира: Natural Earth (общественное достояние).\nДвижок карты: MapLibre Native (BSD 2-Clause).\nДвижок JavaScript: Javet, V8 (Apache 2.0, BSD 3-Clause).\nШрифт: Noto Sans (SIL Open Font License 1.1).\nБиблиотеки Android: Android Jetpack, Kotlin (Apache 2.0).\n\nКод приложения — свободное ПО по лицензии MIT. Полный список:\ngithub.com/bug-catcher90/blackout-maps/blob/main/CREDITS.md"
+    "credits-body": "Картографические данные © участники OpenStreetMap, доступны по лицензии Open Database License (ODbL).\nopenstreetmap.org/copyright\n\nТайлы базовой карты: Protomaps (созданы из данных OpenStreetMap).\nКарта мира: Natural Earth (общественное достояние).\nДвижок карты: MapLibre Native (BSD 2-Clause).\nДвижок JavaScript: Javet, V8 (Apache 2.0, BSD 3-Clause).\nШрифт: Noto Sans (SIL Open Font License 1.1).\nБиблиотеки Android: Android Jetpack, Kotlin (Apache 2.0).\n\nКод приложения — свободное ПО по лицензии MIT. Полный список:\ngithub.com/bug-catcher90/blackout-maps/blob/main/CREDITS.md",
+    "health-unnamed": "Медицинское учреждение",
+    "police-unnamed": "Полицейский участок",
+    "fire-unnamed": "Пожарная часть",
+    "fuel-unnamed": "АЗС",
+    "supermarket-unnamed": "Супермаркет",
+    "restaurant-unnamed": "Ресторан"
   }
 }

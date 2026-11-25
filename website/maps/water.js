@@ -1,10 +1,13 @@
 export const WATER_TYPES = [
-  { id: 0, label: "Bebedouro" },
-  { id: 1, label: "Fonte" },
-  { id: 2, label: "Vau" },
-  { id: 3, label: "Açude" },
-  { id: 4, label: "Acesso" },
+  { id: 0, label: "drinking-water" },
+  { id: 1, label: "spring" },
+  { id: 2, label: "ford" },
+  { id: 3, label: "weir" },
+  { id: 4, label: "access" },
 ]
+
+// Packages built before unnamed water points were stored with an empty name carry these placeholders.
+const LEGACY_PLACEHOLDERS = ["Bebedouro", "Fonte", "Vau", "Açude", "Acesso"]
 
 function pad(bytes) {
   const extra = (4 - (bytes.length % 4)) % 4
@@ -139,14 +142,14 @@ export function buildWaterBook(rows) {
       const kind = parts.length ? (row.area ? 2 : 1) : 0
       return {
         type: row.type,
-        name: row.name || WATER_TYPES[row.type].label,
+        name: row.name || "",
         kind,
         lat: Math.round(row.lat * 1e6),
         lon: Math.round(row.lon * 1e6),
         parts: parts.map((part) => part.map((point) => [Math.round(point[0] * 1e6), Math.round(point[1] * 1e6)])),
       }
     })
-    .sort((a, b) => a.type - b.type || a.lat - b.lat || a.lon - b.lon || a.name.localeCompare(b.name, "pt"))
+    .sort((a, b) => a.type - b.type || a.lat - b.lat || a.lon - b.lon || (a.name < b.name ? -1 : a.name > b.name ? 1 : 0))
   const grid = waterGrid(kept.map((row) => [row.lat, row.lon]))
   const names = []
   const nameOff = []
@@ -330,9 +333,10 @@ const decoder = new TextDecoder()
 
 function featureName(book, id) {
   const cached = book.names[id]
-  if (cached) return cached
+  if (cached !== undefined) return cached
   const start = book.nameOff[id]
-  const name = decoder.decode(book.nameBlob.subarray(start, start + book.nameLen[id]))
+  const raw = decoder.decode(book.nameBlob.subarray(start, start + book.nameLen[id]))
+  const name = raw === LEGACY_PLACEHOLDERS[book.type[id]] ? "" : raw
   book.names[id] = name
   return name
 }

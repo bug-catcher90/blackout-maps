@@ -3,19 +3,18 @@ import { circlePolygon, createPedestrianDeadReckoning, wedgePolygon } from "./es
 import { advanceOnLine, findRoute, findRoutes, isMotorwayEdge, isTollEdge, maneuver, metersBetween, moveAlongRoad, openRoadGraph, sliceRoute, TRAVEL_KMH, tripMinutes } from "./route.js"
 import { nearestDoor, openAddressBook, parseDoorQuery, suggestAddresses } from "./addresses.js"
 import { CATEGORIES, categoryIcon, openPlaceBook, placesInView, searchServices, serviceIcons } from "./places.js"
-import { openWaterBook, waterIcon, waterInView } from "./water.js"
+import { WATER_TYPES, openWaterBook, waterIcon, waterInView } from "./water.js"
 import { buildingsInView, openBuildingBook } from "./buildings.js"
-import { fold, preparePlaces, prepareStreets, searchNames } from "./search.js"
+import { fold, preparePlaces, prepareStreets, rankResults, searchNames } from "./search.js"
 import { mapStyle } from "./style.js"
 import { createBrowserSensors } from "./sensors.js"
 import { loadAddressFile, loadBuildingFile, loadCatalog, loadMapFile, loadPackFile, loadPlaceFile, loadRoadFile, loadWaterFile, packFiles } from "./storage.js"
-import { t } from "./i18n.js"
+import { locale, localize, t } from "./i18n.js"
 
 const STATE_KEY = "posicao-v1"
 const PINS_KEY = "posicao-pins-v1"
-const HERE = "A sua posição"
+const HERE = t("Your position")
 const DOOR_NEAR_M = 40
-const VIEW = { center: [-8, 39.6], zoom: 6.2 }
 const EUROPE = [[-25, 34], [40, 71]]
 const COUNTRY_VIEW = {
   portugal: [-8, 39.6, 6.2],
@@ -93,8 +92,8 @@ const centerPin = document.querySelector("#center-pin")
 const saveLabel = document.createElement("input")
 saveLabel.id = "save-label"
 saveLabel.type = "text"
-saveLabel.placeholder = "Nome"
-saveLabel.setAttribute("aria-label", "Nome")
+saveLabel.placeholder = t("Name")
+saveLabel.setAttribute("aria-label", t("Name"))
 saveLabel.autocomplete = "off"
 saveLabel.autocorrect = "off"
 saveLabel.autocapitalize = "off"
@@ -112,8 +111,8 @@ const addressInput = document.createElement("input")
 addressInput.id = "pin-address"
 addressInput.className = "address"
 addressInput.type = "text"
-addressInput.placeholder = "Morada"
-addressInput.setAttribute("aria-label", "Morada")
+addressInput.placeholder = t("Address")
+addressInput.setAttribute("aria-label", t("Address"))
 addressInput.autocomplete = "off"
 addressInput.autocorrect = "off"
 addressInput.autocapitalize = "off"
@@ -122,19 +121,9 @@ const pinResults = document.querySelector("#pin-results")
 const sensorToggle = document.querySelector("#sensors")
 const pinsPanel = document.querySelector("#panel-pins")
 const settingsPanel = document.querySelector("#panel-settings")
-const mapsLabel = document.querySelector("#maps-label")
 const installedMaps = document.querySelector("#installed-maps")
 const importBtn = document.querySelector("#import-maps")
-const importLabel = document.querySelector("#import-maps-label")
-const sensorsHeading = document.querySelector("#sensors-heading")
-const sensorsLabel = document.querySelector("#sensors-label")
-const stepLabel = document.querySelector("#step-label")
-const legalLabel = document.querySelector("#legal-label")
-const privacyLink = document.querySelector("#privacy-link")
-const termsLink = document.querySelector("#terms-link")
-const creditsLink = document.querySelector("#credits-link")
 const importSheet = document.querySelector("#sheet-import")
-const importTitle = document.querySelector("#import-title")
 const importClose = document.querySelector("#import-close")
 const importNote = document.querySelector("#import-note")
 const catalogList = document.querySelector("#catalog-list")
@@ -144,11 +133,29 @@ const positionPrompt = document.querySelector("#position-prompt")
 const mapsPrompt = document.querySelector("#maps-prompt")
 const topEl = document.querySelector("#top")
 
-const metersFormat = new Intl.NumberFormat("pt-PT", { minimumFractionDigits: 2, maximumFractionDigits: 2 })
-const wholeFormat = new Intl.NumberFormat("pt-PT", { maximumFractionDigits: 0 })
-const kmFormat = new Intl.NumberFormat("pt-PT", { minimumFractionDigits: 1, maximumFractionDigits: 1 })
-const clockFormat = new Intl.DateTimeFormat("pt-PT", { hour: "2-digit", minute: "2-digit" })
-const MODE_TITLE = { walk: "A pé", car: "De carro", bicycle: "De bicicleta" }
+const metersFormat = new Intl.NumberFormat(locale(), { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+const wholeFormat = new Intl.NumberFormat(locale(), { maximumFractionDigits: 0 })
+const kmFormat = new Intl.NumberFormat(locale(), { minimumFractionDigits: 1, maximumFractionDigits: 1 })
+const clockFormat = new Intl.DateTimeFormat(locale(), { hour: "2-digit", minute: "2-digit" })
+const MODE_TITLE = { walk: "On foot", car: "By car", bicycle: "By bicycle" }
+const TURN_TEXT = {
+  straight: "Continue straight",
+  right: "Turn right",
+  left: "Turn left",
+  "slight-right": "Turn slightly right",
+  "slight-left": "Turn slightly left",
+  "sharp-right": "Turn sharp right",
+  "sharp-left": "Turn sharp left",
+  uturn: "Make a U-turn",
+  roundabout: "Enter the roundabout",
+}
+const WATER_TEXT = {
+  "drinking-water": "Drinking water",
+  spring: "Spring",
+  ford: "Ford",
+  weir: "Weir",
+  access: "Water access",
+}
 const NAV_ZOOM = 17
 let countryToken = 0
 let tileProtocol = null
@@ -188,7 +195,7 @@ let motionTimer = 0
 let lastHeadingDraw = 0
 let lastMoveDraw = 0
 let sheet = null
-let tab = "explorar"
+let tab = "explore"
 let addingPin = false
 let dropTarget = null
 let userMapGesture = false
@@ -273,7 +280,7 @@ function formatKm(meters) {
 
 function formatManeuverDistance(meters) {
   const value = Math.max(0, Number(meters) || 0)
-  if (value < 25) return t("Agora")
+  if (value < 25) return t("Now")
   if (value < 1000) {
     const step = value < 200 ? 10 : 50
     return `${wholeFormat.format(Math.round(value / step) * step)} m`
@@ -531,7 +538,7 @@ function readStored() {
 }
 
 function syncPositionPrompt() {
-  const onMap = tab === "explorar" && !navigating && !fixing && !addingPin
+  const onMap = tab === "explore" && !navigating && !fixing && !addingPin
   const askMap = onMap && !mapsPromptDone
   mapsBtn.classList.toggle("needs-maps", askMap)
   mapsPrompt.hidden = !askMap
@@ -737,7 +744,7 @@ function layoutMap() {
     }
     return
   }
-  const browsing = tab === "explorar" && !navigating
+  const browsing = tab === "explore" && !navigating
   const top = navigating ? 96 : browsing ? Math.min(topEl.getBoundingClientRect().height, 160) + 16 : 12
   const bottom = navigating ? cardH + 16 : lift + 64
   map.setPadding({ top, right: 8, bottom, left: 8 })
@@ -774,8 +781,19 @@ function closeTrip() {
 }
 
 function formatCoord(lat, lon) {
-  const text = (value) => value.toFixed(5).replace(".", ",")
-  return `${text(lat)}, ${text(lon)}`
+  return `${lat.toFixed(5)}, ${lon.toFixed(5)}`
+}
+
+function serviceName(place) {
+  return place.name || t(CATEGORIES[place.category]?.unnamed || "Places")
+}
+
+function waterType(place) {
+  return t(WATER_TEXT[place.typeLabel] || "Water")
+}
+
+function waterName(place) {
+  return place.name || waterType(place)
 }
 
 function renderCategories() {
@@ -784,7 +802,7 @@ function renderCategories() {
     const button = document.createElement("button")
     button.type = "button"
     button.dataset.cat = String(spec.id)
-    button.setAttribute("aria-label", spec.label)
+    button.setAttribute("aria-label", t(spec.label))
     button.setAttribute("aria-pressed", "false")
     const img = document.createElement("img")
     img.alt = ""
@@ -801,7 +819,7 @@ function renderCategories() {
   const water = document.createElement("button")
   water.type = "button"
   water.dataset.cat = "water"
-  water.setAttribute("aria-label", "Água")
+  water.setAttribute("aria-label", t("Water"))
   water.setAttribute("aria-pressed", "false")
   const waterImg = document.createElement("img")
   waterImg.alt = ""
@@ -817,12 +835,12 @@ function renderCategories() {
 }
 
 function renderPlaceList(kind, items) {
-  placesTitle.textContent = CATEGORIES[kind].label
+  placesTitle.textContent = t(CATEGORIES[kind].label)
   placesList.replaceChildren()
   if (!items.length) {
     const li = document.createElement("li")
     li.className = "muted"
-    li.textContent = "Sem lugares"
+    li.textContent = t("No places")
     placesList.append(li)
     return
   }
@@ -831,7 +849,7 @@ function renderPlaceList(kind, items) {
     const button = document.createElement("button")
     button.type = "button"
     const title = document.createElement("span")
-    title.textContent = place.name
+    title.textContent = serviceName(place)
     const detail = document.createElement("span")
     detail.className = "result-detail"
     detail.textContent = place.address
@@ -841,7 +859,7 @@ function renderPlaceList(kind, items) {
     button.append(title, detail, coords)
     button.addEventListener("click", () => {
       placesSheet.hidden = true
-      const picked = { name: place.name, address: place.address, lat: place.lat, lon: place.lon, service: true }
+      const picked = { name: serviceName(place), address: place.address, lat: place.lat, lon: place.lon, service: true }
       if (addingPin) placeDroppedPin(place.lat, place.lon, picked)
       else chooseDestination(picked)
     })
@@ -851,19 +869,19 @@ function renderPlaceList(kind, items) {
 }
 
 function renderWaterList(items) {
-  placesTitle.textContent = "Água"
+  placesTitle.textContent = t("Water")
   placesList.replaceChildren()
   if (!waterBook) {
     const li = document.createElement("li")
     li.className = "muted"
-    li.textContent = "A guardar água"
+    li.textContent = t("Saving water")
     placesList.append(li)
     return
   }
   if (!items.length) {
     const li = document.createElement("li")
     li.className = "muted"
-    li.textContent = "Sem água"
+    li.textContent = t("No water")
     placesList.append(li)
     return
   }
@@ -872,17 +890,18 @@ function renderWaterList(items) {
     const button = document.createElement("button")
     button.type = "button"
     const title = document.createElement("span")
-    title.textContent = place.name
+    title.textContent = waterName(place)
     const detail = document.createElement("span")
     detail.className = "result-detail"
-    detail.textContent = place.typeLabel
+    detail.textContent = waterType(place)
     const coords = document.createElement("span")
     coords.className = "result-detail"
     coords.textContent = formatCoord(place.lat, place.lon)
-    button.append(title, detail, coords)
+    if (place.name) button.append(title, detail, coords)
+    else button.append(title, coords)
     button.addEventListener("click", () => {
       placesSheet.hidden = true
-      const picked = { name: place.name, address: place.typeLabel, lat: place.lat, lon: place.lon, service: true }
+      const picked = { name: waterName(place), address: waterType(place), lat: place.lat, lon: place.lon, service: true }
       if (addingPin) placeDroppedPin(place.lat, place.lon, picked)
       else chooseDestination(picked)
     })
@@ -919,7 +938,15 @@ function refreshWater() {
   const bounds = map.getBounds()
   const view = waterInView(waterBook, bounds.getWest(), bounds.getSouth(), bounds.getEast(), bounds.getNorth(), map.getZoom())
   if (count) count.textContent = String(view.total)
-  if (waterSource) waterSource.setData(view.collection)
+  if (waterSource) {
+    waterSource.setData({
+      ...view.collection,
+      features: view.collection.features.map((feature) => ({
+        ...feature,
+        properties: { ...feature.properties, name: waterName(feature.properties), typeLabel: waterType(feature.properties) },
+      })),
+    })
+  }
   if (placeCategory === "water" && !placesSheet.hidden) renderWaterList(view.list)
 }
 
@@ -946,7 +973,7 @@ function refreshPois() {
       type: "FeatureCollection",
       features: icons.map((place) => ({
         type: "Feature",
-        properties: { name: place.name, address: place.address || "", icon: `poi-${place.category}`, category: place.category },
+        properties: { name: serviceName(place), address: place.address || "", icon: `poi-${place.category}`, category: place.category },
         geometry: { type: "Point", coordinates: [place.lon, place.lat] },
       })),
     })
@@ -962,7 +989,7 @@ function toggleCategory(id) {
   for (const button of categoryBar.querySelectorAll("[data-cat]")) {
     button.setAttribute("aria-pressed", button.dataset.cat === String(placeCategory) ? "true" : "false")
   }
-  placesSheet.hidden = placeCategory == null || tab !== "explorar" || navigating
+  placesSheet.hidden = placeCategory == null || tab !== "explore" || navigating
   if (!placesSheet.hidden) {
     pinSheet.hidden = true
     sheet = null
@@ -1036,14 +1063,14 @@ function namedUnderPin(lat, lon) {
     const view = placesInView(placeBook, lon - 0.0004, lat - 0.0004, lon + 0.0004, lat + 0.0004, -1, 20)
     for (const place of view.items) {
       const meters = metersBetween(lat, lon, place.lat, place.lon)
-      if (meters <= 20 && place.name) found.push({ name: place.name, meters })
+      if (meters <= 20) found.push({ name: serviceName(place), meters })
     }
   }
   if (waterBook) {
     const view = waterInView(waterBook, lon - 0.0004, lat - 0.0004, lon + 0.0004, lat + 0.0004, map.getZoom())
     for (const place of view.list) {
       const meters = metersBetween(lat, lon, place.lat, place.lon)
-      if (meters <= 20 && place.name) found.push({ name: place.name, meters })
+      if (meters <= 20) found.push({ name: waterName(place), meters })
     }
   }
   for (const saved of readPins()) {
@@ -1160,11 +1187,11 @@ function stopFix() {
   fixBar.hidden = true
   fixBtn.setAttribute("aria-pressed", "false")
   if (marker && !addingPin) marker.setDraggable(true)
-  tools.hidden = tab !== "explorar" || navigating
+  tools.hidden = tab !== "explore" || navigating
   const held = fixHeld
   fixHeld = null
-  if (held?.places && placeCategory != null && tab === "explorar" && !navigating) placesSheet.hidden = false
-  if (held?.trip && tab === "explorar" && !navigating && destPlace) tripEl.hidden = false
+  if (held?.places && placeCategory != null && tab === "explore" && !navigating) placesSheet.hidden = false
+  if (held?.trip && tab === "explore" && !navigating && destPlace) tripEl.hidden = false
   syncTypingFields()
   layoutMap()
   syncPositionPrompt()
@@ -1209,11 +1236,11 @@ function releaseSearchSpace() {
 }
 
 function syncTypingFields() {
-  const exploring = (tab === "explorar" || addingPin) && !navigating
+  const exploring = (tab === "explore" || addingPin) && !navigating
   const pinning = exploring && sheet === "pin"
   mountField(queryInput, fieldSlot.query, exploring)
   mountField(addressInput, fieldSlot.address, pinning)
-  const settings = tab === "definicoes"
+  const settings = tab === "settings"
   mountField(sensorToggle, fieldSlot.sensor, settings)
   mountField(stepInput, fieldSlot.step, settings)
   if (document.activeElement === queryInput) isolateSearchField()
@@ -1283,7 +1310,7 @@ function serviceUnderPin(lat, lon) {
       bestD = distance
     }
   }
-  return best ? { service: true, name: best.name, address: best.address || "", lat: best.lat, lon: best.lon } : null
+  return best ? { service: true, name: serviceName(best), address: best.address || "", lat: best.lat, lon: best.lon } : null
 }
 
 function pointUnder(element, tip) {
@@ -1422,8 +1449,9 @@ function startAddPin() {
   userMapGesture = false
   syncTypingFields()
   layoutMap()
-  const here = pin || (mapReady ? pointUnderPin() : { lat: VIEW.center[1], lon: VIEW.center[0] })
-  if (mapReady) map.jumpTo({ center: [here.lon, here.lat], zoom: Math.max(map.getZoom(), 16), bearing: 0 })
+  if (!mapReady) return
+  const here = pin || pointUnderPin()
+  map.jumpTo({ center: [here.lon, here.lat], zoom: Math.max(map.getZoom(), 16), bearing: 0 })
   refreshPois()
 }
 
@@ -1448,7 +1476,7 @@ function renderPins() {
   if (!pins.length) {
     const li = document.createElement("li")
     li.className = "empty"
-    li.textContent = "Sem pins"
+    li.textContent = t("No pins")
     pinList.append(li)
     return
   }
@@ -1472,13 +1500,13 @@ function renderPins() {
     }
     open.append(detail)
     open.addEventListener("click", () => {
-      showTab("explorar")
+      showTab("explore")
       chooseDestination(place)
     })
     const remove = document.createElement("button")
     remove.type = "button"
     remove.className = "remove"
-    remove.textContent = "Remover"
+    remove.textContent = t("Remove")
     remove.addEventListener("click", () => {
       writePins(readPins().filter((item) => item !== place && !(item.name === place.name && item.lat === place.lat && item.lon === place.lon)))
       renderPins()
@@ -1496,9 +1524,9 @@ function showTab(name) {
   for (const button of document.querySelectorAll("[data-tab]")) {
     button.setAttribute("aria-current", button.dataset.tab === name ? "page" : "false")
   }
-  const explore = name === "explorar"
+  const explore = name === "explore"
   pinsPanel.hidden = name !== "pins"
-  settingsPanel.hidden = name !== "definicoes"
+  settingsPanel.hidden = name !== "settings"
   topEl.hidden = !explore
   tools.hidden = !explore
   categoryBar.hidden = !explore
@@ -1578,21 +1606,21 @@ async function renderResultList(list, query, token, onChoose) {
   const anchor = origin || (pin ? { lat: pin.lat, lon: pin.lon } : null)
   const addresses = addressBook ? await suggestAddresses(addressBook, query, 8, anchor) : []
   if (token !== (list === pinResults ? pinSearchToken : searchToken)) return
-  const generic = new Set(["rua", "avenida", "travessa", "largo", "praca", "estrada", "caminho", "alameda", "beco"])
-  const services = list === resultsEl && placeBook ? searchServices(placeBook, query, 6) : []
-  if (origin) {
-    services.sort((a, b) => metersBetween(origin.lat, origin.lon, a.lat, a.lon) - metersBetween(origin.lat, origin.lon, b.lat, b.lon) || a.rank - b.rank)
-  }
-  const found = [
-    ...services,
-    ...addresses,
-    ...(list === resultsEl && geoReady ? searchNames(places, query, 4).filter((place) => !generic.has(fold(place.name))) : []),
-    ...(list === resultsEl && geoReady && !addresses.length ? searchNames(streets, query, 4) : []),
-  ]
+  const services = list === resultsEl && placeBook ? searchServices(placeBook, query, 8, anchor) : []
+  const found = rankResults(
+    [
+      ...services,
+      ...addresses,
+      ...(list === resultsEl && geoReady ? searchNames(places, query, 6) : []),
+      ...(list === resultsEl && geoReady && !addresses.length ? searchNames(streets, query, 6) : []),
+    ],
+    query,
+    anchor,
+  )
   if (!found.length) {
     const li = document.createElement("li")
     li.className = "muted"
-    li.textContent = !addressBook && (door.number || fold(query).length >= 2) ? "A guardar moradas" : "Sem resultados"
+    li.textContent = !addressBook && (door.number || fold(query).length >= 2) ? t("Saving addresses") : t("No results")
     list.append(li)
     list.hidden = false
     return
@@ -1636,7 +1664,7 @@ async function fixPosition() {
     door = hits[0] || null
   }
   if (!door || !mapReady) {
-    if (!addressBook) setStatus("A guardar moradas")
+    if (!addressBook) setStatus(t("Saving addresses"))
     return
   }
   chosenDoor = door
@@ -1671,7 +1699,7 @@ async function setSensors(on, { quiet = false } = {}) {
   } catch (error) {
     sensorsOn = false
     sensorToggle.checked = false
-    if (!quiet) setStatus(error.code === "denied" ? "Permissão recusada" : "Sensores indisponíveis")
+    if (!quiet) setStatus(error.code === "denied" ? t("Permission denied") : t("Sensors unavailable"))
   }
 }
 
@@ -1725,10 +1753,10 @@ function streetAt(lat, lon) {
 
 function spokenDistance(meters) {
   const value = Math.max(0, Number(meters) || 0)
-  if (value < 25) return { now: true, text: t("Agora") }
+  if (value < 25) return { now: true, text: t("Now") }
   if (value < 1000) {
     const step = value < 200 ? 10 : 50
-    return { now: false, text: t("{n} metros", { n: wholeFormat.format(Math.round(value / step) * step) }) }
+    return { now: false, text: t("{n} metres", { n: wholeFormat.format(Math.round(value / step) * step) }) }
   }
   return { now: false, text: formatManeuverDistance(value) }
 }
@@ -1736,15 +1764,16 @@ function spokenDistance(meters) {
 function maneuverSentence(step, street) {
   const distance = spokenDistance(step.meters)
   if (street && step.turn !== "straight") {
-    const key = distance.now ? "Agora, virar para a {street}" : "A {distance}, virar para a {street}"
+    const key = distance.now ? "Now, turn onto {street}" : "In {distance}, turn onto {street}"
     return t(key, { distance: distance.text, street })
   }
   if (street) {
-    const key = distance.now ? "Agora, siga em frente pela {street}" : "A {distance}, siga em frente pela {street}"
+    const key = distance.now ? "Now, continue along {street}" : "In {distance}, continue along {street}"
     return t(key, { distance: distance.text, street })
   }
-  if (distance.now) return t(step.text)
-  return t("A {distance}, {turn}", { distance: distance.text, turn: t(step.text) })
+  const turn = t(TURN_TEXT[step.turn] || TURN_TEXT.straight)
+  if (distance.now) return turn
+  return t("In {distance}, {turn}", { distance: distance.text, turn: turn.charAt(0).toLocaleLowerCase(locale()) + turn.slice(1) })
 }
 
 function routeKey(from, to) {
@@ -1752,7 +1781,7 @@ function routeKey(from, to) {
 }
 
 function fillTrip() {
-  tripTitle.textContent = MODE_TITLE[travelMode] || MODE_TITLE.walk
+  tripTitle.textContent = t(MODE_TITLE[travelMode] || MODE_TITLE.walk)
   const from = pointFrom(originInput.value, originPlace)
   const to = pointFrom(destInput.value, destPlace)
   const named = Boolean(destPlace?.service && destPlace.name)
@@ -1779,7 +1808,7 @@ function renderRouteList() {
   if (!routeOptions.length) {
     const li = document.createElement("li")
     li.className = "muted"
-    li.textContent = "Sem percurso"
+    li.textContent = t("No route")
     routeList.append(li)
     return
   }
@@ -1791,7 +1820,7 @@ function renderRouteList() {
     time.className = "result-km"
     time.textContent = formatDuration(route.meters)
     const label = document.createElement("span")
-    label.textContent = index === 0 ? "Mais curta" : "Alternativa"
+    label.textContent = index === 0 ? t("Shortest") : t("Alternative")
     const detail = document.createElement("span")
     detail.className = "result-detail"
     detail.textContent = formatKm(route.meters)
@@ -1853,17 +1882,17 @@ function choicesFor(from, to) {
     const fastest = routesByMode.modes.car
     const noToll = graph ? findRoute(graph, from, to, null, "car", Infinity, (edge) => !isTollEdge(graph, edge)) : null
     const noMotorway = graph ? findRoute(graph, from, to, null, "car", Infinity, (edge) => !isMotorwayEdge(graph, edge)) : null
-    if (fastest) routes.push({ ...fastest, style: "car", label: "Mais rápido" })
-    if (noToll && !sameRoute(fastest, noToll)) routes.push({ ...noToll, style: "toll", label: "Sem portagens" })
+    if (fastest) routes.push({ ...fastest, style: "car", label: t("Fastest") })
+    if (noToll && !sameRoute(fastest, noToll)) routes.push({ ...noToll, style: "toll", label: t("No tolls") })
     if (noMotorway && !sameRoute(fastest, noMotorway) && !sameRoute(noToll, noMotorway)) {
-      routes.push({ ...noMotorway, style: "local", label: "Sem autoestradas" })
+      routes.push({ ...noMotorway, style: "local", label: t("No motorways") })
     }
   } else if (graph) {
     const style = travelMode === "walk" ? "walk" : "bicycle"
     routes = findRoutes(graph, from, to, travelMode).slice(0, 2).map((route, index) => ({
       ...route,
       style: index === 0 ? style : `${style}-alt`,
-      label: index === 0 ? "Mais curto" : "Alternativa",
+      label: index === 0 ? t("Shortest") : t("Alternative"),
     }))
   }
   routesByMode.choices[travelMode] = routes
@@ -2084,11 +2113,11 @@ function leaveNavigation() {
   recenterBtn.hidden = true
   searchForm.hidden = false
   syncTypingFields()
-  topEl.hidden = tab !== "explorar"
-  tools.hidden = tab !== "explorar"
+  topEl.hidden = tab !== "explore"
+  tools.hidden = tab !== "explore"
   syncPositionPrompt()
   if (mapReady) map.easeTo({ bearing: 0, duration: 0 })
-  if (destPlace && tab === "explorar") {
+  if (destPlace && tab === "explore") {
     tripEl.hidden = false
     map.flyTo({ center: [destPlace.lon, destPlace.lat], zoom: Math.max(map.getZoom(), 16), bearing: 0, duration: 0 })
   }
@@ -2135,7 +2164,7 @@ function chooseDestination(item) {
   syncTypingFields()
   showDestPin(item)
   if (mapReady) map.flyTo({ center: [item.lon, item.lat], zoom: Math.max(map.getZoom(), 16), duration: 0 })
-  tripEl.hidden = tab !== "explorar" || navigating
+  tripEl.hidden = tab !== "explore" || navigating
   showTrip()
   layoutMap()
 }
@@ -2281,13 +2310,9 @@ function bindUi() {
   })
   syncTypingFields()
 
-  navCorrectBtn.textContent = t("Corrigir posição")
-  correctCancelBtn.textContent = t("Cancelar")
-  correctOkBtn.textContent = t("Confirmar")
-  fixCancelBtn.textContent = t("Cancelar")
-  fixOkBtn.textContent = t("Confirmar")
-  positionPrompt.textContent = t("Defina a sua posição aqui para começar")
-  mapsPrompt.textContent = t("Selecione um mapa para importar dados")
+  localize()
+  positionPrompt.textContent = t("Set your position here to start")
+  mapsPrompt.textContent = t("Select a map to import data")
   syncPositionPrompt()
   navCorrectBtn.addEventListener("click", startCorrect)
   correctCancelBtn.addEventListener("click", () => finishCorrect(false))
@@ -2439,7 +2464,7 @@ function packState(pack) {
   const state = document.createElement("span")
   const busy = downloadingId === pack.id
   state.className = busy ? "pack-state muted" : "pack-state"
-  state.textContent = busy ? t("A guardar") : t("A usar")
+  state.textContent = busy ? t("Saving") : t("In use")
   return state
 }
 
@@ -2474,7 +2499,7 @@ function catalogRow(pack) {
   const button = document.createElement("button")
   button.type = "button"
   button.className = "pack-download"
-  button.textContent = downloadingId === pack.id ? t("A guardar") : t("Descarregar")
+  button.textContent = downloadingId === pack.id ? t("Saving") : t("Download")
   button.disabled = Boolean(downloadingId)
   button.addEventListener("click", () => {
     usePackage(pack).catch((error) => console.error(error))
@@ -2484,25 +2509,13 @@ function catalogRow(pack) {
 }
 
 function renderMaps() {
-  mapsLabel.textContent = t("Mapas")
-  importLabel.textContent = t("Importar mapas")
-  importTitle.textContent = t("Importar mapas")
-  sensorsHeading.textContent = t("Sensores")
-  stepLabel.textContent = t("Passo base")
-  sensorsLabel.textContent = t("Sensores")
-  legalLabel.textContent = t("Legal")
-  privacyLink.querySelector("span").textContent = t("Política de privacidade")
-  termsLink.querySelector("span").textContent = t("Termos de utilização")
-  creditsLink.querySelector("span").textContent = t("Créditos e licenças")
-  importClose.setAttribute("aria-label", t("Fechar"))
-  importSheet.setAttribute("aria-label", t("Importar mapas"))
 
   installedMaps.replaceChildren()
   const packs = readPackages()
   if (!packs.length) {
     const empty = document.createElement("p")
     empty.className = "pack-empty"
-    empty.textContent = t("Sem mapas")
+    empty.textContent = t("No maps")
     installedMaps.append(empty)
   }
   for (const pack of packs) installedMaps.append(installedRow(pack))
@@ -2513,7 +2526,7 @@ function renderMaps() {
   if (!catalogNote && !catalog.length && !catalogLoading) {
     const empty = document.createElement("p")
     empty.className = "pack-empty"
-    empty.textContent = t("Sem mapas")
+    empty.textContent = t("No maps")
     catalogList.append(empty)
   }
   for (const pack of catalog) catalogList.append(catalogRow(pack))
@@ -2533,7 +2546,7 @@ async function openImport() {
     }
   } catch (error) {
     console.error(error)
-    if (!catalog.length) catalogNote = t("Não foi possível carregar os mapas")
+    if (!catalog.length) catalogNote = t("Could not load maps")
   } finally {
     catalogLoading = false
     renderMaps()
@@ -2556,7 +2569,7 @@ async function applyCountry(files, token) {
     indexStreets()
     if (queryInput.value) renderResults(queryInput.value)
   }
-  categoryBar.hidden = tab !== "explorar" && !addingPin
+  categoryBar.hidden = tab !== "explore" && !addingPin
   refreshPois()
   if (addressInput.value) renderAddressSuggestions(addressInput.value)
   else if (sheet === "pin" && pin && !addressDirty) labelPin()
@@ -2582,7 +2595,7 @@ async function usePackage(pack) {
   } catch (error) {
     console.error(error)
     if (token !== countryToken) return
-    catalogNote = t("Não foi possível carregar os mapas")
+    catalogNote = t("Could not load maps")
     if (pack.id !== "portugal") {
       downloadingId = ""
       renderMaps()
@@ -2672,11 +2685,11 @@ async function loadBasemap(pack, token) {
   const spec = packSpec(pack, "map")
   const key = spec ? `${pack.id}.pmtiles` : "portugal.pmtiles"
   if (basemapKey === key) return
-  mapStatus = "A guardar mapa"
+  mapStatus = t("Saving map")
   showStatus()
   const progress = (got, length) => {
-    if (length) mapStatus = `A guardar mapa ${Math.min(100, Math.round((got / length) * 100))}%`
-    else mapStatus = `A guardar mapa ${Math.round(got / 1e6)} MB`
+    if (length) mapStatus = t("Saving map {n}%", { n: Math.min(100, Math.round((got / length) * 100)) })
+    else mapStatus = t("Saving map {n} MB", { n: Math.round(got / 1e6) })
     showStatus()
   }
   try {
@@ -2689,9 +2702,9 @@ async function loadBasemap(pack, token) {
     showBasemap(file, key)
   } catch (error) {
     console.error(error)
-    if (error.code === "opfs") mapStatus = "Este browser não guarda o mapa"
-    else if (error.code === "offline" || error.name === "TypeError") mapStatus = "Mapa em falta"
-    else mapStatus = "Não foi possível guardar o mapa"
+    if (error.code === "opfs") mapStatus = t("This browser cannot store the map")
+    else if (error.code === "offline" || error.name === "TypeError") mapStatus = t("Map missing")
+    else mapStatus = t("Could not save the map")
     showStatus()
     throw error
   }
@@ -2820,11 +2833,11 @@ async function loadGeo() {
 
 async function loadAddresses() {
   const token = countryToken
-  addressStatus = "A guardar moradas"
+  addressStatus = t("Saving addresses")
   showStatus()
   try {
     const file = await loadAddressFile((got) => {
-      addressStatus = `A guardar moradas ${Math.round(got / 1e6)} MB`
+      addressStatus = t("Saving addresses {n} MB", { n: Math.round(got / 1e6) })
       showStatus()
     })
     const book = await openAddressBook(file)
@@ -2848,10 +2861,10 @@ async function loadBuildingsFor(pack, token) {
   const spec = packSpec(pack, "buildings")
   const id = spec ? pack.id : "portugal"
   if (buildingsId === id) return
-  buildingStatus = "A guardar edifícios"
+  buildingStatus = t("Saving buildings")
   showStatus()
   const progress = (got) => {
-    buildingStatus = `A guardar edifícios ${Math.round(got / 1e6)} MB`
+    buildingStatus = t("Saving buildings {n} MB", { n: Math.round(got / 1e6) })
     showStatus()
   }
   try {
@@ -2872,11 +2885,11 @@ async function loadBuildingsFor(pack, token) {
 
 async function loadWater() {
   const token = countryToken
-  waterStatus = "A guardar água"
+  waterStatus = t("Saving water")
   showStatus()
   try {
     const file = await loadWaterFile((got) => {
-      waterStatus = `A guardar água ${Math.round(got / 1e6)} MB`
+      waterStatus = t("Saving water {n} MB", { n: Math.round(got / 1e6) })
       showStatus()
     })
     const buffer = await file.arrayBuffer()
@@ -2895,11 +2908,11 @@ async function loadWater() {
 
 async function loadPlaces() {
   const token = countryToken
-  placeStatus = "A guardar lugares"
+  placeStatus = t("Saving places")
   showStatus()
   try {
     const file = await loadPlaceFile((got) => {
-      placeStatus = `A guardar lugares ${Math.round(got / 1e6)} MB`
+      placeStatus = t("Saving places {n} MB", { n: Math.round(got / 1e6) })
       showStatus()
     })
     const buffer = await file.arrayBuffer()
@@ -2907,7 +2920,7 @@ async function loadPlaces() {
     placeBook = openPlaceBook(buffer)
     placeStatus = ""
     showStatus()
-    categoryBar.hidden = tab !== "explorar" && !addingPin
+    categoryBar.hidden = tab !== "explore" && !addingPin
     refreshPois()
     if (fixing) refreshFixCard()
   } catch (error) {
@@ -2921,10 +2934,10 @@ async function loadRoadsFor(pack, token) {
   const spec = packSpec(pack, "roads")
   const id = spec ? pack.id : "portugal"
   if (roadsId === id) return
-  roadStatus = "A guardar estradas"
+  roadStatus = t("Saving roads")
   showStatus()
   const progress = (got) => {
-    roadStatus = `A guardar estradas ${Math.round(got / 1e6)} MB`
+    roadStatus = t("Saving roads {n} MB", { n: Math.round(got / 1e6) })
     showStatus()
   }
   try {

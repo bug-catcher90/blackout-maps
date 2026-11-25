@@ -64,7 +64,7 @@ object MapJson {
         return buildList {
             for (index in 0 until array.length()) {
                 val row = array.optJSONObject(index) ?: continue
-                val name = row.optString("name")
+                val name = row.optString("name").ifEmpty { text.unnamed(code, row) }
                 if (name.isEmpty() || !row.has("lat") || !row.has("lon")) continue
                 val lat = row.optDouble("lat")
                 val lon = row.optDouble("lon")

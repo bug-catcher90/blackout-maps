@@ -23,37 +23,20 @@ class Text(assets: AssetManager) {
         }
     }
 
-    fun known(code: String, value: String): String {
-        val key = when (value) {
-            "Mais rápido" -> "fastest"
-            "Sem portagens" -> "no-tolls"
-            "Sem autoestradas" -> "no-motorways"
-            "Mais curto" -> "shortest"
-            "Alternativa" -> "alternative"
-            "Bebedouro" -> "drinking-water"
-            "Fonte" -> "spring"
-            "Vau" -> "ford"
-            "Açude" -> "weir"
-            "Acesso" -> "access"
-            else -> return value
+    fun known(code: String, value: String): String = if (value in ENGINE_KEYS) t(code, value) else value
+
+    fun unnamed(code: String, row: JSONObject): String {
+        if (row.has("category")) {
+            val key = UNNAMED.getOrNull(row.optInt("category", -1)) ?: return ""
+            return t(code, key)
         }
-        return t(code, key)
+        val type = row.optString("typeLabel").ifEmpty { row.optString("address") }
+        return if (type in ENGINE_KEYS) t(code, type) else ""
     }
 
-    fun label(code: String, raw: String): String {
-        val key = when (raw) {
-            "lugares" -> "places"
-            "água" -> "water"
-            "moradas" -> "addresses"
-            "estradas" -> "roads"
-            "edifícios" -> "buildings"
-            "mapa" -> "map"
-            "geo" -> "geo"
-            else -> raw
-        }
-        val translated = t(code, key)
+    fun label(code: String, key: String): String {
         val known = table(code).has(key) || table("en").has(key)
-        return if (!known && translated == key) raw else translated
+        return if (known) t(code, key) else key
     }
 
     fun nativeName(code: String): String = when (code) {
@@ -153,6 +136,19 @@ class Text(assets: AssetManager) {
 
     companion object {
         val order = listOf("en", "pt", "fr", "es", "de", "ar", "ja", "zh", "ru")
+        // Route labels and water types arrive from engine.js as these keys.
+        private val ENGINE_KEYS = setOf(
+            "fastest", "no-tolls", "no-motorways", "shortest", "alternative",
+            "drinking-water", "spring", "ford", "weir", "access"
+        )
+        private val UNNAMED = listOf(
+            "health-unnamed", "police-unnamed", "fire-unnamed", "fuel-unnamed", "supermarket-unnamed", "restaurant-unnamed"
+        )
+
+        fun deviceCode(): String {
+            val code = Locale.getDefault().language
+            return if (code in order) code else "en"
+        }
         private val TURNS = setOf("slight-left", "left", "sharp-left", "slight-right", "right", "sharp-right", "uturn")
 
         fun locale(code: String): Locale = when (code) {

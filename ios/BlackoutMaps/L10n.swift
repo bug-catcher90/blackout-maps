@@ -4,8 +4,9 @@ enum L10n {
     static let order = ["en", "pt", "fr", "es", "de", "ar", "ja", "zh", "ru"]
 
     static func code() -> String {
-        let saved = UserDefaults.standard.string(forKey: "blackout-language") ?? "en"
-        return order.contains(saved) ? saved : "en"
+        if let saved = UserDefaults.standard.string(forKey: "blackout-language"), order.contains(saved) { return saved }
+        let device = String((Locale.preferredLanguages.first ?? "en").prefix(2)).lowercased()
+        return order.contains(device) ? device : "en"
     }
 
     static func locale(_ code: String = code()) -> Locale {
@@ -53,39 +54,31 @@ enum L10n {
         }
     }
 
-    static func label(_ raw: String, _ code: String) -> String {
-        let key: String
-        switch raw {
-        case "lugares": key = "places"
-        case "água": key = "water"
-        case "moradas": key = "addresses"
-        case "estradas": key = "roads"
-        case "edifícios": key = "buildings"
-        case "mapa": key = "map"
-        case "geo": key = "geo"
-        default: key = raw
-        }
-        let translated = text(code, key)
-        return translated == key && table(code)[key] == nil && table("en")[key] == nil ? raw : translated
+    static func label(_ key: String, _ code: String) -> String {
+        table(code)[key] != nil || table("en")[key] != nil ? text(code, key) : key
     }
 
+    // Route labels and water types arrive from engine.js as these keys.
+    private static let engineKeys: Set<String> = [
+        "fastest", "no-tolls", "no-motorways", "shortest", "alternative",
+        "drinking-water", "spring", "ford", "weir", "access",
+    ]
+
     static func known(_ value: String, _ code: String) -> String {
-        let key: String?
-        switch value {
-        case "Mais rápido": key = "fastest"
-        case "Sem portagens": key = "no-tolls"
-        case "Sem autoestradas": key = "no-motorways"
-        case "Mais curto": key = "shortest"
-        case "Alternativa": key = "alternative"
-        case "Bebedouro": key = "drinking-water"
-        case "Fonte": key = "spring"
-        case "Vau": key = "ford"
-        case "Açude": key = "weir"
-        case "Acesso": key = "access"
-        default: key = nil
+        engineKeys.contains(value) ? text(code, value) : value
+    }
+
+    private static let unnamedKeys = [
+        "health-unnamed", "police-unnamed", "fire-unnamed", "fuel-unnamed", "supermarket-unnamed", "restaurant-unnamed",
+    ]
+
+    static func placeName(_ row: [String: Any], _ code: String) -> String {
+        if let name = row["name"] as? String, !name.isEmpty { return name }
+        if let category = (row["category"] as? NSNumber)?.intValue {
+            return unnamedKeys.indices.contains(category) ? text(code, unnamedKeys[category]) : ""
         }
-        guard let key else { return value }
-        return text(code, key)
+        let type = (row["typeLabel"] as? String) ?? (row["address"] as? String) ?? ""
+        return engineKeys.contains(type) ? text(code, type) : ""
     }
 
     private static func table(_ code: String) -> [String: String] {
@@ -131,6 +124,7 @@ enum L10n {
         "places": "places", "addresses": "addresses", "geo": "geo", "roads": "roads",
         "buildings": "buildings", "map": "map",
         "drinking-water": "Drinking fountain", "spring": "Spring", "ford": "Ford", "weir": "Weir", "access": "Access",
+        "health-unnamed": "Health facility", "police-unnamed": "Police station", "fire-unnamed": "Fire station", "fuel-unnamed": "Fuel station", "supermarket-unnamed": "Supermarket", "restaurant-unnamed": "Restaurant",
         "privacy-body": "Blackout Maps has no account, no payment and collects no data. It does not use GPS. Sensors stay on the phone.",
         "terms-body": "Use Blackout Maps with no account and no payment. We collect no data and do not use GPS. Sensors stay on the phone.",
     ]
@@ -164,6 +158,7 @@ enum L10n {
         "places": "lugares", "addresses": "moradas", "geo": "geo", "roads": "estradas",
         "buildings": "edifícios", "map": "mapa",
         "drinking-water": "Bebedouro", "spring": "Fonte", "ford": "Vau", "weir": "Açude", "access": "Acesso",
+        "health-unnamed": "Unidade de saúde", "police-unnamed": "Esquadra de polícia", "fire-unnamed": "Quartel de bombeiros", "fuel-unnamed": "Posto de combustível", "supermarket-unnamed": "Supermercado", "restaurant-unnamed": "Restaurante",
         "privacy-body": "O Blackout Maps não tem conta, não tem pagamento e não recolhe dados. Não usa GPS. Os sensores ficam no telemóvel.",
         "terms-body": "Usa o Blackout Maps sem conta e sem pagamento. Não recolhemos dados e não usamos GPS. Os sensores ficam no telemóvel.",
     ]
@@ -197,6 +192,7 @@ enum L10n {
         "places": "lieux", "addresses": "adresses", "geo": "géo", "roads": "routes",
         "buildings": "bâtiments", "map": "carte",
         "drinking-water": "Fontaine", "spring": "Source", "ford": "Gué", "weir": "Seuil", "access": "Accès",
+        "health-unnamed": "Établissement de santé", "police-unnamed": "Poste de police", "fire-unnamed": "Caserne de pompiers", "fuel-unnamed": "Station-service", "supermarket-unnamed": "Supermarché", "restaurant-unnamed": "Restaurant",
         "privacy-body": "Blackout Maps n’a pas de compte, pas de paiement et ne collecte pas de données. Il n’utilise pas le GPS. Les capteurs restent sur le téléphone.",
         "terms-body": "Utilisez Blackout Maps sans compte et sans paiement. Nous ne collectons pas de données et n’utilisons pas le GPS. Les capteurs restent sur le téléphone.",
     ]
@@ -230,6 +226,7 @@ enum L10n {
         "places": "lugares", "addresses": "direcciones", "geo": "geo", "roads": "carreteras",
         "buildings": "edificios", "map": "mapa",
         "drinking-water": "Fuente de agua", "spring": "Manantial", "ford": "Vado", "weir": "Azud", "access": "Acceso",
+        "health-unnamed": "Centro de salud", "police-unnamed": "Comisaría", "fire-unnamed": "Parque de bomberos", "fuel-unnamed": "Gasolinera", "supermarket-unnamed": "Supermercado", "restaurant-unnamed": "Restaurante",
         "privacy-body": "Blackout Maps no tiene cuenta, no tiene pago y no recoge datos. No usa GPS. Los sensores se quedan en el teléfono.",
         "terms-body": "Usa Blackout Maps sin cuenta y sin pago. No recogemos datos y no usamos GPS. Los sensores se quedan en el teléfono.",
     ]
@@ -263,6 +260,7 @@ enum L10n {
         "places": "Orte", "addresses": "Adressen", "geo": "Geo", "roads": "Straßen",
         "buildings": "Gebäude", "map": "Karte",
         "drinking-water": "Trinkbrunnen", "spring": "Quelle", "ford": "Furt", "weir": "Wehr", "access": "Zugang",
+        "health-unnamed": "Gesundheitseinrichtung", "police-unnamed": "Polizeiwache", "fire-unnamed": "Feuerwache", "fuel-unnamed": "Tankstelle", "supermarket-unnamed": "Supermarkt", "restaurant-unnamed": "Restaurant",
         "privacy-body": "Blackout Maps hat kein Konto, keine Zahlung und sammelt keine Daten. Es nutzt kein GPS. Die Sensoren bleiben auf dem Telefon.",
         "terms-body": "Nutzen Sie Blackout Maps ohne Konto und ohne Zahlung. Wir sammeln keine Daten und nutzen kein GPS. Die Sensoren bleiben auf dem Telefon.",
     ]
@@ -296,6 +294,7 @@ enum L10n {
         "places": "أماكن", "addresses": "عناوين", "geo": "جغرافيا", "roads": "طرق",
         "buildings": "مبانٍ", "map": "خريطة",
         "drinking-water": "سبيل ماء", "spring": "نبع", "ford": "مخاضة", "weir": "سد صغير", "access": "نقطة وصول",
+        "health-unnamed": "منشأة صحية", "police-unnamed": "مركز شرطة", "fire-unnamed": "محطة إطفاء", "fuel-unnamed": "محطة وقود", "supermarket-unnamed": "سوبرماركت", "restaurant-unnamed": "مطعم",
         "privacy-body": "Blackout Maps بلا حساب وبلا دفع ولا يجمع بيانات. لا يستخدم GPS. تبقى المستشعرات على الهاتف.",
         "terms-body": "استخدم Blackout Maps بلا حساب وبلا دفع. لا نجمع بيانات ولا نستخدم GPS. تبقى المستشعرات على الهاتف.",
     ]
@@ -329,6 +328,7 @@ enum L10n {
         "places": "場所", "addresses": "住所", "geo": "地理", "roads": "道路",
         "buildings": "建物", "map": "地図",
         "drinking-water": "水飲み場", "spring": "泉", "ford": "浅瀬", "weir": "堰", "access": "取水口",
+        "health-unnamed": "医療施設", "police-unnamed": "警察署", "fire-unnamed": "消防署", "fuel-unnamed": "ガソリンスタンド", "supermarket-unnamed": "スーパーマーケット", "restaurant-unnamed": "レストラン",
         "privacy-body": "Blackout Maps にはアカウントも支払いもなく、データも集めません。GPS は使いません。センサーは端末内に残ります。",
         "terms-body": "Blackout Maps はアカウントなし、支払いなしで使います。データは集めず、GPS は使いません。センサーは端末内に残ります。",
     ]
@@ -362,6 +362,7 @@ enum L10n {
         "places": "地点", "addresses": "地址", "geo": "地理", "roads": "道路",
         "buildings": "建筑", "map": "地图",
         "drinking-water": "饮水处", "spring": "泉", "ford": "涉水处", "weir": "堰", "access": "取水点",
+        "health-unnamed": "医疗机构", "police-unnamed": "派出所", "fire-unnamed": "消防站", "fuel-unnamed": "加油站", "supermarket-unnamed": "超市", "restaurant-unnamed": "餐厅",
         "privacy-body": "Blackout Maps 没有账户，没有付款，也不收集数据。不使用 GPS。传感器留在手机上。",
         "terms-body": "使用 Blackout Maps 无需账户、无需付款。我们不收集数据，也不使用 GPS。传感器留在手机上。",
     ]
@@ -395,6 +396,7 @@ enum L10n {
         "places": "места", "addresses": "адреса", "geo": "гео", "roads": "дороги",
         "buildings": "здания", "map": "карта",
         "drinking-water": "Питьевой фонтанчик", "spring": "Источник", "ford": "Брод", "weir": "Плотина", "access": "Доступ",
+        "health-unnamed": "Медицинское учреждение", "police-unnamed": "Полицейский участок", "fire-unnamed": "Пожарная часть", "fuel-unnamed": "АЗС", "supermarket-unnamed": "Супермаркет", "restaurant-unnamed": "Ресторан",
         "privacy-body": "В Blackout Maps нет аккаунта, нет оплаты и нет сбора данных. GPS не используется. Датчики остаются на телефоне.",
         "terms-body": "Пользуйтесь Blackout Maps без аккаунта и без оплаты. Мы не собираем данные и не используем GPS. Датчики остаются на телефоне.",
     ]

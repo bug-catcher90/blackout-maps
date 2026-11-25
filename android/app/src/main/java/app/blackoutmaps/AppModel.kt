@@ -53,6 +53,11 @@ class AppModel(application: Application) : AndroidViewModel(application) {
 
     var tab by mutableStateOf(Tab.Explore)
     var language by mutableStateOf("en")
+
+    init {
+        engine.unnamed = { row -> strings.unnamed(language, row) }
+    }
+
     var query by mutableStateOf("")
     var results by mutableStateOf(emptyList<Place>())
     var showResults by mutableStateOf(false)
@@ -675,7 +680,7 @@ class AppModel(application: Application) : AndroidViewModel(application) {
 
     private fun boot() {
         try {
-            onMain { saving("mapa") }
+            onMain { saving("map") }
             val base = Store.prepare(app, app.assets)
             baseDir = base
             val archive = Pmtiles(File(base, "portugal.pmtiles"))
@@ -691,7 +696,7 @@ class AppModel(application: Application) : AndroidViewModel(application) {
             onMain { engineReady = true }
         } catch (error: Exception) {
             Log.e(TAG, "boot", error)
-            onMain { fail("mapa") }
+            onMain { fail("map") }
             return
         }
         val pkg = packages.firstOrNull { it.id == activePackageId } ?: packages.firstOrNull { it.autoload }
@@ -740,7 +745,7 @@ class AppModel(application: Application) : AndroidViewModel(application) {
             }
         } catch (error: Exception) {
             Log.e(TAG, "base", error)
-            onMain { fail("mapa") }
+            onMain { fail("map") }
         }
     }
 
@@ -751,13 +756,13 @@ class AppModel(application: Application) : AndroidViewModel(application) {
             val dest = Store.file(app, pkg.id, pack.file)
             try {
                 if (download && !present(pkg, pack)) {
-                    onMain { saving(pack.label) }
+                    onMain { saving(pack.key) }
                     var shown = -1L
                     Store.fetch(pack, dest) { got, total ->
                         val percent = if (total > 0) got * 100 / total else -1L
                         if (percent != shown) {
                             shown = percent
-                            onMain { saving(pack.label, percent.toInt()) }
+                            onMain { saving(pack.key, percent.toInt()) }
                         }
                     }
                 }
@@ -770,7 +775,7 @@ class AppModel(application: Application) : AndroidViewModel(application) {
             } catch (error: Exception) {
                 Log.e(TAG, pack.key, error)
                 failed = true
-                onMain { fail(pack.label) }
+                onMain { fail(pack.key) }
             }
         }
         if (!failed) {
@@ -1084,7 +1089,7 @@ class AppModel(application: Application) : AndroidViewModel(application) {
         positionFixed = prefs.getBoolean("mapa-fixed", false)
         mapsPromptDone = prefs.getBoolean("blackout-maps-prompt", false)
         showCountryColors = !mapsPromptDone
-        val savedCode = prefs.getString("blackout-language", "en") ?: "en"
+        val savedCode = prefs.getString("blackout-language", null) ?: Text.deviceCode()
         language = if (savedCode in Text.order) savedCode else "en"
         if (prefs.contains("mapa-step")) step = prefs.getFloat("mapa-step", 0.7f).toDouble().coerceIn(0.3, 1.5)
         estimator.setStep(step)
