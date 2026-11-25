@@ -1,3 +1,5 @@
+const { Readable } = require("stream")
+const { pipeline } = require("stream/promises")
 const { liveStripe, paidBooks, readGuide } = require("./_lib/books")
 
 function noFile(res) {
@@ -46,15 +48,27 @@ module.exports = async function handler(req, res) {
     return
   }
   const book = books.find(function (entry) { return entry.slug === slug })
-  const bytes = book && readGuide(book)
-  if (!book || !bytes) {
+  if (!book) {
+    noFile(res)
+    return
+  }
+  let guide
+  try {
+    guide = await readGuide(book)
+  } catch (error) {
+    res.setHeader("Cache-Control", "private, no-store")
+    res.status(503).json({ error: "No file." })
+    return
+  }
+  if (!guide) {
     noFile(res)
     return
   }
   res.setHeader("Content-Type", "application/pdf")
   res.setHeader("Content-Disposition", 'attachment; filename="' + book.downloadName + '"')
-  res.setHeader("Content-Length", String(bytes.length))
+  res.setHeader("Content-Length", String(guide.blob.size))
   res.setHeader("Cache-Control", "private, no-store")
   res.setHeader("X-Content-Type-Options", "nosniff")
-  res.status(200).end(bytes)
+  res.status(200)
+  await pipeline(Readable.fromWeb(guide.stream), res)
 }

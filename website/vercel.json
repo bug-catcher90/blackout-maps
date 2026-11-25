@@ -8,10 +8,5 @@
     { "src": "/(.*)\\.(pdf|PDF)", "status": 404 },
     { "src": "/guide-books.html", "status": 308, "headers": { "Location": "/guides.html" } },
     { "handle": "filesystem" }
-  ],
-  "functions": {
-    "api/guide-download.js": {
-      "includeFiles": "api/_files/**"
-    }
-  }
+  ]
 }
