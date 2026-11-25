@@ -143,7 +143,13 @@ def split(area, areas, work, depth=0):
             for a in areas
             if a["level"] == level and inside.contains(a["shape"].representative_point())
         ]
-        children = [c for c in children if not c["shape"].is_empty and c["shape"].area > area["shape"].area * 0.002]
+        children = [c for c in children if not c["shape"].is_empty]
+        kept = [c for c in children if c["shape"].area > area["shape"].area * 0.002]
+        # Tiny areas such as Bremen or Melilla join their nearest neighbour rather than leaving a hole.
+        for tiny in (c for c in children if c not in kept and kept):
+            near = min(kept, key=lambda k: k["shape"].distance(tiny["shape"]))
+            near["shape"] = unary_union([near["shape"], tiny["shape"]])
+        children = kept
         covered = unary_union([c["shape"] for c in children]).area / area["shape"].area if children else 0
         if len(children) >= 2 and covered > 0.97:
             break

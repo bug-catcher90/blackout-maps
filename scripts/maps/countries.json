@@ -211,6 +211,126 @@
     }
   },
   {
+    "id": "germany-brandenburg-berlin",
+    "name": "Germany · Brandenburg & Berlin",
+    "flag": "🇩🇪",
+    "geofabrik": "europe/germany",
+    "region": "regions/germany/brandenburg-berlin.geojson",
+    "country": "germany"
+  },
+  {
+    "id": "germany-cologne-government-region-regierungsbezirk-munster",
+    "name": "Germany · Cologne & Münster (North Rhine-Westphalia)",
+    "flag": "🇩🇪",
+    "geofabrik": "europe/germany",
+    "region": "regions/germany/cologne-government-region-regierungsbezirk-munster.geojson",
+    "country": "germany"
+  },
+  {
+    "id": "germany-hesse",
+    "name": "Germany · Hesse",
+    "flag": "🇩🇪",
+    "geofabrik": "europe/germany",
+    "region": "regions/germany/hesse.geojson",
+    "country": "germany"
+  },
+  {
+    "id": "germany-lower-bavaria",
+    "name": "Germany · Lower Bavaria",
+    "flag": "🇩🇪",
+    "geofabrik": "europe/germany",
+    "region": "regions/germany/lower-bavaria.geojson",
+    "country": "germany"
+  },
+  {
+    "id": "germany-lower-franconia-swabia-middle-franconia-upper-franco",
+    "name": "Germany · Franconia & Swabia (Bavaria)",
+    "flag": "🇩🇪",
+    "geofabrik": "europe/germany",
+    "region": "regions/germany/lower-franconia-swabia-middle-franconia-upper-franconia.geojson",
+    "country": "germany"
+  },
+  {
+    "id": "germany-lower-saxony",
+    "name": "Germany · Lower Saxony & Bremen",
+    "flag": "🇩🇪",
+    "geofabrik": "europe/germany",
+    "region": "regions/germany/lower-saxony.geojson",
+    "country": "germany"
+  },
+  {
+    "id": "germany-regierungsbezirk-arnsberg-regierungsbezirk-detmold",
+    "name": "Germany · Arnsberg & Detmold (North Rhine-Westphalia)",
+    "flag": "🇩🇪",
+    "geofabrik": "europe/germany",
+    "region": "regions/germany/regierungsbezirk-arnsberg-regierungsbezirk-detmold.geojson",
+    "country": "germany"
+  },
+  {
+    "id": "germany-regierungsbezirk-dusseldorf",
+    "name": "Germany · Düsseldorf (North Rhine-Westphalia)",
+    "flag": "🇩🇪",
+    "geofabrik": "europe/germany",
+    "region": "regions/germany/regierungsbezirk-dusseldorf.geojson",
+    "country": "germany"
+  },
+  {
+    "id": "germany-regierungsbezirk-freiburg-regierungsbezirk-karlsruhe",
+    "name": "Germany · Freiburg & Karlsruhe (Baden-Württemberg)",
+    "flag": "🇩🇪",
+    "geofabrik": "europe/germany",
+    "region": "regions/germany/regierungsbezirk-freiburg-regierungsbezirk-karlsruhe.geojson",
+    "country": "germany"
+  },
+  {
+    "id": "germany-regierungsbezirk-tubingen-regierungsbezirk-stuttgart",
+    "name": "Germany · Stuttgart & Tübingen (Baden-Württemberg)",
+    "flag": "🇩🇪",
+    "geofabrik": "europe/germany",
+    "region": "regions/germany/regierungsbezirk-tubingen-regierungsbezirk-stuttgart.geojson",
+    "country": "germany"
+  },
+  {
+    "id": "germany-saarland-rhineland-palatinate",
+    "name": "Germany · Saarland & Rhineland-Palatinate",
+    "flag": "🇩🇪",
+    "geofabrik": "europe/germany",
+    "region": "regions/germany/saarland-rhineland-palatinate.geojson",
+    "country": "germany"
+  },
+  {
+    "id": "germany-saxony",
+    "name": "Germany · Saxony",
+    "flag": "🇩🇪",
+    "geofabrik": "europe/germany",
+    "region": "regions/germany/saxony.geojson",
+    "country": "germany"
+  },
+  {
+    "id": "germany-saxony-anhalt-mecklenburg-vorpommern",
+    "name": "Germany · Saxony-Anhalt & Mecklenburg-Vorpommern",
+    "flag": "🇩🇪",
+    "geofabrik": "europe/germany",
+    "region": "regions/germany/saxony-anhalt-mecklenburg-vorpommern.geojson",
+    "country": "germany"
+  },
+  {
+    "id": "germany-schleswig-holstein-hamburg-thuringia",
+    "name": "Germany · Schleswig-Holstein, Hamburg & Thuringia",
+    "flag": "🇩🇪",
+    "geofabrik": "europe/germany",
+    "region": "regions/germany/schleswig-holstein-hamburg-thuringia.geojson",
+    "country": "germany"
+  },
+  {
+    "id": "germany-upper-bavaria-upper-palatinate",
+    "name": "Germany · Upper Bavaria & Upper Palatinate",
+    "flag": "🇩🇪",
+    "geofabrik": "europe/germany",
+    "region": "regions/germany/upper-bavaria-upper-palatinate.geojson",
+    "country": "germany"
+  },
+  {
     "id": "italy",
     "name": "Italy",
     "flag": "🇮🇹",
@@ -419,7 +539,7 @@
   },
   {
     "id": "spain-spain-south-west",
-    "name": "Spain · Andalusia, Madrid & Cantabria",
+    "name": "Spain · Andalusia, Madrid, Cantabria, Ceuta & Melilla",
     "flag": "🇪🇸",
     "geofabrik": "europe/spain",
     "region": "regions/spain/spain-south-west.geojson",
