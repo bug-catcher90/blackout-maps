@@ -12,7 +12,7 @@
   "files": [
     {
       "key": "places",
-      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/england-central-2/places.bin.gz",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/england-central-2/places.bin.gz",
       "file": "places.bin",
       "gzip": true,
       "bytes": 3332388,
@@ -20,7 +20,7 @@
     },
     {
       "key": "water",
-      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/england-central-2/water.bin.gz",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/england-central-2/water.bin.gz",
       "file": "water.bin",
       "gzip": true,
       "bytes": 436544,
@@ -28,7 +28,7 @@
     },
     {
       "key": "addresses",
-      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/england-central-2/addresses.bin.gz",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/england-central-2/addresses.bin.gz",
       "file": "addresses.bin",
       "gzip": true,
       "bytes": 31373860,
@@ -36,7 +36,7 @@
     },
     {
       "key": "geo",
-      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/england-central-2/geo.json.gz",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/england-central-2/geo.json.gz",
       "file": "geo.json",
       "gzip": true,
       "bytes": 9754144,
@@ -53,7 +53,7 @@
       "label": "lugares",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/england-central-2/places.bin.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/england-central-2/places.bin.gz",
           "bytes": 1034105,
           "sha256": "e33733005282e2c482216f63cad373ec476fccfe4f4279398d83675e1d032e3b"
         }
@@ -68,7 +68,7 @@
       "label": "água",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/england-central-2/water.bin.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/england-central-2/water.bin.gz",
           "bytes": 83031,
           "sha256": "9f2ae51b59f9a51df3e898c6f2dc0ca635865b2a38311764b4ebbd32a00999db"
         }
@@ -83,7 +83,7 @@
       "label": "moradas",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/england-central-2/addresses.bin.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/england-central-2/addresses.bin.gz",
           "bytes": 11812714,
           "sha256": "e008e9f3ce7b7d56dd3d4d2656d7802ceb03864584afc265c8fa1679a6c234db"
         }
@@ -98,7 +98,7 @@
       "label": "geo",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/england-central-2/geo.json.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/england-central-2/geo.json.gz",
           "bytes": 3446522,
           "sha256": "6cc0856c85c390da56994dfbc51af8ff577dcfc37e7fe3b4f4d47d69ede00baf"
         }
@@ -113,12 +113,12 @@
       "label": "estradas",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/england-central-2/roads.bin.gz.000",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/england-central-2/roads.bin.gz.000",
           "bytes": 45000000,
           "sha256": "273296018a31ad5a33a4ca05f05eab7048b8dcb66e55527e50b26fb45fb4a666"
         },
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/england-central-2/roads.bin.gz.001",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/england-central-2/roads.bin.gz.001",
           "bytes": 27219597,
           "sha256": "f7ddcef45cdd5be722d26bd3f95e9601cacf875708b716835ad6cef29cf0a701"
         }
@@ -133,12 +133,12 @@
       "label": "edifícios",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/england-central-2/buildings.bin.gz.000",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/england-central-2/buildings.bin.gz.000",
           "bytes": 45000000,
           "sha256": "579a1ef1d029e1d68ecfe97b8f0385efc88769e3b98da971e400969976978e20"
         },
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/england-central-2/buildings.bin.gz.001",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/england-central-2/buildings.bin.gz.001",
           "bytes": 4879358,
           "sha256": "fbd2df6f544dac4e684b6eaaff757b6c47d0965e88e1b4461b664f02e40672fd"
         }
@@ -153,17 +153,17 @@
       "label": "mapa",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/england-central-2/map.pmtiles.000",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/england-central-2/map.pmtiles.000",
           "bytes": 45000000,
           "sha256": "0018a189a15470fe067d6a0f194036b55f388311b93d9ffae49739c6466e3f33"
         },
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/england-central-2/map.pmtiles.001",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/england-central-2/map.pmtiles.001",
           "bytes": 45000000,
           "sha256": "f27d7e465aebae83ded3763df967c1abb182d83d678db7c28ae514e4b223e898"
         },
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/england-central-2/map.pmtiles.002",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/england-central-2/map.pmtiles.002",
           "bytes": 5256495,
           "sha256": "dbc28d76ed7acdaab0b45b0c95a5fea79ac5d6a28beae3537bb57e49e55aac6d"
         }

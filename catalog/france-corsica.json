@@ -12,7 +12,7 @@
   "files": [
     {
       "key": "places",
-      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/france-corsica/places.bin.gz",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/france-corsica/places.bin.gz",
       "file": "places.bin",
       "gzip": true,
       "bytes": 152108,
@@ -20,7 +20,7 @@
     },
     {
       "key": "water",
-      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/france-corsica/water.bin.gz",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/france-corsica/water.bin.gz",
       "file": "water.bin",
       "gzip": true,
       "bytes": 116080,
@@ -28,7 +28,7 @@
     },
     {
       "key": "addresses",
-      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/france-corsica/addresses.bin.gz",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/france-corsica/addresses.bin.gz",
       "file": "addresses.bin",
       "gzip": true,
       "bytes": 222670,
@@ -36,7 +36,7 @@
     },
     {
       "key": "geo",
-      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/france-corsica/geo.json.gz",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/france-corsica/geo.json.gz",
       "file": "geo.json",
       "gzip": true,
       "bytes": 652778,
@@ -44,7 +44,7 @@
     },
     {
       "key": "roads",
-      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/france-corsica/roads.bin.gz",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/france-corsica/roads.bin.gz",
       "file": "roads.bin",
       "gzip": true,
       "bytes": 11277068,
@@ -61,7 +61,7 @@
       "label": "lugares",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/france-corsica/places.bin.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/france-corsica/places.bin.gz",
           "bytes": 55260,
           "sha256": "886ef8b5170a9a2f9137493ec200794596c69cadd628c43ff31c7240a56a0907"
         }
@@ -76,7 +76,7 @@
       "label": "água",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/france-corsica/water.bin.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/france-corsica/water.bin.gz",
           "bytes": 36149,
           "sha256": "b2b2d00b5b5121a2da59ca3170964969f7c19549ff35456fd234c8342420fdd3"
         }
@@ -91,7 +91,7 @@
       "label": "moradas",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/france-corsica/addresses.bin.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/france-corsica/addresses.bin.gz",
           "bytes": 100756,
           "sha256": "f01a49117fd7bb2740d0a56bb6847a2d6ba78b1c0d0ac66d5dcbc78af0a7e2e0"
         }
@@ -106,7 +106,7 @@
       "label": "geo",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/france-corsica/geo.json.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/france-corsica/geo.json.gz",
           "bytes": 235339,
           "sha256": "b390486772e03c41fb932b63a0fe40539da541723e7fa988dfac419350226aeb"
         }
@@ -121,7 +121,7 @@
       "label": "estradas",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/france-corsica/roads.bin.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/france-corsica/roads.bin.gz",
           "bytes": 6099378,
           "sha256": "6c0a299565861ff3a142c62bc85d0018e5a4cacb37a73b007186f2578f9c5bb2"
         }
@@ -136,7 +136,7 @@
       "label": "edifícios",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/france-corsica/buildings.bin.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/france-corsica/buildings.bin.gz",
           "bytes": 5052182,
           "sha256": "a7388aa32b77179e461991269b5908849142aaddb7f9aa7f52f7c19c3c7b0830"
         }
@@ -151,7 +151,7 @@
       "label": "mapa",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/france-corsica/map.pmtiles",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/france-corsica/map.pmtiles",
           "bytes": 11503853,
           "sha256": "cb374941e6a9098cc7c94dbd64e23ab9a3ae13440b9cd284809cb86568cb0bfa"
         }

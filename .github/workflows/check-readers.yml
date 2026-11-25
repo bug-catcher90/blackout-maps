@@ -1,0 +1,44 @@
+name: Check readers against the map packages
+
+on:
+  pull_request:
+    paths:
+      - "website/maps/places.js"
+      - "website/maps/water.js"
+      - "website/maps/addresses.js"
+      - "website/maps/route.js"
+      - "website/maps/buildings.js"
+      - "website/maps/search.js"
+      - ".github/workflows/check-readers.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  readers:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          sparse-checkout: website/maps
+      # The validator and package entries, without the gigabytes of parts.
+      - uses: actions/checkout@v4
+        with:
+          repository: bug-catcher90/blackout-maps-data
+          path: data
+          filter: blob:none
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /*
+            !/catalog/*/
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Open a package with this pull request's readers
+        run: |
+          for name in places water addresses route buildings search; do
+            cp "website/maps/$name.js" "data/scripts/readers/$name.js"
+          done
+          cd data
+          node --no-warnings scripts/validate-catalog.mjs --download catalog/northern-ireland.json

@@ -12,7 +12,7 @@
   "files": [
     {
       "key": "places",
-      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/france-hauts-de-france/places.bin.gz",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/france-hauts-de-france/places.bin.gz",
       "file": "places.bin",
       "gzip": true,
       "bytes": 1157032,
@@ -20,7 +20,7 @@
     },
     {
       "key": "water",
-      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/france-hauts-de-france/water.bin.gz",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/france-hauts-de-france/water.bin.gz",
       "file": "water.bin",
       "gzip": true,
       "bytes": 146828,
@@ -28,7 +28,7 @@
     },
     {
       "key": "addresses",
-      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/france-hauts-de-france/addresses.bin.gz",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/france-hauts-de-france/addresses.bin.gz",
       "file": "addresses.bin",
       "gzip": true,
       "bytes": 15641002,
@@ -36,7 +36,7 @@
     },
     {
       "key": "geo",
-      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/france-hauts-de-france/geo.json.gz",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/france-hauts-de-france/geo.json.gz",
       "file": "geo.json",
       "gzip": true,
       "bytes": 6950393,
@@ -44,7 +44,7 @@
     },
     {
       "key": "roads",
-      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/france-hauts-de-france/roads.bin.gz",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/france-hauts-de-france/roads.bin.gz",
       "file": "roads.bin",
       "gzip": true,
       "bytes": 80349684,
@@ -61,7 +61,7 @@
       "label": "lugares",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/france-hauts-de-france/places.bin.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/france-hauts-de-france/places.bin.gz",
           "bytes": 391539,
           "sha256": "813f4351e3bc72ff35e11e95a936b9492d071cd7310e80391a6005dad4420e67"
         }
@@ -76,7 +76,7 @@
       "label": "água",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/france-hauts-de-france/water.bin.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/france-hauts-de-france/water.bin.gz",
           "bytes": 32624,
           "sha256": "dc20930be7017c0bfdbc9e80f15b34242eb26a093eb7bf43da387c3080c49a20"
         }
@@ -91,7 +91,7 @@
       "label": "moradas",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/france-hauts-de-france/addresses.bin.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/france-hauts-de-france/addresses.bin.gz",
           "bytes": 6903200,
           "sha256": "a4b7da5b4e99ca05a9b2a617031b6d2da124c9c994461a7fdcbb860fbb09d9cf"
         }
@@ -106,7 +106,7 @@
       "label": "geo",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/france-hauts-de-france/geo.json.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/france-hauts-de-france/geo.json.gz",
           "bytes": 2486210,
           "sha256": "6b8eb9624d8a4d9ad3dc686e6499448f492e380575e8c6c6d407f5af2d66a212"
         }
@@ -121,7 +121,7 @@
       "label": "estradas",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/france-hauts-de-france/roads.bin.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/france-hauts-de-france/roads.bin.gz",
           "bytes": 35381099,
           "sha256": "4b48115760321fbe1484b4334e0f4e68e2f0d7cc207412d4901071829d5e82c1"
         }
@@ -136,12 +136,12 @@
       "label": "edifícios",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/france-hauts-de-france/buildings.bin.gz.000",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/france-hauts-de-france/buildings.bin.gz.000",
           "bytes": 45000000,
           "sha256": "a5a73b719abf57b329129c139281bbae818dacd2680a32719a876f70fcfe3736"
         },
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/france-hauts-de-france/buildings.bin.gz.001",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/france-hauts-de-france/buildings.bin.gz.001",
           "bytes": 39931346,
           "sha256": "46c60c923224e0e4a2cce8815479cd29c4fc6b9d7231b81ee5277b0b78be0c5d"
         }
@@ -156,12 +156,12 @@
       "label": "mapa",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/france-hauts-de-france/map.pmtiles.000",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/france-hauts-de-france/map.pmtiles.000",
           "bytes": 45000000,
           "sha256": "5fa57efb9a69c3b89964943ba1984ae33eaa7f7c4bd8b12f0c07d4331c1243ec"
         },
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/france-hauts-de-france/map.pmtiles.001",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/france-hauts-de-france/map.pmtiles.001",
           "bytes": 35433244,
           "sha256": "e5f3f943124cb77da33fd56c900ec81e906893ae39d316e26b84ad7007002949"
         }

@@ -15,13 +15,13 @@ Almost everything on the map at street level comes from OpenStreetMap:
 | Basemap tiles (Protomaps extract of Portugal) | `ios/BlackoutMaps/Resources/base/portugal.pmtiles`, also downloaded by the web app | Land, water, roads, paths, rail, ferries, boundaries and place labels |
 | Road graph | `ios/BlackoutMaps/Resources/base/roads.bin.gz`, also downloaded by the web app | Walking, cycling and driving routes |
 | Building outlines | `ios/BlackoutMaps/Resources/base/buildings.bin.gz`, also downloaded by the web app | Buildings at close zoom |
-| Basemap, road graph and buildings of the other packages | `catalog/<id>/map.pmtiles*`, `roads.bin.gz*`, `buildings.bin.gz*`, built by `scripts/maps/` from [Geofabrik](https://download.geofabrik.de/) extracts and a [Protomaps planet build](https://maps.protomaps.com/builds/) | The same layers as Portugal, for every package |
-| Services | `catalog/<id>/places.bin.gz`, `website/maps/places.bin.gz` | Health, police, fire, fuel, supermarkets and restaurants |
-| Water | `catalog/<id>/water.bin.gz`, `website/maps/water.bin.gz` | Drinking fountains, springs, fords, weirs and water access |
-| Addresses | `catalog/<id>/addresses.bin.gz` | Address search and the nearest door |
-| Places and streets | `catalog/<id>/geo.json.gz`, `website/maps/geo.json.gz` | Name search |
+| Basemap, road graph and buildings of the other packages | `catalog/<id>/map.pmtiles*`, `roads.bin.gz*`, `buildings.bin.gz*` in [blackout-maps-data](https://github.com/bug-catcher90/blackout-maps-data), built by its `scripts/maps/` from [Geofabrik](https://download.geofabrik.de/) extracts and a [Protomaps planet build](https://maps.protomaps.com/builds/) | The same layers as Portugal, for every package |
+| Services | blackout-maps-data `catalog/<id>/places.bin.gz`, `website/maps/places.bin.gz` | Health, police, fire, fuel, supermarkets and restaurants |
+| Water | blackout-maps-data `catalog/<id>/water.bin.gz`, `website/maps/water.bin.gz` | Drinking fountains, springs, fords, weirs and water access |
+| Addresses | blackout-maps-data `catalog/<id>/addresses.bin.gz` | Address search and the nearest door |
+| Places and streets | blackout-maps-data `catalog/<id>/geo.json.gz`, `website/maps/geo.json.gz` | Name search |
 
-These files are Derivative Databases or Produced Works of OpenStreetMap under the ODbL. The data files in this repository are made available under the ODbL 1.0, not under the MIT License. Anyone who redistributes them, or a map made from them, must credit "© OpenStreetMap contributors" and keep the ODbL terms for the data.
+These files are Derivative Databases or Produced Works of OpenStreetMap under the ODbL. The data files in this repository and in blackout-maps-data are made available under the ODbL 1.0, not under the MIT License. Anyone who redistributes them, or a map made from them, must credit "© OpenStreetMap contributors" and keep the ODbL terms for the data.
 
 The web app and the Android app show "© OpenStreetMap contributors", linked to [openstreetmap.org/copyright](https://www.openstreetmap.org/copyright), on the map at all times, as the [OSMF Attribution Guidelines](https://osmfoundation.org/wiki/Licence/Attribution_Guidelines) ask.
 

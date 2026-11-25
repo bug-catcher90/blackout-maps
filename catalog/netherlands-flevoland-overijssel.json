@@ -12,7 +12,7 @@
   "files": [
     {
       "key": "places",
-      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/netherlands-flevoland-overijssel/places.bin.gz",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/netherlands-flevoland-overijssel/places.bin.gz",
       "file": "places.bin",
       "gzip": true,
       "bytes": 296744,
@@ -20,7 +20,7 @@
     },
     {
       "key": "water",
-      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/netherlands-flevoland-overijssel/water.bin.gz",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/netherlands-flevoland-overijssel/water.bin.gz",
       "file": "water.bin",
       "gzip": true,
       "bytes": 93264,
@@ -28,7 +28,7 @@
     },
     {
       "key": "addresses",
-      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/netherlands-flevoland-overijssel/addresses.bin.gz",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/netherlands-flevoland-overijssel/addresses.bin.gz",
       "file": "addresses.bin",
       "gzip": true,
       "bytes": 17092865,
@@ -36,7 +36,7 @@
     },
     {
       "key": "geo",
-      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/netherlands-flevoland-overijssel/geo.json.gz",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/netherlands-flevoland-overijssel/geo.json.gz",
       "file": "geo.json",
       "gzip": true,
       "bytes": 1388734,
@@ -44,7 +44,7 @@
     },
     {
       "key": "roads",
-      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/netherlands-flevoland-overijssel/roads.bin.gz",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/netherlands-flevoland-overijssel/roads.bin.gz",
       "file": "roads.bin",
       "gzip": true,
       "bytes": 39092668,
@@ -61,7 +61,7 @@
       "label": "lugares",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/netherlands-flevoland-overijssel/places.bin.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/netherlands-flevoland-overijssel/places.bin.gz",
           "bytes": 112423,
           "sha256": "fd429079dcaf42c6ad9da886e5ab9ef296f6c9e85b06ee4f121d8b9a872dedc8"
         }
@@ -76,7 +76,7 @@
       "label": "água",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/netherlands-flevoland-overijssel/water.bin.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/netherlands-flevoland-overijssel/water.bin.gz",
           "bytes": 32699,
           "sha256": "d5b4399a25c73bb162438d1520477da55799f16e17cb7bbd23186f90dd785bbd"
         }
@@ -91,7 +91,7 @@
       "label": "moradas",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/netherlands-flevoland-overijssel/addresses.bin.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/netherlands-flevoland-overijssel/addresses.bin.gz",
           "bytes": 7186699,
           "sha256": "cd809ab90efc6c53cf6c4c50924b6cb6397e1e1eb7770c31e407fb85529b187f"
         }
@@ -106,7 +106,7 @@
       "label": "geo",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/netherlands-flevoland-overijssel/geo.json.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/netherlands-flevoland-overijssel/geo.json.gz",
           "bytes": 503573,
           "sha256": "8d96fb27c5c426eef8a9a6f6b36c6dd4d48c590a7e490fb2d33db44b1a81f624"
         }
@@ -121,7 +121,7 @@
       "label": "estradas",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/netherlands-flevoland-overijssel/roads.bin.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/netherlands-flevoland-overijssel/roads.bin.gz",
           "bytes": 15076664,
           "sha256": "97933fab5f77a5ce3ac5c3d3556c09b215ac7b323ab5117a791f414ffa1b1d0c"
         }
@@ -136,7 +136,7 @@
       "label": "edifícios",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/netherlands-flevoland-overijssel/buildings.bin.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/netherlands-flevoland-overijssel/buildings.bin.gz",
           "bytes": 20120156,
           "sha256": "60a9162ccff5933645824e8b99c01e7116ec899cf5c1f526f8deffff11549ef5"
         }
@@ -151,7 +151,7 @@
       "label": "mapa",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/netherlands-flevoland-overijssel/map.pmtiles",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/netherlands-flevoland-overijssel/map.pmtiles",
           "bytes": 24612133,
           "sha256": "28d27f56b54596ce8d24376806196a277b009ca9e949e1f929b2bf0af4ebd927"
         }

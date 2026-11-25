@@ -12,7 +12,7 @@
   "files": [
     {
       "key": "places",
-      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/germany-hesse/places.bin.gz",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/germany-hesse/places.bin.gz",
       "file": "places.bin",
       "gzip": true,
       "bytes": 2231380,
@@ -20,7 +20,7 @@
     },
     {
       "key": "water",
-      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/germany-hesse/water.bin.gz",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/germany-hesse/water.bin.gz",
       "file": "water.bin",
       "gzip": true,
       "bytes": 371756,
@@ -28,7 +28,7 @@
     },
     {
       "key": "addresses",
-      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/germany-hesse/addresses.bin.gz",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/germany-hesse/addresses.bin.gz",
       "file": "addresses.bin",
       "gzip": true,
       "bytes": 51845583,
@@ -36,7 +36,7 @@
     },
     {
       "key": "geo",
-      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/germany-hesse/geo.json.gz",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/germany-hesse/geo.json.gz",
       "file": "geo.json",
       "gzip": true,
       "bytes": 5390486,
@@ -44,7 +44,7 @@
     },
     {
       "key": "roads",
-      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/germany-hesse/roads.bin.gz",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/germany-hesse/roads.bin.gz",
       "file": "roads.bin",
       "gzip": true,
       "bytes": 89218156,
@@ -61,7 +61,7 @@
       "label": "lugares",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/germany-hesse/places.bin.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/germany-hesse/places.bin.gz",
           "bytes": 734213,
           "sha256": "e78b1a133fff36ce1f2f8da086374254e7d6c62c2d2729fc30de7060b1923a73"
         }
@@ -76,7 +76,7 @@
       "label": "água",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/germany-hesse/water.bin.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/germany-hesse/water.bin.gz",
           "bytes": 115441,
           "sha256": "bf939af3fbd19b7a205b0b9d901948bf7afb486fa2139498eb411613573e0a20"
         }
@@ -91,7 +91,7 @@
       "label": "moradas",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/germany-hesse/addresses.bin.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/germany-hesse/addresses.bin.gz",
           "bytes": 20259062,
           "sha256": "3568a6845c67396048fcb4d98c70978bff91c4c882dc4da00b5f819dbde410cd"
         }
@@ -106,7 +106,7 @@
       "label": "geo",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/germany-hesse/geo.json.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/germany-hesse/geo.json.gz",
           "bytes": 1961697,
           "sha256": "37a5b4bdbef0984533b7945989de24bd8b8211c1d9b29efcbbf159001d88ab16"
         }
@@ -121,7 +121,7 @@
       "label": "estradas",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/germany-hesse/roads.bin.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/germany-hesse/roads.bin.gz",
           "bytes": 38166852,
           "sha256": "fb6c2eaf699a58e4dc87c3b8b15bafbcf5efae5b3abb3d123b7c1633b635d838"
         }
@@ -136,12 +136,12 @@
       "label": "edifícios",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/germany-hesse/buildings.bin.gz.000",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/germany-hesse/buildings.bin.gz.000",
           "bytes": 45000000,
           "sha256": "ce8b29f97bc810ee2d140b27b4a6f9ddce2430bf30f4f5f3750158153f6b3758"
         },
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/germany-hesse/buildings.bin.gz.001",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/germany-hesse/buildings.bin.gz.001",
           "bytes": 2415168,
           "sha256": "cc85dbc4099b10c7464d84316ac3a276af8dd068de56b5801b8e7692f5ea0cdf"
         }
@@ -156,12 +156,12 @@
       "label": "mapa",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/germany-hesse/map.pmtiles.000",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/germany-hesse/map.pmtiles.000",
           "bytes": 45000000,
           "sha256": "7d9777dc0e06b52f75439c27b706b26565d6fa79963ace25fc98e81fd3e0dbbb"
         },
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/germany-hesse/map.pmtiles.001",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/germany-hesse/map.pmtiles.001",
           "bytes": 28657448,
           "sha256": "c8e54a1d5a6c52bee682b861f1e1bbac7f0da46a3dac5a82be0cd81e97801a11"
         }

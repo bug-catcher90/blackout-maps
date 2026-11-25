@@ -12,7 +12,7 @@
   "files": [
     {
       "key": "places",
-      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/belgium-flanders/places.bin.gz",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/belgium-flanders/places.bin.gz",
       "file": "places.bin",
       "gzip": true,
       "bytes": 1629632,
@@ -20,7 +20,7 @@
     },
     {
       "key": "water",
-      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/belgium-flanders/water.bin.gz",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/belgium-flanders/water.bin.gz",
       "file": "water.bin",
       "gzip": true,
       "bytes": 126680,
@@ -28,7 +28,7 @@
     },
     {
       "key": "addresses",
-      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/belgium-flanders/addresses.bin.gz",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/belgium-flanders/addresses.bin.gz",
       "file": "addresses.bin",
       "gzip": true,
       "bytes": 81703590,
@@ -36,7 +36,7 @@
     },
     {
       "key": "geo",
-      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/belgium-flanders/geo.json.gz",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/belgium-flanders/geo.json.gz",
       "file": "geo.json",
       "gzip": true,
       "bytes": 4894040,
@@ -44,7 +44,7 @@
     },
     {
       "key": "roads",
-      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/belgium-flanders/roads.bin.gz",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/belgium-flanders/roads.bin.gz",
       "file": "roads.bin",
       "gzip": true,
       "bytes": 85175572,
@@ -61,7 +61,7 @@
       "label": "lugares",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/belgium-flanders/places.bin.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/belgium-flanders/places.bin.gz",
           "bytes": 600769,
           "sha256": "da0431e56ec52997eb8f51e41814e06f2df5d8a5478673319c795f7ee969c63b"
         }
@@ -76,7 +76,7 @@
       "label": "água",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/belgium-flanders/water.bin.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/belgium-flanders/water.bin.gz",
           "bytes": 36015,
           "sha256": "ab9584b6eec626ec59d07bd16f8f3ff789870524d265417f9bdfad6ab92dde5e"
         }
@@ -91,7 +91,7 @@
       "label": "moradas",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/belgium-flanders/addresses.bin.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/belgium-flanders/addresses.bin.gz",
           "bytes": 31064336,
           "sha256": "99feead33fdf95dcd0ac3614dd18f09b93935e103bbb78f0973edaaa19c503e0"
         }
@@ -106,7 +106,7 @@
       "label": "geo",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/belgium-flanders/geo.json.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/belgium-flanders/geo.json.gz",
           "bytes": 1868099,
           "sha256": "913a55e251576e8602ec072efdbdd9afd0ceb35f777ab77020df14eb045625a6"
         }
@@ -121,7 +121,7 @@
       "label": "estradas",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/belgium-flanders/roads.bin.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/belgium-flanders/roads.bin.gz",
           "bytes": 36609656,
           "sha256": "2fe1e5d6beaf734335e866a9b4864d54b18e46bf4a7511c01946465215ef29cf"
         }
@@ -136,12 +136,12 @@
       "label": "edifícios",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/belgium-flanders/buildings.bin.gz.000",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/belgium-flanders/buildings.bin.gz.000",
           "bytes": 45000000,
           "sha256": "6a0946bbdfe3f2be21d5a11f216afb298fe095dd50834799c8b1647462019705"
         },
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/belgium-flanders/buildings.bin.gz.001",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/belgium-flanders/buildings.bin.gz.001",
           "bytes": 43670400,
           "sha256": "9b54db8d562ca839a5e08476751927d137d8ae3a5427102c76565a6517008249"
         }
@@ -156,12 +156,12 @@
       "label": "mapa",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/belgium-flanders/map.pmtiles.000",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/belgium-flanders/map.pmtiles.000",
           "bytes": 45000000,
           "sha256": "3fc7b54a2fbefabe5ff43c6fde29791ba02f191bfed423f57ba1f55337ca6147"
         },
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/belgium-flanders/map.pmtiles.001",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/belgium-flanders/map.pmtiles.001",
           "bytes": 36716566,
           "sha256": "787c39c0c64f195c28c1f6cad7d798b1242a7c0f46c59743d102463a56f58f0d"
         }

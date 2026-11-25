@@ -11,7 +11,7 @@
   "files": [
     {
       "key": "places",
-      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/wales/places.bin.gz",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/wales/places.bin.gz",
       "file": "places.bin",
       "gzip": true,
       "bytes": 811664,
@@ -19,7 +19,7 @@
     },
     {
       "key": "water",
-      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/wales/water.bin.gz",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/wales/water.bin.gz",
       "file": "water.bin",
       "gzip": true,
       "bytes": 306976,
@@ -27,7 +27,7 @@
     },
     {
       "key": "addresses",
-      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/wales/addresses.bin.gz",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/wales/addresses.bin.gz",
       "file": "addresses.bin",
       "gzip": true,
       "bytes": 5433268,
@@ -35,7 +35,7 @@
     },
     {
       "key": "geo",
-      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/wales/geo.json.gz",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/wales/geo.json.gz",
       "file": "geo.json",
       "gzip": true,
       "bytes": 2165773,
@@ -43,7 +43,7 @@
     },
     {
       "key": "roads",
-      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/wales/roads.bin.gz",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/wales/roads.bin.gz",
       "file": "roads.bin",
       "gzip": true,
       "bytes": 60515120,
@@ -60,7 +60,7 @@
       "label": "lugares",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/wales/places.bin.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/wales/places.bin.gz",
           "bytes": 259939,
           "sha256": "41d9fc974f472d89682cf1f3215db6a90d8e8219c2d5d6fd416b4c495f3c3d28"
         }
@@ -75,7 +75,7 @@
       "label": "água",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/wales/water.bin.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/wales/water.bin.gz",
           "bytes": 95533,
           "sha256": "08b0c44e23d064a85881c85148c96f14300895835f0d9acefdfab6241dccaeec"
         }
@@ -90,7 +90,7 @@
       "label": "moradas",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/wales/addresses.bin.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/wales/addresses.bin.gz",
           "bytes": 2021568,
           "sha256": "52862a6f43eee12aa95cc76e6d89d918d329aee2735723c807d00f51334d404c"
         }
@@ -105,7 +105,7 @@
       "label": "geo",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/wales/geo.json.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/wales/geo.json.gz",
           "bytes": 801097,
           "sha256": "50d25467c0c2f9867c47dd87fcc5b7de048354ddaa3ea5f761f7ac13a60b7aa7"
         }
@@ -120,7 +120,7 @@
       "label": "estradas",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/wales/roads.bin.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/wales/roads.bin.gz",
           "bytes": 28070811,
           "sha256": "dfd46511aed7706dd963cb72fb7be9da38984f21335febe7ba9dd1ee0617926d"
         }
@@ -135,7 +135,7 @@
       "label": "edifícios",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/wales/buildings.bin.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/wales/buildings.bin.gz",
           "bytes": 13828784,
           "sha256": "ad9660ee50d632b504e11b8351e8211e14db9aa928d1b4721cd9aef7967fab03"
         }
@@ -150,7 +150,7 @@
       "label": "mapa",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/wales/map.pmtiles",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/wales/map.pmtiles",
           "bytes": 44943837,
           "sha256": "94a5da493344f0a17941ecce6a9000614cac97ce202474604ad1b07d1108b95c"
         }

@@ -12,7 +12,7 @@
   "files": [
     {
       "key": "places",
-      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/poland-poland-east-1/places.bin.gz",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/poland-poland-east-1/places.bin.gz",
       "file": "places.bin",
       "gzip": true,
       "bytes": 1795836,
@@ -20,7 +20,7 @@
     },
     {
       "key": "water",
-      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/poland-poland-east-1/water.bin.gz",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/poland-poland-east-1/water.bin.gz",
       "file": "water.bin",
       "gzip": true,
       "bytes": 620932,
@@ -28,7 +28,7 @@
     },
     {
       "key": "addresses",
-      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/poland-poland-east-1/addresses.bin.gz",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/poland-poland-east-1/addresses.bin.gz",
       "file": "addresses.bin",
       "gzip": true,
       "bytes": 40043023,
@@ -36,7 +36,7 @@
     },
     {
       "key": "geo",
-      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/poland-poland-east-1/geo.json.gz",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/poland-poland-east-1/geo.json.gz",
       "file": "geo.json",
       "gzip": true,
       "bytes": 2974473,
@@ -44,7 +44,7 @@
     },
     {
       "key": "roads",
-      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/poland-poland-east-1/roads.bin.gz",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/poland-poland-east-1/roads.bin.gz",
       "file": "roads.bin",
       "gzip": true,
       "bytes": 101295604,
@@ -61,7 +61,7 @@
       "label": "lugares",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/poland-poland-east-1/places.bin.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/poland-poland-east-1/places.bin.gz",
           "bytes": 546957,
           "sha256": "0948e41c062e471bdc0da9b7170f6532b8d3abf117c33036eb28c09e5bb47a5e"
         }
@@ -76,7 +76,7 @@
       "label": "água",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/poland-poland-east-1/water.bin.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/poland-poland-east-1/water.bin.gz",
           "bytes": 145973,
           "sha256": "c22b7454dc1abf2d9f12bafa381f1e5859432f3ed79617116b8188e625b7a12f"
         }
@@ -91,7 +91,7 @@
       "label": "moradas",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/poland-poland-east-1/addresses.bin.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/poland-poland-east-1/addresses.bin.gz",
           "bytes": 16701720,
           "sha256": "cfb4977af868af91e4e007e4f3e7d522ec6b805f0f08eaa9a2e08acd563fadeb"
         }
@@ -106,7 +106,7 @@
       "label": "geo",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/poland-poland-east-1/geo.json.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/poland-poland-east-1/geo.json.gz",
           "bytes": 1058650,
           "sha256": "af33e9d6abc197b66b6c6a7cc3818cae41bd47d3c32d3f7adbc92f8f852e6d79"
         }
@@ -121,7 +121,7 @@
       "label": "estradas",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/poland-poland-east-1/roads.bin.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/poland-poland-east-1/roads.bin.gz",
           "bytes": 44076334,
           "sha256": "8c7ea04bf787f02a21ee786a21fdbf7678c7bf68491ae0e3ec8b0e5683d2dc95"
         }
@@ -136,12 +136,12 @@
       "label": "edifícios",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/poland-poland-east-1/buildings.bin.gz.000",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/poland-poland-east-1/buildings.bin.gz.000",
           "bytes": 45000000,
           "sha256": "30d059ea3d782cbb38ac67d224d461f8c33becc99e74b7b606efb3123f50665a"
         },
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/poland-poland-east-1/buildings.bin.gz.001",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/poland-poland-east-1/buildings.bin.gz.001",
           "bytes": 4531098,
           "sha256": "0145c89e6c6bc82b26ac2c5f3f9219c7b4aa59730f60a9990fab7afc522cd3ac"
         }
@@ -156,17 +156,17 @@
       "label": "mapa",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/poland-poland-east-1/map.pmtiles.000",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/poland-poland-east-1/map.pmtiles.000",
           "bytes": 45000000,
           "sha256": "e131472975d6c0677bc6a37d5f4b2df94ce4386f9dc2f7b371dbf9230fce4ab6"
         },
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/poland-poland-east-1/map.pmtiles.001",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/poland-poland-east-1/map.pmtiles.001",
           "bytes": 45000000,
           "sha256": "637b3272bfd5a505d74e2b81f989edf6496fd3b9be973a7d2ac7e2312280e104"
         },
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/poland-poland-east-1/map.pmtiles.002",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/poland-poland-east-1/map.pmtiles.002",
           "bytes": 2927740,
           "sha256": "b9baf8f22ddfb680e579f38d640534fb32f27e0bc5cc3b385699aa4ddc8149ef"
         }

@@ -12,7 +12,7 @@
   "files": [
     {
       "key": "places",
-      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/belgium-brussels-capital-wallonia/places.bin.gz",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/belgium-brussels-capital-wallonia/places.bin.gz",
       "file": "places.bin",
       "gzip": true,
       "bytes": 1286336,
@@ -20,7 +20,7 @@
     },
     {
       "key": "water",
-      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/belgium-brussels-capital-wallonia/water.bin.gz",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/belgium-brussels-capital-wallonia/water.bin.gz",
       "file": "water.bin",
       "gzip": true,
       "bytes": 269816,
@@ -28,7 +28,7 @@
     },
     {
       "key": "addresses",
-      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/belgium-brussels-capital-wallonia/addresses.bin.gz",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/belgium-brussels-capital-wallonia/addresses.bin.gz",
       "file": "addresses.bin",
       "gzip": true,
       "bytes": 53024390,
@@ -36,7 +36,7 @@
     },
     {
       "key": "geo",
-      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/belgium-brussels-capital-wallonia/geo.json.gz",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/belgium-brussels-capital-wallonia/geo.json.gz",
       "file": "geo.json",
       "gzip": true,
       "bytes": 4338160,
@@ -44,7 +44,7 @@
     },
     {
       "key": "roads",
-      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/belgium-brussels-capital-wallonia/roads.bin.gz",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/belgium-brussels-capital-wallonia/roads.bin.gz",
       "file": "roads.bin",
       "gzip": true,
       "bytes": 60988568,
@@ -61,7 +61,7 @@
       "label": "lugares",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/belgium-brussels-capital-wallonia/places.bin.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/belgium-brussels-capital-wallonia/places.bin.gz",
           "bytes": 451952,
           "sha256": "ecad23bffda0ff9cd503ea24722f14c48ebdd8e41ac535e2840c06d1b2434716"
         }
@@ -76,7 +76,7 @@
       "label": "água",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/belgium-brussels-capital-wallonia/water.bin.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/belgium-brussels-capital-wallonia/water.bin.gz",
           "bytes": 80202,
           "sha256": "a754d662dde4746cda3ac93e23eaee8a8e8db7c0fab3a6d59cfb247d862ed1e0"
         }
@@ -91,7 +91,7 @@
       "label": "moradas",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/belgium-brussels-capital-wallonia/addresses.bin.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/belgium-brussels-capital-wallonia/addresses.bin.gz",
           "bytes": 20208640,
           "sha256": "792404897a83d979cb19704bbb86a52898c6c5215169af7c94e87af15a79f57f"
         }
@@ -106,7 +106,7 @@
       "label": "geo",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/belgium-brussels-capital-wallonia/geo.json.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/belgium-brussels-capital-wallonia/geo.json.gz",
           "bytes": 1635810,
           "sha256": "67b3beb1e6f9f7afd6a993145ce7c77d585a08897de331d408ef6bb6ec59623a"
         }
@@ -121,7 +121,7 @@
       "label": "estradas",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/belgium-brussels-capital-wallonia/roads.bin.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/belgium-brussels-capital-wallonia/roads.bin.gz",
           "bytes": 27084143,
           "sha256": "5f307c597ad735684d61f8f582457b5113957ef2c975be7b8ec521b0e9bd8c13"
         }
@@ -136,12 +136,12 @@
       "label": "edifícios",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/belgium-brussels-capital-wallonia/buildings.bin.gz.000",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/belgium-brussels-capital-wallonia/buildings.bin.gz.000",
           "bytes": 45000000,
           "sha256": "80d6418b83a8b69633690b1a7526b8fa3c5565c64e4ea62046c2cc36fee65e4c"
         },
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/belgium-brussels-capital-wallonia/buildings.bin.gz.001",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/belgium-brussels-capital-wallonia/buildings.bin.gz.001",
           "bytes": 7993067,
           "sha256": "cf522749cc0a96a585e3c76499565283b7db819afe19b1fb5bc446b6004b02ca"
         }
@@ -156,12 +156,12 @@
       "label": "mapa",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/belgium-brussels-capital-wallonia/map.pmtiles.000",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/belgium-brussels-capital-wallonia/map.pmtiles.000",
           "bytes": 45000000,
           "sha256": "c50dc65dd02d278c53de325e26de2563dbe24d7c3d0d480c8b0b0682f5dc7b0d"
         },
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/belgium-brussels-capital-wallonia/map.pmtiles.001",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/belgium-brussels-capital-wallonia/map.pmtiles.001",
           "bytes": 16024626,
           "sha256": "21bd3f95119a889fe3094507295f6afa4b84264c68ed968d76f298406a645031"
         }

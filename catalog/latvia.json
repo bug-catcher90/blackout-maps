@@ -11,7 +11,7 @@
   "files": [
     {
       "key": "places",
-      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/latvia/places.bin.gz",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/latvia/places.bin.gz",
       "file": "places.bin",
       "gzip": true,
       "bytes": 650676,
@@ -19,7 +19,7 @@
     },
     {
       "key": "water",
-      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/latvia/water.bin.gz",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/latvia/water.bin.gz",
       "file": "water.bin",
       "gzip": true,
       "bytes": 272872,
@@ -27,7 +27,7 @@
     },
     {
       "key": "addresses",
-      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/latvia/addresses.bin.gz",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/latvia/addresses.bin.gz",
       "file": "addresses.bin",
       "gzip": true,
       "bytes": 9950419,
@@ -35,7 +35,7 @@
     },
     {
       "key": "geo",
-      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/latvia/geo.json.gz",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/latvia/geo.json.gz",
       "file": "geo.json",
       "gzip": true,
       "bytes": 4196146,
@@ -43,7 +43,7 @@
     },
     {
       "key": "roads",
-      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/latvia/roads.bin.gz",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/latvia/roads.bin.gz",
       "file": "roads.bin",
       "gzip": true,
       "bytes": 60062392,
@@ -60,7 +60,7 @@
       "label": "lugares",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/latvia/places.bin.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/latvia/places.bin.gz",
           "bytes": 169203,
           "sha256": "ae90bc52a75f94ea7636d340086bb3eb4709079ee230fb00fc3c550146d9379c"
         }
@@ -75,7 +75,7 @@
       "label": "água",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/latvia/water.bin.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/latvia/water.bin.gz",
           "bytes": 36340,
           "sha256": "0b8912c7e100ca3b4069ef21ebdbf10cdfc2553ecef45e669e7c2938c44cb8e8"
         }
@@ -90,7 +90,7 @@
       "label": "moradas",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/latvia/addresses.bin.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/latvia/addresses.bin.gz",
           "bytes": 4056944,
           "sha256": "92f5e94a21eccf7187014e51f241b71a5f3aa2b84c50efc96915f68d093836b1"
         }
@@ -105,7 +105,7 @@
       "label": "geo",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/latvia/geo.json.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/latvia/geo.json.gz",
           "bytes": 1414988,
           "sha256": "9ca2365ab45b10f6615c18a31f7fd7da6572011b28ec6274d6cb9a5e92127fbf"
         }
@@ -120,7 +120,7 @@
       "label": "estradas",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/latvia/roads.bin.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/latvia/roads.bin.gz",
           "bytes": 26647923,
           "sha256": "1e8ebafcae7587ddcac8882c4c6a016326e07c8011c5780be70933ab8ca55a6d"
         }
@@ -135,7 +135,7 @@
       "label": "edifícios",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/latvia/buildings.bin.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/latvia/buildings.bin.gz",
           "bytes": 12563619,
           "sha256": "39a92dfe07e916b3b305fbdc3e83bb6cc7af9ffb1d4a71fe30f1816087405850"
         }
@@ -150,12 +150,12 @@
       "label": "mapa",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/latvia/map.pmtiles.000",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/latvia/map.pmtiles.000",
           "bytes": 45000000,
           "sha256": "dec5da377dfe37b4f3d265a5c89d32a4d3fef81976d9cf2472e11cbb3b45a900"
         },
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/latvia/map.pmtiles.001",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/latvia/map.pmtiles.001",
           "bytes": 24983243,
           "sha256": "c949e19447f8bf3daff98abc2777da639ff984e604c11046548d19f9d1bb8dc9"
         }

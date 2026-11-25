@@ -11,7 +11,7 @@
   "files": [
     {
       "key": "places",
-      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/lithuania/places.bin.gz",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/lithuania/places.bin.gz",
       "file": "places.bin",
       "gzip": true,
       "bytes": 859888,
@@ -19,7 +19,7 @@
     },
     {
       "key": "water",
-      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/lithuania/water.bin.gz",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/lithuania/water.bin.gz",
       "file": "water.bin",
       "gzip": true,
       "bytes": 312924,
@@ -27,7 +27,7 @@
     },
     {
       "key": "addresses",
-      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/lithuania/addresses.bin.gz",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/lithuania/addresses.bin.gz",
       "file": "addresses.bin",
       "gzip": true,
       "bytes": 31381226,
@@ -35,7 +35,7 @@
     },
     {
       "key": "geo",
-      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/lithuania/geo.json.gz",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/lithuania/geo.json.gz",
       "file": "geo.json",
       "gzip": true,
       "bytes": 3165161,
@@ -43,7 +43,7 @@
     },
     {
       "key": "roads",
-      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/lithuania/roads.bin.gz",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/lithuania/roads.bin.gz",
       "file": "roads.bin",
       "gzip": true,
       "bytes": 39469252,
@@ -60,7 +60,7 @@
       "label": "lugares",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/lithuania/places.bin.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/lithuania/places.bin.gz",
           "bytes": 237530,
           "sha256": "06e9af08e0b92c372f0f3d9b4271b119ce916ebb517c58d0c2156c6edb4a7409"
         }
@@ -75,7 +75,7 @@
       "label": "água",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/lithuania/water.bin.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/lithuania/water.bin.gz",
           "bytes": 80815,
           "sha256": "80a5164b967eff1053d8c95839d2e1cf1c55b7c920954db95061e1b3faf85d23"
         }
@@ -90,7 +90,7 @@
       "label": "moradas",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/lithuania/addresses.bin.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/lithuania/addresses.bin.gz",
           "bytes": 12879873,
           "sha256": "1cb16ba9a4724bd7b3e9f1a4d78e5518f353c7948cde0ed21ecb6405c44cc39b"
         }
@@ -105,7 +105,7 @@
       "label": "geo",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/lithuania/geo.json.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/lithuania/geo.json.gz",
           "bytes": 1119143,
           "sha256": "93885573b7919788bb023bed95b00db630156954c3747494cb03f644c4f2f038"
         }
@@ -120,7 +120,7 @@
       "label": "estradas",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/lithuania/roads.bin.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/lithuania/roads.bin.gz",
           "bytes": 18160958,
           "sha256": "31b42856091f0dfbb00251baed7d803d404b02b3b11bcbca12503dfdcdedfd6a"
         }
@@ -135,7 +135,7 @@
       "label": "edifícios",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/lithuania/buildings.bin.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/lithuania/buildings.bin.gz",
           "bytes": 33339828,
           "sha256": "01f3034a87d0755910985f350983c9aa2dacd6977b5abfc3889b8585f67f1793"
         }
@@ -150,12 +150,12 @@
       "label": "mapa",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/lithuania/map.pmtiles.000",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/lithuania/map.pmtiles.000",
           "bytes": 45000000,
           "sha256": "a0a485fe9430ebc0f030ff64206cbfbd70ec8e59483e9cc1f35c2741b6e88dda"
         },
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/lithuania/map.pmtiles.001",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/lithuania/map.pmtiles.001",
           "bytes": 39791654,
           "sha256": "d1811801aa41f85a2961fddd073326ab417a5c9d01428bfc070df15805d6d260"
         }

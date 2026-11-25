@@ -1,4 +1,5 @@
 const REPO_RAW = "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/"
+const DATA_RAW = "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/"
 const FILE_NAME = "portugal.pmtiles"
 const MARK_KEY = "posicao-map"
 const MAP_URL =
@@ -6,7 +7,7 @@ const MAP_URL =
 const ADDRESS_FILE = "addresses.bin"
 const ADDRESS_MARK = "posicao-addresses"
 export const ADDRESS_URL =
-  `${REPO_RAW}catalog/portugal/addresses.bin.gz`
+  `${DATA_RAW}catalog/portugal/addresses.bin.gz`
 export const ADDRESS_BYTES = 48597530
 const ROAD_FILE = "roads.bin"
 const ROAD_MARK = "posicao-roads"
@@ -535,7 +536,13 @@ export async function loadBuildingFile(onProgress) {
   return file
 }
 
-const CATALOG_URL = "https://api.github.com/repos/bug-catcher90/blackout-maps/contents/catalog"
+// The packages live in bug-catcher90/blackout-maps-data. index.json lists them
+// all; the contents API is the fallback when the index cannot be read.
+const LOCAL_HOST = ["localhost", "127.0.0.1"].includes(globalThis.location?.hostname)
+// On localhost only, ?catalog=<index URL> loads a data checkout served by its scripts/serve-local.mjs.
+const CATALOG_INDEX_URL = (LOCAL_HOST && new URLSearchParams(location.search).get("catalog")) || `${DATA_RAW}catalog/index.json`
+const CATALOG_FORMAT = 1
+const CATALOG_URL = "https://api.github.com/repos/bug-catcher90/blackout-maps-data/contents/catalog"
 
 export function packFiles(pack) {
   return Array.isArray(pack?.assets) ? pack.assets : pack?.files || []
@@ -547,23 +554,33 @@ function listedPackage(pack) {
   return keys.has("water") && keys.has("addresses")
 }
 
+function sortedPackages(packs) {
+  return packs.filter(listedPackage).sort((a, b) => String(a.name).localeCompare(String(b.name)))
+}
+
 export async function loadCatalog() {
+  try {
+    const response = await fetch(CATALOG_INDEX_URL, { cache: "no-cache" })
+    const index = response.ok ? await response.json() : null
+    if (index?.format === CATALOG_FORMAT && Array.isArray(index.packages)) return sortedPackages(index.packages)
+  } catch {
+    /* fall back to listing the folder */
+  }
   const response = await fetch(CATALOG_URL, { headers: { Accept: "application/vnd.github+json" } })
   if (!response.ok) throw new Error("catalog")
   const entries = await response.json()
   if (!Array.isArray(entries)) throw new Error("catalog")
-  const files = entries.filter((entry) => entry && entry.type === "file" && String(entry.name || "").endsWith(".json") && entry.download_url)
+  const files = entries.filter((entry) => entry && entry.type === "file" && String(entry.name || "").endsWith(".json") && entry.name !== "index.json" && entry.download_url)
   const packs = await Promise.all(files.map(async (entry) => {
     try {
       const file = await fetch(entry.download_url)
       if (!file.ok) return null
-      const pack = await file.json()
-      return listedPackage(pack) ? pack : null
+      return await file.json()
     } catch {
       return null
     }
   }))
-  return packs.filter(Boolean).sort((a, b) => String(a.name).localeCompare(String(b.name)))
+  return sortedPackages(packs)
 }
 
 async function packageDir(id) {
@@ -675,7 +692,7 @@ function concatenated(files) {
   })
 }
 
-// A file split into parts (docs/country-maps.md): every part is checked
+// A file split into parts (SPEC.md in bug-catcher90/blackout-maps-data): every part is checked
 // against its SHA-256, then the parts are joined and unpacked into spec.file.
 async function loadPartedFile(packageId, spec, onProgress) {
   const dir = await packageDir(packageId)

@@ -32,7 +32,7 @@ final class PedestrianEstimator {
     var constraint: ((Double, Double, Double, Double?, String) -> Coord?)?
 
     init() {
-        queue.name = "pt.tendertown.mapa.motion"
+        queue.name = "app.blackoutmaps.motion"
         queue.maxConcurrentOperationCount = 1
         queue.qualityOfService = .userInteractive
     }
