@@ -12,7 +12,7 @@
   "files": [
     {
       "key": "places",
-      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/france-provence-alpes-cote-d-azur/places.bin.gz",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/france-provence-alpes-cote-d-azur/places.bin.gz",
       "file": "places.bin",
       "gzip": true,
       "bytes": 1446564,
@@ -20,7 +20,7 @@
     },
     {
       "key": "water",
-      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/france-provence-alpes-cote-d-azur/water.bin.gz",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/france-provence-alpes-cote-d-azur/water.bin.gz",
       "file": "water.bin",
       "gzip": true,
       "bytes": 805652,
@@ -28,7 +28,7 @@
     },
     {
       "key": "addresses",
-      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/france-provence-alpes-cote-d-azur/addresses.bin.gz",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/france-provence-alpes-cote-d-azur/addresses.bin.gz",
       "file": "addresses.bin",
       "gzip": true,
       "bytes": 7179400,
@@ -36,7 +36,7 @@
     },
     {
       "key": "geo",
-      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/france-provence-alpes-cote-d-azur/geo.json.gz",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/france-provence-alpes-cote-d-azur/geo.json.gz",
       "file": "geo.json",
       "gzip": true,
       "bytes": 6235274,
@@ -53,7 +53,7 @@
       "label": "lugares",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/france-provence-alpes-cote-d-azur/places.bin.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/france-provence-alpes-cote-d-azur/places.bin.gz",
           "bytes": 498624,
           "sha256": "4246c43094f7b962c16e89859cd6d5ef8d1ea9b77545c11a30251ae422b51c5f"
         }
@@ -68,7 +68,7 @@
       "label": "água",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/france-provence-alpes-cote-d-azur/water.bin.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/france-provence-alpes-cote-d-azur/water.bin.gz",
           "bytes": 225260,
           "sha256": "b175f60ae7fc572a0c51bdf9a2d196f4b7d21a9a85aa293b94ffec11e8a68703"
         }
@@ -83,7 +83,7 @@
       "label": "moradas",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/france-provence-alpes-cote-d-azur/addresses.bin.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/france-provence-alpes-cote-d-azur/addresses.bin.gz",
           "bytes": 3213502,
           "sha256": "54e53ecc5d7d1d9c2232f5edc53e40dca345fb5151b8646f5836584433706965"
         }
@@ -98,7 +98,7 @@
       "label": "geo",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/france-provence-alpes-cote-d-azur/geo.json.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/france-provence-alpes-cote-d-azur/geo.json.gz",
           "bytes": 2240476,
           "sha256": "f88f7827a048e461e3037c53db802f91502d20193be41151ad12c9002b65cd19"
         }
@@ -113,12 +113,12 @@
       "label": "estradas",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/france-provence-alpes-cote-d-azur/roads.bin.gz.000",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/france-provence-alpes-cote-d-azur/roads.bin.gz.000",
           "bytes": 45000000,
           "sha256": "faded44f96598f779564bf0b6c15790f8774f5b084c649170db004793d943371"
         },
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/france-provence-alpes-cote-d-azur/roads.bin.gz.001",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/france-provence-alpes-cote-d-azur/roads.bin.gz.001",
           "bytes": 8613200,
           "sha256": "9fb625ed69642c11b6666cd5a90714c8030ed3ba17b4682468461bd5e9bb4f0f"
         }
@@ -133,12 +133,12 @@
       "label": "edifícios",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/france-provence-alpes-cote-d-azur/buildings.bin.gz.000",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/france-provence-alpes-cote-d-azur/buildings.bin.gz.000",
           "bytes": 45000000,
           "sha256": "b9ca638c3062ca3f410ccf645b5961516cb96a810b910e4850aaa0c871111021"
         },
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/france-provence-alpes-cote-d-azur/buildings.bin.gz.001",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/france-provence-alpes-cote-d-azur/buildings.bin.gz.001",
           "bytes": 19204544,
           "sha256": "f79fe95c4eebca905a9d2f0d241daaeba41a611d6bfef270e1329a1a6f0d1f80"
         }
@@ -153,12 +153,12 @@
       "label": "mapa",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/france-provence-alpes-cote-d-azur/map.pmtiles.000",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/france-provence-alpes-cote-d-azur/map.pmtiles.000",
           "bytes": 45000000,
           "sha256": "3a52dd3d8bd8acdd97951ccf4000d538f6f02583c34aa0a234357bc74aadd48c"
         },
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/france-provence-alpes-cote-d-azur/map.pmtiles.001",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/france-provence-alpes-cote-d-azur/map.pmtiles.001",
           "bytes": 28991258,
           "sha256": "3af345b52bc7c7d83b8aee13bf9deb918178a935fe955609594958e83508fc22"
         }

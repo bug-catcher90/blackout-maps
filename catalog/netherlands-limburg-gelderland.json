@@ -12,7 +12,7 @@
   "files": [
     {
       "key": "places",
-      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/netherlands-limburg-gelderland/places.bin.gz",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/netherlands-limburg-gelderland/places.bin.gz",
       "file": "places.bin",
       "gzip": true,
       "bytes": 658668,
@@ -20,7 +20,7 @@
     },
     {
       "key": "water",
-      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/netherlands-limburg-gelderland/water.bin.gz",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/netherlands-limburg-gelderland/water.bin.gz",
       "file": "water.bin",
       "gzip": true,
       "bytes": 176412,
@@ -28,7 +28,7 @@
     },
     {
       "key": "addresses",
-      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/netherlands-limburg-gelderland/addresses.bin.gz",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/netherlands-limburg-gelderland/addresses.bin.gz",
       "file": "addresses.bin",
       "gzip": true,
       "bytes": 35906675,
@@ -36,7 +36,7 @@
     },
     {
       "key": "geo",
-      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/netherlands-limburg-gelderland/geo.json.gz",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/netherlands-limburg-gelderland/geo.json.gz",
       "file": "geo.json",
       "gzip": true,
       "bytes": 2854874,
@@ -44,7 +44,7 @@
     },
     {
       "key": "roads",
-      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/netherlands-limburg-gelderland/roads.bin.gz",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/netherlands-limburg-gelderland/roads.bin.gz",
       "file": "roads.bin",
       "gzip": true,
       "bytes": 64051048,
@@ -61,7 +61,7 @@
       "label": "lugares",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/netherlands-limburg-gelderland/places.bin.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/netherlands-limburg-gelderland/places.bin.gz",
           "bytes": 247700,
           "sha256": "b32b5f423e41dc4cc8f45792254effbe8994699510c93175ebd156824e4cdae9"
         }
@@ -76,7 +76,7 @@
       "label": "água",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/netherlands-limburg-gelderland/water.bin.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/netherlands-limburg-gelderland/water.bin.gz",
           "bytes": 54483,
           "sha256": "b33728abcc20d3308ebdc904f181de4626a584fda3d15fc4c771e887c5e8e772"
         }
@@ -91,7 +91,7 @@
       "label": "moradas",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/netherlands-limburg-gelderland/addresses.bin.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/netherlands-limburg-gelderland/addresses.bin.gz",
           "bytes": 15060219,
           "sha256": "88b59d8410b9cea18649aa141bc259a81d282c0e402ccfd8510fadf4969f4af4"
         }
@@ -106,7 +106,7 @@
       "label": "geo",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/netherlands-limburg-gelderland/geo.json.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/netherlands-limburg-gelderland/geo.json.gz",
           "bytes": 1031338,
           "sha256": "4a3f83c826a0d82a9d025e0d65056fff44015eac8a64a00146af94617f5eadf2"
         }
@@ -121,7 +121,7 @@
       "label": "estradas",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/netherlands-limburg-gelderland/roads.bin.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/netherlands-limburg-gelderland/roads.bin.gz",
           "bytes": 25935071,
           "sha256": "0a7ce6e833f33c14932b950fe00545bf91f74860858e6ee8e861fff221d6ee44"
         }
@@ -136,7 +136,7 @@
       "label": "edifícios",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/netherlands-limburg-gelderland/buildings.bin.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/netherlands-limburg-gelderland/buildings.bin.gz",
           "bytes": 44331778,
           "sha256": "5fbf4bfe3b231afff5cd9bb460ab7e541cfbaa4148def761afda94c72b8302fb"
         }
@@ -151,12 +151,12 @@
       "label": "mapa",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/netherlands-limburg-gelderland/map.pmtiles.000",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/netherlands-limburg-gelderland/map.pmtiles.000",
           "bytes": 45000000,
           "sha256": "304d5d3fbd3cbabacaecaa43188bd2a41ca15f741f2b1787505cf124bdc9d906"
         },
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/netherlands-limburg-gelderland/map.pmtiles.001",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/netherlands-limburg-gelderland/map.pmtiles.001",
           "bytes": 1822791,
           "sha256": "9d87efcd4f7cc36adb2f9b8e8f1c02b873f6e22a5950c0ce8a7329800d5a8e72"
         }

@@ -12,7 +12,7 @@
   "files": [
     {
       "key": "places",
-      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/france-auvergne-rhone-alpes-west/places.bin.gz",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/france-auvergne-rhone-alpes-west/places.bin.gz",
       "file": "places.bin",
       "gzip": true,
       "bytes": 1198460,
@@ -20,7 +20,7 @@
     },
     {
       "key": "water",
-      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/france-auvergne-rhone-alpes-west/water.bin.gz",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/france-auvergne-rhone-alpes-west/water.bin.gz",
       "file": "water.bin",
       "gzip": true,
       "bytes": 778876,
@@ -28,7 +28,7 @@
     },
     {
       "key": "addresses",
-      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/france-auvergne-rhone-alpes-west/addresses.bin.gz",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/france-auvergne-rhone-alpes-west/addresses.bin.gz",
       "file": "addresses.bin",
       "gzip": true,
       "bytes": 15071403,
@@ -36,7 +36,7 @@
     },
     {
       "key": "geo",
-      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/france-auvergne-rhone-alpes-west/geo.json.gz",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/france-auvergne-rhone-alpes-west/geo.json.gz",
       "file": "geo.json",
       "gzip": true,
       "bytes": 12112966,
@@ -53,7 +53,7 @@
       "label": "lugares",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/france-auvergne-rhone-alpes-west/places.bin.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/france-auvergne-rhone-alpes-west/places.bin.gz",
           "bytes": 404319,
           "sha256": "48d1426f422d67c2e5f23119eb086af52c759ade3a9bf5dd2f76861955d2e74f"
         }
@@ -68,7 +68,7 @@
       "label": "água",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/france-auvergne-rhone-alpes-west/water.bin.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/france-auvergne-rhone-alpes-west/water.bin.gz",
           "bytes": 219915,
           "sha256": "424d2487e604b50cc758d40e66a2b1a324a49105206e5f471cdaffb68fecde25"
         }
@@ -83,7 +83,7 @@
       "label": "moradas",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/france-auvergne-rhone-alpes-west/addresses.bin.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/france-auvergne-rhone-alpes-west/addresses.bin.gz",
           "bytes": 6951866,
           "sha256": "79b9d3b2f2bdb19e7cc981fdc9337f92c1ba4b5c913dca19495e85d1bb0f3cc2"
         }
@@ -98,7 +98,7 @@
       "label": "geo",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/france-auvergne-rhone-alpes-west/geo.json.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/france-auvergne-rhone-alpes-west/geo.json.gz",
           "bytes": 4313112,
           "sha256": "bbb7dec1e13cfd42506ef458b50c0cc50156c887ecc970750d4d36e84cc6e819"
         }
@@ -113,12 +113,12 @@
       "label": "estradas",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/france-auvergne-rhone-alpes-west/roads.bin.gz.000",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/france-auvergne-rhone-alpes-west/roads.bin.gz.000",
           "bytes": 45000000,
           "sha256": "275f0d16433f8529c80437655cab7b1a60bbbef06179e1ee717e6697bb4b8a83"
         },
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/france-auvergne-rhone-alpes-west/roads.bin.gz.001",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/france-auvergne-rhone-alpes-west/roads.bin.gz.001",
           "bytes": 14750722,
           "sha256": "cc0a6190f1b9c45acaf79eedd6ccf3c1946c5c53058c64fd5ec5077d5f454662"
         }
@@ -133,12 +133,12 @@
       "label": "edifícios",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/france-auvergne-rhone-alpes-west/buildings.bin.gz.000",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/france-auvergne-rhone-alpes-west/buildings.bin.gz.000",
           "bytes": 45000000,
           "sha256": "db497b2117107296735d86585ad5a9cef4e432c942166e6c4ddcacd4dc1a1bcb"
         },
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/france-auvergne-rhone-alpes-west/buildings.bin.gz.001",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/france-auvergne-rhone-alpes-west/buildings.bin.gz.001",
           "bytes": 21337279,
           "sha256": "996eaff75ac03be503e145ec93a40a6c7b37ac41955d0a2c9bf9766de3f34805"
         }
@@ -153,17 +153,17 @@
       "label": "mapa",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/france-auvergne-rhone-alpes-west/map.pmtiles.000",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/france-auvergne-rhone-alpes-west/map.pmtiles.000",
           "bytes": 45000000,
           "sha256": "d56cae56c96fcd1f1c4779fbe4981c04e3fb0f17cdaf7d789c51ecfdcd64127f"
         },
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/france-auvergne-rhone-alpes-west/map.pmtiles.001",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/france-auvergne-rhone-alpes-west/map.pmtiles.001",
           "bytes": 45000000,
           "sha256": "c8172e842c33d145e4a76d8312ca04711321f0baba8f5c02deca78655c574bca"
         },
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/france-auvergne-rhone-alpes-west/map.pmtiles.002",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/france-auvergne-rhone-alpes-west/map.pmtiles.002",
           "bytes": 21432265,
           "sha256": "9048d1ca8ac261faf100ea6c1702df7595dd14d484e4fa3abaa4a38fbe0faf91"
         }

@@ -12,7 +12,7 @@
   "files": [
     {
       "key": "places",
-      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/france-occitania-west/places.bin.gz",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/france-occitania-west/places.bin.gz",
       "file": "places.bin",
       "gzip": true,
       "bytes": 1026052,
@@ -20,7 +20,7 @@
     },
     {
       "key": "water",
-      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/france-occitania-west/water.bin.gz",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/france-occitania-west/water.bin.gz",
       "file": "water.bin",
       "gzip": true,
       "bytes": 821820,
@@ -28,7 +28,7 @@
     },
     {
       "key": "addresses",
-      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/france-occitania-west/addresses.bin.gz",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/france-occitania-west/addresses.bin.gz",
       "file": "addresses.bin",
       "gzip": true,
       "bytes": 12821987,
@@ -36,7 +36,7 @@
     },
     {
       "key": "geo",
-      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/france-occitania-west/geo.json.gz",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/france-occitania-west/geo.json.gz",
       "file": "geo.json",
       "gzip": true,
       "bytes": 10863671,
@@ -53,7 +53,7 @@
       "label": "lugares",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/france-occitania-west/places.bin.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/france-occitania-west/places.bin.gz",
           "bytes": 341345,
           "sha256": "a046c475f9fb2cf81998ff55edfc778c5325755c49c5678ab10fbbfe5fe67cbb"
         }
@@ -68,7 +68,7 @@
       "label": "água",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/france-occitania-west/water.bin.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/france-occitania-west/water.bin.gz",
           "bytes": 253661,
           "sha256": "65bc5b2e085aec4a6ac322dc5d196a57e96a694e941664c67be2ed64b3ddef58"
         }
@@ -83,7 +83,7 @@
       "label": "moradas",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/france-occitania-west/addresses.bin.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/france-occitania-west/addresses.bin.gz",
           "bytes": 5712434,
           "sha256": "2cbf9df8d6bd3b3e57f4cff1c5648fc70a97240901ed326267947304b2b0e6e4"
         }
@@ -98,7 +98,7 @@
       "label": "geo",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/france-occitania-west/geo.json.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/france-occitania-west/geo.json.gz",
           "bytes": 3919510,
           "sha256": "7da70a5a3ffec0421baa8b7806cef17b5dd7397821b94f3e8e2932c76bb97622"
         }
@@ -113,12 +113,12 @@
       "label": "estradas",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/france-occitania-west/roads.bin.gz.000",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/france-occitania-west/roads.bin.gz.000",
           "bytes": 45000000,
           "sha256": "f00f004649466d73b2a4fb33c2977f36ce7a91bd08d9038121d5138c04191fe1"
         },
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/france-occitania-west/roads.bin.gz.001",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/france-occitania-west/roads.bin.gz.001",
           "bytes": 7233305,
           "sha256": "8fcbad8b4bffc71aadc9d33d65c905e6adda5057ba2ebc7aa87376d84f8ed0fd"
         }
@@ -133,12 +133,12 @@
       "label": "edifícios",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/france-occitania-west/buildings.bin.gz.000",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/france-occitania-west/buildings.bin.gz.000",
           "bytes": 45000000,
           "sha256": "255c79eb7fdfe05b440f52f4cc00b8c9e7ce8fb55ced920ad2c178b18d932c50"
         },
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/france-occitania-west/buildings.bin.gz.001",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/france-occitania-west/buildings.bin.gz.001",
           "bytes": 22073185,
           "sha256": "361d2dd8fd5128852fee9fe2f05df1e90162038e63a2674319f1fe63018b9293"
         }
@@ -153,17 +153,17 @@
       "label": "mapa",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/france-occitania-west/map.pmtiles.000",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/france-occitania-west/map.pmtiles.000",
           "bytes": 45000000,
           "sha256": "f95bf0bf22124f1b642a5e4261f0b45fba370e5178e99b2b774bdfaa236451f1"
         },
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/france-occitania-west/map.pmtiles.001",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/france-occitania-west/map.pmtiles.001",
           "bytes": 45000000,
           "sha256": "e04d7eb268d2a5051698373730ac77ece19b476970f4dbc66c9f1c838b728475"
         },
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/france-occitania-west/map.pmtiles.002",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/france-occitania-west/map.pmtiles.002",
           "bytes": 12347630,
           "sha256": "0ed99ea77e670a60024c46739eeaa80b4bc8fe41ab086e46714c0fea2a7134e4"
         }

@@ -12,7 +12,7 @@
   "files": [
     {
       "key": "places",
-      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/france-pays-de-la-loire/places.bin.gz",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/france-pays-de-la-loire/places.bin.gz",
       "file": "places.bin",
       "gzip": true,
       "bytes": 867156,
@@ -20,7 +20,7 @@
     },
     {
       "key": "water",
-      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/france-pays-de-la-loire/water.bin.gz",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/france-pays-de-la-loire/water.bin.gz",
       "file": "water.bin",
       "gzip": true,
       "bytes": 545468,
@@ -28,7 +28,7 @@
     },
     {
       "key": "addresses",
-      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/france-pays-de-la-loire/addresses.bin.gz",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/france-pays-de-la-loire/addresses.bin.gz",
       "file": "addresses.bin",
       "gzip": true,
       "bytes": 7845391,
@@ -36,7 +36,7 @@
     },
     {
       "key": "geo",
-      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/france-pays-de-la-loire/geo.json.gz",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/france-pays-de-la-loire/geo.json.gz",
       "file": "geo.json",
       "gzip": true,
       "bytes": 10367648,
@@ -44,7 +44,7 @@
     },
     {
       "key": "roads",
-      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/france-pays-de-la-loire/roads.bin.gz",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/france-pays-de-la-loire/roads.bin.gz",
       "file": "roads.bin",
       "gzip": true,
       "bytes": 95787352,
@@ -61,7 +61,7 @@
       "label": "lugares",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/france-pays-de-la-loire/places.bin.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/france-pays-de-la-loire/places.bin.gz",
           "bytes": 289689,
           "sha256": "ee98f95fdfef3efc160ae32593ba361993ef509e53d79d4f23dd5c90c03c1f58"
         }
@@ -76,7 +76,7 @@
       "label": "água",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/france-pays-de-la-loire/water.bin.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/france-pays-de-la-loire/water.bin.gz",
           "bytes": 130158,
           "sha256": "f52ff5048c06818f9661479076ed29e82159587e74b36e68018a21ba39070d4a"
         }
@@ -91,7 +91,7 @@
       "label": "moradas",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/france-pays-de-la-loire/addresses.bin.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/france-pays-de-la-loire/addresses.bin.gz",
           "bytes": 3544924,
           "sha256": "b7e16cb18ab20432d687a71bb346ac8f5b866f93417676aa2d4175ede415776a"
         }
@@ -106,7 +106,7 @@
       "label": "geo",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/france-pays-de-la-loire/geo.json.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/france-pays-de-la-loire/geo.json.gz",
           "bytes": 3551697,
           "sha256": "6299b9956b619a2bbb50ab04a3f6698c86e09674b9bd8ceca2ad4de4841ab09b"
         }
@@ -121,7 +121,7 @@
       "label": "estradas",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/france-pays-de-la-loire/roads.bin.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/france-pays-de-la-loire/roads.bin.gz",
           "bytes": 42743889,
           "sha256": "89cc94ce243e11e85a9a807088e8500e73b9998e49ba7996e680e4e4dbcb19bb"
         }
@@ -136,12 +136,12 @@
       "label": "edifícios",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/france-pays-de-la-loire/buildings.bin.gz.000",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/france-pays-de-la-loire/buildings.bin.gz.000",
           "bytes": 45000000,
           "sha256": "0f9b04f3bab0079a6446402329b7482b7d96caef99824e8360379ec5a42e0476"
         },
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/france-pays-de-la-loire/buildings.bin.gz.001",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/france-pays-de-la-loire/buildings.bin.gz.001",
           "bytes": 25182880,
           "sha256": "de84f2c789e838d233951c7fbed8a505bc118325a14c6fea83f7051998067962"
         }
@@ -156,17 +156,17 @@
       "label": "mapa",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/france-pays-de-la-loire/map.pmtiles.000",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/france-pays-de-la-loire/map.pmtiles.000",
           "bytes": 45000000,
           "sha256": "7e25652cac7ee93328f5c1a83813e0f7c8252cd7b71c286f9b01ce2000aa8ee8"
         },
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/france-pays-de-la-loire/map.pmtiles.001",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/france-pays-de-la-loire/map.pmtiles.001",
           "bytes": 45000000,
           "sha256": "6514e9e61b382add36d74c19ff37a6dbfaf1cc2708d03971a8eb5aa634118bb0"
         },
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/france-pays-de-la-loire/map.pmtiles.002",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/france-pays-de-la-loire/map.pmtiles.002",
           "bytes": 4956690,
           "sha256": "a35bc2d25e4f96c9955116d2efc870b2f3604ba5f63f4e6c26847ba7f0bf3792"
         }

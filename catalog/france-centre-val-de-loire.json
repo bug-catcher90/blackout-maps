@@ -12,7 +12,7 @@
   "files": [
     {
       "key": "places",
-      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/france-centre-val-de-loire/places.bin.gz",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/france-centre-val-de-loire/places.bin.gz",
       "file": "places.bin",
       "gzip": true,
       "bytes": 630556,
@@ -20,7 +20,7 @@
     },
     {
       "key": "water",
-      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/france-centre-val-de-loire/water.bin.gz",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/france-centre-val-de-loire/water.bin.gz",
       "file": "water.bin",
       "gzip": true,
       "bytes": 573184,
@@ -28,7 +28,7 @@
     },
     {
       "key": "addresses",
-      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/france-centre-val-de-loire/addresses.bin.gz",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/france-centre-val-de-loire/addresses.bin.gz",
       "file": "addresses.bin",
       "gzip": true,
       "bytes": 4945747,
@@ -36,7 +36,7 @@
     },
     {
       "key": "geo",
-      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/france-centre-val-de-loire/geo.json.gz",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/france-centre-val-de-loire/geo.json.gz",
       "file": "geo.json",
       "gzip": true,
       "bytes": 9934036,
@@ -44,7 +44,7 @@
     },
     {
       "key": "roads",
-      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/france-centre-val-de-loire/roads.bin.gz",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/france-centre-val-de-loire/roads.bin.gz",
       "file": "roads.bin",
       "gzip": true,
       "bytes": 57633956,
@@ -61,7 +61,7 @@
       "label": "lugares",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/france-centre-val-de-loire/places.bin.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/france-centre-val-de-loire/places.bin.gz",
           "bytes": 197465,
           "sha256": "a548fa0c78fb59ae5e868454e13ac982250dadd3fd1ab72d1dc1f1a956af7ca7"
         }
@@ -76,7 +76,7 @@
       "label": "água",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/france-centre-val-de-loire/water.bin.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/france-centre-val-de-loire/water.bin.gz",
           "bytes": 193549,
           "sha256": "3ec0f9ee754cae66212c9733e0528a8e31e4a1ce9bda9c74992a8575ae9eaa61"
         }
@@ -91,7 +91,7 @@
       "label": "moradas",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/france-centre-val-de-loire/addresses.bin.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/france-centre-val-de-loire/addresses.bin.gz",
           "bytes": 2227804,
           "sha256": "131745ced1a7eca245c40e09df88a6a3e9c6ab00b3d563d597828ffab8b2aab9"
         }
@@ -106,7 +106,7 @@
       "label": "geo",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/france-centre-val-de-loire/geo.json.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/france-centre-val-de-loire/geo.json.gz",
           "bytes": 3442099,
           "sha256": "2efea9580021cc89e94e366f45b7647f2ac59482bf69aea2b0b4af98c459a5b2"
         }
@@ -121,7 +121,7 @@
       "label": "estradas",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/france-centre-val-de-loire/roads.bin.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/france-centre-val-de-loire/roads.bin.gz",
           "bytes": 25938307,
           "sha256": "e7a3f8466669c66adb38e7c623106f3be9a630578db22923b42f8c37cb4ef994"
         }
@@ -136,12 +136,12 @@
       "label": "edifícios",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/france-centre-val-de-loire/buildings.bin.gz.000",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/france-centre-val-de-loire/buildings.bin.gz.000",
           "bytes": 45000000,
           "sha256": "3e8e144cbc9aeb188825a3f1ee6779beddaf8e91bbc6961a65addca1f0946b2f"
         },
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/france-centre-val-de-loire/buildings.bin.gz.001",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/france-centre-val-de-loire/buildings.bin.gz.001",
           "bytes": 1634674,
           "sha256": "dcdb2636f2c14fe2406ab39f4a89e2ba1d488c6bb41e0cb74f73dbd742f6fb87"
         }
@@ -156,12 +156,12 @@
       "label": "mapa",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/france-centre-val-de-loire/map.pmtiles.000",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/france-centre-val-de-loire/map.pmtiles.000",
           "bytes": 45000000,
           "sha256": "f5a0662e12d2113916d9b4084c0b085700bc77f59a20da763f76d1d2e5fb3001"
         },
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/france-centre-val-de-loire/map.pmtiles.001",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/france-centre-val-de-loire/map.pmtiles.001",
           "bytes": 32157264,
           "sha256": "05ecf0d351b716b43a14d9779d443268449cc608bed285fa368a99595224094a"
         }

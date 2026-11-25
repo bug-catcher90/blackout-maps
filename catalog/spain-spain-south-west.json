@@ -12,7 +12,7 @@
   "files": [
     {
       "key": "places",
-      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/spain-spain-south-west/places.bin.gz",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/spain-spain-south-west/places.bin.gz",
       "file": "places.bin",
       "gzip": true,
       "bytes": 3895296,
@@ -20,7 +20,7 @@
     },
     {
       "key": "water",
-      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/spain-spain-south-west/water.bin.gz",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/spain-spain-south-west/water.bin.gz",
       "file": "water.bin",
       "gzip": true,
       "bytes": 1940560,
@@ -28,7 +28,7 @@
     },
     {
       "key": "addresses",
-      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/spain-spain-south-west/addresses.bin.gz",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/spain-spain-south-west/addresses.bin.gz",
       "file": "addresses.bin",
       "gzip": true,
       "bytes": 13599984,
@@ -36,7 +36,7 @@
     },
     {
       "key": "geo",
-      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/spain-spain-south-west/geo.json.gz",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/spain-spain-south-west/geo.json.gz",
       "file": "geo.json",
       "gzip": true,
       "bytes": 13533954,
@@ -53,7 +53,7 @@
       "label": "lugares",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/spain-spain-south-west/places.bin.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/spain-spain-south-west/places.bin.gz",
           "bytes": 1172580,
           "sha256": "8010cd7976f86ec719d315471d327550327cb962f93b025611b58b41ac5010eb"
         }
@@ -68,7 +68,7 @@
       "label": "água",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/spain-spain-south-west/water.bin.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/spain-spain-south-west/water.bin.gz",
           "bytes": 458597,
           "sha256": "3d4dcaa20c02732095367c521dcb26a2d08a801c0283008e3030209f8d896b03"
         }
@@ -83,7 +83,7 @@
       "label": "moradas",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/spain-spain-south-west/addresses.bin.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/spain-spain-south-west/addresses.bin.gz",
           "bytes": 5604993,
           "sha256": "7fcf3cbc943240645b6ac62e16cdd0004a2eb2903d2fab9993968783e513d9a9"
         }
@@ -98,7 +98,7 @@
       "label": "geo",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/spain-spain-south-west/geo.json.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/spain-spain-south-west/geo.json.gz",
           "bytes": 4693940,
           "sha256": "01af6e89cb5cd40ac4f9163d130bd14ffa71765eb9b97684c62dd1abde1de215"
         }
@@ -113,12 +113,12 @@
       "label": "estradas",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/spain-spain-south-west/roads.bin.gz.000",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/spain-spain-south-west/roads.bin.gz.000",
           "bytes": 45000000,
           "sha256": "1c592a9481e4967092e5eab9a5f85b10aff0d9cbf64bb0a90dc9844975669185"
         },
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/spain-spain-south-west/roads.bin.gz.001",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/spain-spain-south-west/roads.bin.gz.001",
           "bytes": 29425244,
           "sha256": "ff1eaa15edad13b6e70ba0c3b90b6b518c65834c2c5cd495be99ec5a2ff6b4f2"
         }
@@ -133,7 +133,7 @@
       "label": "edifícios",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/spain-spain-south-west/buildings.bin.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/spain-spain-south-west/buildings.bin.gz",
           "bytes": 32429494,
           "sha256": "653e226498fa349c982b09c80804bd02efd4712c5cc4857732a783092edeb12d"
         }
@@ -148,17 +148,17 @@
       "label": "mapa",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/spain-spain-south-west/map.pmtiles.000",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/spain-spain-south-west/map.pmtiles.000",
           "bytes": 45000000,
           "sha256": "7f04b476d67ad588608a220b5ab6aa64ec4b82e184a2e270186a95d104699446"
         },
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/spain-spain-south-west/map.pmtiles.001",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/spain-spain-south-west/map.pmtiles.001",
           "bytes": 45000000,
           "sha256": "873f6f0987585d87bda18912c6b1456cb97805bbffd209e605b460795e7364c3"
         },
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/spain-spain-south-west/map.pmtiles.002",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/spain-spain-south-west/map.pmtiles.002",
           "bytes": 22660077,
           "sha256": "d29a9bce28f4d17ccc4b516667892717559ecb971321ce87bf73cf7e94fd52d1"
         }

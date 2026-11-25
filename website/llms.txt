@@ -53,5 +53,5 @@ Beginner lessons. Each one plays from YouTube only after a click.
 
 - [Privacy](https://blackoutmaps.com/privacy.html): no account, no payment for the maps, no data collection, no GPS.
 - [Terms](https://blackoutmaps.com/terms.html)
-- [Catalog](https://github.com/bug-catcher90/blackout-maps/blob/main/catalog/README.md)
+- [Catalog](https://github.com/bug-catcher90/blackout-maps-data)
 - [Source](https://github.com/bug-catcher90/blackout-maps)

@@ -12,7 +12,7 @@
   "files": [
     {
       "key": "places",
-      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/netherlands-zeeland-south-holland/places.bin.gz",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/netherlands-zeeland-south-holland/places.bin.gz",
       "file": "places.bin",
       "gzip": true,
       "bytes": 837976,
@@ -20,7 +20,7 @@
     },
     {
       "key": "water",
-      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/netherlands-zeeland-south-holland/water.bin.gz",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/netherlands-zeeland-south-holland/water.bin.gz",
       "file": "water.bin",
       "gzip": true,
       "bytes": 138804,
@@ -28,7 +28,7 @@
     },
     {
       "key": "addresses",
-      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/netherlands-zeeland-south-holland/addresses.bin.gz",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/netherlands-zeeland-south-holland/addresses.bin.gz",
       "file": "addresses.bin",
       "gzip": true,
       "bytes": 44480193,
@@ -36,7 +36,7 @@
     },
     {
       "key": "geo",
-      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/netherlands-zeeland-south-holland/geo.json.gz",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/netherlands-zeeland-south-holland/geo.json.gz",
       "file": "geo.json",
       "gzip": true,
       "bytes": 2601998,
@@ -44,7 +44,7 @@
     },
     {
       "key": "roads",
-      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/netherlands-zeeland-south-holland/roads.bin.gz",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/netherlands-zeeland-south-holland/roads.bin.gz",
       "file": "roads.bin",
       "gzip": true,
       "bytes": 64269296,
@@ -61,7 +61,7 @@
       "label": "lugares",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/netherlands-zeeland-south-holland/places.bin.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/netherlands-zeeland-south-holland/places.bin.gz",
           "bytes": 301466,
           "sha256": "60437fd8bcc30c30539d5b745b7c857c4c47a0ba7aaf44cf0d43745b02f298f2"
         }
@@ -76,7 +76,7 @@
       "label": "água",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/netherlands-zeeland-south-holland/water.bin.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/netherlands-zeeland-south-holland/water.bin.gz",
           "bytes": 47281,
           "sha256": "4b4267f224b6b1bbc7b9c9030ee29fc529bc97c672983c042394556ce34e758f"
         }
@@ -91,7 +91,7 @@
       "label": "moradas",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/netherlands-zeeland-south-holland/addresses.bin.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/netherlands-zeeland-south-holland/addresses.bin.gz",
           "bytes": 17197078,
           "sha256": "fabcde205f1bb2c5b83b63b28f01715d5e02aba88668fdfb2cc54be625a27d3f"
         }
@@ -106,7 +106,7 @@
       "label": "geo",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/netherlands-zeeland-south-holland/geo.json.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/netherlands-zeeland-south-holland/geo.json.gz",
           "bytes": 941465,
           "sha256": "5419ee2eae71eeb8ba5d8b55f3c2c57a1215f8486d275ce26f0e8cf386cf2949"
         }
@@ -121,7 +121,7 @@
       "label": "estradas",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/netherlands-zeeland-south-holland/roads.bin.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/netherlands-zeeland-south-holland/roads.bin.gz",
           "bytes": 24731923,
           "sha256": "9a920c5274e5d6f2a19b2eb0eac35a4c01a11c341fb1eb76e3bddb39439c9461"
         }
@@ -136,7 +136,7 @@
       "label": "edifícios",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/netherlands-zeeland-south-holland/buildings.bin.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/netherlands-zeeland-south-holland/buildings.bin.gz",
           "bytes": 37107419,
           "sha256": "c99a16a6231b932513dcf284d689d8ed444786d1210be0e6ce891da46738ba9c"
         }
@@ -151,7 +151,7 @@
       "label": "mapa",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/netherlands-zeeland-south-holland/map.pmtiles",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/netherlands-zeeland-south-holland/map.pmtiles",
           "bytes": 39827823,
           "sha256": "7c50f727ac829d29e8f03e12993901f7e30b66e1b2422224f7ca0a8d6e0dee64"
         }

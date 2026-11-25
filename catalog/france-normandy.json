@@ -12,7 +12,7 @@
   "files": [
     {
       "key": "places",
-      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/france-normandy/places.bin.gz",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/france-normandy/places.bin.gz",
       "file": "places.bin",
       "gzip": true,
       "bytes": 749200,
@@ -20,7 +20,7 @@
     },
     {
       "key": "water",
-      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/france-normandy/water.bin.gz",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/france-normandy/water.bin.gz",
       "file": "water.bin",
       "gzip": true,
       "bytes": 225644,
@@ -28,7 +28,7 @@
     },
     {
       "key": "addresses",
-      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/france-normandy/addresses.bin.gz",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/france-normandy/addresses.bin.gz",
       "file": "addresses.bin",
       "gzip": true,
       "bytes": 11423912,
@@ -36,7 +36,7 @@
     },
     {
       "key": "geo",
-      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/france-normandy/geo.json.gz",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/france-normandy/geo.json.gz",
       "file": "geo.json",
       "gzip": true,
       "bytes": 7309964,
@@ -44,7 +44,7 @@
     },
     {
       "key": "roads",
-      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/france-normandy/roads.bin.gz",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/france-normandy/roads.bin.gz",
       "file": "roads.bin",
       "gzip": true,
       "bytes": 75885952,
@@ -61,7 +61,7 @@
       "label": "lugares",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/france-normandy/places.bin.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/france-normandy/places.bin.gz",
           "bytes": 244225,
           "sha256": "fcccaec9a58af51de6afdeb49b80718a3e384a539befb6b3bac4e5e1431e8712"
         }
@@ -76,7 +76,7 @@
       "label": "água",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/france-normandy/water.bin.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/france-normandy/water.bin.gz",
           "bytes": 39777,
           "sha256": "cadf4ce3312ace7a6da7226db051d436f894526658c446367ec9f6442793f8b4"
         }
@@ -91,7 +91,7 @@
       "label": "moradas",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/france-normandy/addresses.bin.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/france-normandy/addresses.bin.gz",
           "bytes": 5211460,
           "sha256": "552293998d8348ba704973a801dee5ad3d8949da36df1850bd853881cbad75c5"
         }
@@ -106,7 +106,7 @@
       "label": "geo",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/france-normandy/geo.json.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/france-normandy/geo.json.gz",
           "bytes": 2567989,
           "sha256": "86e023b037ed0959206f530cea46d81a0bb756059926c0ff52fbdb7d93c5b322"
         }
@@ -121,7 +121,7 @@
       "label": "estradas",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/france-normandy/roads.bin.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/france-normandy/roads.bin.gz",
           "bytes": 34526397,
           "sha256": "264f671579a2fc70c7a2b0e031eca9c2f80a8b76d99d99f85dfcad1b29bf7d0e"
         }
@@ -136,12 +136,12 @@
       "label": "edifícios",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/france-normandy/buildings.bin.gz.000",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/france-normandy/buildings.bin.gz.000",
           "bytes": 45000000,
           "sha256": "ac6478c477edee636da87e0956c7a02fee55dee601d86ba5d37629ffad5a224b"
         },
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/france-normandy/buildings.bin.gz.001",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/france-normandy/buildings.bin.gz.001",
           "bytes": 9404522,
           "sha256": "e7489478e47c2f9fc64986a97dd3769fed99c3f4e1685dfa1953bff083af0385"
         }
@@ -156,12 +156,12 @@
       "label": "mapa",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/france-normandy/map.pmtiles.000",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/france-normandy/map.pmtiles.000",
           "bytes": 45000000,
           "sha256": "ff3c3ae4cbc0c60518b10f5abdd50bd339def7ead4650e03904082eb2bc55e7a"
         },
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/france-normandy/map.pmtiles.001",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/france-normandy/map.pmtiles.001",
           "bytes": 22390478,
           "sha256": "a283ef035bd5dd613e5f173b3d08012c813becabfac4c9b93f454c2a3dc47108"
         }

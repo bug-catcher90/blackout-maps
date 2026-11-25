@@ -12,7 +12,7 @@
   "files": [
     {
       "key": "places",
-      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/spain-spain-central/places.bin.gz",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/spain-spain-central/places.bin.gz",
       "file": "places.bin",
       "gzip": true,
       "bytes": 2022128,
@@ -20,7 +20,7 @@
     },
     {
       "key": "water",
-      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/spain-spain-central/water.bin.gz",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/spain-spain-central/water.bin.gz",
       "file": "water.bin",
       "gzip": true,
       "bytes": 2072632,
@@ -28,7 +28,7 @@
     },
     {
       "key": "addresses",
-      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/spain-spain-central/addresses.bin.gz",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/spain-spain-central/addresses.bin.gz",
       "file": "addresses.bin",
       "gzip": true,
       "bytes": 9068310,
@@ -36,7 +36,7 @@
     },
     {
       "key": "geo",
-      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/spain-spain-central/geo.json.gz",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/spain-spain-central/geo.json.gz",
       "file": "geo.json",
       "gzip": true,
       "bytes": 14686623,
@@ -53,7 +53,7 @@
       "label": "lugares",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/spain-spain-central/places.bin.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/spain-spain-central/places.bin.gz",
           "bytes": 616747,
           "sha256": "ad876fef7d6d1f489fd85c7189ac7f76f6dbc17c2f8325c007154222f01ef4b0"
         }
@@ -68,7 +68,7 @@
       "label": "água",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/spain-spain-central/water.bin.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/spain-spain-central/water.bin.gz",
           "bytes": 537462,
           "sha256": "f2f14754de8e201e308ab240eaced6b7aa7af1c72a8df7f2a6bc6fcf255c8674"
         }
@@ -83,7 +83,7 @@
       "label": "moradas",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/spain-spain-central/addresses.bin.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/spain-spain-central/addresses.bin.gz",
           "bytes": 3764916,
           "sha256": "2a94df0d110960b7ca03961873c6d626f1a10e81bdfe1506608973c553f5082c"
         }
@@ -98,7 +98,7 @@
       "label": "geo",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/spain-spain-central/geo.json.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/spain-spain-central/geo.json.gz",
           "bytes": 5272398,
           "sha256": "6a81cff62feead30594f2cb2a28caaab64ab5ef428a72f3d17d28c5c5c460780"
         }
@@ -113,12 +113,12 @@
       "label": "estradas",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/spain-spain-central/roads.bin.gz.000",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/spain-spain-central/roads.bin.gz.000",
           "bytes": 45000000,
           "sha256": "da02140a53e5fae2b1c64d574b35cb589142ce8bd9ca90526c4593d3a25d6fe0"
         },
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/spain-spain-central/roads.bin.gz.001",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/spain-spain-central/roads.bin.gz.001",
           "bytes": 25292160,
           "sha256": "857728b06b852d940e171520ae5fcee4f08b17fbd54036fef544ab79e76f7536"
         }
@@ -133,7 +133,7 @@
       "label": "edifícios",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/spain-spain-central/buildings.bin.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/spain-spain-central/buildings.bin.gz",
           "bytes": 21318290,
           "sha256": "eaf2e6a1e5e71b553667d4ef55908c96499aaf1df94d7f8ff9b79530dad8539e"
         }
@@ -148,22 +148,22 @@
       "label": "mapa",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/spain-spain-central/map.pmtiles.000",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/spain-spain-central/map.pmtiles.000",
           "bytes": 45000000,
           "sha256": "9ce42deee36e3f41236bab1b75363e2b51ad7ff8405e79c1e926743af6f74b67"
         },
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/spain-spain-central/map.pmtiles.001",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/spain-spain-central/map.pmtiles.001",
           "bytes": 45000000,
           "sha256": "160200b650bac01b4a84f2f8520f277152ffb2879a1444a776a1d7f6e2ce5c3c"
         },
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/spain-spain-central/map.pmtiles.002",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/spain-spain-central/map.pmtiles.002",
           "bytes": 45000000,
           "sha256": "6ffaf22afe76924a10d258cbed86f8ba85e77724b4c1e3c0886114f59128bc57"
         },
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/spain-spain-central/map.pmtiles.003",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/spain-spain-central/map.pmtiles.003",
           "bytes": 9092191,
           "sha256": "13f50d6e25546038cef58471e9d7b83b054fa91df03493c6df8af836fd6dc8d4"
         }

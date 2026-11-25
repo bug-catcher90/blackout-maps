@@ -24,7 +24,7 @@ struct EngineError: Error, CustomStringConvertible {
 }
 
 final class Engine: @unchecked Sendable {
-    private let queue = DispatchQueue(label: "pt.tendertown.mapa.engine")
+    private let queue = DispatchQueue(label: "app.blackoutmaps.engine")
     private let flag = NSLock()
     private var jobs = 0
     private var context: JSContext?

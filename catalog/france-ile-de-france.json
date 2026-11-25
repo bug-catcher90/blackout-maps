@@ -12,7 +12,7 @@
   "files": [
     {
       "key": "places",
-      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/france-ile-de-france/places.bin.gz",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/france-ile-de-france/places.bin.gz",
       "file": "places.bin",
       "gzip": true,
       "bytes": 2512284,
@@ -20,7 +20,7 @@
     },
     {
       "key": "water",
-      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/france-ile-de-france/water.bin.gz",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/france-ile-de-france/water.bin.gz",
       "file": "water.bin",
       "gzip": true,
       "bytes": 213976,
@@ -28,7 +28,7 @@
     },
     {
       "key": "addresses",
-      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/france-ile-de-france/addresses.bin.gz",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/france-ile-de-france/addresses.bin.gz",
       "file": "addresses.bin",
       "gzip": true,
       "bytes": 11071487,
@@ -36,7 +36,7 @@
     },
     {
       "key": "geo",
-      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/france-ile-de-france/geo.json.gz",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/france-ile-de-france/geo.json.gz",
       "file": "geo.json",
       "gzip": true,
       "bytes": 6437435,
@@ -44,7 +44,7 @@
     },
     {
       "key": "roads",
-      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/france-ile-de-france/roads.bin.gz",
+      "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/france-ile-de-france/roads.bin.gz",
       "file": "roads.bin",
       "gzip": true,
       "bytes": 113915224,
@@ -61,7 +61,7 @@
       "label": "lugares",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/france-ile-de-france/places.bin.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/france-ile-de-france/places.bin.gz",
           "bytes": 870843,
           "sha256": "d93b9b44a3f63505c879f6887dfb569cb0871d01cea96065d2a3caf6a47d70bc"
         }
@@ -76,7 +76,7 @@
       "label": "água",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/france-ile-de-france/water.bin.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/france-ile-de-france/water.bin.gz",
           "bytes": 56321,
           "sha256": "ed4c9290b0956190830d0f42a0c17f5041b6d0581552dc87e553863c5ce4ff0e"
         }
@@ -91,7 +91,7 @@
       "label": "moradas",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/france-ile-de-france/addresses.bin.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/france-ile-de-france/addresses.bin.gz",
           "bytes": 4866074,
           "sha256": "86b0e2039bb880ed3ea387f2d4cd63ffa6c5f8c4800fa69baff757ea3bda95ae"
         }
@@ -106,7 +106,7 @@
       "label": "geo",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/france-ile-de-france/geo.json.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/france-ile-de-france/geo.json.gz",
           "bytes": 2278276,
           "sha256": "67f9f1532b2c465b9fb55eb79557e22b3dfdbb2916387476321d5ec358c323d2"
         }
@@ -121,7 +121,7 @@
       "label": "estradas",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/france-ile-de-france/roads.bin.gz",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/france-ile-de-france/roads.bin.gz",
           "bytes": 44514698,
           "sha256": "5953d02484d15fbc38ab54662a0f52024905de7a86cbf2f78cdd798d754e16ca"
         }
@@ -136,12 +136,12 @@
       "label": "edifícios",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/france-ile-de-france/buildings.bin.gz.000",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/france-ile-de-france/buildings.bin.gz.000",
           "bytes": 45000000,
           "sha256": "0b81792ce684c2f73572d95bc29e4e389746a6c715fd52cda8f40d11a309255e"
         },
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/france-ile-de-france/buildings.bin.gz.001",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/france-ile-de-france/buildings.bin.gz.001",
           "bytes": 18935753,
           "sha256": "29a95a34a087082b031763638a1064b3154268c4a942b956452885baa7094596"
         }
@@ -156,12 +156,12 @@
       "label": "mapa",
       "parts": [
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/france-ile-de-france/map.pmtiles.000",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/france-ile-de-france/map.pmtiles.000",
           "bytes": 45000000,
           "sha256": "d919d293ffbf2faa0d8445adbf5102ed9e11da984c80aeacd7e1254ca28d2c7f"
         },
         {
-          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps/main/catalog/france-ile-de-france/map.pmtiles.001",
+          "url": "https://raw.githubusercontent.com/bug-catcher90/blackout-maps-data/main/catalog/france-ile-de-france/map.pmtiles.001",
           "bytes": 10272524,
           "sha256": "a0665fc110b5a7c1f3816c9c80536b4ed47beee8340cab9bf6d63bcfe1e429d8"
         }
