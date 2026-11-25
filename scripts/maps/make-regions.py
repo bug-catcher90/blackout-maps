@@ -21,7 +21,7 @@ import subprocess
 import sys
 import unicodedata
 
-from shapely.geometry import mapping, shape
+from shapely.geometry import Polygon, mapping, shape
 from shapely.ops import unary_union
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -37,6 +37,28 @@ def slug(text):
 
 def run(*args):
     subprocess.run(args, check=True)
+
+
+def extract_boundary(geofabrik, work):
+    """The Geofabrik extract's .poly boundary (land and sea) as a shape."""
+    path = os.path.join(work, "extract.poly")
+    if not os.path.exists(path):
+        run("curl", "-sfL", "--retry", "3", "-o", path, f"https://download.geofabrik.de/{geofabrik}.poly")
+    rings, holes, current = [], [], None
+    with open(path) as handle:
+        lines = [line.strip() for line in handle][1:]
+    for line in lines:
+        if not line:
+            continue
+        if current is None:
+            current = {"hole": line.startswith("!"), "points": []}
+        elif line == "END":
+            (holes if current["hole"] else rings).append(Polygon(current["points"]))
+            current = None
+        else:
+            x, y = line.split()[:2]
+            current["points"].append((float(x), float(y)))
+    return unary_union(rings).difference(unary_union(holes)) if holes else unary_union(rings)
 
 
 def admin_areas(pbf, work):
@@ -70,9 +92,12 @@ def extract(pbf, regions, work):
     extracts = []
     for region in regions:
         poly = os.path.join(work, f"{region['slug']}.geojson")
-        with open(poly, "w") as handle:
-            json.dump({"type": "Feature", "properties": {}, "geometry": mapping(region["shape"])}, handle)
+        text = json.dumps({"type": "Feature", "properties": {}, "geometry": mapping(region["shape"])})
         region["pbf"] = os.path.join(work, f"{region['slug']}.osm.pbf")
+        if os.path.exists(region["pbf"]) and os.path.exists(poly) and open(poly).read() == text:
+            continue
+        with open(poly, "w") as handle:
+            handle.write(text)
         extracts.append({"output": os.path.basename(region["pbf"]), "polygon": {"file_name": poly, "file_type": "geojson"}})
     # osmium's smart strategy keeps id sets per output; four outputs of England needed 14 GB.
     for start in range(0, len(extracts), EXTRACT_BATCH):
@@ -95,18 +120,26 @@ def direction(parent, child):
 
 
 def group(parent, children):
-    """Greedily packs neighbouring children (ordered along the longer axis) into areas under the limit."""
-    minx, miny, maxx, maxy = parent["shape"].bounds
-    key = (lambda c: c["shape"].centroid.x) if maxx - minx > maxy - miny else (lambda c: -c["shape"].centroid.y)
-    bins, current, size = [], [], 0
-    for child in sorted(children, key=key):
-        if current and size + child["bytes"] > LIMIT_BYTES:
-            bins.append(current)
-            current, size = [], 0
-        current.append(child)
-        size += child["bytes"]
-    if current:
-        bins.append(current)
+    """Packs neighbouring children into compact areas under the limit by halving along the longer side."""
+    def bisect(members):
+        total = sum(m["bytes"] for m in members)
+        if total <= LIMIT_BYTES or len(members) == 1:
+            return [members]
+        points = [m["shape"].centroid for m in members]
+        scale = math.cos(math.radians(sum(p.y for p in points) / len(points)))
+        wide = (max(p.x for p in points) - min(p.x for p in points)) * scale > max(p.y for p in points) - min(p.y for p in points)
+        ordered = sorted(members, key=(lambda m: m["shape"].centroid.x) if wide else (lambda m: m["shape"].centroid.y))
+        parts = math.ceil(total / LIMIT_BYTES)
+        goal = total * (parts // 2) / parts
+        size, cut = 0, 1
+        for i, member in enumerate(ordered[:-1]):
+            size += member["bytes"]
+            cut = i + 1
+            if size >= goal:
+                break
+        return bisect(ordered[:cut]) + bisect(ordered[cut:])
+
+    bins = bisect(children)
     out = []
     for members in bins:
         if len(members) == 1:
@@ -117,7 +150,7 @@ def group(parent, children):
         if len(names) <= 5:
             label = ", ".join(names[:-1]) + " & " + names[-1]
         else:
-            label = f"{parent['name']} {direction(parent['shape'], geom)}"
+            label = direction(parent["shape"], geom) if parent.get("root") else f"{parent['name']} {direction(parent['shape'], geom)}"
         out.append({"name": label, "shape": geom, "bytes": sum(m["bytes"] for m in members), "members": members})
     seen = {}
     for region in out:
@@ -144,14 +177,29 @@ def split(area, areas, work, depth=0):
             if a["level"] == level and inside.contains(a["shape"].representative_point())
         ]
         children = [c for c in children if not c["shape"].is_empty]
-        kept = [c for c in children if c["shape"].area > area["shape"].area * 0.002]
-        # Tiny areas such as Bremen or Melilla join their nearest neighbour rather than leaving a hole.
-        for tiny in (c for c in children if c not in kept and kept):
-            near = min(kept, key=lambda k: k["shape"].distance(tiny["shape"]))
-            near["shape"] = unary_union([near["shape"], tiny["shape"]])
-        children = kept
         covered = unary_union([c["shape"] for c in children]).area / area["shape"].area if children else 0
-        if len(children) >= 2 and covered > 0.97:
+        if len(children) < 2 or covered <= 0.9:
+            continue
+        # What this level leaves out still needs a home: Greater London is in no English county,
+        # so a large gap becomes an area named after the boundary that matches it best.
+        threshold = area["shape"].area * 0.002
+        rest = area["shape"].difference(unary_union([c["shape"] for c in children]))
+        pieces = [p for p in getattr(rest, "geoms", [rest]) if not p.is_empty]
+        for piece in (p for p in pieces if p.area > threshold):
+            near = [a for a in areas if a["shape"].intersects(piece)]
+            match = max(near, key=lambda a: a["shape"].intersection(piece).area / a["shape"].union(piece).area)
+            children.append({"level": level, "name": match["name"], "shape": piece})
+        kept = [c for c in children if c["shape"].area > threshold]
+        # Tiny areas such as Bremen or Melilla, and slivers, join their nearest neighbour rather than leaving a hole.
+        tiny = [c["shape"] for c in children if c["shape"].area <= threshold] + [p for p in pieces if p.area <= threshold]
+        for shape_ in tiny:
+            closest = min(kept, key=lambda k: k["shape"].distance(shape_))
+            closest.setdefault("extra", []).append(shape_)
+        for child in kept:
+            if child.get("extra"):
+                child["shape"] = unary_union([child["shape"]] + child.pop("extra"))
+        children = kept
+        if len(children) >= 2:
             break
     else:
         print(f"warning: {area['name']} is {area['bytes'] / 1e6:.0f} MB and has no smaller administrative areas", file=sys.stderr)
@@ -186,9 +234,18 @@ def main():
 
     areas = admin_areas(pbf, work)
     tops = [a for a in areas if a["level"] == str(int(start) - 1)] if start != "4" else []
-    outline = unary_union([a["shape"] for a in areas if a["level"] == start]) if not tops else max(tops, key=lambda a: a["shape"].area)["shape"]
+    if tops:
+        outline = max(tops, key=lambda a: a["shape"].area)["shape"]
+    elif start == "4":
+        outline = unary_union([a["shape"] for a in areas if a["level"] == start])
+    else:
+        # The country's own boundary did not export (England's relation is too large to be complete in
+        # its extract); the areas below it, trimmed to the extract's boundary, are the next best outline.
+        inside = extract_boundary(country["geofabrik"], work).buffer(-0.02)
+        below = [a for a in areas if a["level"] >= start and inside.contains(a["shape"].representative_point())]
+        outline = unary_union([a["shape"] for a in below])
     root = {"name": country["name"], "slug": country_id, "shape": outline, "pbf": os.path.abspath(pbf),
-            "bytes": os.path.getsize(pbf), "level": str(int(start) - 1)}
+            "bytes": os.path.getsize(pbf), "level": str(int(start) - 1), "root": True}
     packages = split(root, areas, work)
     if packages == [root]:
         print(f"{country_id} fits in one package", file=sys.stderr)
