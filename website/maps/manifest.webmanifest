@@ -1,7 +1,7 @@
 {
-  "name": "Posição",
-  "short_name": "Posição",
-  "lang": "pt-PT",
+  "name": "Blackout Maps",
+  "short_name": "Blackout Maps",
+  "lang": "en",
   "dir": "ltr",
   "start_url": "/maps/",
   "scope": "/maps/",

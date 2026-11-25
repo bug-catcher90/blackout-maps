@@ -293,8 +293,8 @@ final class MapController: NSObject, MLNMapViewDelegate {
             return [
                 "type": "Feature",
                 "properties": [
-                    "name": row["name"] as? String ?? "",
-                    "address": row["address"] as? String ?? "",
+                    "name": L10n.placeName(row, L10n.code()),
+                    "address": L10n.known(row["address"] as? String ?? "", L10n.code()),
                     "category": category,
                     "icon": name == "water" ? "water-drop" : "poi-\(category)",
                     "kind": name,

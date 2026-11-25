@@ -1,6 +1,6 @@
-import { nearestDoor, openAddressBook, parseDoorQuery, suggestAddresses } from "../../offline-gps/public/addresses.js"
-import { buildingsInView, openBuildingBook } from "../../offline-gps/public/buildings.js"
-import { placesInView, openPlaceBook, searchServices } from "../../offline-gps/public/places.js"
+import { nearestDoor, openAddressBook, parseDoorQuery, suggestAddresses } from "../../website/maps/addresses.js"
+import { buildingsInView, openBuildingBook } from "../../website/maps/buildings.js"
+import { placesInView, openPlaceBook, searchServices } from "../../website/maps/places.js"
 import {
   advanceOnLine,
   findRoute,
@@ -12,9 +12,9 @@ import {
   moveAlongRoad,
   openRoadGraph,
   sliceRoute,
-} from "../../offline-gps/public/route.js"
-import { fold, preparePlaces, prepareStreets, searchNames } from "../../offline-gps/public/search.js"
-import { openWaterBook, waterInView } from "../../offline-gps/public/water.js"
+} from "../../website/maps/route.js"
+import { fold, preparePlaces, prepareStreets, rankResults, searchNames } from "../../website/maps/search.js"
+import { openWaterBook, waterInView } from "../../website/maps/water.js"
 
 globalThis.setTimeout = (fn) => {
   fn()
@@ -22,8 +22,6 @@ globalThis.setTimeout = (fn) => {
 }
 globalThis.clearTimeout = () => {}
 globalThis.console = globalThis.console || { log() {}, error() {}, warn() {}, info() {} }
-
-const GENERIC = new Set(["rua", "avenida", "travessa", "largo", "praca", "estrada", "caminho", "alameda", "beco"])
 
 const state = {
   graph: null,
@@ -95,9 +93,10 @@ function nearbyName(lat, lon, zoom) {
     const view = placesInView(state.places, lon - 0.0004, lat - 0.0004, lon + 0.0004, lat + 0.0004, -1, 20)
     for (const place of view.items) {
       const meters = metersBetween(lat, lon, place.lat, place.lon)
-      if (meters <= 20 && place.name) {
+      if (meters <= 20) {
         found.push({
           name: place.name,
+          category: place.category,
           meters,
           address: place.address || "",
           lat: place.lat,
@@ -110,9 +109,10 @@ function nearbyName(lat, lon, zoom) {
     const view = waterInView(state.water, lon - 0.0004, lat - 0.0004, lon + 0.0004, lat + 0.0004, zoom || 16)
     for (const place of view.list) {
       const meters = metersBetween(lat, lon, place.lat, place.lon)
-      if (meters <= 20 && place.name) {
+      if (meters <= 20) {
         found.push({
           name: place.name,
+          typeLabel: place.typeLabel || "",
           meters,
           address: place.typeLabel || "",
           lat: place.lat,
@@ -185,21 +185,12 @@ const api = {
     const anchor = Number.isFinite(lat) && Number.isFinite(lon) ? { lat, lon } : null
     const door = parseDoorQuery(query, state.addresses ? state.addresses.cityKeys : new Set())
     const addresses = state.addresses ? await suggestAddresses(state.addresses, query, 8, anchor) : []
-    let services = state.places ? searchServices(state.places, query, 6) : []
-    if (anchor) {
-      services.sort(
-        (a, b) =>
-          metersBetween(anchor.lat, anchor.lon, a.lat, a.lon) - metersBetween(anchor.lat, anchor.lon, b.lat, b.lon) ||
-          a.rank - b.rank,
-      )
-    }
-    const places = state.geoPlaces.length
-      ? searchNames(state.geoPlaces, query, 4).filter((place) => !GENERIC.has(fold(place.name)))
-      : []
-    const streets = !addresses.length && state.geoStreets.length ? searchNames(state.geoStreets, query, 4) : []
+    const services = state.places ? searchServices(state.places, query, 8, anchor) : []
+    const places = state.geoPlaces.length ? searchNames(state.geoPlaces, query, 6) : []
+    const streets = !addresses.length && state.geoStreets.length ? searchNames(state.geoStreets, query, 6) : []
     return JSON.stringify({
       waiting: !state.addresses && (door.number || fold(query).length >= 2),
-      items: [...services, ...addresses, ...places, ...streets],
+      items: rankResults([...services, ...addresses, ...places, ...streets], query, anchor),
     })
   },
   async inspect(lat, lon, zoom) {
@@ -229,17 +220,17 @@ const api = {
         ? findRoute(state.graph, from, to, null, "car", Infinity, (edge) => !isMotorwayEdge(state.graph, edge))
         : null
       const routes = []
-      if (fastest) routes.push(slim(fastest, "car", "Mais rápido"))
-      if (noToll && !sameRoute(fastest, noToll)) routes.push(slim(noToll, "toll", "Sem portagens"))
+      if (fastest) routes.push(slim(fastest, "car", "fastest"))
+      if (noToll && !sameRoute(fastest, noToll)) routes.push(slim(noToll, "toll", "no-tolls"))
       if (noMotorway && !sameRoute(fastest, noMotorway) && !sameRoute(noToll, noMotorway)) {
-        routes.push(slim(noMotorway, "local", "Sem autoestradas"))
+        routes.push(slim(noMotorway, "local", "no-motorways"))
       }
       return JSON.stringify(routes)
     }
     const style = mode === "walk" ? "walk" : "bicycle"
     const routes = findRoutes(state.graph, from, to, mode)
       .slice(0, 2)
-      .map((route, index) => slim(route, index === 0 ? style : `${style}-alt`, index === 0 ? "Mais curto" : "Alternativa"))
+      .map((route, index) => slim(route, index === 0 ? style : `${style}-alt`, index === 0 ? "shortest" : "alternative"))
     return JSON.stringify(routes)
   },
   setNavigation(active, routeJSON) {
@@ -265,7 +256,6 @@ const api = {
     const seconds = Number.isFinite(state.route.seconds) ? state.route.seconds * ratio : null
     return JSON.stringify({
       turn: step.turn,
-      text: step.text,
       meters: step.meters,
       street: streetAt(step.lat, step.lon),
       remaining: rest.meters,

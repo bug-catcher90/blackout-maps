@@ -51,7 +51,7 @@ const LANDCOVER_COLOR = ["match", ["get", "kind"], ...Object.entries(LANDCOVER).
 
 const placeLabel = {
   "text-font": font,
-  "text-field": ["coalesce", ["get", "name:pt"], ["get", "name"]],
+  "text-field": ["get", "name"],
   "text-anchor": "center",
   "text-max-width": 8,
 }
@@ -59,7 +59,7 @@ const placeLabel = {
 export function mapStyle(archiveUrl) {
   return {
     version: 8,
-    name: "Portugal",
+    name: "Blackout Maps",
     glyphs: "/maps/glyphs/{fontstack}/{range}.pbf",
     sources: {
       world: {
@@ -295,8 +295,8 @@ export function mapStyle(archiveUrl) {
           "text-field": [
             "case",
             ["all", ["has", "ref"], ["has", "name"]],
-            ["concat", ["get", "ref"], "  ", ["coalesce", ["get", "name:pt"], ["get", "name"]]],
-            ["coalesce", ["get", "name:pt"], ["get", "name"], ["get", "ref"], ""],
+            ["concat", ["get", "ref"], "  ", ["get", "name"]],
+            ["coalesce", ["get", "name"], ["get", "ref"], ""],
           ],
         },
         paint: {
