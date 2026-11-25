@@ -57,7 +57,15 @@ data class RemotePack(
     val file: String,
     val gzip: Boolean,
     val bytes: Long?,
-    val label: String
+    val label: String,
+    val sha256: String? = null,
+    val parts: List<RemotePart> = emptyList()
+)
+
+data class RemotePart(
+    val url: String,
+    val bytes: Long,
+    val sha256: String
 )
 
 data class MapPackage(
@@ -65,7 +73,9 @@ data class MapPackage(
     val name: String,
     val flag: String,
     val autoload: Boolean,
-    val files: List<RemotePack>
+    val files: List<RemotePack>,
+    val country: String? = null,
+    val view: List<Double>? = null
 )
 
 enum class Tab { Explore, Pins, Settings }

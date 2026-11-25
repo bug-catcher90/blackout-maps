@@ -22,7 +22,7 @@ class Engine(private val assets: AssetManager) {
     private val thread = HandlerThread("blackout-engine").also { it.start() }
     private val handler = Handler(thread.looper)
     private var runtime: V8Runtime? = null
-    private val buffers = mutableListOf<V8ValueArrayBuffer>()
+    private val buffers = HashMap<String, V8ValueArrayBuffer>()
     @Volatile private var closed = false
 
     fun <T> onEngine(block: () -> T): T {
@@ -69,9 +69,10 @@ class Engine(private val assets: AssetManager) {
             while (dest.hasRemaining()) {
                 if (channel.read(dest) < 0) break
             }
-            buffers += buffer
             rt.globalObject.set("__buf", buffer)
             eval(rt, "Posicao.$call(globalThis.__buf)")
+            rt.globalObject.delete("__buf")
+            buffers.put(call, buffer)?.let { runCatching { it.close() } }
             Log.i(TAG, "$call ${file.name}")
         }
     }
@@ -197,7 +198,7 @@ class Engine(private val assets: AssetManager) {
     fun close() {
         closed = true
         handler.post {
-            buffers.forEach { runCatching { it.close() } }
+            buffers.values.forEach { runCatching { it.close() } }
             buffers.clear()
             runCatching { runtime?.close() }
             runtime = null

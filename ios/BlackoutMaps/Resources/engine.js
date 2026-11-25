@@ -548,11 +548,6 @@
   }
 
   // offline-gps/public/buildings.js
-  var LAT02 = 368e5;
-  var LON02 = -98e5;
-  var STEP = 5e3;
-  var LAT_N = 1090;
-  var LON_N = 750;
   var UNIT = 10;
   function align(offset) {
     return offset + 3 & ~3;
@@ -565,7 +560,15 @@
       throw new Error("buildings");
     }
     const count = view.getUint32(8, true);
+    const grid = {
+      lat0: view.getInt32(12, true),
+      lon0: view.getInt32(16, true),
+      latN: view.getUint32(20, true),
+      lonN: view.getUint32(24, true),
+      step: view.getUint32(28, true)
+    };
     const cellCount = view.getUint32(32, true);
+    if (!grid.step || grid.latN * grid.lonN !== cellCount) throw new Error("buildings");
     const geomBytes = view.getUint32(36, true);
     let offset = 64;
     const originLat = new Int32Array(bytes.buffer, bytes.byteOffset + offset, count);
@@ -583,6 +586,7 @@
     const cellIds = new Uint32Array(bytes.buffer, bytes.byteOffset + offset, cellHead[cellCount]);
     const book = {
       count,
+      grid,
       originLat,
       originLon,
       geomOff,
@@ -660,22 +664,28 @@
     }
     return false;
   }
+  function cellRange(grid, south, north, west, east) {
+    const { lat0, lon0, latN, lonN, step } = grid;
+    return {
+      y0: Math.max(0, Math.min(latN - 1, Math.floor((Math.round(south * 1e6) - lat0) / step))),
+      y1: Math.max(0, Math.min(latN - 1, Math.floor((Math.round(north * 1e6) - lat0) / step))),
+      x0: Math.max(0, Math.min(lonN - 1, Math.floor((Math.round(west * 1e6) - lon0) / step))),
+      x1: Math.max(0, Math.min(lonN - 1, Math.floor((Math.round(east * 1e6) - lon0) / step)))
+    };
+  }
   function candidates(book, lat1, lon1, lat2, lon2) {
     const south = Math.min(lat1, lat2);
     const north = Math.max(lat1, lat2);
     const west = Math.min(lon1, lon2);
     const east = Math.max(lon1, lon2);
-    const y0 = Math.max(0, Math.min(LAT_N - 1, Math.floor((Math.round(south * 1e6) - LAT02) / STEP)));
-    const y1 = Math.max(0, Math.min(LAT_N - 1, Math.floor((Math.round(north * 1e6) - LAT02) / STEP)));
-    const x0 = Math.max(0, Math.min(LON_N - 1, Math.floor((Math.round(west * 1e6) - LON02) / STEP)));
-    const x1 = Math.max(0, Math.min(LON_N - 1, Math.floor((Math.round(east * 1e6) - LON02) / STEP)));
+    const { y0, y1, x0, x1 } = cellRange(book.grid, south, north, west, east);
     const token = book.token + 1 >>> 0;
     book.token = token === 0 ? 1 : token;
     if (token === 0) book.stamp.fill(0);
     const ids = [];
     for (let y = y0; y <= y1; y += 1) {
       for (let x = x0; x <= x1; x += 1) {
-        const cell = y * LON_N + x;
+        const cell = y * book.grid.lonN + x;
         for (let index = book.cellHead[cell]; index < book.cellHead[cell + 1]; index += 1) {
           const id = book.cellIds[index];
           if (book.stamp[id] === book.token) continue;
@@ -807,17 +817,14 @@
     return true;
   }
   function buildingsInView(book, west, south, east, north, limit = 2500) {
-    const y0 = Math.max(0, Math.min(LAT_N - 1, Math.floor((Math.round(south * 1e6) - LAT02) / STEP)));
-    const y1 = Math.max(0, Math.min(LAT_N - 1, Math.floor((Math.round(north * 1e6) - LAT02) / STEP)));
-    const x0 = Math.max(0, Math.min(LON_N - 1, Math.floor((Math.round(west * 1e6) - LON02) / STEP)));
-    const x1 = Math.max(0, Math.min(LON_N - 1, Math.floor((Math.round(east * 1e6) - LON02) / STEP)));
+    const { y0, y1, x0, x1 } = cellRange(book.grid, south, north, west, east);
     const token = book.token + 1 >>> 0;
     book.token = token === 0 ? 1 : token;
     if (token === 0) book.stamp.fill(0);
     const features = [];
     for (let y = y0; y <= y1 && features.length < limit; y += 1) {
       for (let x = x0; x <= x1 && features.length < limit; x += 1) {
-        const cell = y * LON_N + x;
+        const cell = y * book.grid.lonN + x;
         for (let index = book.cellHead[cell]; index < book.cellHead[cell + 1] && features.length < limit; index += 1) {
           const id = book.cellIds[index];
           if (book.stamp[id] === book.token) continue;

@@ -15,6 +15,7 @@ Almost everything on the map at street level comes from OpenStreetMap:
 | Basemap tiles (Protomaps extract of Portugal) | `ios/BlackoutMaps/Resources/base/portugal.pmtiles`, also downloaded by the web app | Land, water, roads, paths, rail, ferries, boundaries and place labels |
 | Road graph | `ios/BlackoutMaps/Resources/base/roads.bin.gz`, also downloaded by the web app | Walking, cycling and driving routes |
 | Building outlines | `ios/BlackoutMaps/Resources/base/buildings.bin.gz`, also downloaded by the web app | Buildings at close zoom |
+| Basemap, road graph and buildings of the other packages | `catalog/<id>/map.pmtiles*`, `roads.bin.gz*`, `buildings.bin.gz*`, built by `scripts/maps/` from [Geofabrik](https://download.geofabrik.de/) extracts and a [Protomaps planet build](https://maps.protomaps.com/builds/) | The same layers as Portugal, for every package |
 | Services | `catalog/<id>/places.bin.gz`, `website/maps/places.bin.gz` | Health, police, fire, fuel, supermarkets and restaurants |
 | Water | `catalog/<id>/water.bin.gz`, `website/maps/water.bin.gz` | Drinking fountains, springs, fords, weirs and water access |
 | Addresses | `catalog/<id>/addresses.bin.gz` | Address search and the nearest door |

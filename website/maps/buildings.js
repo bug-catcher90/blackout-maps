@@ -1,123 +1,7 @@
-const LAT0 = 36800000
-const LON0 = -9800000
-const STEP = 5000
-const LAT_N = 1090
-const LON_N = 750
 const UNIT = 10
-
-function pad(bytes) {
-  const extra = (4 - (bytes.length % 4)) % 4
-  if (!extra) return bytes
-  const out = new Uint8Array(bytes.length + extra)
-  out.set(bytes)
-  return out
-}
-
-function concat(parts) {
-  const size = parts.reduce((sum, part) => sum + part.length, 0)
-  const out = new Uint8Array(size)
-  let offset = 0
-  for (const part of parts) {
-    out.set(part, offset)
-    offset += part.length
-  }
-  return out
-}
 
 function align(offset) {
   return (offset + 3) & ~3
-}
-
-function cellOf(lat, lon) {
-  const y = Math.floor((lat - LAT0) / STEP)
-  const x = Math.floor((lon - LON0) / STEP)
-  if (y < 0 || x < 0 || y >= LAT_N || x >= LON_N) return -1
-  return y * LON_N + x
-}
-
-export function buildBuildingBook(rows) {
-  const kept = []
-  for (const row of rows) {
-    const ring = (row.ring || []).filter((point) => Number.isFinite(point[0]) && Number.isFinite(point[1]))
-    if (ring.length < 3) continue
-    const open = ring[0][0] === ring[ring.length - 1][0] && ring[0][1] === ring[ring.length - 1][1] ? ring.slice(0, -1) : ring
-    if (open.length < 3) continue
-    const micro = open.map((point) => [Math.round(point[0] * 1e6), Math.round(point[1] * 1e6)])
-    const originLat = micro[0][0]
-    const originLon = micro[0][1]
-    const deltas = []
-    let fit = true
-    for (let index = 1; index < micro.length; index += 1) {
-      const dLat = Math.round((micro[index][0] - originLat) / UNIT)
-      const dLon = Math.round((micro[index][1] - originLon) / UNIT)
-      if (dLat < -32768 || dLat > 32767 || dLon < -32768 || dLon > 32767) fit = false
-      deltas.push(dLat, dLon)
-    }
-    if (!fit) continue
-    kept.push({ originLat, originLon, deltas, micro })
-  }
-  const buckets = Array.from({ length: LAT_N * LON_N }, () => [])
-  const geomChunks = []
-  const geomOff = []
-  const geomLen = []
-  let geomBytes = 0
-  kept.forEach((row, index) => {
-    const bytes = [row.deltas.length / 2 + 1, 0]
-    for (const value of row.deltas) bytes.push(value & 255, (value >> 8) & 255)
-    const chunk = Uint8Array.from(bytes)
-    geomOff.push(geomBytes)
-    geomLen.push(chunk.length)
-    geomChunks.push(chunk)
-    geomBytes += chunk.length
-    const cells = new Set()
-    let minLat = row.originLat
-    let maxLat = row.originLat
-    let minLon = row.originLon
-    let maxLon = row.originLon
-    for (const [lat, lon] of row.micro) {
-      if (lat < minLat) minLat = lat
-      if (lat > maxLat) maxLat = lat
-      if (lon < minLon) minLon = lon
-      if (lon > maxLon) maxLon = lon
-    }
-    const y0 = Math.max(0, Math.min(LAT_N - 1, Math.floor((minLat - LAT0) / STEP)))
-    const y1 = Math.max(0, Math.min(LAT_N - 1, Math.floor((maxLat - LAT0) / STEP)))
-    const x0 = Math.max(0, Math.min(LON_N - 1, Math.floor((minLon - LON0) / STEP)))
-    const x1 = Math.max(0, Math.min(LON_N - 1, Math.floor((maxLon - LON0) / STEP)))
-    for (let y = y0; y <= y1; y += 1) {
-      for (let x = x0; x <= x1; x += 1) cells.add(y * LON_N + x)
-    }
-    for (const cell of cells) buckets[cell].push(index)
-  })
-  const cellIds = []
-  const cellHead = [0]
-  for (const bucket of buckets) {
-    cellIds.push(...bucket)
-    cellHead.push(cellIds.length)
-  }
-  const count = kept.length
-  const parts = [new Uint8Array(64)]
-  parts.push(new Uint8Array(new Int32Array(kept.map((row) => row.originLat)).buffer))
-  parts.push(new Uint8Array(new Int32Array(kept.map((row) => row.originLon)).buffer))
-  parts.push(new Uint8Array(new Uint32Array(geomOff).buffer))
-  parts.push(pad(new Uint8Array(new Uint16Array(geomLen).buffer)))
-  parts.push(pad(concat(geomChunks)))
-  parts.push(new Uint8Array(new Uint32Array(cellHead).buffer))
-  parts.push(new Uint8Array(new Uint32Array(cellIds).buffer))
-  const body = concat(parts)
-  const view = new DataView(body.buffer)
-  body.set(new TextEncoder().encode("BLD1"), 0)
-  view.setUint32(4, 1, true)
-  view.setUint32(8, count, true)
-  view.setInt32(12, LAT0, true)
-  view.setInt32(16, LON0, true)
-  view.setUint32(20, LAT_N, true)
-  view.setUint32(24, LON_N, true)
-  view.setUint32(28, STEP, true)
-  view.setUint32(32, LAT_N * LON_N, true)
-  view.setUint32(36, geomBytes, true)
-  view.setUint32(40, body.length, true)
-  return body.buffer.slice(body.byteOffset, body.byteOffset + body.byteLength)
 }
 
 export function openBuildingBook(buffer) {
@@ -128,7 +12,15 @@ export function openBuildingBook(buffer) {
     throw new Error("buildings")
   }
   const count = view.getUint32(8, true)
+  const grid = {
+    lat0: view.getInt32(12, true),
+    lon0: view.getInt32(16, true),
+    latN: view.getUint32(20, true),
+    lonN: view.getUint32(24, true),
+    step: view.getUint32(28, true),
+  }
   const cellCount = view.getUint32(32, true)
+  if (!grid.step || grid.latN * grid.lonN !== cellCount) throw new Error("buildings")
   const geomBytes = view.getUint32(36, true)
   let offset = 64
   const originLat = new Int32Array(bytes.buffer, bytes.byteOffset + offset, count)
@@ -146,6 +38,7 @@ export function openBuildingBook(buffer) {
   const cellIds = new Uint32Array(bytes.buffer, bytes.byteOffset + offset, cellHead[cellCount])
   const book = {
     count,
+    grid,
     originLat,
     originLon,
     geomOff,
@@ -229,22 +122,29 @@ function ringHitsSegment(ring, lat1, lon1, lat2, lon2) {
   return false
 }
 
+function cellRange(grid, south, north, west, east) {
+  const { lat0, lon0, latN, lonN, step } = grid
+  return {
+    y0: Math.max(0, Math.min(latN - 1, Math.floor((Math.round(south * 1e6) - lat0) / step))),
+    y1: Math.max(0, Math.min(latN - 1, Math.floor((Math.round(north * 1e6) - lat0) / step))),
+    x0: Math.max(0, Math.min(lonN - 1, Math.floor((Math.round(west * 1e6) - lon0) / step))),
+    x1: Math.max(0, Math.min(lonN - 1, Math.floor((Math.round(east * 1e6) - lon0) / step))),
+  }
+}
+
 function candidates(book, lat1, lon1, lat2, lon2) {
   const south = Math.min(lat1, lat2)
   const north = Math.max(lat1, lat2)
   const west = Math.min(lon1, lon2)
   const east = Math.max(lon1, lon2)
-  const y0 = Math.max(0, Math.min(LAT_N - 1, Math.floor((Math.round(south * 1e6) - LAT0) / STEP)))
-  const y1 = Math.max(0, Math.min(LAT_N - 1, Math.floor((Math.round(north * 1e6) - LAT0) / STEP)))
-  const x0 = Math.max(0, Math.min(LON_N - 1, Math.floor((Math.round(west * 1e6) - LON0) / STEP)))
-  const x1 = Math.max(0, Math.min(LON_N - 1, Math.floor((Math.round(east * 1e6) - LON0) / STEP)))
+  const { y0, y1, x0, x1 } = cellRange(book.grid, south, north, west, east)
   const token = (book.token + 1) >>> 0
   book.token = token === 0 ? 1 : token
   if (token === 0) book.stamp.fill(0)
   const ids = []
   for (let y = y0; y <= y1; y += 1) {
     for (let x = x0; x <= x1; x += 1) {
-      const cell = y * LON_N + x
+      const cell = y * book.grid.lonN + x
       for (let index = book.cellHead[cell]; index < book.cellHead[cell + 1]; index += 1) {
         const id = book.cellIds[index]
         if (book.stamp[id] === book.token) continue
@@ -384,17 +284,14 @@ function allowsConnector(book, lat1, lon1, lat2, lon2) {
 }
 
 export function buildingsInView(book, west, south, east, north, limit = 2500) {
-  const y0 = Math.max(0, Math.min(LAT_N - 1, Math.floor((Math.round(south * 1e6) - LAT0) / STEP)))
-  const y1 = Math.max(0, Math.min(LAT_N - 1, Math.floor((Math.round(north * 1e6) - LAT0) / STEP)))
-  const x0 = Math.max(0, Math.min(LON_N - 1, Math.floor((Math.round(west * 1e6) - LON0) / STEP)))
-  const x1 = Math.max(0, Math.min(LON_N - 1, Math.floor((Math.round(east * 1e6) - LON0) / STEP)))
+  const { y0, y1, x0, x1 } = cellRange(book.grid, south, north, west, east)
   const token = (book.token + 1) >>> 0
   book.token = token === 0 ? 1 : token
   if (token === 0) book.stamp.fill(0)
   const features = []
   for (let y = y0; y <= y1 && features.length < limit; y += 1) {
     for (let x = x0; x <= x1 && features.length < limit; x += 1) {
-      const cell = y * LON_N + x
+      const cell = y * book.grid.lonN + x
       for (let index = book.cellHead[cell]; index < book.cellHead[cell + 1] && features.length < limit; index += 1) {
         const id = book.cellIds[index]
         if (book.stamp[id] === book.token) continue
